@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sonia's Projects</title>
+    <link rel="icon" href="/images/icons/heart3.png" />
+    <link rel="stylesheet" href="../styles/stylesheet.css">
+    <script src="../scripts/scripts.js"></script>
+
+    <style>
+        body {
+            margin-top: 70px;
+        }
+
+        .profile-images {
+            display: flex;
+            gap: 10px;
+        }
+
+        .profile-img {
+            margin-top: 20px;
+            width: 180px;
+            height: 180px;
+            /*background: #ddd;*/
+            opacity: 0;
+            animation: fadeIn 0.5s forwards;
+        }
+
+
+    </style>
+</head>
+<body>
+<nav class="navigation" style="position: absolute;">
+    <a href="../index.html" class="nav-item">HOME</a>
+    <a href="about.html" class="nav-item">PROFILE</a>
+    <a href="../projects/academic.html" class="nav-item">PORTFOLIO</a>
+    <a href="contact.html" class="nav-item">CONTACT</a>
+    <a href="#" class="nav-item">RESOURCES</a>
+</nav>
+<div class="container">
+    <h1 class="title">CREATIVE</h1>
+    <div class="content">
+        <h2>Drawing and Sewing</h2>
+        <hr>
+        <div class="profile-images">
+            <div class="profile-img" style="animation-delay: 0.2s">
+                <img src="../images/cat.png" alt="Kitty" style="width:100%">
+            </div>
+            <div class="profile-img" style="animation-delay: 0.4s">
+                <img src="../images/personal/creative/pc3.png" alt="Gallery item 1" style="width:100%">
+            </div>
+            <div class="profile-img" style="animation-delay: 0.6s">
+                <img src="../images/personal/creative/pc4.png" alt="Gallery item 2" style="width:100%">
+            </div>
+            <div class="profile-img" style="animation-delay: 0.7s">
+                <img src="../images/personal/creative/ps1.png" alt="Gallery item 3" style="width:100%">
+            </div>
+            <div class="profile-img" style="animation-delay: 0.5s">
+                <img src="../images/personal/creative/pc2.png" alt="Gallery item 4" style="width:100%">
+            </div>
+            <div class="profile-img" style="animation-delay: 0.3s">
+                <img src="../images/personal/creative/all_post.png" alt="All Together" style="width:100%">
+            </div>
+        </div>
+        <div class="profile-images">
+            <div class="profile-img" style="animation-delay: 0.4s">
+                <img src="../images/personal/creative/doll2.png" alt="Gallery Doll 1" style="width:100%">
+            </div>
+            <div class="profile-img" style="animation-delay: 0.6s">
+                <img src="../images/personal/creative/sew1.png" alt="Gallery Doll 2" style="width:100%">
+            </div>
+
+            <div class="profile-img" style="animation-delay: 0.5s">
+                <img src="../images/personal/creative/sheeep.png" alt="Gallery Doll 3" style="width:100%">
+            </div>
+
+            <div class="profile-img" style="animation-delay: 0.3s">
+                <img src="../images/personal/creative/marta.png" alt="Gallery Doll 4" style="width:100%">
+            </div>
+
+        </div>
+
+        <h2>Collages and Photographs</h2>
+        <hr>
+        <div class="profile-images">
+            <div class="profile-img" style="animation-delay: 0.2s">
+                <img src="../images/personal/creative/cute.png" alt="Gathering" style="width:100%">
+            </div>
+
+            <div class="profile-img" style="animation-delay: 0.4s">
+                <img src="../images/personal/creative/collage.jpeg" alt="Gathering Transparent" style="width:100%">
+            </div>
+
+        </div>
+
+        <img src="../images/personal/creative/scrapbook.png" alt="Scrapbook" style="width:100%">
+
+</div>
+<div class="modal" id="imageModal">
+    <div class="modal-content">
+        <button class="modal-close">✕</button>
+        <img id="modalImage" src="" alt="Modal Image">
+    </div>
+</div>
+<footer>
+    <p style="text-align: center">
+        <a href="https://github.com/sonia-sharapova">GitHub</a> |
+        <a href="https://www.linkedin.com/in/sonia-sharapova/">LinkedIn</a> |
+        <a href="https://www.instagram.com/sonia.s.ru/">Instagram</a>
+
+    </p>
+    <div style="margin-top: 5px;">
+        Project Archive Directory<br>
+        2025
+    </div>
+</footer>
+
+<script>
+
+
+    cycleImages();
+
+</script>
+</body>
+</html>

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Sonia Online</title>
+  <link rel="icon" href="/images/icons/heart3.png" />
+  <link rel="stylesheet" href="styles/stylesheet.css">
+  <script src="scripts/bck.js"></script>
+
+  <style>
+    #background-canvas {
+      position: fixed;
+      top: 30%;
+      left: 0;
+      z-index: -1;
+    }
+    .content {
+      display: flex;
+      max-width: 80%;
+      margin: 0 auto;
+      gap: 40px;
+    }
+
+    .preview-image {
+      width: 250px;
+      height: 250px;
+      background: #eee;
+      border: 1px solid #ddd;
+      float: left;
+    }
+
+    .description {
+      flex: 1;
+    }
+
+    .description h1 {
+      font-weight: unset;
+    }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 8px;
+      margin-top: 40px;
+    }
+
+    .gallery-item {
+      width: 90%;
+      aspect-ratio: 1;
+      background: #eee;
+      border: 1px solid #ddd;
+      opacity: 0;
+      animation: fadeIn 0.5s forwards;
+    }
+  </style>
+</head>
+<body>
+<nav class="navigation">
+  <a href="index.html" class="nav-item">HOME</a>
+  <a href="personal/about.html" class="nav-item">PROFILE</a>
+  <a href="projects/academic.html" class="nav-item">PORTFOLIO</a>
+  <a href="personal/contact.html" class="nav-item">CONTACT</a>
+  <a href="#" class="nav-item">RESOURCES</a>
+</nav>
+
+<div class="title-container">
+  <div class="nav-links">
+    <a href="#" class="sub-nav-item">SEE: </a>
+    <a href="./personal/music.html" class="sub-nav-item">music</a>
+    <a href="./personal/movies.html" class="sub-nav-item">movies</a>
+    <a href="./personal/books.html" class="sub-nav-item">books</a>
+  </div>
+</div>
+
+<main class="content">
+  <div class="preview-image">
+    <img src="images/personal/comp.jpeg" alt="Me" style="width:100%">
+  </div>
+  <div class="description">
+    <br>
+    <img src="images/personal/board-removebg.png" alt="Gallery item 3" style="float: right; width:40%">
+
+    <h1>SONIA SHARAPOVA</h1>
+
+    <p>My digital archive and creative space.</p>
+
+    <div class="gallery">
+      <div class="gallery-item" style="animation-delay: 0.5s">
+        <img src="images/personal/me/me.jpeg" alt="Gallery item 3" style="width:100%">
+      </div>
+      <div class="gallery-item" style="animation-delay: 0.3s">
+        <img src="images/personal/me/tower.jpeg" alt="Gallery item 1" style="width:100%">
+      </div>
+      <div class="gallery-item" style="animation-delay: 0.2s">
+        <img src="images/personal/me/me2.jpeg" alt="Gallery item 2" style="width:100%">
+      </div>
+      <div class="gallery-item" style="animation-delay: 0.4s">
+        <img src="images/personal/me/hat.jpeg" alt="Gallery item 3" style="width:100%">
+      </div>
+      <div class="gallery-item" style="animation-delay: 0.6s">
+        <img src="images/personal/me/dance.JPG" alt="Gallery item 3" style="width:100%">
+      </div>
+    </div>
+  </div>
+</main>
+<script>
+  animate();
+</script>
+
+<footer>
+  <p style="text-align: center">
+    <a href="https://github.com/sonia-sharapova">GitHub</a> |
+    <a href="https://www.linkedin.com/in/sonia-sharapova/">LinkedIn</a> |
+    <a href="https://www.instagram.com/sonia.s.ru/">Instagram</a>
+
+  </p>
+  <div style="margin-top: 5px;">
+    Sonia's Web Archive<br>
+    2025
+  </div>
+</footer>
+<script>
+  cycleImages();
+</script>
+
+
+
+</body>
+</html>

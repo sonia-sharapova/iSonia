@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Magazine Viewer</title>
+    <link rel="stylesheet" href="../styles/stylesheet.css">
+    <style>
+        .toolbar {
+            background: #666666;
+            height: 30px;
+            color: #fff;
+            padding: 5px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .toolbar-btn {
+            background: none;
+            border: 1px solid #fff;
+            color: #fff;
+            padding: 2px 8px;
+            cursor: pointer;
+        }
+
+        .page-number {
+            margin-right: 10px;
+        }
+
+        .nav-dots {
+            display: flex;
+            gap: 5px;
+            margin-left: auto;
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            border: 1px solid #fff;
+            cursor: pointer;
+        }
+
+        .dot.active {
+            background: #fff;
+        }
+
+        .magazine {
+            display: flex;
+            justify-content: center;
+            padding: 40px;
+        }
+
+        .spread {
+            max-width: 90%;
+            height: auto;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+    </style>
+</head>
+<body>
+<nav class="navigation">
+    <a href="../index.html" class="nav-item">HOME</a>
+    <a href="about.html" class="nav-item">PROFILE</a>
+    <a href="../projects/academic.html" class="nav-item">PORTFOLIO</a>
+    <a href="../personal/contact.html" class="nav-item">CONTACT</a>
+    <a href="#" class="nav-item">RESOURCES</a>
+</nav>
+<div class="toolbar">
+    <span class="page-number">82</span>
+    <button class="toolbar-btn">Close Window</button>
+    <button class="toolbar-btn">Project description</button>
+    <div class="nav-dots">
+        <div class="dot active"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+    </div>
+</div>
+
+<div class="magazine">
+    <img class="spread" src="/api/placeholder/1200/800" alt="Magazine Spread">
+</div>
+
+<script>
+    const dots = document.querySelectorAll('.dot');
+    dots.forEach(dot => {
+        dot.addEventListener('click', () => {
+            dots.forEach(d => d.classList.remove('active'));
+            dot.classList.add('active');
+        });
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Code Music Synthesizer</title>
+  <script src="../scripts/synth.js"></script>
+  <style>
+    .key {
+      padding: 20px;
+      margin: 5px;
+      background: #dddddd;
+      color: white;
+      cursor: pointer;
+      border: none;
+      border-radius: 4px;
+    }
+    .key:active {
+      background: #999999;
+    }
+    .controls {
+      margin: 20px;
+    }
+
+    .reverb-control {
+      margin: 20px;
+      padding: 10px;
+      background: #f0f0f0;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+<div class="controls">
+  <button onclick="playSequence()">Play Melody</button>
+  <button onclick="stopSequence()">Stop</button>
+</div>
+<div class="reverb-control">
+  <label for="reverbMix">Reverb Mix:</label>
+  <input type="range" id="reverbMix" min="0" max="100" value="50"
+         oninput="updateReverbMix(this.value)">
+  <span id="mixValue">50%</span>
+</div>
+<div id="keyboard"></div>
+
+<script>
+
+  // Initialize on page load
+  init();
+</script></body>
+</html>
