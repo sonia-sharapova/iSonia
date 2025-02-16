@@ -6,6 +6,7 @@
   <link rel="icon" href="/images/icons/heart3.png" />
   <link rel="stylesheet" href="styles/stylesheet.css">
   <script src="scripts/bck.js"></script>
+  <script src="scripts/scripts.js"></script>
 
   <style>
     #background-canvas {
@@ -57,10 +58,11 @@
 <body>
 <nav class="navigation">
   <a href="index.html" class="nav-item">HOME</a>
-  <a href="personal/about.html" class="nav-item">PROFILE</a>
+  <a href="personal/resources.html" class="nav-item">RESOURCES</a>
   <a href="projects/academic.html" class="nav-item">PORTFOLIO</a>
+  <a href="personal/about.html" class="nav-item">CREATIVE</a>
   <a href="personal/contact.html" class="nav-item">CONTACT</a>
-  <a href="#" class="nav-item">RESOURCES</a>
+
 </nav>
 
 <div class="title-container">
@@ -69,6 +71,7 @@
     <a href="./personal/music.html" class="sub-nav-item">music</a>
     <a href="./personal/movies.html" class="sub-nav-item">movies</a>
     <a href="./personal/books.html" class="sub-nav-item">books</a>
+    <a href="./personal/cards.html" class="sub-nav-item">cards</a>
   </div>
 </div>
 
@@ -82,31 +85,39 @@
 
     <h1>SONIA SHARAPOVA</h1>
 
-    <p>My digital archive and creative space.</p>
+    <p>
+      I sent you my http://localhost:3000 please respond<br><br>
+      My digital archive and space.<br><br>
+    </p>
 
     <div class="gallery">
       <div class="gallery-item" style="animation-delay: 0.5s">
-        <img src="images/personal/me/me.jpeg" alt="Gallery item 3" style="width:100%">
+        <img src="images/personal/me/me.jpeg" alt="Gallery item 1" style="width:100%">
       </div>
       <div class="gallery-item" style="animation-delay: 0.3s">
-        <img src="images/personal/me/tower.jpeg" alt="Gallery item 1" style="width:100%">
+        <img src="images/personal/me/tower.jpeg" alt="Gallery item 2" style="width:100%">
       </div>
       <div class="gallery-item" style="animation-delay: 0.2s">
-        <img src="images/personal/me/me2.jpeg" alt="Gallery item 2" style="width:100%">
+        <img src="images/personal/me/fl.png" alt="Gallery item 3" >
       </div>
       <div class="gallery-item" style="animation-delay: 0.4s">
-        <img src="images/personal/me/hat.jpeg" alt="Gallery item 3" style="width:100%">
+        <img src="images/personal/me/dance.JPG" alt="Gallery item 4">
       </div>
       <div class="gallery-item" style="animation-delay: 0.6s">
-        <img src="images/personal/me/dance.JPG" alt="Gallery item 3" style="width:100%">
+        <img src="images/personal/me/walk.png" alt="Gallery item 5" style="width:100%">
       </div>
     </div>
   </div>
 </main>
+<div class="modal" id="imageModal">
+  <div class="modal-content">
+    <button class="modal-close">✕</button>
+    <img id="modalImage" src="" alt="Modal Image">
+  </div>
+</div>
 <script>
   animate();
 </script>
-
 <footer>
   <p style="text-align: center">
     <a href="https://github.com/sonia-sharapova">GitHub</a> |
@@ -121,6 +132,71 @@
 </footer>
 <script>
   cycleImages();
+
+  const modal = document.getElementById('imageModal');
+  const modalImg = document.getElementById('modalImage');
+  const modalClose = document.querySelector('.modal-close');
+
+  // Initial attachment of image click handlers
+  attachImageClickHandlers();
+
+  // Modal close handlers
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal || e.target.classList.contains('modal-close')) {
+      modal.classList.remove('active');
+      navigation.classList.remove('dimmed');
+    }
+  });
+
+  // Close modal with escape key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal.classList.contains('active')) {
+      modal.classList.remove('active');
+      navigation.classList.remove('dimmed');
+    }
+  });
+
+  // Description modal elements and handlers
+  const description = document.querySelector('.description');
+
+  // Event listeners for items (removed duplicate)
+  document.querySelectorAll('.item').forEach(item => {
+    item.addEventListener('click', () => {
+      const index = parseInt(item.dataset.index);
+
+      // Use modal for images instead of description
+      const img = item.querySelector('img');
+      if (img) {
+        modalImg.src = img.src;
+        modal.classList.add('active');
+        navigation.classList.add('dimmed');
+      }
+    });
+  });
+
+  // Modal close handlers
+  modal.addEventListener('click', (e) => {
+    // Close if clicking the modal background
+    if (e.target === modal) {
+      modal.classList.remove('active');
+      navigation.classList.remove('dimmed');
+    }
+  });
+
+  // Ensure modal-content and image don't trigger the close
+  const modalContent = document.querySelector('.modal-content');
+  if (modalContent) {
+    modalContent.addEventListener('click', (e) => {
+      // Prevent click from bubbling up to the modal
+      e.stopPropagation();
+
+      // If we clicked the modal-content itself or the close button, close the modal
+      if (e.target === modalContent || e.target.classList.contains('modal-close')) {
+        modal.classList.remove('active');
+        navigation.classList.remove('dimmed');
+      }
+    });
+  }
 </script>
 
 
