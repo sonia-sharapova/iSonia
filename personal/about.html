@@ -6,21 +6,20 @@
     <link rel="icon" href="/images/icons/heart3.png" />
     <link rel="stylesheet" href="../styles/stylesheet.css">
     <script src="../scripts/scripts.js"></script>
-
+    <script src="../scripts/bck.js"></script>
     <style>
-        body {
-            margin-top: 70px;
+        #background-canvas {
+            position: fixed;
+            top: 30%;
+            left: 0;
+            z-index: -1;
         }
-
         .profile-images {
             display: flex;
             gap: 10px;
         }
 
         .profile-img {
-            margin-top: 20px;
-            width: 180px;
-            height: 180px;
             /*background: #ddd;*/
             opacity: 0;
             animation: fadeIn 0.5s forwards;
@@ -32,20 +31,25 @@
 <body>
 <nav class="navigation" style="position: absolute;">
     <a href="../index.html" class="nav-item">HOME</a>
-    <a href="about.html" class="nav-item">PROFILE</a>
+    <a href="resources.html" class="nav-item">RESOURCES</a>
     <a href="../projects/academic.html" class="nav-item">PORTFOLIO</a>
+    <a href="about.html" class="nav-item">CREATIVE</a>
     <a href="contact.html" class="nav-item">CONTACT</a>
-    <a href="#" class="nav-item">RESOURCES</a>
 </nav>
+<div class="title-container">
+    <div class="nav-links">
+        <a href="../index.html" class="sub-nav-item">SEE: </a>
+        <a href="music.html" class="sub-nav-item">music</a>
+        <a href="movies.html" class="sub-nav-item">movies</a>
+        <a href="books.html" class="sub-nav-item">books</a>
+        <a href="cards.html" class="sub-nav-item">cards</a>
+    </div>
+    <h1 class="page-title">CREATIVE</h1>
+</div>
 <div class="container">
-    <h1 class="title">CREATIVE</h1>
     <div class="content">
-        <h2>Drawing and Sewing</h2>
-        <hr>
+        <h2>Drawing</h2>
         <div class="profile-images">
-            <div class="profile-img" style="animation-delay: 0.2s">
-                <img src="../images/cat.png" alt="Kitty" style="width:100%">
-            </div>
             <div class="profile-img" style="animation-delay: 0.4s">
                 <img src="../images/personal/creative/pc3.png" alt="Gallery item 1" style="width:100%">
             </div>
@@ -61,39 +65,30 @@
             <div class="profile-img" style="animation-delay: 0.3s">
                 <img src="../images/personal/creative/all_post.png" alt="All Together" style="width:100%">
             </div>
+
         </div>
+        <hr>
+        <h2>Sewing</h2>
         <div class="profile-images">
+
             <div class="profile-img" style="animation-delay: 0.4s">
-                <img src="../images/personal/creative/doll2.png" alt="Gallery Doll 1" style="width:100%">
+                <img src="../images/personal/creative/doll2.png" alt="Gallery Doll 1" >
             </div>
             <div class="profile-img" style="animation-delay: 0.6s">
-                <img src="../images/personal/creative/sew1.png" alt="Gallery Doll 2" style="width:100%">
+                <img src="../images/personal/creative/sew1.png" alt="Gallery Doll 2">
             </div>
 
             <div class="profile-img" style="animation-delay: 0.5s">
-                <img src="../images/personal/creative/sheeep.png" alt="Gallery Doll 3" style="width:100%">
+                <img src="../images/personal/creative/sheeep.png" alt="Gallery Doll 3">
             </div>
-
             <div class="profile-img" style="animation-delay: 0.3s">
-                <img src="../images/personal/creative/marta.png" alt="Gallery Doll 4" style="width:100%">
+                <img src="../images/personal/creative/marta.png" alt="Gallery Doll 4" >
             </div>
-
         </div>
 
-        <h2>Collages and Photographs</h2>
-        <hr>
-        <div class="profile-images">
-            <div class="profile-img" style="animation-delay: 0.2s">
-                <img src="../images/personal/creative/cute.png" alt="Gathering" style="width:100%">
-            </div>
-
-            <div class="profile-img" style="animation-delay: 0.4s">
-                <img src="../images/personal/creative/collage.jpeg" alt="Gathering Transparent" style="width:100%">
-            </div>
-
+        <div class="profile-img" style="animation-delay: 0.2s">
+            <img src="../images/cat.png" alt="Kitty" style="width:30%">
         </div>
-
-        <img src="../images/personal/creative/scrapbook.png" alt="Scrapbook" style="width:100%">
 
 </div>
 <div class="modal" id="imageModal">
@@ -102,6 +97,9 @@
         <img id="modalImage" src="" alt="Modal Image">
     </div>
 </div>
+<script>
+    animate();
+</script>
 <footer>
     <p style="text-align: center">
         <a href="https://github.com/sonia-sharapova">GitHub</a> |

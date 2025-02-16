@@ -5,17 +5,21 @@
     <title>Contact Sonia ^_^</title>
     <link rel="icon" href="/images/icons/heart3.png" />
     <link rel="stylesheet" href="../styles/stylesheet.css">
-    <style>
-        body {
-            margin-top: 70px;
-        }
+    <script src="../scripts/bck.js"></script>
 
+    <style>
+        #background-canvas {
+            position: fixed;
+            top: 30%;
+            left: 0;
+            z-index: -1;
+        }
         .project-list {
             display: flex;
             flex-wrap: wrap;
             gap: 15px;
             justify-content: center;
-            margin-top: 60px;
+            margin-top: 20px;
         }
 
         .project-item {
@@ -88,41 +92,28 @@
             cursor: pointer;
         }
 
-        .nav-button.menu {
-            left: 40px;
-        }
-
-        .nav-button.back {
-            left: 100px;
-        }
-
-        footer {
-            text-align: center;
-            padding: 20px;
-            margin-top: 40px;
-            border-top: 1px solid #eee;
-        }
-
-        footer a {
-            text-decoration: none;
-            color: #666;
-            margin: 0 10px;
-        }
     </style>
 </head>
 <body>
 <nav class="navigation" style="position: absolute;">
     <a href="../index.html" class="nav-item">HOME</a>
-    <a href="about.html" class="nav-item">PROFILE</a>
+    <a href="resources.html" class="nav-item">RESOURCES</a>
     <a href="../projects/academic.html" class="nav-item">PORTFOLIO</a>
+    <a href="about.html" class="nav-item">CREATIVE</a>
     <a href="contact.html" class="nav-item">CONTACT</a>
-    <a href="#" class="nav-item">RESOURCES</a>
 </nav>
-<button class="nav-button menu">☰</button>
-<button class="nav-button back">←</button>
+<div class="title-container">
+    <div class="nav-links">
+        <a href="../index.html" class="sub-nav-item">SEE: </a>
+        <a href="music.html" class="sub-nav-item">music</a>
+        <a href="movies.html" class="sub-nav-item">movies</a>
+        <a href="books.html" class="sub-nav-item">books</a>
+        <a href="cards.html" class="sub-nav-item">cards</a>
+    </div>
+    <h1 class="page-title">CONTACT</h1>
+</div>
 
 <div class="container">
-    <h1 class="title">CONTACT</h1>
     <div class="project-list">
         <div class="project-item">
             <div class="project-number">01</div>
@@ -177,7 +168,9 @@
         </div>
     </div>
 </div>
-
+<script>
+    animate();
+</script>
 <footer>
     <p>
         <a href="https://github.com/sonia-sharapova">GitHub</a> |

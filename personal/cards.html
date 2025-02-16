@@ -2,101 +2,79 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Magazine Viewer</title>
+    <title>Pokemon Card Collection Viewer</title>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../styles/stylesheet.css">
+    <link rel="icon" href="/images/icons/heart3.png" />
+
     <style>
-        .toolbar {
-            background: #666666;
-            height: 30px;
-            color: #fff;
-            padding: 5px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
+
+        .navigation {
+            width: 100%;
         }
 
-        .toolbar-btn {
-            background: none;
-            border: 1px solid #fff;
-            color: #fff;
-            padding: 2px 8px;
-            cursor: pointer;
+        #root {
+            min-height: calc(100vh - 60px);
         }
 
-        .page-number {
-            margin-right: 10px;
-        }
-
-        .nav-dots {
-            display: flex;
-            gap: 5px;
-            margin-left: auto;
-        }
-
-        .dot {
-            width: 12px;
-            height: 12px;
-            border: 1px solid #fff;
-            cursor: pointer;
-        }
-
-        .dot.active {
-            background: #fff;
-        }
-
-        .magazine {
-            display: flex;
-            justify-content: center;
-            padding: 40px;
-        }
-
-        .spread {
-            max-width: 90%;
-            height: auto;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-        }
     </style>
 </head>
 <body>
 <nav class="navigation">
     <a href="../index.html" class="nav-item">HOME</a>
-    <a href="about.html" class="nav-item">PROFILE</a>
+    <a href="resources.html" class="nav-item">RESOURCES</a>
     <a href="../projects/academic.html" class="nav-item">PORTFOLIO</a>
-    <a href="../personal/contact.html" class="nav-item">CONTACT</a>
-    <a href="#" class="nav-item">RESOURCES</a>
+    <a href="about.html" class="nav-item">CREATIVE</a>
+    <a href="contact.html" class="nav-item">CONTACT</a>
 </nav>
-<div class="toolbar">
-    <span class="page-number">82</span>
-    <button class="toolbar-btn">Close Window</button>
-    <button class="toolbar-btn">Project description</button>
-    <div class="nav-dots">
-        <div class="dot active"></div>
-        <div class="dot"></div>
-        <div class="dot"></div>
-        <div class="dot"></div>
-        <div class="dot"></div>
-        <div class="dot"></div>
-        <div class="dot"></div>
-        <div class="dot"></div>
-        <div class="dot"></div>
-        <div class="dot"></div>
-        <div class="dot"></div>
-        <div class="dot"></div>
+
+<div class="title-container">
+    <div class="nav-links">
+        <a href="../index.html" class="sub-nav-item">SEE: </a>
+        <a href="music.html" class="sub-nav-item">music</a>
+        <a href="movies.html" class="sub-nav-item">movies</a>
+        <a href="books.html" class="sub-nav-item">books</a>
+        <a href="cards.html" class="sub-nav-item">cards</a>
     </div>
+    <h1 class="page-title">Pokémon Cards</h1><br>
 </div>
 
-<div class="magazine">
-    <img class="spread" src="/api/placeholder/1200/800" alt="Magazine Spread">
-</div>
+<div class="content"></div>
 
-<script>
-    const dots = document.querySelectorAll('.dot');
-    dots.forEach(dot => {
-        dot.addEventListener('click', () => {
-            dots.forEach(d => d.classList.remove('active'));
-            dot.classList.add('active');
-        });
-    });
+<div id="root"></div>
+
+<footer>
+    <p>
+        <a href="https://github.com/sonia-sharapova">GitHub</a> |
+        <a href="https://www.linkedin.com/in/sonia-sharapova/">LinkedIn</a> |
+        <a href="https://www.instagram.com/sonia.s.ru/">Instagram</a>
+    </p>
+    <div>
+        Pokémon Card Archive<br>
+        2025
+    </div>
+</footer>
+
+<script type="module">
+    // Import React and ReactDOM
+    const React = window.React;
+    const ReactDOM = window.ReactDOM;
+
+    // Import the PokemonMagazine component
+    import PokemonMagazine from '../scripts/PokemonMagazine.js';
+
+    // Add a console log to debug
+    console.log('React:', React);
+    console.log('ReactDOM:', ReactDOM);
+    console.log('PokemonMagazine:', PokemonMagazine);
+
+    // Render the React component using the older render method
+    ReactDOM.render(
+        React.createElement(PokemonMagazine),
+        document.getElementById('root')
+    );
 </script>
 </body>
 </html>
