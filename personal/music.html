@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Music Library</title>
+    <link rel="icon" href="/images/icons/heart3.png" />
+    <link rel="stylesheet" href="../styles/stylesheet.css">
+    <style>
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(8, 1fr);
+            gap: 10px;
+            width: 80%;
+            margin: 0 auto;
+            padding-right: 10px;
+        }
+
+        /* Pop-up descriptions */
+        .description {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.9);
+            background: #fff;
+            padding: 20px;
+            width: 600px;
+            max-height: 600px;
+            overflow: auto;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+            z-index: 100;
+            margin: 10px;
+            border-radius: 4px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .description .title {
+            padding: 10px;
+            margin-bottom: 0;
+        }
+
+        .description .artist {
+            padding: 10px;
+            margin-top: 0;
+        }
+
+        .description h2 {
+            font-size: 20px;
+            font-weight: bolder;
+            border: none;
+        }
+
+        .description h3 {
+            font-size: 18px;
+            font-weight: lighter;
+            color: #666;
+        }
+
+        .description p {
+            padding: 10px;
+        }
+
+        .description img {
+            max-width: 40%;
+            height: auto;
+            border-radius: 4px;
+            margin-top: 10px;
+        }
+
+
+        .description.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .item {
+            aspect-ratio: 1;
+            background: #fff;
+            cursor: pointer;
+            position: relative;
+            transition: transform 0.3s;
+        }
+
+        .item:hover {
+            transform: scale(1.05);
+        }
+
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border: 1px solid #666666;
+        }
+
+    </style>
+</head>
+<body>
+<nav class="navigation">
+    <a href="../index.html" class="nav-item">HOME</a>
+    <a href="../navigation/resources.html" class="nav-item">RESOURCES</a>
+    <a href="../navigation/portfolio.html" class="nav-item">PORTFOLIO</a>
+    <a href="../navigation/courses.html" class="nav-item">COURSES</a>
+    <a href="../navigation/contact.html" class="nav-item">CONTACT</a>
+</nav>
+
+<div class="title-container">
+    <div class="nav-links">
+        <a href="../index.html" class="sub-nav-item">SEE: </a>
+        <a href="music.html" class="sub-nav-item">music</a>
+        <a href="movies.html" class="sub-nav-item">movies</a>
+        <a href="books.html" class="sub-nav-item">books</a>
+        <a href="cards.html" class="sub-nav-item">cards</a>
+    </div>
+    <h1 class="page-title">ALBUMS</h1>
+</div>
+
+<div class="grid">
+</div>
+<div class="description">
+    <div class="close-btn">✕</div>
+    <img>
+    <h2 class="title"></h2>
+    <h3 class="artist"></h3>
+    <hr>
+    <p></p>
+</div>
+<div class="overlay"></div>
+<footer>
+    <p style="text-align: center">
+        <a href="https://github.com/sonia-sharapova">GitHub</a> |
+        <a href="https://www.linkedin.com/in/sonia-sharapova/">LinkedIn</a> |
+        <a href="https://www.instagram.com/sonia.s.ru/">Instagram</a>
+
+    </p>
+    <div style="margin-top: 5px;">
+        Music Archive Directory<br>
+        2025
+    </div>
+</footer>
+
+<script>
+    const portfolioItems = [
+        {
+            title: "21st Century Girl\n",
+            artist: "Brazzaville\n",
+            image: "../images/music/brazzeville.jpg",
+            description: `
+                <img src="../images/music/brazzeville.jpg" alt="Brazzaville"><br><br>
+                Childhood album :) I love the mix of Russian and English languages in such sweet, soft, melody.<br><br>
+                Favourites:<br><br>
+                 <ul style="margin: 0; padding-left: 20px;">
+                     <li>The Clouds in Camarillo (Russian Version)</li>
+                     <li>LAX</li>
+                     <li>21st Century Girl</li>
+                 </ul>`
+        },
+        {
+            title: "Good Times",
+            artist: "Willie Nelson",
+            image: "../images/music/WillieNelson.jpg",
+            description:  `
+                <img src="../images/music/WillieNelson.jpg" alt="WillieNelson"><br><br>
+                Forever Favourite.
+                        `
+        },
+        {
+            title: "Play",
+            artist: "Moby",
+            image: "../images/music/Moby_play.jpg",
+            description:  `
+                <img src="../images/music/Moby_play.jpg" alt="Moby"><br><br>
+                I have 6 CD's of Moby, but only 3 Albums.
+                        `
+        },
+        {
+            title: "Rising Storm",
+            artist: "RisingStorm",
+            image: "../images/music/RisingStorm.jpg",
+            description: `
+                <img src="../images/music/RisingStorm.jpg" alt="RisingStorm"><br><br>
+                `
+        },
+        {
+            title: "Bridge Over Troubled Water",
+            artist: "Simon and Garfunkel",
+            image: "../images/music/BridgeOverTroubledWater.jpg",
+            description: `
+                <img src="../images/music/BridgeOverTroubledWater.jpg" alt="Bridge Over Troubled Water"><br><br>
+                `
+        },
+        {
+            title: "69 Love Songs",
+            artist: "The Magnetic Fields",
+            image: "../images/music/magnetic_fields.jpg",
+            description: `
+                <img src="../images/music/magnetic_fields.jpg" alt="The Magnetic Fields"><br><br>
+                Perfect album. <br><br>
+                Favourites:<br><br>
+                 <ul style="margin: 0; padding-left: 20px;">
+                     <li>Busby Berkeley Dreams</li>
+                     <li>The One You Really Love</li>
+                     <li>Let's Pretend We're Bunny Rabbits</li>
+                     <li>Absolutely Cuckoo</li>
+                 </ul>`
+        },
+        {
+            title: "Ainsi soit je...",
+            artist: "Mylene Farmer",
+            image: "../images/music/mylene.jpg",
+            description: `
+                <img src="../images/music/mylene.jpg" alt="Mylene Farmer"><br><br>
+                Favourites:<br><br>
+                 <ul style="margin: 0; padding-left: 20px;">
+                     <li>L'horloge</li>
+                     <li>Sans contrefacon</li>
+                 </ul>`
+        },
+        {
+            title: "Rushmore",
+            artist: "Various Artists",
+            image: "../images/music/rushmore.jpg",
+            description: `
+                <img src="../images/music/rushmore.jpg" alt="Rushmore" ><br><br>
+                        `
+        },
+        {
+            title: "I Can Hear The Heart Beating As One",
+            artist: "Yo La Tengo",
+            image: "../images/music/yolatengo.webp",
+            description: `
+                <img src="../images/music/yolatengo.webp" alt="Yo La Tengo"><br><br>
+                Favourites:<br><br>
+                 <ul style="margin: 0; padding-left: 20px;">
+                     <li>You Can Have It All</li>
+                     <li>Autumn Sweater</li>
+                     <li>Here Comes My Baby</li>
+                     <li>I'm So Lonesome I Can Cry</li>
+                 </ul>
+                `
+        },
+        {
+            title: "Feline",
+            artist: "Stranglers",
+            image: "../images/music/stranglers.png",
+            description: `
+                <img src="../images/music/stranglers.png" alt="Stranglers"><br><br>
+                Favourites:<br><br>
+                 <ul style="margin: 0; padding-left: 20px;">
+                     <li>Midnight Summer Dream)</li>
+                     <li>Lets Tango in Paris</li>
+                     <li>Golden Brown</li>
+                     <li>Strange Little Girl (From Album: La Folie)</li>
+                 </ul>`
+        },
+        {
+            title: "Haditouni",
+            artist: "Douaa",
+            image: "../images/music/haditouni.jpg",
+            description:
+                `
+                <img src="../images/music/haditouni.jpg" alt="Haditouni" ><br><br>
+                Changes something within me each time I listed to it.
+
+                `
+        },
+        {
+            title: "Brutalismus 3000",
+            artist: "Amore Haardcore",
+            image: "../images/music/brutal.jpg",
+            description: `
+                <img src="../images/music/brutal.jpg" alt="Brutalismus 3000" ><br><br>
+                        `
+        },
+        {
+            title: "Anika",
+            artist: "Anika",
+            image: "../images/music/anika.jpg",
+            description: `
+                <img src="../images/music/anika.jpg" alt="Anika" ><br><br>
+                        `
+        },
+        {
+            title: "Various Artists",
+            artist: "Are You Scared Yet",
+            image: "../images/music/areYouScared.jpg",
+            description: `
+                <img src="../images/music/areYouScared.jpg" alt="Are You Scared Yet" ><br><br>
+                Perfect collection.<br><br>
+
+                        `
+        },
+        {
+            title: "Melting Moment",
+            artist: "Poison Girlfriend",
+            image: "../images/music/meltingMoment.jpg",
+            description: `
+                <img src="../images/music/meltingMoment.jpg" alt="Poison Girlfriend"><br><br>
+                        `
+        },
+        {
+            title: "Arkhaiomelisidonophunikheratos",
+            artist: "Satanicpornocultshop",
+            image: "../images/music/satanicpornocultshop.jpg",
+            description: `
+                <img src="../images/music/satanicpornocultshop.jpg" alt="Satanicpornocultshop"><br><br>
+                        `
+        },
+        {
+            title: "Belladonna",
+            artist: "Masahiko Sato",
+            image: "../images/music/belladonna.jpg",
+            description: `
+                <img src="../images/music/belladonna.jpg" alt="Belladonna of Sadness" ><br><br>
+                Wonderful film, wonderful soundtrack.
+
+                        `
+        },
+        {
+            title: "Mezzanine",
+            artist: "Massive Attack",
+            image: "../images/music/mezzanine.jpg",
+            description: `
+                <img src="../images/music/mezzanine.jpg" alt="Massive Attack"><br><br>
+                `
+        },
+        {
+            title: "Leonard Cohen",
+            artist: "Song of Leonard Cohen",
+            image: "../images/music/leonard.jpg",
+            description: `
+                <img src="../images/music/leonard.jpg" alt="Leonard Cohen"><br><br>
+                        `
+        },
+        {
+            title: "Propaganda",
+            artist: "Sparks",
+            image: "../images/music/sparks.jpg",
+            description: `
+                <img src="../images/music/sparks.jpg" alt="Sparks" ><br><br>
+                        `
+        },
+        {
+            title: "Fold Your Hands Child, You Walk Like A Peasant",
+            artist: "Belle and Sebastian",
+            image: "../images/music/peasant.jpg",
+            description: `
+                <img src="../images/music/peasant.jpg" alt="Belle and Sebastian" ><br><br>
+                Favourites:<br><br>
+                 <ul style="margin: 0; padding-left: 20px;">
+                     <li>Waiting for the Moon to Rise</li>
+                     <li>I Fought in a War</li>
+                 </ul>
+                `
+        },
+        {
+            title: "The Strokes",
+            artist: "Comedown Machine",
+            image: "../images/music/comedownMachine.jpg",
+            description: `
+                <img src="../images/music/comedownMachine.jpg" alt="The Strokes" ><br><br>
+                        `
+        },
+        {
+            title: "Comment Tu Dire Adieu",
+            artist: "Francoise Hardy",
+            image: "../images/music/francoise.jpg",
+            description: `
+                <img src="../images/music/francoise.jpg" alt="Francoise Hardy" ><br><br>
+                        `
+        },
+        {
+            title: "myloveilove",
+            artist: "Bogdan Raczynski",
+            image: "../images/music/myLoveILove.jpg",
+            description: `
+                <img src="../images/music/myLoveILove.jpg" alt="myloveilove" ><br><br>
+                        `
+        },
+        {
+            title: "Ok Computer",
+            artist: "Radiohead",
+            image: "../images/music/okComputer.png",
+            description: `
+                <img src="../images/music/okComputer.png" alt="Ok Computer" ><br><br>
+                        `
+        },
+        {
+            title: "Pipilotti Rist: Video Installation Soundtracks",
+            artist: "Pipilotti Rist",
+            image: "../images/music/pipilotti.jpg",
+            description: `
+                Crazy screams and such but sometime's that's the mood.
+                <img src="../images/music/pipilotti.jpg" alt="Pipilotti Risk" ><br><br>
+                        `
+        },
+        {
+            title: "Al Voce Del Padrone",
+            artist: "Franco Battiato",
+            image: "../images/music/battiato.jpg",
+            description: `
+                <img src="../images/music/battiato.jpg" alt="Franco Battiato" ><br><br>
+                        `
+        },
+        {
+            title: "Different Class",
+            artist: "Pulp",
+            image: "../images/music/pulp.jpg",
+            description: `
+                <img src="../images/music/pulp.jpg" alt="Pulp"><br><br>
+                        `
+        },
+        {
+            title: "Gunfighter Ballads",
+            artist: "Marty Robins",
+            image: "../images/music/marty.jpg",
+            description:  `
+                <img src="../images/music/marty.jpg" alt="Gunfighter Ballads" ><br><br>
+                Driving Music
+
+                `
+        },
+        {
+            title: "Dreams Less Sweet",
+            artist: "PsychicTV",
+            image: "../images/music/psychicTV.jpg",
+            description: `
+                <img src="../images/music/psychicTV.jpg" alt="PsychicTV" ><br><br>
+                        `
+        },
+        {
+            title: "Dryfruit",
+            artist: "Sugarplant",
+            image: "../images/music/sugarplant.jpg",
+            description: `
+                <img src="../images/music/sugarplant.jpg" alt="Sugarplant" ><br><br>
+                        `
+        },
+        {
+            title: "Amelie Soundtrack",
+            artist: "Yann Tiersen",
+            image: "../images/music/amelie.jpg",
+            description: `
+                I used to play these on the piano all the time :)
+                <img src="../images/music/amelie.jpg" alt="Amelie"><br><br>
+                        `
+        },
+        {
+            title: "Either/Or",
+            artist: "Elliot Smith",
+            image: "../images/music/elliot.jpg",
+            description: `
+                <img src="../images/music/elliot.jpg" alt="Either/Or"><br><br>
+                        `
+        },
+        {
+            title: "romantico",
+            artist: "800 cherries",
+            image: "../images/music/800cherries.jpg",
+            description: `
+                <img src="../images/music/800cherries.jpg" alt="800 Cherries" ><br><br>
+                        `
+        },
+        {
+            title: "Stereo Type A",
+            artist: "Cibo Matto",
+            image: "../images/music/ciboMatto.jpg",
+            description: `
+                <img src="../images/music/ciboMatto.jpg" alt="Cibo Matto" ><br><br>
+                        `
+        },
+        {
+            title: "Take A Picture",
+            artist: "Margo Gyuran",
+            image: "../images/music/MargoGuryan.jpg",
+            description: `
+                <img src="../images/music/MargoGuryan.jpg" alt="Margo Guryan" ><br><br>
+                        `
+        },
+        {
+            title: "Electronic",
+            artist: "Electronic",
+            image: "../images/music/electronic.jpg",
+            description: `
+                <img src="../images/music/electronic.jpg" alt="Electronic"><br><br>
+                        `
+        },
+        {
+            title: "Crest",
+            artist: "Bladee",
+            image: "../images/music/bladee.jpg",
+            description: `
+                <img src="../images/music/bladee.jpg" alt="Bladee" ><br><br>
+                I miss the Animal Crossing version of 'Girls Just Want To Have Fun'
+                        `
+        },
+        {
+            title: "Endless Summer",
+            artist: "Fennesz",
+            image: "../images/music/fennesz.jpg",
+            description: `
+                <img src="../images/music/fennesz.jpg" alt="Fennesz"><br><br>
+                        `
+        },
+        {
+            title: "Boogiepop Phantom OST",
+            artist: "Various Artists",
+            image: "../images/music/boogiepop.jpg",
+            description: `
+                <img src="../images/music/boogiepop.jpg" alt="Boogiepop Phantom OST" ><br><br>
+                        `
+        },
+        {
+            title: "First Band on the Mood",
+            artist: "The Cardigans",
+            image: "../images/music/cardigans.jpg",
+            description: `
+                <img src="../images/music/cardigans.jpg" alt="The Cardigans" ><br><br>
+                        `
+        },
+        {
+            title: "Gainsburg: Made in Japan",
+            artist: "Various Artists",
+            image: "../images/music/japan.png",
+            description: `
+                <img src="../images/music/japan.png" alt="Gainsburg: Made in Japan" ><br><br>
+                        `
+        },
+        {
+            title: "Night Sketches (US Version)",
+            artist: "Papooz",
+            image: "../images/music/papooz.jpg",
+            description: `
+                My top spoticy artist 5 years in a row..
+                <img src="../images/music/papooz.jpg" alt="Papooz"><br><br>
+                        `
+        },
+        {
+            title: "The Essential Skeeter Davis",
+            artist: "Skeeter Davis",
+            image: "../images/music/skeeter.jpg",
+            description: `
+                <img src="../images/music/skeeter.jpg" alt="Skeeter Davis"><br><br>
+                        `
+        },
+        {
+            title: "How It Ends",
+            artist: "DeVotchKa",
+            image: "../images/music/devotchka.jpg",
+            description:
+                `
+                <img src="../images/music/devotchka.jpg" alt="DeVotchKa"><br><br>
+                Little Miss Sunshine :) I love being nostaligic over early 00's media.
+                `
+        },
+        {
+            title: "Ray Lynch",
+            artist: "Deep Breakfast",
+            image: "../images/music/ray_lynch.png",
+            description: `
+                <img src="../images/music/ray_lynch.png" alt="Ray Lynch" ><br><br>
+
+                Favourites:<br><br>
+                 <ul style="margin: 0; padding-left: 20px;">
+                     <li>The Oh of Pleasure (perfect)</li>
+                     <li>Celestial Soda Pop</li>
+                 </ul>`
+        },
+        {
+            title: "Clandestino",
+            artist: "Manu Chao",
+            image: "../images/music/manuChao.jpg",
+            description:  `
+                <img src="../images/music/manuChao.jpg" alt="Clandestino" ><br><br>
+                Perfect transition from Bongo Bongo to Je ne t'aime pleaux.
+                        `
+        },
+        {
+            title: ".--. .... .. . -.-. / .. -.-- .. /-.-.. --- -.-. ..- -.- -.-.. ..-",
+            artist: "..-..-....-..",
+            image: "../images/music/untitled2.png",
+            description: `
+                <img src="../images/music/untitled2.png" alt="..-..-....-.." ><br><br>
+                        `
+        },
+        {
+            title: "Asynch Remodels",
+            artist: "Ryuichi Sakamoto / Oneotrix Point Never",
+            image: "../images/music/ryiuchi.png",
+            description: `
+                <img src="../images/music/ryiuchi.png" alt="Ryuichi Sakamoto" ><br><br>
+                        `
+        },
+        {
+            title: "Barrikad",
+            artist: "Testbild!",
+            image: "../images/music/testbild.png",
+            description: `
+                <img src="../images/music/testbild.png" alt="Testbild!"><br><br>
+                        `
+        },
+        {
+            title: "Bar Italia",
+            artist: "Quarrel",
+            image: "../images/music/barItalia.jpg",
+            description: `
+                <img src="../images/music/barItalia.jpg" alt="Bar Italia"><br><br>
+                        `
+        },
+        {
+            title: "Ciao! Baby",
+            artist: "The Marshmallow Kisses",
+            image: "../images/music/marshmallow.jpg",
+            description: `
+                <img src="../images/music/marshmallow.jpg" alt="The Marshmallow Kisses"><br><br>
+                `
+        },
+        {
+            title: "Feed Like Fishes",
+            artist: "Should",
+            image: "../images/music/should.jpg",
+            description: `
+                <img src="../images/music/should.jpg" alt="Should"><br><br>
+                `
+        },
+        {
+            title: "I am not Shinzo Abe",
+            artist: "Xinlisupreme",
+            image: "../images/music/shinzo.jpg",
+            description:
+                `
+                <img src="../images/music/shinzo.jpg" alt="Xinlisupreme"><br><br>
+                "The First Train" is the best song I have ever heard in my life.
+                `
+        },
+        {
+            title: "Instrument Soundtrack",
+            artist: "Fugazi",
+            image: "../images/music/fugazi.jpg",
+            description: `
+                <img src="../images/music/fugazi.jpg" alt="Fugazi" ><br><br>
+                        `
+        },
+        {
+            title: "Brenda Lee",
+            artist: "Brenda Lee",
+            image: "../images/music/brendaLee.jpg",
+            description: `
+                <img src="../images/music/brendaLee.jpg" alt="Brenda Lee"><br><br>
+                        `
+        }
+    ];
+
+    // Generate grid items
+    const grid = document.querySelector('.grid');
+    portfolioItems.forEach((item, index) => {
+        const div = document.createElement('div');
+        div.className = 'item';
+        div.innerHTML = `<img src="${item.image}" alt="${item.title}">`;
+        div.dataset.index = index;
+        grid.appendChild(div);
+    });
+
+    // Event listeners
+    const description = document.querySelector('.description');
+    const overlay = document.querySelector('.overlay');
+    const closeBtn = document.querySelector('.close-btn');
+    // When opening the modal
+    const descriptionTitle = description.querySelector('.title');
+    const descriptionArtist = description.querySelector('.artist');
+    const descriptionText = description.querySelector('p');
+
+
+    const navigation = document.querySelector('.navigation');
+
+
+    // Event listeners
+    document.querySelectorAll('.item').forEach(item => {
+        item.addEventListener('click', () => {
+            const index = parseInt(item.dataset.index);
+            const portfolioItem = portfolioItems[index];
+
+            descriptionTitle.textContent = portfolioItem.title;
+            descriptionArtist.textContent = portfolioItem.artist;
+            descriptionText.innerHTML = portfolioItem.description;
+
+            description.classList.add('active');
+            overlay.classList.add('active');
+            navigation.classList.add('dimmed');
+        });
+    });
+
+    // When closing the modal
+    [overlay, closeBtn].forEach(el => {
+        el.addEventListener('click', () => {
+            description.classList.remove('active');
+            overlay.classList.remove('active');
+            navigation.classList.remove('dimmed');
+        });
+    });
+
+</script>
+</body>
+</html>

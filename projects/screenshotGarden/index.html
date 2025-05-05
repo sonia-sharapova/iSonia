@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Screenshot Garden - Sonia Online</title>
+    <link rel="icon" href="/images/icons/heart3.png" />
+    <link rel="stylesheet" href="../../styles/stylesheet.css">
+
+    <style>
+        .info-section {
+            margin: 30px auto;
+            max-width: 600px;
+            text-align: center;
+            padding: 15px;
+            background-color: rgba(0,0,0,0.1);
+            border-radius: 5px;
+            border: 1px solid #666666;
+        }
+
+        /* Screenshot Garden Styles */
+        .screenshot-container {
+            margin: 20px auto;
+            max-width: 960px;
+            padding: 0 20px;
+        }
+
+        .folder {
+            margin-bottom: 30px;
+            border-left: 3px solid #666666;
+            padding-left: 10px;
+        }
+
+        .folder-name {
+            font-weight: bold;
+            cursor: pointer;
+            padding: 8px;
+            background-color: rgba(0,0,0,0.05);
+            margin-bottom: 10px;
+            border-radius: 4px;
+        }
+
+        .folder-content {
+            display: none; /* Hidden by default */
+            padding: 10px;
+        }
+
+        /* Gallery Grid */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 4px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+            aspect-ratio: 1;
+            background-color: #f5f5f5;
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .gallery-img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            cursor: pointer;
+        }
+
+        .gallery-label {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            padding: 4px;
+            font-size: 12px;
+            text-align: center;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        /* Lightbox */
+        .lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.9);
+            z-index: 1000;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .lightbox-img {
+            max-width: 90%;
+            max-height: 80vh;
+            margin: 0 auto;
+            display: block;
+        }
+
+        .lightbox-caption {
+            color: white;
+            margin-top: 10px;
+            padding: 10px;
+            background-color: rgba(0,0,0,0.6);
+            border-radius: 4px;
+            display: inline-block;
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            font-size: 30px;
+            color: white;
+            cursor: pointer;
+        }
+
+        .debug-info {
+            font-size: 10px;
+            color: #999;
+            text-align: center;
+            margin-top: 5px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<nav class="navigation">
+    <a href="../../index.html" class="nav-item">HOME</a>
+    <a href="../../navigation/resources.html" class="nav-item">RESOURCES</a>
+    <a href="../../navigation/portfolio.html" class="nav-item">PORTFOLIO</a>
+    <a href="../../learning/lectures.html" class="nav-item">COURSES</a>
+    <a href="../../navigation/contact.html" class="nav-item">CONTACT</a>
+</nav>
+<div class="title-container">
+    <div class="nav-links">
+        <a href="#" class="sub-nav-item">SEE: </a>
+        <a href="../../personal/music.html" class="sub-nav-item">music</a>
+        <a href="../../personal/movies.html" class="sub-nav-item">movies</a>
+        <a href="../../personal/books.html" class="sub-nav-item">books</a>
+        <a href="../../personal/cards.html" class="sub-nav-item">cards</a>
+    </div>
+    <h1 class="page-title">Screenshot Garden</h1>
+</div>
+
+<div class="info-section">
+    <h2>Screenshot Garden</h2>
+    <div class="intro">
+        <p>Welcome to my screenshot garden - a personal archive of images I've collected over time. This is somewhere between a diary, a work-in-progress blog, and my notes app.</p>
+        <p>Click on each folder to expand it, then click on any thumbnail to view the full image.</p>
+    </div>
+</div>
+
+<div class="screenshot-container" id="screenshot-container">
+    <!-- The screenshot content will be loaded here by JavaScript -->
+    <div id="loading">Loading screenshots...</div>
+</div>
+
+<!-- Lightbox for image viewing -->
+<div class="lightbox" id="lightbox">
+    <span class="lightbox-close" onclick="closeLightbox()">&times;</span>
+    <img id="lightbox-img" class="lightbox-img">
+    <div id="lightbox-caption" class="lightbox-caption"></div>
+</div>
+
+<footer>
+    <p style="text-align: center">
+        <a href="https://github.com/sonia-sharapova">GitHub</a> |
+        <a href="https://www.linkedin.com/in/sonia-sharapova/">LinkedIn</a> |
+        <a href="https://www.instagram.com/sonia.s.ru/">Instagram</a>
+    </p>
+    <div style="margin-top: 5px;">
+        Sonia's Web Archive<br>
+        2025
+    </div>
+</footer>
+
+<script>
+    // Create a fixed folder structure based on your file system
+    document.addEventListener('DOMContentLoaded', function() {
+        const container = document.getElementById('screenshot-container');
+        container.innerHTML = ''; // Clear loading message
+
+        // Create the main screenshots folder
+        const mainFolder = createFolderElement('screenshots');
+        container.appendChild(mainFolder);
+
+        // Add your subfolders based on your directory structure
+        const mainFolderContent = mainFolder.querySelector('.folder-content');
+
+        // Create design folder
+        const designFolder = createFolderElement('design');
+        mainFolderContent.appendChild(designFolder);
+        const designFolderContent = designFolder.querySelector('.folder-content');
+
+        // Create design subfolders
+        const graphicsFolder = createFolderElement('graphics');
+        const layoutFolder = createFolderElement('layout');
+        const toolsFolder = createFolderElement('tools');
+        const iconsFolder = createFolderElement('icons');
+        const artFolder = createFolderElement('art');
+
+        designFolderContent.appendChild(graphicsFolder);
+        designFolderContent.appendChild(layoutFolder);
+        designFolderContent.appendChild(toolsFolder);
+        designFolderContent.appendChild(iconsFolder);
+        designFolderContent.appendChild(artFolder);
+
+        // Create other main subfolders
+        const inspoFolder = createFolderElement('inspo');
+        const cuteFolder = createFolderElement('cute');
+        const insterestingFolder = createFolderElement('insteresting');
+        const mindFolder = createFolderElement('mind');
+        const selfHelpFolder = createFolderElement('selfHelp');
+
+        mainFolderContent.appendChild(inspoFolder);
+        mainFolderContent.appendChild(cuteFolder);
+        mainFolderContent.appendChild(insterestingFolder);
+        mainFolderContent.appendChild(mindFolder);
+        mainFolderContent.appendChild(selfHelpFolder);
+
+        // Load the actual image data
+        fetch('files.json')
+            .then(response => response.json())
+            .then(data => {
+                populateFolders(data);
+            })
+            .catch(error => {
+                console.error('Error loading JSON:', error);
+            });
+    });
+
+    function createFolderElement(name) {
+        const folderDiv = document.createElement('div');
+        folderDiv.className = 'folder';
+        folderDiv.setAttribute('data-folder', name);
+
+        const folderName = document.createElement('div');
+        folderName.className = 'folder-name';
+        folderName.textContent = name;
+        folderName.addEventListener('click', function() {
+            const content = this.nextElementSibling;
+            content.style.display = content.style.display === 'block' ? 'none' : 'block';
+        });
+
+        const folderContent = document.createElement('div');
+        folderContent.className = 'folder-content';
+
+        folderDiv.appendChild(folderName);
+        folderDiv.appendChild(folderContent);
+
+        return folderDiv;
+    }
+
+    function populateFolders(data) {
+        if (data && data.length > 0 && data[0].type === 'directory') {
+            const rootDir = data[0];
+
+            // Find screenshots directory
+            const screenshotsDir = rootDir.contents.find(item =>
+                item.type === 'directory' && item.name === 'screenshots'
+            );
+
+            if (screenshotsDir && screenshotsDir.contents) {
+                // Process each subfolder
+                screenshotsDir.contents.forEach(subfolder => {
+                    if (subfolder.type === 'directory') {
+                        const subfolderName = getFolderDisplayName(subfolder.name);
+                        const subfolderElement = document.querySelector(`.folder[data-folder="${subfolderName}"] .folder-content`);
+
+                        if (subfolderElement) {
+                            // If this is the design folder, process its subfolders
+                            if (subfolderName === 'design' && subfolder.contents) {
+                                subfolder.contents.forEach(designSubfolder => {
+                                    if (designSubfolder.type === 'directory') {
+                                        const designSubfolderName = getFolderDisplayName(designSubfolder.name);
+                                        const designSubfolderElement = document.querySelector(`.folder[data-folder="${designSubfolderName}"] .folder-content`);
+
+                                        if (designSubfolderElement && designSubfolder.contents) {
+                                            // Create gallery for this design subfolder
+                                            const imageFiles = designSubfolder.contents.filter(item =>
+                                                item.type === 'file' && isImageFile(item.name)
+                                            );
+
+                                            if (imageFiles.length > 0) {
+                                                createGalleryDirectly(designSubfolderElement, imageFiles, `screenshots/${subfolderName}/${designSubfolderName}`);
+                                            }
+                                        }
+                                    }
+                                });
+                            } else if (subfolder.contents) {
+                                // Create gallery for regular subfolders
+                                const imageFiles = subfolder.contents.filter(item =>
+                                    item.type === 'file' && isImageFile(item.name)
+                                );
+
+                                if (imageFiles.length > 0) {
+                                    createGalleryDirectly(subfolderElement, imageFiles, `screenshots/${subfolderName}`);
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+        }
+    }
+
+    function createGalleryDirectly(parentElement, imageFiles, basePath) {
+        const galleryGrid = document.createElement('div');
+        galleryGrid.className = 'gallery-grid';
+
+        imageFiles.forEach(file => {
+            const galleryItem = document.createElement('div');
+            galleryItem.className = 'gallery-item';
+
+            // Create the direct file path
+            const filePath = `${basePath}/${file.name}`;
+
+            const img = document.createElement('img');
+            img.className = 'gallery-img';
+            img.src = filePath;
+            img.alt = file.name;
+            img.setAttribute('loading', 'lazy');
+
+            // Add debug info
+            const debugInfo = document.createElement('div');
+            debugInfo.className = 'debug-info';
+            debugInfo.textContent = filePath;
+
+            img.addEventListener('click', function() {
+                openLightbox(filePath, file.name);
+            });
+
+            const label = document.createElement('div');
+            label.className = 'gallery-label';
+            label.textContent = shortenFilename(file.name);
+
+            galleryItem.appendChild(img);
+            galleryItem.appendChild(label);
+            galleryItem.appendChild(debugInfo);
+            galleryGrid.appendChild(galleryItem);
+
+            // Debug - log path to console
+            console.log('Loading image:', filePath);
+
+            // Show debug info on error
+            img.onerror = function() {
+                console.error('Failed to load image:', filePath);
+                debugInfo.style.display = 'block';
+            };
+        });
+
+        parentElement.appendChild(galleryGrid);
+    }
+
+    function openLightbox(src, caption) {
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
+        const lightboxCaption = document.getElementById('lightbox-caption');
+
+        lightboxImg.src = src;
+        lightboxCaption.textContent = caption;
+        lightbox.style.display = 'block';
+
+        // Prevent scrolling while lightbox is open
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox() {
+        document.getElementById('lightbox').style.display = 'none';
+        document.body.style.overflow = 'auto';
+    }
+
+    // Close lightbox when clicking outside the image
+    document.getElementById('lightbox').addEventListener('click', function(e) {
+        if (e.target === this) {
+            closeLightbox();
+        }
+    });
+
+    // Close lightbox with Escape key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            closeLightbox();
+        }
+    });
+
+    function isImageFile(filename) {
+        const extensions = ['.jpg', '.jpeg', '.png', '.gif', '.webp', '.bmp', '.svg', '.PNG'];
+        return extensions.some(ext => filename.toLowerCase().endsWith(ext.toLowerCase()));
+    }
+
+    function getFolderDisplayName(path) {
+        // Remove ./ prefix if present
+        let name = path.replace(/^\.\//, '');
+
+        // Remove trailing slash if present
+        name = name.replace(/\/$/, '');
+
+        // Get the last part of the path
+        const parts = name.split('/');
+        return parts[parts.length - 1];
+    }
+
+    function shortenFilename(filename) {
+        // If filename is too long, truncate it
+        if (filename.length > 20) {
+            const extension = filename.substring(filename.lastIndexOf('.'));
+            return filename.substring(0, 17) + '...' + extension;
+        }
+        return filename;
+    }
+</script>
+</body>
+</html>

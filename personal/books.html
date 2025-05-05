@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Sonia's Books</title>
+  <link rel="icon" href="/images/icons/heart3.png" />
+  <link rel="stylesheet" href="../styles/stylesheet.css">
+  <style>
+    .content {
+      display: grid;
+      grid-template-columns: 3fr 1fr;
+      gap: 40px;
+      width: 80%;
+      margin: 40px auto;
+    }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 30px;
+      margin-bottom: 100px;
+    }
+
+    .thumbnail {
+      aspect-ratio: 2/3;
+      cursor: pointer;
+      transition: opacity 0.3s;
+    }
+
+    .thumbnail img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border: 1px solid #666666;
+    }
+
+    .thumbnail:hover {
+      opacity: 0.7;
+    }
+
+    .preview-section {
+      position: sticky;
+      top: 120px;
+      background: #f5f5f5;
+      padding: 20px;
+      height: calc(100vh - 200px); /* Set fixed height for container */
+      border: 1px solid #666666;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .preview-img {
+      min-width: 200px;
+      width: 100%;
+      border: 1px solid #666666;
+      flex-shrink: 0; /* Prevent image from shrinking */
+    }
+
+    .movie-info {
+      margin-top: 20px;
+      overflow-y: auto; /* Enable vertical scrolling */
+      flex-grow: 1; /* Allow text container to grow */
+    }
+
+    .movie-title {
+      font-size: 14px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .movie-description {
+      font-size: 10px;
+      line-height: 1.5;
+      color: #666;
+      padding-right: 10px; /* Add space for scrollbar */
+    }
+
+  </style>
+</head>
+<body>
+<nav class="navigation">
+  <a href="../index.html" class="nav-item">HOME</a>
+  <a href="../navigation/resources.html" class="nav-item">RESOURCES</a>
+  <a href="../navigation/portfolio.html" class="nav-item">PORTFOLIO</a>
+  <a href="../navigation/courses.html" class="nav-item">COURSES</a>
+  <a href="../navigation/contact.html" class="nav-item">CONTACT</a>
+</nav>
+
+<div class="title-container">
+  <div class="nav-links">
+    <a href="../index.html" class="sub-nav-item">SEE: </a>
+    <a href="music.html" class="sub-nav-item">music</a>
+    <a href="movies.html" class="sub-nav-item">movies</a>
+    <a href="books.html" class="sub-nav-item">books</a>
+    <a href="cards.html" class="sub-nav-item">cards</a>
+  </div>
+  <h1 class="page-title">BOOKSHELF</h1>
+</div>
+
+<div class="content">
+  <div class="gallery">
+    <div class="thumbnail">
+      <img src="../images/books/demian.jpg"
+           alt="Demian"
+           data-title="Demian"
+           data-description="Herman Hesse">
+    </div>
+    <div class="thumbnail">
+      <img src="../images/books/hesse.jpg"
+           alt="Narcissus and Goldmund"
+           data-title="Narcissus and Goldmund"
+           data-description="Herman Hesse">
+    </div>
+    <div class="thumbnail">
+      <img src="../images/books/sid.jpg"
+           alt="Siddhartha"
+           data-title="Siddhartha"
+           data-description="Herman Hesse">
+    </div>
+    <div class="thumbnail">
+      <img src="../images/books/theSavageDetectives.jpeg"
+           alt="theSavageDetectives"
+           data-title="The Savage Detectives"
+           data-description="Roberto Bolaño">
+    </div>
+    <div class="thumbnail">
+      <img src="../images/books/masterMargarita.png"
+           alt="The Master and Margarita"
+           data-title="The Master and Margarita"
+           data-description="Mikhail Bulgakov">
+      <!-- I named my cat Bohemoth after this book. I wish I was wittier to fully grasp it's ironies.-->
+    </div>
+    <div class="thumbnail">
+      <img src="../images/books/taipei.png"
+           alt="Taipei"
+           data-title="Taipei"
+           data-description="Tao Lin">
+    </div>
+    <div class="thumbnail">
+      <img src="../images/books/trip.jpg"
+           alt="Trip"
+           data-title="Trip"
+           data-description="Tao Lin">
+    </div>
+    <div class="thumbnail">
+      <img src="../images/books/paleFire.jpeg"
+           alt="Pale Fire"
+           data-title="Pale Fire"
+           data-description="Vladimir Nabokov">
+    </div>
+    <div class="thumbnail">
+      <img src="../images/books/beheading.jpg"
+           alt="Invitation to a Beheading"
+           data-title="Invitation to a Beheading"
+           data-description="Vladimir Nabokov">
+    </div>
+    <div class="thumbnail">
+      <img src="../images/books/karenina.png"
+           alt="Anna Karenina"
+           data-title="Anna Karenina"
+           data-description="Leo Tolstoy">
+    </div>
+    <div class="thumbnail">
+      <img src="../images/books/crime.jpg"
+           alt="Crime and Punishment"
+           data-title="Crime and Punishment"
+           data-description="Fyodor Dostoevsky">
+    </div>
+    <div class="thumbnail">
+      <img src="../images/books/stranger.jpeg"
+           alt="The Stranger"
+           data-title="The Stranger"
+           data-description="Albert Camus">
+    </div>
+    <div class="thumbnail">
+      <img src="../images/books/myth.jpg"
+           alt="The Myth of Sisyphus"
+           data-title="The Myth of Sisyphus"
+           data-description="Albert Camus">
+    </div>
+    <div class="thumbnail">
+      <img src="../images/books/nausea.jpeg"
+           alt="Nausea"
+           data-title="Nausea"
+           data-description="Albert Camus">
+    </div>
+    <div class="thumbnail">
+      <img src="../images/books/resistance.jpg"
+           alt="Resistance, Rebellion, and Death"
+           data-title="Resistance, Rebellion, and Death"
+           data-description="Albert Camus">
+    </div>
+    <div class="thumbnail">
+      <img src="../images/books/moravia.jpg"
+           alt="The Lie"
+           data-title="The Lie"
+           data-description="Alberto Moravia">
+    </div>
+    <div class="thumbnail">
+      <img src="../images/books/hiroshima.png"
+           alt="Hiroshima"
+           data-title="Hiroshima"
+           data-description="John Hersey">
+    </div>
+    <div class="thumbnail">
+      <img src="../images/books/lover.jpeg"
+           alt="The Lover"
+           data-title="The Lover"
+           data-description="Marguerite Duras">
+    </div>
+    <div class="thumbnail">
+      <img src="../images/books/decline.png"
+           alt="The Decline of the Intellectual"
+           data-title="The Decline of the Intellectual"
+           data-description="Thomas Molnar">
+    </div>
+    <div class="thumbnail">
+      <img src="../images/books/blink.png"
+           alt="Blink"
+           data-title="Blink"
+           data-description="Malcolm Gladwell">
+    </div>
+    <div class="thumbnail">
+      <img src="../images/books/outliers.jpg"
+           alt="Outliers"
+           data-title="Outliers"
+           data-description="Malcolm Gladwell">
+    </div>
+    <div class="thumbnail">
+      <img src="../images/books/pleasuresSorrows.jpeg"
+           alt="The Pleasures and Sorrows of Work"
+           data-title="The Pleasures and Sorrows of Work"
+           data-description="Alain de Botton">
+    </div>
+    <div class="thumbnail">
+      <img src="../images/books/status.jpg"
+           alt="Status Anxiety"
+           data-title="Status Anxiety"
+           data-description="Alain de Botton">
+    </div>
+    <div class="thumbnail">
+      <img src="../images/books/kafkaShore.jpg"
+           alt="Kafka on the Shore"
+           data-title="Kafka on the Shore"
+           data-description="Haruki Murakami">
+    </div>
+    <div class="thumbnail">
+      <img src="../images/books/norwegianWood.jpeg"
+           alt="Norwegian Wood"
+           data-title="Norwegian Wood"
+           data-description="Haruki Murakami">
+    </div>
+    <div class="thumbnail">
+      <img src="../images/books/leo.jpg"
+           alt="The Flame"
+           data-title="The Flame"
+           data-description="Leonard Cohen">
+    </div>
+    <div class="thumbnail">
+      <img src="../images/books/exMach.png"
+           alt="Ex Machina"
+           data-title="Ex Machina"
+           data-description="Jonathan Ball">
+    </div>
+    <div class="thumbnail">
+      <img src="../images/books/blue.jpg"
+           alt="Bluets"
+           data-title="Bluets"
+           data-description="Maggie Nelson">
+    </div>
+    <div class="thumbnail">
+      <img src="../images/books/flatland.jpeg"
+           alt="Flatland"
+           data-title="Flatland"
+           data-description="Edwin Abbott Abbott">
+    </div>
+    <div class="thumbnail">
+      <img src="../images/books/gardner.jpg"
+           alt="Martin Gardner"
+           data-title="The Night Is Large"
+           data-description="Martin Gardner">
+    </div>
+    <div class="thumbnail">
+      <img src="../images/books/code.jpg"
+           alt="Code"
+           data-title="Code: The Hidden Language of Computer Hardware and Software"
+           data-description="Charles Petzold">
+    </div>
+    <div class="thumbnail">
+      <img src="../images/books/alg.jpg"
+           alt="Algorithms to Live By"
+           data-title="Algorithms to Live By"
+           data-description="Brian Christian and Tom Griffiths">
+    </div>
+    <div class="thumbnail">
+      <img src="../images/books/mathematical.jpg"
+           alt="Martin Gardner"
+           data-title="MATHEMATICAL RECREATIONS: A Collection in Honor of Martin Gardner"
+           data-description="Martin Gardner; Edited by David A. Klarner">
+    </div>
+    <div class="thumbnail">
+      <img src="../images/books/battle.jpg"
+           alt="Battle Royale"
+           data-title="Battle Royale"
+           data-description="Koushun Takami">
+    </div>
+    <div class="thumbnail">
+      <img src="../images/books/sin.jpg"
+           alt="Sin City"
+           data-title="Sin City"
+           data-description="Frank Miller">
+    </div>
+
+    <div class="thumbnail">
+      <img src="../images/books/astro.jpg"
+           alt="Astro Boy"
+           data-title="Astro Boy"
+           data-description="Osamu Tezuka">
+    </div>
+    <div class="thumbnail">
+      <img src="../images/books/chobits.jpg"
+           alt="Chobits"
+           data-title="Chobits"
+           data-description="CLAMP">
+    </div>
+    <div class="thumbnail">
+      <img src="../images/books/nana.jpg"
+           alt="Nana"
+           data-title="Nana"
+           data-description="Ai Yazawa">
+    </div>
+    <div class="thumbnail">
+      <img src="../images/books/belle.jpg"
+           alt="Belle and Sebastian: Lyrics book"
+           data-title="Belle and Sebastian: Illustrated Lyrics"
+           data-description="Thames & Hudson">
+    </div>
+    <div class="thumbnail">
+      <img src="../images/books/chair.jpg"
+           alt="1000 CHAIRS"
+           data-title="1000 CHAIRS"
+           data-description="Charlotte & Peter Fiell">
+    </div>
+  </div>
+
+  <div class="preview-section">
+    <img id="preview-img" src="../images/books/stranger.jpeg" alt="Preview" class="preview-img">
+    <div class="movie-info">
+      <div class="movie-title" id="movie-title">The Stranger</div>
+      <div class="movie-description" id="movie-description">Albert Camus</div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <p>
+    <a href="https://github.com/sonia-sharapova">GitHub</a> |
+    <a href="https://www.linkedin.com/in/sonia-sharapova/">LinkedIn</a> |
+    <a href="https://www.instagram.com/sonia.s.ru/">Instagram</a>
+  </p>
+  <div>
+    Book Archive Directory<br>
+    2025
+  </div>
+</footer>
+
+<script>
+  const thumbnails = document.querySelectorAll('.thumbnail');
+  const previewImg = document.getElementById('preview-img');
+  const movieTitle = document.getElementById('movie-title');
+  const movieDescription = document.getElementById('movie-description');
+
+  thumbnails.forEach(thumb => {
+    thumb.addEventListener('click', () => {
+      const img = thumb.querySelector('img');
+      previewImg.src = img.src;
+      movieTitle.textContent = img.dataset.title;
+      movieDescription.textContent = img.dataset.description;
+    });
+  });
+</script>
+</body>
+</html>

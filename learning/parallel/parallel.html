@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parallel Programming Crash Course</title>
+    <link rel="icon" href="/images/icons/star.png" />
+    <link rel="stylesheet" href="../../styles/lessons.css">
+    <link href="https://fonts.googleapis.com/css2?family=Source+Serif+Pro:wght@400;600&family=Space+Mono&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --main: #2345FF;
+            --light: rgba(100, 150, 200, 0.3);
+            --lighter: rgba(51, 153, 255, 0.08);
+            --border: rgba(35, 69, 255);
+            --border2: rgba(52, 92, 255, 0.5);
+            --med: rgba(52, 92, 255);
+            --dark: #1a33cc;
+            --img: #2345FF;
+        }
+
+        /* Add section IDs for better navigation */
+        [id] {
+            scroll-margin-top: 2rem;
+        }
+
+
+    </style>
+</head>
+<body>
+
+<!-- Header -->
+<header>
+    <h1 class="pixel-title">PARALLEL PROGRAMMING</h1>
+    <p class="subtitle">A crash course on the fundamentals of <br>concurrent and parallel execution.</p>
+</header>
+
+<!-- Dotted line divider -->
+<hr class="divider">
+
+<!-- Main content area with margin references -->
+<main class="content">
+    <!-- Left margin reference -->
+    <div class="margin-ref margin-ref-left">PAR.001</div>
+
+    <!-- Main content split into text and illustrations -->
+    <div class="text-content">
+        <div class="text">
+            <h1>H<span style="font-size: 1.5rem;">ave you ever wondered why modern processors have multiple cores?
+                Or why you need a GPU for your videogames?</span> </h1><br>
+            <h1 style="font-size: 1.2rem; text-decoration: underline">The answer is simple:</h1>Physical limitations have made it increasingly difficult to make individual cores faster.
+            <br><br>
+            <p>Programmers must design our software to take advantage of parallel execution.</p>
+
+        </div>
+
+        <div class="illustration">
+            <!-- SVG illustration for parallel vs sequential -->
+            <svg width="400" height="350" class="svg-illustration">
+                <!-- Sequential Execution -->
+                <rect x="50" y="50" width="300" height="30" rx="5" class="svg-fill-light" stroke="#2345FF" />
+                <rect x="60" y="60" width="70" height="10" fill="#2345FF" />
+                <rect x="140" y="60" width="70" height="10" fill="#2345FF" />
+                <rect x="220" y="60" width="70" height="10" fill="#2345FF" />
+                <text x="50" y="40" class="component-label">SEQUENTIAL EXECUTION</text>
+                <text x="60" y="80" font-family="monospace" fill="#2345FF" font-size="8">TASK A</text>
+                <text x="140" y="80" font-family="monospace" fill="#2345FF" font-size="8">TASK B</text>
+                <text x="220" y="80" font-family="monospace" fill="#2345FF" font-size="8">TASK C</text>
+
+                <!-- Arrows connecting sequential -->
+                <line x1="130" y1="65" x2="140" y2="65" stroke="#2345FF" stroke-width="1"/>
+                <polygon points="140,62 145,65 140,68" fill="#2345FF"/>
+
+                <line x1="210" y1="65" x2="220" y2="65" stroke="#2345FF" stroke-width="1"/>
+                <polygon points="220,62 225,65 220,68" fill="#2345FF"/>
+
+                <!-- Parallel Execution -->
+                <rect x="50" y="150" width="300" height="90" rx="5" class="svg-fill-light" stroke="#2345FF" />
+                <rect x="60" y="160" width="280" height="10" fill="#2345FF" />
+                <rect x="60" y="180" width="180" height="10" fill="#2345FF" />
+                <rect x="60" y="200" width="230" height="10" fill="#2345FF" />
+                <rect x="60" y="220" width="120" height="10" fill="#2345FF" />
+                <text x="50" y="140" class="component-label">PARALLEL EXECUTION</text>
+                <text x="350" y="165" font-family="monospace" fill="#2345FF" font-size="8">CORE 1</text>
+                <text x="350" y="185" font-family="monospace" fill="#2345FF" font-size="8">CORE 2</text>
+                <text x="350" y="205" font-family="monospace" fill="#2345FF" font-size="8">CORE 3</text>
+                <text x="350" y="225" font-family="monospace" fill="#2345FF" font-size="8">CORE 4</text>
+
+                <!-- Synchronization point -->
+                <line x1="250" y1="150" x2="250" y2="240" stroke="#2345FF" stroke-width="1" stroke-dasharray="4,2"/>
+                <text x="255" y="250" font-family="monospace" fill="#2345FF" font-size="8">SYNC POINT</text>
+
+                <!-- Performance comparison -->
+                <line x1="50" y1="300" x2="350" y2="300" stroke="#2345FF" stroke-width="1"/>
+                <text x="150" y="320" font-family="monospace" fill="#2345FF" font-size="10">TIME →</text>
+                <rect x="60" y="280" width="270" height="5" fill="#2345FF" />
+                <text x="60" y="275" font-family="monospace" fill="#2345FF" font-size="8">SEQUENTIAL</text>
+                <rect x="60" y="290" width="120" height="5" fill="#2345FF" />
+                <text x="60" y="305" font-family="monospace" fill="#2345FF" font-size="8">PARALLEL (4 CORES)</text>
+            </svg>
+        </div>
+    </div>
+
+    <!-- Right margin reference -->
+    <div class="margin-ref margin-ref-right">[ 1.0 INTRO ]</div>
+</main>
+
+<!-- Table of Contents -->
+<div class="toc-container">
+    <h2 class="toc-title">Jump to Topic</h2>
+    <ul class="toc-list">
+        <li class="toc-item"><a href="#sequential-vs-parallel" class="toc-link">Sequential vs. Parallel</a></li>
+        <li class="toc-item"><a href="#core-concepts" class="toc-link">Core Concepts</a></li>
+        <li class="toc-item"><a href="#parallel-hardware" class="toc-link">Parallel Hardware</a></li>
+        <li class="toc-item"><a href="#mutual-exclusion" class="toc-link">Mutual Exclusion</a></li>
+        <li class="toc-item"><a href="#concurrent-data" class="toc-link">Concurrent Data Structures</a></li>
+        <li class="toc-item"><a href="#design-patterns" class="toc-link">Design Patterns</a></li>
+        <li class="toc-item"><a href="#performance" class="toc-link">Performance</a></li>
+        <li class="toc-item"><a href="#debugging" class="toc-link">Debugging</a></li>
+    </ul>
+</div>
+
+<!-- Algorithm Topics Sections -->
+<section class="content">
+    <div class="margin-ref margin-ref-left">ALG.001</div>
+    <div class="section-content">
+        <div class="topic">
+            <h2 id="sequential-vs-parallel">Sequential vs. Parallel Programming</h2>
+            <h3>Sequential programming:</h3> One sequence of program instructions where each instruction can only start after the previous instructions have finished.
+            <h3>Parallel programming:</h3> Multiple sequences of instructions run in parallel, with synchronization points that introduce dependencies across sequences.
+        </div>
+
+        <div class="topic">
+            <h2 id="core-concepts">Core Concepts</h2>
+
+            <h3>Concurrency vs. Parallelism</h3>
+            <p>These terms are often confused but have distinct meanings:</p><br>
+            <div class="text-content">
+                <h3 style="color: #3b5998">Concurrency:<br><span style="font: normal 16px 'Optima', sans-serif; color: #666666;"> Dealing with tasks that are logically happening simultaneously. Two tasks are concurrent if they can be logically active at some point in time.</span></h3>
+                <h3 style="color: #3b5998">Parallelism:<br><span style="font: normal 16px 'Optima', sans-serif; color: #666666;"> Dealing with tasks that are physically happening simultaneously on multiple processor cores.</span></h3><br>
+            </div>
+            <p>Concurrency provides a way to structure a solution that may (but not necessarily) have tasks executed in parallel.</p>
+        </div>
+        <div class="illustration">
+            <!-- Illustration placeholder -->
+        </div>
+    </div>
+    <div class="margin-ref margin-ref-right">[ 2.1 D&C ]</div>
+</section>
+
+<!-- Additional content sections -->
+<section class="content">
+    <div class="margin-ref margin-ref-left">PAR.002</div>
+    <div class="section-content">
+        <div class="text">
+            <div class="topic">
+                <h2 id="parallel-hardware">Parallel Hardware Architecture</h2>
+                <p>Modern computers achieve parallelism through multiple layers of hardware:</p>
+
+                <h3>Multi-core Processors</h3>
+                <p>Multiple processing units on a single chip that can execute instructions independently.<br>
+                    <br>
+                    Each core has:</p>
+                <ul>
+                    <li>Its own set of registers</li>
+                    <li>L1 and often L2 cache</li>
+                    <li>Shared L3 cache and memory bandwidth with other cores</li>
+                </ul>
+                <br>
+                <h3>Hardware Threads</h3>
+                <p>Some architectures (like Intel's Hyperthreading) allow a single physical core to appear as multiple logical cores by:</p><br>
+                <ul>
+                    <li>Maintaining separate register states for multiple threads</li>
+                    <li>Switching between them when one is stalled</li>
+                    <li>Typically provides 20-30% performance improvement over single threading</li>
+                </ul>
+            </div>
+
+            <div class="topic">
+                <h2 id="mutual-exclusion">Principles of Mutual Exclusion</h2>
+                <p>When multiple threads access shared resources, we need to implement protection mechanisms:</p>
+
+                <h3>Critical Sections</h3>
+                <p>A block of code where multiple threads might access shared resources. Synchronization primitives must adhere to:</p>
+                <ul>
+                    <li><strong>Mutual Exclusion:</strong> Only one thread executes in the critical section at a time</li>
+                    <li><strong>Progress:</strong> If multiple threads request entry, one must be allowed to proceed</li>
+                    <li><strong>Bounded Waiting:</strong> A thread cannot be indefinitely prevented from entering its critical section</li>
+                </ul>
+
+                <h3>Synchronization Primitives</h3>
+                <p>Tools for implementing mutual exclusion:</p>
+                <ul>
+                    <li><strong>Locks/Mutexes:</strong> Protect critical sections by allowing only one thread to hold the lock</li>
+                    <li><strong>Semaphores:</strong> Like "locks with capacity > 1"</li>
+                    <li><strong>Atomic Operations:</strong> Hardware-supported indivisible operations</li>
+                    <li><strong>Condition Variables:</strong> Allow threads to wait for specific conditions</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="text">
+            <div class="topic">
+                <h2 id="concurrent-data">Concurrent Data Structures</h2>
+                <p>Specialized data structures designed to handle concurrent access:</p>
+
+                <h3>Concurrency Approaches</h3>
+                <ul>
+                    <li><strong>Coarse-grained locking:</strong> One lock for the entire data structure</li>
+                    <li><strong>Fine-grained locking:</strong> Multiple locks for different parts of the structure</li>
+                    <li><strong>Lock-free:</strong> Using atomic operations to avoid locks completely</li>
+                    <li><strong>Wait-free:</strong> Guarantees that all operations complete in a bounded number of steps</li>
+                </ul>
+
+                <h3>Common Concurrent Data Structures</h3>
+                <ul>
+                    <li>Concurrent Hash Maps</li>
+                    <li>Concurrent Queues</li>
+                    <li>Concurrent Linked Lists</li>
+                    <li>Threadsafe Stacks</li>
+                </ul>
+
+                <pre><code>// Example: Thread-safe Counter
+class AtomicCounter {
+    private atomic&lt;int> value = 0;
+
+    int increment() {
+        return ++value; // Atomic operation
+    }
+
+    int get() {
+        return value; // Atomic read
+    }
+}</code></pre>
+            </div>
+
+            <div class="topic">
+                <h2 id="design-patterns">Concurrent Design Patterns</h2>
+
+                <h3>Thread Pools</h3>
+                <p>Reuse a fixed number of threads to execute multiple tasks, avoiding the overhead of thread creation:</p>
+                <pre><code>// Conceptual thread pool
+ThreadPool pool = new ThreadPool(4); // 4 worker threads
+pool.submit(task1);
+pool.submit(task2);
+// Tasks execute concurrently on available threads</code></pre>
+
+                <h3>Fork-Join Pattern</h3>
+                <p>Recursively breaks down a problem into sub-problems that are solved in parallel:</p>
+                <pre><code>Result solve(Problem p) {
+    if (p is small)
+        return solveDirectly(p);
+    else {
+        split p into subproblems p1, p2
+        fork task to solve(p1)
+        fork task to solve(p2)
+        join results
+        return combined result
+    }
+}</code></pre>
+
+                <h3>Producer-Consumer Pattern</h3>
+                <p>Separates the tasks of producing and consuming data with a shared buffer:</p>
+                <ul>
+                    <li>Producer threads generate data and add to a shared queue</li>
+                    <li>Consumer threads take items from the queue and process them</li>
+                    <li>Queue handles synchronization between producers and consumers</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="margin-ref margin-ref-right">[ 2.0 IMPL ]</div>
+</section>
+
+<section class="content">
+    <div class="margin-ref margin-ref-left">PAR.003</div>
+    <div class="section-content">
+        <div class="text">
+            <div class="topic">
+                <h2 id="performance">Performance Considerations</h2>
+
+                <h3>Amdahl's Law</h3>
+                <p>Describes the theoretical speedup in latency of the execution of a task at fixed workload:</p>
+                <pre><code>Speedup = 1 / ((1 - p) + p/n)
+
+Where:
+p = portion of the program that can be parallelized
+n = number of processors
+1-p = portion that cannot be parallelized</code></pre>
+                <p>This formula gives us a ballpark computation of what kind of speedup we can expect. The key insight: if a significant portion of your program cannot be parallelized, adding more processors will have diminishing returns.</p>
+
+                <h3>Common Performance Bottlenecks</h3>
+                <ul>
+                    <li><strong>Lock Contention:</strong> Multiple threads waiting to acquire the same lock</li>
+                    <li><strong>False Sharing:</strong> Cache line invalidation due to unrelated data sharing the same cache line</li>
+                    <li><strong>Memory Bandwidth:</strong> Multiple cores competing for memory access</li>
+                    <li><strong>Load Imbalance:</strong> Uneven distribution of work across threads</li>
+                </ul>
+            </div>
+
+            <div class="topic">
+                <h2 id="debugging">Debugging Parallel Programs</h2>
+                <p>Parallel bugs are notoriously difficult to find and fix because they:</p>
+                <ul>
+                    <li>May only manifest under specific timing conditions</li>
+                    <li>Are often not reproducible on demand</li>
+                    <li>Can change behavior when debugging tools are applied</li>
+                </ul>
+
+                <h3>Common Parallel Bugs</h3>
+                <ul>
+                    <li><strong>Race Conditions:</strong> Outcome depends on the sequence or timing of uncontrollable events</li>
+                    <li><strong>Deadlocks:</strong> Two or more threads each waiting for the other to release a resource</li>
+                    <li><strong>Livelocks:</strong> Threads constantly change their state in response to other threads without making progress</li>
+                    <li><strong>Thread Leaks:</strong> Threads created but never properly terminated</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="illustration">
+            <!-- SVG illustration for Amdahl's Law -->
+            <svg width="400" height="350" class="svg-illustration">
+                <!-- Amdahl's Law visualization -->
+                <rect x="50" y="50" width="300" height="200" fill="none" stroke="#2345FF" />
+
+                <!-- Axes -->
+                <line x1="50" y1="250" x2="350" y2="250" stroke="#2345FF" stroke-width="1.5"/>
+                <line x1="50" y1="250" x2="50" y2="50" stroke="#2345FF" stroke-width="1.5"/>
+
+                <!-- X-axis labels -->
+                <text x="50" y="270" font-family="monospace" fill="#2345FF" font-size="10" text-anchor="middle">1</text>
+                <text x="125" y="270" font-family="monospace" fill="#2345FF" font-size="10" text-anchor="middle">4</text>
+                <text x="200" y="270" font-family="monospace" fill="#2345FF" font-size="10" text-anchor="middle">16</text>
+                <text x="275" y="270" font-family="monospace" fill="#2345FF" font-size="10" text-anchor="middle">64</text>
+                <text x="350" y="270" font-family="monospace" fill="#2345FF" font-size="10" text-anchor="middle">∞</text>
+                <text x="200" y="290" font-family="monospace" fill="#2345FF" font-size="10" text-anchor="middle">NUMBER OF PROCESSORS</text>
+
+                <!-- Y-axis labels -->
+                <text x="40" y="250" font-family="monospace" fill="#2345FF" font-size="10" text-anchor="end">1x</text>
+                <text x="40" y="200" font-family="monospace" fill="#2345FF" font-size="10" text-anchor="end">2x</text>
+                <text x="40" y="150" font-family="monospace" fill="#2345FF" font-size="10" text-anchor="end">5x</text>
+                <text x="40" y="100" font-family="monospace" fill="#2345FF" font-size="10" text-anchor="end">10x</text>
+                <text x="40" y="50" font-family="monospace" fill="#2345FF" font-size="10" text-anchor="end">20x</text>
+                <text x="30" y="150" font-family="monospace" fill="#2345FF" font-size="10" text-anchor="middle" transform="rotate(-90, 30, 150)">SPEEDUP</text>
+
+                <!-- Curves for different parallelization percentages -->
+                <!-- 95% parallel -->
+                <path d="M 50 250 C 125 100, 275 70, 350 65" fill="none" stroke="#2345FF" stroke-width="2"/>
+                <text x="355" y="65" font-family="monospace" fill="#2345FF" font-size="8">95% PARALLEL</text>
+
+                <!-- 90% parallel -->
+                <path d="M 50 250 C 125 150, 275 120, 350 110" fill="none" stroke="#2345FF" stroke-width="2" stroke-dasharray="4,2"/>
+                <text x="355" y="110" font-family="monospace" fill="#2345FF" font-size="8">90% PARALLEL</text>
+
+                <!-- 75% parallel -->
+                <path d="M 50 250 C 125 200, 275 180, 350 170" fill="none" stroke="#2345FF" stroke-width="2" stroke-dasharray="1,1"/>
+                <text x="355" y="170" font-family="monospace" fill="#2345FF" font-size="8">75% PARALLEL</text>
+
+                <!-- 50% parallel -->
+                <path d="M 50 250 C 125 225, 275 215, 350 210" fill="none" stroke="#2345FF" stroke-width="2" stroke-dasharray="8,2"/>
+                <text x="355" y="210" font-family="monospace" fill="#2345FF" font-size="8">50% PARALLEL</text>
+
+                <!-- Title -->
+                <text x="200" y="35" font-family="monospace" fill="#2345FF" font-size="12" text-anchor="middle" font-weight="bold">AMDAHL'S LAW</text>
+            </svg>
+        </div>
+    </div>
+    <div class="margin-ref margin-ref-right">[ 3.0 PERF ]</div>
+</section>
+
+<section class="content">
+    <div class="margin-ref margin-ref-left">PAR.004</div>
+    <div class="section-content">
+        <div class="text">
+            <div class="topic">
+                <h2 id="conclusion">Conclusion</h2>
+                <p>Parallel programming presents both challenges and opportunities. The transition from sequential to parallel thinking requires:</p>
+                <ul>
+                    <li>Understanding hardware architecture and its limitations</li>
+                    <li>Designing algorithms with parallelism in mind from the beginning</li>
+                    <li>Using appropriate synchronization mechanisms to ensure correctness</li>
+                    <li>Testing thoroughly for race conditions and other parallel bugs</li>
+                    <li>Measuring performance to verify that parallelism is providing the expected benefits</li>
+                </ul>
+
+                <p>As we continue to approach the physical limits of processor speed, the importance of effective parallel programming will only increase. The fundamental challenge remains: how to divide problems into independent tasks that can be executed simultaneously without excessive communication or synchronization overhead.</p>
+            </div>
+
+            <div class="topic">
+                <h2 id="further-reading">Further Reading</h2>
+                <ul>
+
+                    <li>"The Art of Multiprocessor Programming" by Maurice Herlihy and Nir Shavit<br>
+                        <a href="https://cs.ipm.ac.ir/asoc2016/Resources/Theartofmulticore.pdf" target="_blank"
+                           class="text-green-600 hover:underline">Read Here</a></li>
+                    <li>"Parallel Programming: Concepts and Practice" by Bertil Schmidt et al.<br>
+                        <a href="https://dokumen.pub/parallel-programming-concepts-and-practice-9780128498903-0128498900.html" target="_blank"
+                           class="text-green-600 hover:underline">Read Here</a></li>
+                    <li>"Programming with POSIX Threads" by David R. Butenhof<br>
+                        <a href="https://ptgmedia.pearsoncmg.com/images/9780201633924/samplepages/0201633922.pdf" target="_blank"
+                           class="text-green-600 hover:underline">Read Here</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="text">
+            <div class="topic">
+                <h2 id="implementation-tips">Practical Implementation Tips</h2>
+
+                <h3>Think Parallel from the Start</h3>
+                <p>Adding parallelism to an existing sequential program is often more difficult than designing for parallelism from the beginning.</p>
+
+                <h3>Minimize Shared State</h3>
+                <p>The less data shared between threads, the fewer synchronization points required and the more scalable your solution will be.</p>
+
+                <h3>Use High-Level Abstractions</h3>
+                <p>Whenever possible, use well-tested libraries and frameworks that handle the low-level details of parallelism for you:</p>
+                <ul>
+                    <li>Thread pools and task schedulers</li>
+                    <li>Concurrent collections</li>
+                    <li>Parallel algorithms</li>
+                </ul>
+
+                <h3>Test on Multiple Cores</h3>
+                <p>Parallel bugs may only appear when actually running on multiple cores. Be sure to test on machines with varying numbers of cores.</p>
+
+                <h3>Measure, Don't Assume</h3>
+                <p>Always measure the performance of your parallel code. Sometimes, the overhead of parallelism can outweigh the benefits for small workloads.</p>
+
+                <pre><code>// Example: Good practice for thread safety
+// Immutable objects are inherently thread-safe
+class Point {
+    private final int x;
+    private final int y;
+
+    public Point(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    public int getX() { return x; }
+    public int getY() { return y; }
+
+    // Creates a new object rather than modifying
+    public Point translate(int dx, int dy) {
+        return new Point(x + dx, y + dy);
+    }
+}</code></pre>
+            </div>
+        </div>
+    </div>
+    <div class="margin-ref margin-ref-right">[ 4.0 TIPS ]</div>
+</section>
+
+<!-- Back to Top Button -->
+<a href="#" class="back-to-top">Back to Top</a>
+
+</body>
+</html>

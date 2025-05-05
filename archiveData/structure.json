@@ -1,0 +1,37 @@
+[
+  {
+    "id": "archive",
+    "title": "GENERAL ARCHIVES",
+    "image": null
+  },
+  {
+    "id": "links",
+    "title": "COOL LINKS",
+    "image": null
+  },
+  {
+    "id": "misc",
+    "title": "COOL THINGS",
+    "image": null
+  },
+  {
+    "id": "movies",
+    "title": "FULL MOVIES",
+    "image": null
+  },
+  {
+    "id": "people",
+    "title": "INFLUENTIAL PEOPLE",
+    "image": "../images/resources/people/binary.jpg"
+  },
+  {
+    "id": "videogames",
+    "title": "VIDEO GAMES",
+    "image": null
+  },
+  {
+    "id": "videos",
+    "title": "VIDEOS",
+    "image": null
+  }
+]

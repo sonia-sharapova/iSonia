@@ -1,0 +1,286 @@
+:root {
+    --main-grey: #666;
+    --features-grey: #f8f8f8;
+    --color-grey-light: #f0f0f0;
+    --color-grey-med: #ddd;
+    --color-grey-border: #ddd;
+    --color-grey-dark: #888f8d;
+    --color-select: #f1fefb;
+    --nav-height: 60px;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: "Quicksand", serif;
+    font-weight: lighter;
+}
+
+h1 {
+    font-family: 'IBM Plex Serif', serif;
+    text-align: center
+}
+
+h2, h3 {
+    font-weight: normal;
+}
+
+a {
+    color: var(--main-grey);
+    font-family: "Quicksand", serif;
+    font-weight: lighter;
+}
+
+/* Custom Buttons */
+.hero_btn {
+    background: linear-gradient(#fff, var(--color-grey-med));
+    padding: 0.75rem 1.5rem;
+    cursor: pointer;
+    min-width: 100px;
+    border: var(--color-grey-border) solid 1px;
+    border-radius: 2px;
+    font-size: 1.5em;
+    color: var(--main-grey);
+}
+
+.hero_btn:hover {
+    background: linear-gradient(#fff, var(--color-select));
+}
+
+.btn-secondary {
+    background: linear-gradient(#fff, var(--color-grey-border));
+    padding: 0.75rem 1.5rem;
+    font-weight: 600;
+    cursor: pointer;
+    width: 100%;
+    border: var(--color-grey-border) solid 1px;
+    border-radius: 3px;
+}
+
+.btn-secondary:hover {
+    background: linear-gradient(#fff, var(--color-select));
+}
+
+
+/* Navigation */
+.top-nav {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    height: var(--nav-height);
+    background: linear-gradient(#fff, #f0f0f0);
+    border-bottom: 1px solid var(--color-grey-border);
+}
+
+.top-nav a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--main-grey);
+    text-decoration: none;
+    border-right: 1px solid var(--color-grey-border);
+}
+
+.sub-nav {
+    display: flex;
+    justify-content: space-around;
+    padding: 5px 0;
+    background: #f8f8f8;
+    border-bottom: 1px solid var(--color-grey-border);
+    font-size: 0.9em;
+}
+
+/* "Hero" section, contains call to action */
+.hero {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+    gap: 40px;
+}
+
+.hero img {
+    width: 50%;
+    max-width: 500px;
+}
+
+.hero-content {
+    text-align: center;
+    justify-items: center;
+}
+
+.hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5em;
+    margin: 0;
+}
+
+.hero p {
+    color: var(--main-grey);
+    font-size: 1.2em;
+    line-height: 1.4;
+}
+
+
+/* Features - Contains required 'grid' elements */
+#featuresHeader {
+    text-align: left;
+    padding: 40px 0 0 40px;
+    font-size: 2.5em;
+    background: var(--features-grey);
+    border-top: 1px solid var(--color-grey-med);
+}
+
+.features {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    padding: 20px;
+    background: var(--features-grey);
+}
+
+.feature-item {
+    background: white;
+    padding: 20px;
+    border: 1px solid var(--color-grey-border);
+    text-align: left;
+}
+
+
+/* Plans Section - Column Count */
+.plans {
+    column-count: 3;
+    column-gap: 20px;
+    padding: 20px;
+    background: var(--color-grey-light);
+}
+
+#plansHeader {
+    text-align: left;
+    padding: 40px 0 0 50px;
+    font-size: 2.5em;
+    background: var(--color-grey-light);
+    border-top: 1px solid var(--color-grey-border);
+}
+
+.plans-item {
+    break-inside: avoid;
+    margin-bottom: 20px;
+    padding: 0 15px 15px 15px;
+    background: white;
+    border: 1px solid var(--color-grey-border);
+    justify-items: center;
+}
+
+.exp {
+    background: linear-gradient(#fff, var(--color-select));
+    width: 100%;
+    height: 20px;
+    padding: 10px;
+    border-bottom: var(--color-grey-border) solid 1px;
+    border-radius: 1px;
+    text-align: center;
+}
+
+/* Features - Contains required 'grid' elements */
+#reviewsHeader {
+    text-align: left;
+    padding: 40px 0 0 40px;
+    font-size: 2.5em;
+    background: var(--features-grey);
+    border-top: 1px solid var(--color-grey-med);
+}
+
+.reviews {
+    display: flex;
+    flex-direction: column;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 10px;
+    padding: 20px;
+    background: var(--features-grey);
+}
+
+.review-item {
+    background: white;
+    padding: 0 30px 0 30px;
+    border: 1px solid var(--color-grey-border);
+    text-align: left;
+}
+
+
+/* Footer section: bottom resources */
+footer {
+    background: #333;
+    color: white;
+    padding: 40px;
+    text-align: center;
+}
+
+footer a {
+    color: white;
+    text-decoration: none;
+    margin: 0 10px;
+}
+
+/* @media: Change to fit mobile responsive */
+/* Original CSS remains the same until @media section */
+
+@media (max-width: 500px) {
+    .top-nav {
+        grid-template-columns: 1fr;
+        grid-template-rows: repeat(4, auto);
+    }
+
+    .top-nav a {
+        border-right: none;
+        border-bottom: 1px solid var(--color-grey-border);
+        padding: 10px 0;
+    }
+
+    .sub-nav {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .sub-nav a {
+        padding: 8px 0;
+        border-bottom: 1px solid var(--color-grey-border);
+    }
+
+    .hero {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .hero img {
+        width: 80%;
+    }
+
+    .plans {
+        column-count: 1;
+    }
+
+    .features {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .feature {
+        width: 100%;
+        max-width: none;
+    }
+
+    footer {
+        padding: 20px;
+    }
+
+    footer p {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    footer a {
+        padding: 5px 0;
+        border-bottom: 1px solid #444;
+    }
+}

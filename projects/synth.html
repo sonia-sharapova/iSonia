@@ -1,0 +1,72 @@
+<!-- projects/omni.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Musical Scale Explorer | Sonia Online</title>
+  <link rel="icon" href="/images/icons/heart3.png" />
+  <link rel="stylesheet" href="../styles/stylesheet.css">
+  <!-- Add Tailwind via CDN since it's just for this component -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Override some Tailwind styles to match your site's theme */
+    #synth-app {
+      font-family: 'Optima', arial, sans-serif;
+      color: #999999;
+    }
+
+    .synth-container {
+      width: 80%;
+      margin: 120px auto 40px;
+      padding: 20px;
+      background: #fff;
+      border: 1px solid #ddd;
+    }
+
+  </style>
+</head>
+<body>
+<!-- Your existing navigation -->
+<nav class="navigation" style="width: unset">
+  <a href="../index.html" class="nav-item">HOME</a>
+  <a href="../navigation/resources.html" class="nav-item">RESOURCES</a>
+  <a href="../navigation/portfolio.html" class="nav-item">PORTFOLIO</a>
+  <a href="../learning/lectures.html" class="nav-item">COURSES</a>
+  <a href="../navigation/contact.html" class="nav-item">CONTACT</a>
+</nav>
+<div class="title-container">
+  <div class="nav-links">
+    <a href="#" class="sub-nav-item">SEE: </a>
+    <a href="../personal/music.html" class="sub-nav-item">music</a>
+    <a href="../personal/movies.html" class="sub-nav-item">movies</a>
+    <a href="../personal/books.html" class="sub-nav-item">books</a>
+    <a href="../personal/cards.html" class="sub-nav-item">cards</a>
+  </div>
+  <h1 class="page-title">SYNTH SIM</h1>
+</div>
+
+<!-- Synth LectureFiles Container -->
+<div class="synth-container" style="margin-top: 30px">
+  <div id="synth-app"></div>
+</div>
+
+<footer>
+  <p style="text-align: center">
+    <a href="https://github.com/sonia-sharapova">GitHub</a> |
+    <a href="https://www.linkedin.com/in/sonia-sharapova/">LinkedIn</a> |
+    <a href="https://www.instagram.com/sonia.s.ru/">Instagram</a>
+  </p>
+  <div style="margin-top: 5px;">
+    Sonia's Web Archive<br>
+    2025
+  </div>
+</footer>
+
+<!-- React and ReactDOM -->
+<script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+
+<!-- Your Synth app bundle -->
+<script src="./synth-app/dist/bundle.js"></script>
+</body>
+</html>

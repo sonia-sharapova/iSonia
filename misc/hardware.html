@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Project Directory</title>
+    <style>
+        body {
+            font-family: 'Lucida Grande', Verdana, Arial, sans-serif;
+            background: #d9e5ff;
+            margin: 0;
+            padding: 20px;
+            font-size: 12px;
+        }
+
+        .container {
+            width: 700px;
+            margin: 0 auto;
+            background: white;
+            border: 1px solid #3b5998;
+            padding: 1px;
+        }
+
+        .header {
+            background: #3b5998;
+            color: white;
+            padding: 10px;
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 20px;
+            font-weight: normal;
+            color: #d9e5ff;
+        }
+
+        .nav {
+            position: absolute;
+            right: 10px;
+            top: 10px;
+        }
+
+        .nav a {
+            color: white;
+            text-decoration: none;
+            margin-left: 10px;
+            font-size: 11px;
+        }
+
+        .topics-box {
+            float: left;
+            width: 200px;
+            border: 1px solid #3b5998;
+            margin: 10px;
+        }
+
+        .topics-header {
+            background: #3b5998;
+            color: white;
+            padding: 5px;
+        }
+
+        .topics-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .topics-list li {
+            padding: 8px;
+            cursor: pointer;
+            border-bottom: 1px solid #d9e5ff;
+        }
+
+        .topics-list li:hover {
+            background: #f0f2f5;
+        }
+
+        .topics-list li.active {
+            background: #d9e5ff;
+        }
+
+        .content {
+            margin-left: 230px;
+            padding: 10px;
+        }
+
+        .section {
+            margin-bottom: 20px;
+        }
+
+        .section-header {
+            background: #3b5998;
+            color: white;
+            padding: 5px;
+            margin-bottom: 10px;
+        }
+
+        .section-content {
+            padding: 10px;
+            border: 1px solid #3b5998;
+            margin-bottom: 5px;
+        }
+
+        .footer {
+            clear: both;
+            text-align: center;
+            padding: 20px;
+            font-size: 11px;
+            color: #666;
+        }
+
+        .footer a {
+            color: #3b5998;
+            text-decoration: none;
+            margin: 0 5px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>[ projectArchive ]</h1>
+        <div class="nav">
+            <a href="#">home</a>
+            <a href="#">about</a>
+            <a href="#">contact</a>
+        </div>
+    </div>
+
+    <div class="topics-box">
+        <div class="topics-header">Topics</div>
+        <ul class="topics-list" id="topicsList">
+            <li data-topic="tracing">Ray Tracing</li>
+            <li data-topic="imaging">Cardiac Imaging</li>
+            <li data-topic="nn">Parallelizing NN</li>
+            <li data-topic="os">ThinkPad Customizations</li>
+            <li data-topic="web">Web Design</li>
+            <li data-topic="imGen">Image Generation</li>
+        </ul>
+    </div>
+
+    <div class="content">
+        <div class="section">
+            <div class="section-content">
+                <div class="section-header">
+                    The Project
+                </div>
+                <div class="section-content" id="projectContent">
+                    Select a topic from the left to view project details.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <a href="#">about</a> |
+        <a href="#">contact</a> |
+        <a href="#">faq</a> |
+        <a href="#">terms</a> |
+        <a href="#">privacy</a>
+        <div style="margin-top: 5px;">
+            Project Archive Directory<br>
+            © 2024
+        </div>
+    </div>
+</div>
+
+<script>
+    // Project descriptions for each topic
+    const projectDescriptions = {
+        tracing: `
+                <img src="../images/projects/ray_tracing/cuda_sphere.png" alt="Ray Tracing" style="width: 100px; height: 100px; float: left; margin-top: 15px; margin-right: 15px; margin-bottom: 10px; border: 1px solid #3b5998;">
+                <h4>Performance Analysis of CUDA Performance for Ray Tracing on a Sphere</h4>
+                <p>This report outlines a GPU Ray Tracing algorithm with CUDA and compares its execution
+                    time with a serial version, parallel implementation, and across different GPUs using
+                    CUDA.
+                <br>
+                <a href="../images/projects/ray_tracing/ray_tracing.pdf">Read paper here</a>
+                </p>`,
+
+        imaging: `
+                <img src="../images/projects/imaging/scan.png" alt="Ray Tracing" style="width: 100px; height: 100px; float: left; margin-top: 15px; margin-right: 15px; margin-bottom: 10px; border: 1px solid #3b5998;">
+                <h4>Optical Flow to Capture Cardiac Motion<br>(in parallel)</h4>
+                <p>This project implements a parallel processing system for analyzing cardiac motion in medical imaging
+                 sequences using optical flow analysis. The system processes image sequences from cardiac MRI scans
+                  and returns them as GIFs with vectors showing motion of the heart contractions overlaid on top of
+                   them. Subsequently, a parallel processing technique was implemented which achieved significant
+                   performance improvements, with the best-case speedup of 2.31x on large datasets. The system successfully
+                   generates visualizations of cardiac motion patterns, providing medical professionals with enhanced tools for
+                   analyzing heart function through automated motion detection and visualization.
+                   <br><br>
+                <a href="../images/projects/imaging/SciMedicalImaging.pdf">Read paper here</a>
+                </p>`,
+
+        nn: `
+            <h4>Machine Learning for Image Classification</h4>
+            <p>This project compares performance of strategies used for matrix-matrix multiplication.<br><br>
+                Implementing a neural network to test the performances on, this report goes over three
+                techniques for speeding up matrix multiplication: a naive approach (manual calculation), the
+                cBLAS library for the CPU, and the CuBLAS library for a GPU implementation.
+                To standardize our benchmarks and mitigate discrepancies, the set of parameters remained
+                constant at a learning rate of 0.1, a batch size of 200, and a total of 50 epochs. The activation
+                function used was ReLu, Softmax for computations in the last layer, and weights initialization
+                using the Kaiming initialization scheme. Moreover, the data was split into 50,000 images for
+                training and 10,000 images for validation, using these metrics for loss evaluation, and then
+                further evaluated on an unknown test set. This analysis found that the use of these libraries
+                significantly improved the runtime of the program.
+                 <br><br>
+                <a href="../images/projects/nn/ParallelNeuralNet.pdf">Read paper here</a>
+                </p>`,
+
+        os: `
+            <img src="../images/projects/os/thinkpad.png" alt="ThinkPad" style="width: 90px; float: left; margin-top: 15px; margin-right: 15px; margin-bottom: 10px; border: 1px solid #3b5998;">
+            <h4>Installing new OS onto ThinkPad</h4>
+            <p> This project follows the steps to install Windows (or Linux) OS on your ThinkPad.<br>
+                The following steps were for a T14/T15 ThinkPad. The OS was installed onto a MacBook Pro M1.
+                <br><br>
+                For this, you will need:
+                <ul>
+                    <li> Another computer </li>
+                    <li> An empty 2.5" SATA HARD DRIVE <br> (if not empty, a SATA/SSD to USB 3.0 Adapter) </li>
+                    <li> Empty USB (at least 8 GB) </li>
+                    <li> Teeny tiny screwdriver </li>
+                </ul>
+                <br>
+                    <a href="../images/projects/ray_tracing/ray_tracing.pdf">Read the steps here</a>
+            </p>`,
+
+        web: `
+            <h4>Tutorial on HTML/CSS</h4>
+            <p>This is a tutorial focused on teaching basics of HTML and CSS so that you can make
+            a personal website yourself !
+                <br>
+                <br>
+                Access Tutorial Here: ^_^
+
+                <ul>
+                <li><a href="../images/projects/webDemo/Intro.pdf">Intro to HTML</a> </li>
+                <li><a href="../images/projects/webDemo/CSS.pdf">Intro to CSS</a></li>
+                </ul>
+            </p>`,
+
+        imGen: `
+            <h4>Short Tutorial on image generation</h4>
+            <p>Coming Soon <3
+                <br>
+            </p>`,
+
+        data: `
+            <img src="../images/projects/ray_tracing/cuda_sphere.png" alt="Ray Tracing" style="width: 100px; height: 100px; float: left; margin-top: 15px; margin-right: 15px; margin-bottom: 10px; border: 1px solid #3b5998;">
+            <h4>Performance Analysis of CUDA Performance for Ray Tracing on a Sphere</h4>
+            <p>This report outlines a GPU Ray Tracing algorithm with CUDA and compares its execution
+                time with a serial version, parallel implementation, and across different GPUs using
+                CUDA.
+                <br>
+                    <a href="../images/projects/ray_tracing/ray_tracing.pdf">Read paper here</a>
+            </p>`,
+
+        security: `
+            <img src="../images/projects/ray_tracing/cuda_sphere.png" alt="Ray Tracing" style="width: 100px; height: 100px; float: left; margin-top: 15px; margin-right: 15px; margin-bottom: 10px; border: 1px solid #3b5998;">
+            <h4>Performance Analysis of CUDA Performance for Ray Tracing on a Sphere</h4>
+            <p>This report outlines a GPU Ray Tracing algorithm with CUDA and compares its execution
+                time with a serial version, parallel implementation, and across different GPUs using
+                CUDA.
+                <br>
+                    <a href="../images/projects/ray_tracing/ray_tracing.pdf">Read paper here</a>
+            </p>`,
+    };
+
+    // Get elements
+    const topicsList = document.getElementById('topicsList');
+    const projectContent = document.getElementById('projectContent');
+
+    // Add click handlers to topics
+    topicsList.querySelectorAll('li').forEach(li => {
+        li.addEventListener('click', () => {
+            // Remove active class from all items
+            topicsList.querySelectorAll('li').forEach(item => {
+                item.classList.remove('active');
+            });
+
+            // Add active class to clicked item
+            li.classList.add('active');
+
+            // Update project content
+            const topic = li.getAttribute('data-topic');
+            projectContent.innerHTML = projectDescriptions[topic];
+        });
+    });
+
+    // Set initial content (first topic)
+    const firstTopic = topicsList.querySelector('li');
+    firstTopic.classList.add('active');
+    projectContent.innerHTML = projectDescriptions[firstTopic.getAttribute('data-topic')];
+</script>
+</body>
+</html>

@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Sonia Online</title>
+  <link rel="icon" href="/images/icons/heart3.png" />
+  <link rel="stylesheet" href="styles/stylesheet.css">
+  <link rel="stylesheet" href="styles/clock.css">
+  <link rel="stylesheet" href="styles/projectDisplay.css">
+
+  <script src="scripts/siteStyle/bck.js"></script>
+  <script src="scripts/siteStyle/images.js"></script>
+  <script src="scripts/siteStyle/clock.js"></script>
+  <script src="scripts/projects/projects.js"></script>
+
+  <style>
+    #background-canvas {
+      position: fixed;
+      top: 30%;
+      left: 0;
+      z-index: -1;
+    }
+    .content {
+      display: flex;
+      max-width: 80%;
+      margin: 0 auto;
+      gap: 40px;
+    }
+
+    .preview-image {
+      width: 250px;
+      height: 250px;
+      background: #eee;
+      border: 1px solid #ddd;
+      float: left;
+      margin-right: 30px;
+    }
+
+    .description {
+      flex: 1;
+    }
+
+    .description h1 {
+      font-weight: unset;
+    }
+    .left-column {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .profile-section {
+      display: flex;
+      margin-bottom: 40px;
+    }
+
+    .projects-section {
+      margin-top: 50px;
+    }
+
+    .preview-image {
+      width: 250px;
+      height: 250px;
+      background: #eee;
+      border: 1px solid #ddd;
+      margin-right: 30px;
+      flex-shrink: 0;
+    }
+
+    .description {
+      flex: 1;
+    }
+
+    .project-images {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      overflow: hidden;
+      display: flex; /* Use flexbox to display images side by side */
+    }
+
+    .project-images img {
+      position: relative; /* Change from absolute to relative */
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      flex-shrink: 0; /* Don't allow images to shrink */
+      transform: translateX(0); /* Start at position 0 */
+      transition: opacity 0.5s;
+    }
+
+    /* Default state - hide all images except the first one */
+    .project-images img:not(:first-child) {
+      transform: translateX(100%); /* Move other images off to the right */
+    }
+
+    /* Add visual indicator for projects with multiple images */
+    .gallery-item {
+      position: relative !important;
+      text-decoration: none;
+      color: #3b5998;
+    }
+
+    .gallery-item p {
+      font-family: Optima, sans-serif;
+      text-align: center;
+    }
+
+
+  </style>
+</head>
+<body>
+<nav class="navigation">
+  <a href="index.html" class="nav-item">HOME</a>
+  <a href="navigation/resources.html" class="nav-item">RESOURCES</a>
+  <a href="navigation/portfolio.html" class="nav-item">PORTFOLIO</a>
+  <a href="navigation/courses.html" class="nav-item">COURSES</a>
+  <a href="navigation/contact.html" class="nav-item">CONTACT</a>
+</nav>
+
+<div class="title-container">
+  <div class="nav-links">
+    <a href="#" class="sub-nav-item">SEE: </a>
+    <a href="./personal/music.html" class="sub-nav-item">music</a>
+    <a href="./personal/movies.html" class="sub-nav-item">movies</a>
+    <a href="./personal/books.html" class="sub-nav-item">books</a>
+    <a href="./personal/cards.html" class="sub-nav-item">cards</a>
+  </div>
+</div>
+
+<main class="content">
+  <div class="left-column">
+    <div class="profile-section">
+      <div class="preview-image">
+        <img src="images/personal/comp.jpeg" alt="Me" style="width:100%">
+      </div>
+      <div class="description">
+        <br>
+        <img src="images/personal/board-removebg.png" alt="Gallery item 3" style="float: right; width:40%">
+        <h1>SONIA SHARAPOVA</h1>
+        <p>
+          I sent you my http://localhost:3000 please respond<br><br>
+          My digital archive and space.<br><br>
+        </p>
+      </div>
+    </div>
+
+    <!-- Complete example for all 5 projects -->
+    <div class="projects-section">
+      <div class="gallery">
+        <!-- Project 1: Camera -->
+        <a href="projects/camera/recognition.html" class="gallery-item">
+          <div class="topic-branch">
+            <div class="vertical-line"></div>
+            <div class="topic-item">
+              <div class="horizontal-line"></div>
+              <div class="topic">TensorFlow</div>
+            </div>
+            <div class="topic-item">
+              <div class="horizontal-line"></div>
+              <div class="topic">React</div>
+            </div>
+            <div class="topic-item">
+              <div class="horizontal-line"></div>
+              <div class="topic">UI Design</div>
+            </div>
+          </div>
+          <div class="project-images">
+            <img src="images/projects/preview/car.png" alt="Project 1">
+            <img src="images/projects/preview/person.png" alt="Project 1" style="opacity: 0;">
+            <img src="images/projects/preview/cat.png" alt="Project 1" style="opacity: 0;">
+          </div>
+          <div class="topic-indicator"></div>
+          <p>Identification Camera</p>
+        </a>
+
+        <!-- Project 2 -->
+        <a href="./projects/synth.html" class="gallery-item">
+          <div class="topic-branch">
+            <div class="vertical-line"></div>
+            <div class="topic-item">
+              <div class="horizontal-line"></div>
+              <div class="topic">Audio</div>
+            </div>
+            <div class="topic-item">
+              <div class="horizontal-line"></div>
+              <div class="topic">JS/React</div>
+            </div>
+            <div class="topic-item">
+              <div class="horizontal-line"></div>
+              <div class="topic">Vite/Tailwind</div>
+            </div>
+          </div>
+          <div class="project-images">
+            <img src="images/projects/preview/harp.png" alt="Project 2">
+            <img src="images/projects/preview/synth.png" alt="Project 2" style="opacity: 0;">
+            <img src="images/projects/preview/controls.png" alt="Project 2" style="opacity: 0;">
+          </div>
+          <div class="topic-indicator"></div>
+          <p>Synthesizer</p>
+        </a>
+
+        <!-- Projects 3-5 follow the same pattern... -->
+        <!-- Project 3 -->
+        <a href="./projects/dots/dots.html" class="gallery-item">
+          <div class="topic-branch">
+            <div class="vertical-line"></div>
+            <div class="topic-item">
+              <div class="horizontal-line"></div>
+              <div class="topic">Feature Detection</div>
+            </div>
+            <div class="topic-item">
+              <div class="horizontal-line"></div>
+              <div class="topic">Computer Vision</div>
+            </div>
+            <div class="topic-item">
+              <div class="horizontal-line"></div>
+              <div class="topic">Tracing</div>
+            </div>
+          </div>
+          <div class="project-images">
+            <img src="images/projects/preview/lpb.png" alt="Project 2">
+            <img src="images/projects/preview/lpa.png" alt="Project 2" style="opacity: 0;">
+            <img src="images/projects/preview/lpb.png" alt="Project 2" style="opacity: 0;">
+            <img src="images/projects/preview/lpc.png" alt="Project 2" style="opacity: 0;">
+            <img src="images/projects/preview/lp1.png" alt="Project 2" style="opacity: 0;">
+            <img src="images/projects/preview/lp2.png" alt="Project 2" style="opacity: 0;">
+            <img src="images/projects/preview/lp3.png" alt="Project 2" style="opacity: 0;">
+          </div>
+          <div class="topic-indicator"></div>
+          <p>Connect Dots</p>
+        </a>
+
+        <!-- Project 2 -->
+        <a href="game/object.html" class="gallery-item">
+          <div class="topic-branch">
+            <div class="vertical-line"></div>
+            <div class="topic-item">
+              <div class="horizontal-line"></div>
+              <div class="topic">Graphics</div>
+            </div>
+            <div class="topic-item">
+              <div class="horizontal-line"></div>
+              <div class="topic">Three.js</div>
+            </div>
+            <div class="topic-item">
+              <div class="horizontal-line"></div>
+              <div class="topic">User Control</div>
+            </div>
+          </div>
+          <div class="project-images">
+            <img src="images/projects/preview/obj2.png" alt="Project 4">
+            <img src="images/projects/preview/obj3.png" alt="Project 4" style="opacity: 0;">
+            <img src="images/projects/preview/obj1.png" alt="Project 4" style="opacity: 0;">
+          </div>
+          <div class="topic-indicator"></div>
+          <p>Graphics Playground</p>
+        </a>
+
+        <!-- Project 5 -->
+        <a href="projects/camera/ascii_cam.html" class="gallery-item">
+
+          <div class="topic-branch">
+            <div class="vertical-line"></div>
+            <div class="topic-item">
+              <div class="horizontal-line"></div>
+              <div class="topic">Ascii</div>
+            </div>
+            <div class="topic-item">
+              <div class="horizontal-line"></div>
+              <div class="topic">Image Filters</div>
+            </div>
+            <div class="topic-item">
+              <div class="horizontal-line"></div>
+              <div class="topic">React</div>
+            </div>
+          </div>
+
+          <div class="project-images">
+            <img src="images/projects/preview/ascii-image.png" alt="Project 5">
+            <img src="images/projects/preview/ascii5.png" alt="Project 5" style="opacity: 0;">
+            <img src="images/projects/preview/ascii1.png" alt="Project 5" style="opacity: 0;">
+            <img src="images/projects/preview/ascii4.png" alt="Project 5" style="opacity: 0;">
+            <img src="images/projects/preview/ascii2.png" alt="Project 5" style="opacity: 0;">
+
+          </div>
+          <div class="topic-indicator"></div>
+          <p>ASCII Camera</p>
+        </a>
+
+      </div>
+    </div>
+  </div>
+  <hr>
+  <div class="right-column">
+    <!-- Clock component on the right side -->
+    <div class="widgets-container">
+      <div class="clock-wrapper">
+        <div class="digital-time" id="digitalTime"></div>
+        <div class="clock">
+          <div class="clock-face">
+            <div class="hour-marks" id="hourMarks"></div>
+            <div class="hand hour-hand" id="hourHand"></div>
+            <div class="hand minute-hand" id="minuteHand"></div>
+            <div class="hand second-hand" id="secondHand"></div>
+          </div>
+        </div>
+      </div>
+    <!-- Calendar component below clock -->
+      <div class="calendar-wrapper">
+        <div class="controls">
+          <button id="prevMonth">&lt;</button>
+          <button id="nextMonth">&gt;</button>
+        </div>
+        <div class="calendar-header">
+          <span id="month-display" class="month-display"></span>
+        </div>
+        <div class="days-header">
+          <div class="day-header">Su</div>
+          <div class="day-header">Mo</div>
+          <div class="day-header">Tu</div>
+          <div class="day-header">We</div>
+          <div class="day-header">Th</div>
+          <div class="day-header">Fr</div>
+          <div class="day-header">Sa</div>
+        </div>
+
+        <div class="calendar-body" id="calendar-body"></div>
+
+      </div>
+
+
+    </div>
+  </div>
+</main>
+<div class="modal" id="imageModal">
+  <div class="modal-content">
+    <button class="modal-close">✕</button>
+    <img id="modalImage" src="" alt="Modal Image">
+  </div>
+</div>
+<script>
+  animate();
+</script>
+<footer>
+  <p style="text-align: center">
+    <a href="https://github.com/sonia-sharapova">GitHub</a> |
+    <a href="https://www.linkedin.com/in/sonia-sharapova/">LinkedIn</a> |
+    <a href="https://www.instagram.com/sonia.s.ru/">Instagram</a>
+
+  </p>
+  <div style="margin-top: 5px;">
+    Sonia's Web Archive<br>
+    2025
+  </div>
+</footer>
+
+
+
+</body>
+</html>

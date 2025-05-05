@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sonia's Projects</title>
+    <link rel="icon" href="/images/icons/heart3.png" />
+    <link rel="stylesheet" href="../styles/stylesheet.css">
+    <script src="../scripts/siteStyle/images.js"></script>
+    <script src="../scripts/siteStyle/bck.js"></script>
+
+    <style>
+        #background-canvas {
+            position: fixed;
+            top: 30%;
+            left: 0;
+            z-index: -1;
+        }
+
+        img {
+            border: 1px solid #3b5998;
+        }
+
+        .img_col {
+            width: 40%;
+            margin: 15px;
+            margin-top: 0;
+            min-height: 350px;
+            float: right;
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        .gallery-item {
+            width: 90%;
+            aspect-ratio: 1;
+            background: #eee;
+            border: 1px solid #ddd;
+            opacity: 0;
+            animation: fadeIn 0.5s forwards;
+        }
+
+        .container_inner {
+            width: 90%;
+            margin: 0 auto;
+
+            background-color: white;
+            border: 1px solid #3b5998;"
+        }
+
+        .header {
+            background: #dddddd;
+            color: #666666;
+            padding: 10px;
+            position: relative;
+            border-bottom: 1px solid #3b5998;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 22px;
+            font-weight: normal;
+            color: #666666;
+        }
+
+        .topics-box {
+            display: flex;
+            float: left;
+            width: 200px;
+            background: white;
+        }
+
+        .topics-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        }
+
+        .topics-list li {
+            padding: 18px;
+            cursor: pointer;
+            border-top: 1px solid #d9e5ff;
+            font-size: 18px;
+            color: #666666;
+        }
+
+        .topics-list li:hover {
+            background: #f0f2f5;
+
+        }
+
+        .topics-list li.active {
+            background: #d9e5ff;
+        }
+
+        .content {
+            display: flex;
+            margin-left: 50px;
+            padding: 10px;
+            border-left: 1px solid #3b5998;
+        }
+
+        .section {
+            margin-right: 20px;
+            min-width: auto;
+        }
+
+        .section-header {
+            padding: 5px;
+        }
+
+        .section-header h1 {
+            margin: 10px;
+            margin-bottom: 20px;
+            font-size: 20px;
+            font-weight: normal;
+            color: #666666;
+        }
+
+        .section-content {
+            min-height: 400px;
+            padding: 5px;
+            margin-bottom: 5px;
+            position: relative;
+        }
+
+
+        .section-content p {
+            margin: 10px;
+            font-weight: lighter;
+            font-size: 16px;
+            color: #333333;
+        }
+
+        .section-content .paper {
+            position: absolute;
+            bottom: 0;
+        }
+
+    </style>
+</head>
+<body>
+<nav class="navigation">
+    <a href="../index.html" class="nav-item">HOME</a>
+    <a href="resources.html" class="nav-item">RESOURCES</a>
+    <a href="portfolio.html" class="nav-item">PORTFOLIO</a>
+    <a href="courses.html" class="nav-item">COURSES</a>
+    <a href="contact.html" class="nav-item">CONTACT</a>
+</nav>
+<div class="title-container">
+    <div class="nav-links">
+        <a href="../index.html" class="sub-nav-item">SEE: </a>
+        <a href="../personal/music.html" class="sub-nav-item">music</a>
+        <a href="../personal/movies.html" class="sub-nav-item">movies</a>
+        <a href="../personal/books.html" class="sub-nav-item">books</a>
+        <a href="../personal/cards.html" class="sub-nav-item">cards</a>
+    </div>
+    <h1 class="page-title">PROJECTS</h1>
+</div>
+<div class="container" style="margin: 30px auto 0;width: 80%">
+    <div class="container_inner">
+        <div class="header">
+            <h1>[ projectArchive ]</h1>
+        </div>
+
+        <div class="topics-box">
+            <ul class="topics-list" id="topicsList">
+                <li data-topic="imaging">Cardiac Imaging</li>
+                <li data-topic="tracing">Ray Tracing</li>
+                <li data-topic="nn">Neural Network in C</li>
+                <li data-topic="os">ThinkPad Customizations</li>
+                <li data-topic="web">Web Design</li>
+                <!--<li data-topic="imGen">Image Generation</li>-->
+                <li data-topic="resume">Resume</li>
+            </ul>
+        </div>
+
+        <div class="content">
+            <div class="section">
+                <div class="section-header" id="projectTitle">
+                    Select a topic from the left to view project details.
+                </div>
+                <div class="section-content" id="projectContent">
+                    Select a topic from the left to view project details.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal" id="imageModal">
+    <div class="modal-content">
+        <button class="modal-close">✕</button>
+        <img id="modalImage" src="" alt="Modal Image">
+    </div>
+</div>
+<script>
+    animate();
+</script>
+<footer>
+    <p style="text-align: center">
+        <a href="https://github.com/sonia-sharapova">GitHub</a> |
+        <a href="https://www.linkedin.com/in/sonia-sharapova/">LinkedIn</a> |
+        <a href="https://www.instagram.com/sonia.s.ru/">Instagram</a>
+
+    </p>
+    <div style="margin-top: 5px;">
+        Project Archive Directory<br>
+        2025
+    </div>
+</footer>
+<script>
+    // Project descriptions for each topic
+    const projectDescriptions = {
+        tracing: `
+                <p> Did you know that you can 3D shapes just by calculating the correct pixel intensiy?
+                In this project, I implement a Ray Tracing algorithm to render sphere ^_^<br><br>
+                Buut what is you want a really smooth sphere? That's a looooot of pixels and that's a
+                loooot of math.. If your patience is running out, you are in luck! <br><br>
+                In this project
+                I outline how Ray Tracing algorithms compare across serial, parallel, and Cuda implementations.
+                And across different CUDA GPUs nonetheless >:)
+                <br><br>
+
+                <div class="gallery" style="margin-left:25%;width: 200%;">
+                        <img src="../images/projects/ray_tracing/RayTracing_HPC/spheres.png" alt="Ray Tracing">
+                </div>
+                <p style="font-size: 12px; margin-left: 20%;">Sphere rendering on NVIDIA’s V100 GPU on a 1000x1000 pixel grid vs. 100x100 pixel grid.<p>
+                <br>
+                <a href="../images/projects/ray_tracing/RayTracing.pdf" target="_blank" rel="noopener noreferrer">READ PAPER</a>
+                <br>
+                <a class="paper" href="https://github.com/sonia-sharapova/RayTracing_HPC" target="_blank" rel="noopener noreferrer">CODE REPOSITORY</a>
+                </p>`,
+
+        imaging: `
+                <p>Eeeeek! In this project I implemented a parallel processing system for analyzing cardiac motion in medical imaging
+                 sequences using optical flow analysis. What you see below are image sequences from cardiac MRI scans overlayed with
+                  vectors showing the motion of the heart contractions – the direction and magnitude.
+                  To improve the efficiency of this model, I implemented a parallel processing technique (both in Python and Go)
+                  which achieved significant performance improvements, with the best-case speedup being 2.31x on large datasets – yippee!
+                 <br><br>
+                 The vectors may look a little all over the place sometimes, but I am as only as good as the data provided >_<
+                   <br>
+                <div class="gallery">
+                    <div class="gallery-item">
+                        <img src="../images/projects/imaging/scan2.gif" alt="MRI Optical Flow GIF">
+                    </div>
+                    <div class="gallery-item">
+                        <img src="../images/projects/imaging/scan_gif.gif" alt="MRI Optical Flow GIF">
+                    </div>
+                    <div class="gallery-item">
+                        <img src="../images/projects/imaging/scan3.gif" alt="MRI Optical Flow GIF">
+                    </div>
+                    <div class="gallery-item">
+                        <img src="../images/projects/imaging/scan1.gif" alt="MRI Optical Flow GIF">
+                    </div>
+                </div><br>
+
+                <a href="../images/projects/imaging/SciMedicalImaging.pdf" target="_blank" rel="noopener noreferrer">READ PAPER</a>
+                <br>
+                <a class="paper" href="https://github.com/sonia-sharapova/OpticalFlow" target="_blank" rel="noopener noreferrer">CODE REPOSITORY</a>
+                </p>`,
+
+        nn: `
+            <p>
+            You think you know a Neural Net until you have to build it in C...<br><br>
+            Have you ever wondered why GPUs are extremely powerful when it comes to Deep Learning?
+            If you wrote it out by hand (which you basically have to do for a C implementation anyways..,) you
+            would see that passage through the neural network is just a series of matrix-matrix multiplications.
+            And who loooooves matrix-matrix multiplications?? GPUs!! This is due to the fact that when you
+            multiply together matrices, you end up recycling a lot of the computations, meaning a parallel system
+            will eat it up no problem!<br>
+            This project compares the performance of various strategies used for matrix-matrix multiplication:
+            the naive approach (manual calculation), the cBLAS library for the CPU, and the CuBLAS library for a GPU implementation.
+
+            For comparing performances accurately, the set of parameters remained constant with a learning rate of 0.1,
+            a batch size of 200, and a total of 50 epochs.
+            The data was split into 50,000 images for training and 10,000 images for validation.<br><br>
+            If you couldn't guess already, the use of these libraries significantly improved the runtime of the program :D
+            But you can still read about it if you want.
+                 <br><br>
+                <a href="../images/projects/nn/ParallelNeuralNet/NN.pdf" target="_blank" rel="noopener noreferrer"">READ PAPER</a>
+                <br>
+                <a class="paper" href="https://github.com/sonia-sharapova/ParallelNeuralNet" target="_blank" rel="noopener noreferrer">CODE REPOSITORY</a>
+                </p>`,
+
+        os: `
+            <p>
+                Just for fun, what if we changed the brain in our computer :p <br><br>
+                I did the work so you don't have to! If you have an extra shell of a computer lying around,
+                in this project I break down the steps needed to install any operating system of your choice
+                (jk, either Window or Linux adjacent). <br><br>
+                </p>
+            <div class="gallery" style="background: none; margin-left: 30px">
+                    <div class="gallery-item" style="width: 90%; background: none; border: none">
+                        <img src="../images/projects/os/windows10.png" alt="MRI Optical Flow GIF">
+                    </div>
+                    <div class="gallery-item" style="width: 90%; background: none; border: none">
+                        <img src="../images/projects/os/tp.png"  alt="MRI Optical Flow GIF">
+                    </div>
+                    <div class="gallery-item" style="width: 90%; background: none; border: none">
+                        <img src="../images/projects/os/SATA.png" alt="MRI Optical Flow GIF">
+                    </div>
+                </div><br><br>
+
+            <p>
+
+                <br>
+                    <a class="paper" href="../images/projects/os/ThinkPad.pdf" target="_blank" rel="noopener noreferrer">DO IT YOURSELF</a>
+            </p>`,
+
+        web: `
+            <p>This is a tutorial focused on teaching basics of HTML and CSS so that you can make
+                a personal website yourself !
+                <br>
+                <br>
+                Access Tutorial Here:
+                <a href="https://github.com/sonia-sharapova/WebDemo" target="_blank" rel="noopener noreferrer">CODE REPOSITORY</a> ^_^
+
+            </p>
+
+            <br>
+
+            <div class="img_col" style="float: left">
+                <img src="../images/projects/webDemo/html.png" alt="HTML Demo">
+                <a class="paper" style="position: unset" href="../images/projects/webDemo/Intro.pdf" target="_blank" rel="noopener noreferrer">Intro to HTML</a>
+            </div>
+
+            <div class="img_col" style="float: left">
+                    <img src="../images/projects/webDemo/css.png" alt="CSS Demo">
+                    <a class="paper"  style="position: unset" href="../images/projects/webDemo/CSS.pdf" target="_blank" rel="noopener noreferrer">Intro to CSS</a>
+            </div>
+            `,
+
+        imGen: `
+            <p>Coming Soon <3
+                <br>
+            </p>`,
+
+        resume: `
+            <div class="img_col" style="float: left;">
+                    <img src="../images/projects/resume.png" alt="Resume">
+                    <a class="paper" style="position: unset" href="../images/projects/SharapovaResume.pdf" target="_blank" rel="noopener noreferrer">VIEW HERE</a>
+            </div>
+            <p>
+                My current (January 2025) resume. <br><br>
+                Lists my experience and projects.
+            </p>`,
+
+        security: `
+            <img src="../images/projects/ray_tracing/cuda_sphere.png" alt="Ray Tracing" style="width: 100px; height: 100px; float: left; margin-top: 15px; margin-right: 15px; margin-bottom: 10px; border: 1px solid #3b5998;">
+            <h1>Performance Analysis of CUDA Performance for Ray Tracing on a Sphere</h1>
+            <p>This report outlines a GPU Ray Tracing algorithm with CUDA and compares its execution
+                time with a serial version, parallel implementation, and across different GPUs using
+                CUDA.
+                <br>
+                    <a href="../images/projects/ray_tracing/ray_tracing.pdf" target="_blank" rel="noopener noreferrer">Read paper here</a>
+            </p>`,
+    };
+
+
+    const projectHeaders = {
+        tracing: `
+            <h1>
+                Ray Tracing on a Sphere: CUDA Performance Analysis
+            </h1>
+
+            <hr>`,
+        imaging: `
+            <h1>
+                Optical Flow to Capture Cardiac Motion (in parallel!)
+            </h1>
+            <hr>`,
+        nn: `
+            <h1>
+                Machine Learning for Image Classification (in parallel!)
+            </h1>
+            <hr>`,
+        os: `
+            <h1>
+                Installing Different Operating Systems onto ThinkPad
+            </h1>
+            <hr>`,
+        web: `
+            <h1>
+                Tutorial on HTML/CSS
+            </h1>
+            <hr>`,
+        imGen: `
+            <h1>
+                Short Tutorial on Image Generation
+            </h1>
+            <hr>`,
+
+        resume: `
+            <h1>
+                My Resume ^_^
+            </h1>
+            <hr>`,
+    };
+
+    // Get DOM elements
+    const topicsList = document.getElementById('topicsList');
+    const projectContent = document.getElementById('projectContent');
+    const projectTitle = document.getElementById('projectTitle');
+    const modal = document.getElementById('imageModal');
+    const modalImg = document.getElementById('modalImage');
+    const modalClose = document.querySelector('.modal-close');
+    const navigation = document.querySelector('.navigation');
+
+
+    // Add click handlers to topics
+    topicsList.querySelectorAll('li').forEach(li => {
+        li.addEventListener('click', () => {
+            // Remove active class from all items
+            topicsList.querySelectorAll('li').forEach(item => {
+                item.classList.remove('active');
+            });
+
+            // Add active class to clicked item
+            li.classList.add('active');
+
+            // Update project content
+            const topic = li.getAttribute('data-topic');
+            projectContent.innerHTML = projectDescriptions[topic];
+            projectTitle.innerHTML = projectHeaders[topic];
+
+            // Reattach image click handlers to new content
+            attachImageClickHandlers();
+        });
+    });
+
+    // Set initial content (first topic)
+    const firstTopic = topicsList.querySelector('li');
+    firstTopic.classList.add('active');
+    projectContent.innerHTML = projectDescriptions[firstTopic.getAttribute('data-topic')];
+    projectTitle.innerHTML = projectHeaders[firstTopic.getAttribute('data-topic')];
+
+    // Initial attachment of image click handlers
+    attachImageClickHandlers();
+
+    // Modal close handlers
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal || e.target.classList.contains('modal-close')) {
+            modal.classList.remove('active');
+            navigation.classList.remove('dimmed');
+        }
+    });
+
+    // Close modal with escape key
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modal.classList.contains('active')) {
+            modal.classList.remove('active');
+            navigation.classList.remove('dimmed');
+        }
+    });
+
+    // Description modal elements and handlers
+    const description = document.querySelector('.description');
+
+    // Event listeners for items (removed duplicate)
+    document.querySelectorAll('.item').forEach(item => {
+        item.addEventListener('click', () => {
+            const index = parseInt(item.dataset.index);
+
+            // Use modal for images instead of description
+            const img = item.querySelector('img');
+            if (img) {
+                modalImg.src = img.src;
+                modal.classList.add('active');
+                navigation.classList.add('dimmed');
+            }
+        });
+    });
+
+    // Modal close handlers
+    modal.addEventListener('click', (e) => {
+        // Close if clicking the modal background
+        if (e.target === modal) {
+            modal.classList.remove('active');
+            navigation.classList.remove('dimmed');
+        }
+    });
+
+    // Ensure modal-content and image don't trigger the close
+    const modalContent = document.querySelector('.modal-content');
+    if (modalContent) {
+        modalContent.addEventListener('click', (e) => {
+            // Prevent click from bubbling up to the modal
+            e.stopPropagation();
+
+            // If we clicked the modal-content itself or the close button, close the modal
+            if (e.target === modalContent || e.target.classList.contains('modal-close')) {
+                modal.classList.remove('active');
+                navigation.classList.remove('dimmed');
+            }
+        });
+    }
+
+</script>
+</body>
+</html>

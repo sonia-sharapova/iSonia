@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Machine Learning Crash Course</title>
+    <link rel="icon" href="/images/icons/star.png" />
+    <link rel="stylesheet" href="../../styles/lessons.css">
+    <link href="https://fonts.googleapis.com/css2?family=Source+Serif+Pro:wght@400;600&family=Space+Mono&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --main: #23C455;
+            --light: rgba(35, 196, 85, 0.05);
+            --lighter: rgba(35, 196, 85, 0.1);
+            --border: forestgreen;
+            --border2: rgba(34, 139, 34, 0.5);
+            --med: forestgreen;
+            --dark: darkgreen;
+            --img: forestgreen;
+        }
+
+    </style>
+</head>
+<body>
+<!-- Header -->
+<header>
+    <h1 class="pixel-title">MACHINE LEARNING</h1>
+    <p class="subtitle">Crash course on the fundamentals of Machine Learning.</p>
+</header>
+
+<!-- Dotted line divider -->
+<hr class="divider">
+
+<!-- Main content area with margin references -->
+<main class="content">
+    <!-- Left margin reference -->
+    <div class="margin-ref margin-ref-left">ML.001</div>
+
+    <!-- Main content split into text and illustrations -->
+    <div class="text-content">
+
+        <div class="illustration">
+            <!-- SVG illustration for ML vs traditional -->
+            <svg width="400" height="350" class="svg-illustration">
+                <!-- Traditional Programming -->
+                <rect x="50" y="50" width="300" height="80" rx="5" class="svg-fill-light" stroke="#23C455" />
+                <text x="50" y="40" class="component-label">TRADITIONAL PROGRAMMING</text>
+                <text x="65" y="80" font-family="monospace" fill="#23C455" font-size="10">DATA</text>
+                <text x="170" y="80" font-family="monospace" fill="#23C455" font-size="10">RULES/PROGRAM</text>
+                <text x="310" y="80" font-family="monospace" fill="#23C455" font-size="10">ANSWERS</text>
+
+                <!-- Arrows for traditional -->
+                <line x1="85" y1="85" x2="140" y2="85" stroke="#23C455" stroke-width="1.5"/>
+                <polygon points="140,82 145,85 140,88" fill="#23C455"/>
+
+                <line x1="230" y1="85" x2="290" y2="85" stroke="#23C455" stroke-width="1.5"/>
+                <polygon points="290,82 295,85 290,88" fill="#23C455"/>
+
+                <!-- Machine Learning -->
+                <rect x="50" y="180" width="300" height="80" rx="5" class="svg-fill-light" stroke="#23C455" />
+                <text x="50" y="170" class="component-label">MACHINE LEARNING</text>
+                <text x="65" y="210" font-family="monospace" fill="#23C455" font-size="10">DATA</text>
+                <text x="170" y="210" font-family="monospace" fill="#23C455" font-size="10">MODEL/ALGORITHM</text>
+                <text x="310" y="210" font-family="monospace" fill="#23C455" font-size="10">RULES</text>
+
+                <!-- Arrows for ML -->
+                <line x1="85" y1="215" x2="140" y2="215" stroke="#23C455" stroke-width="1.5"/>
+                <polygon points="140,212 145,215 140,218" fill="#23C455"/>
+
+                <line x1="230" y1="215" x2="290" y2="215" stroke="#23C455" stroke-width="1.5"/>
+                <polygon points="290,212 295,215 290,218" fill="#23C455"/>
+
+                <!-- Additional input for ML -->
+                <text x="65" y="240" font-family="monospace" fill="#23C455" font-size="10">ANSWERS</text>
+                <line x1="85" y1="235" x2="140" y2="220" stroke="#23C455" stroke-width="1.5"/>
+                <polygon points="138,223 145,220 140,226" fill="#23C455"/>
+
+                <!-- Conceptual Difference -->
+                <text x="200" y="300" font-family="monospace" fill="#23C455" font-size="12" text-anchor="middle">PARADIGM SHIFT</text>
+                <path d="M 120 300 Q 200 270 280 300" stroke="#23C455" stroke-width="1.5" fill="none" stroke-dasharray="4,2"/>
+                <polygon points="277,297 285,300 277,303" fill="#23C455"/>
+            </svg>
+        </div>
+        <div class="text">
+            <h1>H<span style="font-size: 1.5rem;">ow do computers learn?</span></h1><br>
+
+            <p>Machine learning is a subset of artificial intelligence that gives computers the ability to learn from data.
+                <br><br>Here, we discuss the main concepts of this topic.
+                improve their performance over time without being explicitly programmed.
+
+                <br><br>Imagine the computer as a baby you have to raise. How would you teach it about the world around it?</p>
+
+        </div>
+    </div>
+
+    <!-- Right margin reference -->
+    <div class="margin-ref margin-ref-right">[ 1.0 INTRO ]</div>
+</main>
+<!-- Dotted line divider -->
+<hr class="divider">
+
+<!-- Table of Contents -->
+<div class="toc-container">
+    <h2 class="toc-title">Jump to Topic</h2>
+    <ul class="toc-list">
+        <li class="toc-item"><a href="#core" class="toc-link">Core Concepts</a></li>
+        <li class="toc-item"><a href="#super" class="toc-link">Supervised Learning</a></li>
+        <li class="toc-item"><a href="#unsuper" class="toc-link">Unsupervised Learning</a></li>
+        <li class="toc-item"><a href="#nn" class="toc-link">Neural Networks</a></li>
+        <li class="toc-item"><a href="#eval" class="toc-link">Model Evaluation</a></li>
+        <li class="toc-item"><a href="#feat" class="toc-link">Feature Engineering</a></li>
+        <li class="toc-item"><a href="#train" class="toc-link">Training</a></li>
+        <li class="toc-item"><a href="#work" class="toc-link">Workflow</a></li>
+        <li class="toc-item"><a href="#tips" class="toc-link">Practical Tips</a></li>
+        <li class="toc-item"><a href="#ethics" class="toc-link">Ethical Considerations</a></li>
+    </ul>
+</div>
+
+<!-- Additional content sections -->
+<section class="content">
+    <div class="margin-ref margin-ref-left">ML.002</div>
+    <div class="text-content">
+        <div class="text">
+            <!-- Trad vs ML -->
+            <div class="topic">
+                <h2>Traditional Programming vs. Machine Learning</h2>
+                <ul>
+                    <li><strong>Traditional programming:</strong> Developers provide both data and rules to get answers</li>
+                    <li><strong>Machine learning:</strong> Developers provide data and answers, and the machine finds the rules</li>
+                </ul>
+            </div>
+            <!-- Core Concepts -->
+            <div class="topic">
+                <h2 id="core">Core Concepts</h2>
+
+                <h3>Types of Machine Learning</h3>
+                <p>Machine learning can be categorized into several paradigms:</p>
+                <ul>
+                    <li><strong>Supervised Learning:</strong> Training with labeled data where each example has an input-output pair</li>
+                    <li><strong>Unsupervised Learning:</strong> Finding patterns in unlabeled data without predetermined outputs</li>
+                    <li><strong>Reinforcement Learning:</strong> Learning through trial and error with a reward system</li>
+                    <li><strong>Semi-supervised Learning:</strong> A mix of labeled and unlabeled data for training</li>
+                </ul>
+            </div>
+            <!-- Supervised -->
+            <div class="topic">
+                <h2 id="super">Supervised Learning</h2>
+                <p>Supervised learning is the most common form of machine learning where models learn from labeled examples:</p>
+
+                <h3>Classification</h3>
+                <p>Predicts discrete labels or categories:</p>
+                <ul>
+                    <li>Binary classification (spam/not spam)</li>
+                    <li>Multi-class classification (animal species identification)</li>
+                </ul>
+
+                <h3>Regression</h3>
+                <p>Predicts continuous values:</p>
+                <ul>
+                    <li>House price prediction</li>
+                    <li>Temperature forecasting</li>
+                    <li>Stock price prediction</li>
+                </ul>
+
+                <h3>Common Algorithms</h3>
+                <ul>
+                    <li><strong>Linear/Logistic Regression:</strong> Simple, interpretable models for linear relationships</li>
+                    <li><strong>Decision Trees:</strong> Tree-like models of decisions based on feature values</li>
+                    <li><strong>Random Forests:</strong> Ensemble of decision trees that reduces overfitting</li>
+                    <li><strong>Support Vector Machines:</strong> Finding the hyperplane that best separates classes</li>
+                    <li><strong>Neural Networks:</strong> Models inspired by the human brain, capable of learning complex patterns</li>
+                </ul>
+            </div>
+            <!-- Unsupervised -->
+            <div class="topic">
+                <h2 id="unsuper">Unsupervised Learning</h2>
+                <p>Works with unlabeled data to find hidden patterns or structures:</p>
+
+                <h3>Clustering</h3>
+                <p>Groups similar data points together:</p>
+                <ul>
+                    <li><strong>K-means:</strong> Partitions data into k clusters by minimizing within-cluster distances</li>
+                    <li><strong>Hierarchical Clustering:</strong> Creates a tree of clusters</li>
+                    <li><strong>DBSCAN:</strong> Forms clusters based on density with no predefined number of clusters</li>
+                </ul>
+
+                <h3>Dimensionality Reduction</h3>
+                <p>Reduces the number of input variables:</p>
+                <ul>
+                    <li><strong>Principal Component Analysis (PCA):</strong> Transforms features into a smaller set of linearly uncorrelated variables</li>
+                    <li><strong>t-SNE:</strong> Visualizes high-dimensional data in 2D or 3D space</li>
+                    <li><strong>Autoencoders:</strong> Neural networks that compress data then reconstruct it</li>
+                </ul>
+            </div>
+
+            <!-- Neural Networks -->
+            <div class="topic">
+                <h2 id="nn">Neural Networks</h2>
+                <p>Inspired by the human brain's structure, neural networks consist of interconnected nodes organized in layers:</p>
+
+                <h3>Network Architecture</h3>
+                <ul>
+                    <li><strong>Input Layer:</strong> Receives the initial data</li>
+                    <li><strong>Hidden Layers:</strong> Perform computations and feature extraction</li>
+                    <li><strong>Output Layer:</strong> Produces the final prediction</li>
+                </ul>
+
+                <h3>Deep Learning</h3>
+                <p>Neural networks with many layers that can learn hierarchical representations:</p><br>
+                <div class="text-content">
+
+                    <div class="illustration">
+                        <svg class="svg-illustration" viewBox="0 0 800 600">
+                            <!-- Background -->
+                            <rect width="100%" height="100%" fill="#f8f9fa" rx="10" ry="10"/>
+
+                            <!-- Title -->
+                            <text x="400" y="45" font-size="35" text-anchor="middle" fill="#3730a3" font-weight="bold">Neural Network Architecture</text>
+
+                            <!-- Layer labels -->
+                            <text x="120" y="110" font-size="30" text-anchor="middle" fill="#4b5563" font-weight="bold">Input Layer</text>
+                            <text x="400" y="110" font-size="30" text-anchor="middle" fill="#4b5563" font-weight="bold">Hidden Layers</text>
+                            <text x="680" y="110" font-size="30" text-anchor="middle" fill="#4b5563" font-weight="bold">Output Layer</text>
+
+                            <!-- Network architecture -->
+
+                            <!-- Input Layer Nodes -->
+                            <circle cx="120" cy="200" r="40" stroke="#4338ca" stroke-width="1.5"/>
+                            <circle cx="120" cy="300" r="40" stroke="#4338ca" stroke-width="1.5"/>
+                            <circle cx="120" cy="400" r="40" stroke="#4338ca" stroke-width="1.5"/>
+
+                            <!-- Hidden Layer 1 Nodes -->
+                            <circle cx="270" cy="180" r="40" stroke="#4338ca" stroke-width="1.5"/>
+                            <circle cx="270" cy="280" r="40" stroke="#4338ca" stroke-width="1.5"/>
+                            <circle cx="270" cy="380" r="40" stroke="#4338ca" stroke-width="1.5"/>
+                            <circle cx="270" cy="480" r="40" stroke="#4338ca" stroke-width="1.5"/>
+
+                            <!-- Hidden Layer 2 Nodes -->
+                            <circle cx="400" cy="180" r="40" stroke="#4338ca" stroke-width="1.5"/>
+                            <circle cx="400" cy="280" r="40" stroke="#4338ca" stroke-width="1.5"/>
+                            <circle cx="400" cy="380" r="40" stroke="#4338ca" stroke-width="1.5"/>
+                            <circle cx="400" cy="480" r="40" stroke="#4338ca" stroke-width="1.5"/>
+
+                            <!-- Hidden Layer 3 Nodes -->
+                            <circle cx="530" cy="220" r="40" stroke="#4338ca" stroke-width="1.5"/>
+                            <circle cx="530" cy="320" r="40" stroke="#4338ca" stroke-width="1.5"/>
+                            <circle cx="530" cy="420" r="40" stroke="#4338ca" stroke-width="1.5"/>
+
+                            <!-- Output Layer Nodes -->
+                            <circle cx="680" cy="250" r="40" stroke="#4338ca" stroke-width="1.5"/>
+                            <circle cx="680" cy="350" r="40" stroke="#4338ca" stroke-width="1.5"/>
+
+                            <!-- Connections between layers -->
+                            <!-- Input to Hidden Layer 1 -->
+                            <!-- Drawing only some connections to avoid visual clutter -->
+                            <g opacity="0.3">
+                                <!-- Input Node 1 connections -->
+                                <line x1="120" y1="200" x2="270" y2="180" stroke="#8b5cf6" stroke-width="1.5"/>
+                                <line x1="120" y1="200" x2="270" y2="280" stroke="#8b5cf6" stroke-width="1.5"/>
+                                <line x1="120" y1="200" x2="270" y2="380" stroke="#8b5cf6" stroke-width="1.5"/>
+                                <line x1="120" y1="200" x2="270" y2="480" stroke="#8b5cf6" stroke-width="1.5"/>
+
+                                <!-- Input Node 2 connections -->
+                                <line x1="120" y1="300" x2="270" y2="180" stroke="#8b5cf6" stroke-width="1.5"/>
+                                <line x1="120" y1="300" x2="270" y2="280" stroke="#8b5cf6" stroke-width="1.5"/>
+                                <line x1="120" y1="300" x2="270" y2="380" stroke="#8b5cf6" stroke-width="1.5"/>
+                                <line x1="120" y1="300" x2="270" y2="480" stroke="#8b5cf6" stroke-width="1.5"/>
+
+                                <!-- Input Node 3 connections -->
+                                <line x1="120" y1="400" x2="270" y2="180" stroke="#8b5cf6" stroke-width="1.5"/>
+                                <line x1="120" y1="400" x2="270" y2="280" stroke="#8b5cf6" stroke-width="1.5"/>
+                                <line x1="120" y1="400" x2="270" y2="380" stroke="#8b5cf6" stroke-width="1.5"/>
+                                <line x1="120" y1="400" x2="270" y2="480" stroke="#8b5cf6" stroke-width="1.5"/>
+
+                                <!-- LAYER 2 -->
+                                <!-- Hidden Layer 1 to Hidden Layer 2 (sample connections) -->
+                                <!-- Input Node 4 connections -->
+                                <line x1="270" y1="180" x2="400" y2="180" stroke="#8b5cf6" stroke-width="1.5"/>
+                                <line x1="270" y1="180" x2="400" y2="280" stroke="#8b5cf6" stroke-width="1.5"/>
+                                <line x1="270" y1="180" x2="400" y2="380" stroke="#8b5cf6" stroke-width="1.5"/>
+                                <line x1="270" y1="180" x2="400" y2="480" stroke="#8b5cf6" stroke-width="1.5"/>
+
+                                <!-- Input Node 5 connections -->
+                                <line x1="270" y1="280" x2="400" y2="180" stroke="#8b5cf6" stroke-width="1.5"/>
+                                <line x1="270" y1="280" x2="400" y2="280" stroke="#8b5cf6" stroke-width="1.5"/>
+                                <line x1="270" y1="280" x2="400" y2="380" stroke="#8b5cf6" stroke-width="1.5"/>
+                                <line x1="270" y1="280" x2="400" y2="480" stroke="#8b5cf6" stroke-width="1.5"/>
+
+                                <!-- Input Node 6 connections -->
+                                <line x1="270" y1="380" x2="400" y2="180" stroke="#8b5cf6" stroke-width="1.5"/>
+                                <line x1="270" y1="380" x2="400" y2="280" stroke="#8b5cf6" stroke-width="1.5"/>
+                                <line x1="270" y1="380" x2="400" y2="380" stroke="#8b5cf6" stroke-width="1.5"/>
+                                <line x1="270" y1="380" x2="400" y2="480" stroke="#8b5cf6" stroke-width="1.5"/>
+
+                                <!-- Input Node 7 connections -->
+                                <line x1="270" y1="480" x2="400" y2="180" stroke="#8b5cf6" stroke-width="1.5"/>
+                                <line x1="270" y1="480" x2="400" y2="280" stroke="#8b5cf6" stroke-width="1.5"/>
+                                <line x1="270" y1="480" x2="400" y2="380" stroke="#8b5cf6" stroke-width="1.5"/>
+                                <line x1="270" y1="480" x2="400" y2="480" stroke="#8b5cf6" stroke-width="1.5"/>
+
+                                <!-- LAYER 3 -->
+                                <!-- Hidden Layer 2 to Hidden Layer 3 -->
+                                <line x1="400" y1="180" x2="530" y2="220" stroke="#8b5cf6" stroke-width="1.5"/>
+                                <line x1="400" y1="180" x2="530" y2="320" stroke="#8b5cf6" stroke-width="1.5"/>
+                                <line x1="400" y1="180" x2="530" y2="420" stroke="#8b5cf6" stroke-width="1.5"/>
+
+                                <line x1="400" y1="280" x2="530" y2="220" stroke="#8b5cf6" stroke-width="1.5"/>
+                                <line x1="400" y1="280" x2="530" y2="320" stroke="#8b5cf6" stroke-width="1.5"/>
+                                <line x1="400" y1="280" x2="530" y2="420" stroke="#8b5cf6" stroke-width="1.5"/>
+
+                                <line x1="400" y1="380" x2="530" y2="220" stroke="#8b5cf6" stroke-width="1.5"/>
+                                <line x1="400" y1="380" x2="530" y2="320" stroke="#8b5cf6" stroke-width="1.5"/>
+                                <line x1="400" y1="380" x2="530" y2="420" stroke="#8b5cf6" stroke-width="1.5"/>
+
+                                <line x1="400" y1="480" x2="530" y2="220" stroke="#8b5cf6" stroke-width="1.5"/>
+                                <line x1="400" y1="480" x2="530" y2="320" stroke="#8b5cf6" stroke-width="1.5"/>
+                                <line x1="400" y1="480" x2="530" y2="420" stroke="#8b5cf6" stroke-width="1.5"/>
+
+                                <!-- Hidden Layer 3 to Output Layer -->
+                                <line x1="530" y1="220" x2="680" y2="250" stroke="#8b5cf6" stroke-width="1.5"/>
+                                <line x1="530" y1="220" x2="680" y2="350" stroke="#8b5cf6" stroke-width="1.5"/>
+
+                                <line x1="530" y1="320" x2="680" y2="250" stroke="#8b5cf6" stroke-width="1.5"/>
+                                <line x1="530" y1="320" x2="680" y2="350" stroke="#8b5cf6" stroke-width="1.5"/>
+
+                                <line x1="530" y1="420" x2="680" y2="250" stroke="#8b5cf6" stroke-width="1.5"/>
+                                <line x1="530" y1="420" x2="680" y2="350" stroke="#8b5cf6" stroke-width="1.5"/>
+                            </g>
+
+                            <!-- Layer labels inside nodes for clarity -->
+                            <!-- Input Layer -->
+                            <text x="125" y="210" font-size="30" text-anchor="middle" fill="grey">x₁</text>
+                            <text x="125" y="310" font-size="30" text-anchor="middle" fill="grey">x₂</text>
+                            <text x="125" y="410" font-size="30" text-anchor="middle" fill="grey">x₃</text>
+
+                            <!-- Hidden Layer 1 - using h₁₁, h₁₂, etc. format -->
+                            <text x="270" y="180" font-size="30" text-anchor="middle" fill="grey">h₁₁</text>
+                            <text x="270" y="280" font-size="30" text-anchor="middle" fill="grey">h₁₂</text>
+                            <text x="270" y="380" font-size="30" text-anchor="middle" fill="grey">h₁₃</text>
+                            <text x="270" y="480" font-size="30" text-anchor="middle" fill="grey">h₁₄</text>
+
+                            <!-- Hidden Layer 2 -->
+                            <text x="400" y="180" font-size="30" text-anchor="middle" fill="grey">h₂₁</text>
+                            <text x="400" y="280" font-size="30" text-anchor="middle" fill="grey">h₂₂</text>
+                            <text x="400" y="380" font-size="30" text-anchor="middle" fill="grey">h₂₃</text>
+                            <text x="400" y="480" font-size="30" text-anchor="middle" fill="grey">h₂₄</text>
+
+                            <!-- Hidden Layer 3 -->
+                            <text x="530" y="225" font-size="30" text-anchor="middle" fill="grey">h₃₁</text>
+                            <text x="530" y="325" font-size="30" text-anchor="middle" fill="grey">h₃₂</text>
+                            <text x="530" y="425" font-size="30" text-anchor="middle" fill="grey">h₃₃</text>
+
+                            <!-- Output Layer -->
+                            <text x="680" y="250" font-size="30" text-anchor="middle" fill="grey">y₁</text>
+                            <text x="680" y="350" font-size="30" text-anchor="middle" fill="grey">y₂</text>
+
+
+                            <!-- Legend -->
+                            <circle cx="110" cy="510" r="8" stroke="#4338ca" stroke-width="1"/>
+                            <text x="20" y="515" font-size="20" fill="black">Neuron</text>
+
+                            <line x1="220" y1="540" x2="250" y2="540" stroke="#8b5cf6" stroke-width="1.5" marker-end="url(#arrow)"/>
+                            <text x="20" y="545" font-size="20" fill="black">Connection (Weight)</text>
+
+                            <text x="20" y="575" font-size="20" fill="black">Structure: 3 → 4 → 4 → 3 → 2</text>
+
+                            <text x="620" y="500" font-size="25" fill="#4b5563">x: input</text>
+                            <text x="620" y="530" font-size="25" fill="#4b5563">h: hidden</text>
+                            <text x="620" y="560" font-size="25" fill="#4b5563">y: output</text>
+                        </svg>
+                    </div>
+                    <ul>
+                        <li><strong>Convolutional Neural Networks (CNNs):</strong> Specialized for grid-like data like images</li>
+                        <li><strong>Recurrent Neural Networks (RNNs):</strong> Process sequential data with memory of previous inputs</li>
+                        <li><strong>Transformers:</strong> Attention-based models that excel at natural language processing</li>
+                    </ul>
+                </div>
+
+                <pre><code>// Simplified Neural Network in Python
+import numpy as np
+
+class SimpleNeuralNetwork:
+    def __init__(self, input_size, hidden_size, output_size):
+        # Initialize weights with small random values
+        self.W1 = np.random.randn(input_size, hidden_size) * 0.01
+        self.b1 = np.zeros((1, hidden_size))
+        self.W2 = np.random.randn(hidden_size, output_size) * 0.01
+        self.b2 = np.zeros((1, output_size))
+
+    def forward(self, X):
+        # Forward pass through the network
+        self.z1 = np.dot(X, self.W1) + self.b1
+        self.a1 = np.maximum(0, self.z1)  # ReLU activation
+        self.z2 = np.dot(self.a1, self.W2) + self.b2
+        # Softmax for classification
+        exp_scores = np.exp(self.z2)
+        self.probs = exp_scores / np.sum(exp_scores, axis=1, keepdims=True)
+        return self.probs</code></pre>
+
+                </div>
+
+            <div class="topic">
+                <h2 id="eval">Model Evaluation</h2>
+                <h3>Performance Metrics</h3>
+                <p>Measures to evaluate how well a model is performing:</p>
+                <ul>
+                    <li><strong>Classification:</strong> Accuracy, Precision, Recall, F1-Score, ROC Curve</li>
+                    <li><strong>Regression:</strong> Mean Squared Error, Mean Absolute Error, R-squared</li>
+                    <li><strong>Clustering:</strong> Silhouette Score, Davies-Bouldin Index</li>
+                </ul>
+
+                <h3>Cross-Validation</h3>
+                <p>Technique to assess how a model generalizes to independent data:</p>
+                <pre><code># K-fold cross-validation
+from sklearn.model_selection import KFold
+from sklearn.metrics import accuracy_score
+
+kf = KFold(n_splits=5)
+scores = []
+
+for train_index, test_index in kf.split(X):
+    X_train, X_test = X[train_index], X[test_index]
+    y_train, y_test = y[train_index], y[test_index]
+
+    model.fit(X_train, y_train)
+    predictions = model.predict(X_test)
+    score = accuracy_score(y_test, predictions)
+    scores.append(score)
+
+# Average score across all folds
+avg_score = sum(scores) / len(scores)</code></pre>
+            </div>
+        </div>
+    </div>
+    <div class="margin-ref margin-ref-right">[ 2.0 ALGOS ]</div>
+</section>
+
+<section class="content">
+    <div class="margin-ref margin-ref-left">ML.003</div>
+    <div class="text-content">
+        <div class="text">
+            <div class="topic">
+                <!-- feature engineering -->
+                <h2 id="feat">Feature Engineering</h2>
+                <p>The process of transforming raw data into features that better represent the underlying problem:</p>
+
+                <h3>Feature Selection</h3>
+                <p>Choosing the most relevant features to reduce noise and complexity:</p>
+                <ul>
+                    <li><strong>Filter Methods:</strong> Statistical tests to select features independently of the model</li>
+                    <li><strong>Wrapper Methods:</strong> Selecting features based on model performance</li>
+                    <li><strong>Embedded Methods:</strong> Feature selection performed during model training</li>
+                </ul>
+
+                <h3>Feature Transformation</h3>
+                <ul>
+                    <li><strong>Normalization:</strong> Scaling features to a standard range</li>
+                    <li><strong>Encoding:</strong> Converting categorical data to numerical format</li>
+                    <li><strong>Polynomial Features:</strong> Creating new features as combinations of existing ones</li>
+                </ul>
+            </div>
+
+            <!--Training Challenges-->
+            <div class="topic">
+                <h2 id="train">Training Challenges</h2>
+
+                <h3>Overfitting vs. Underfitting</h3>
+                <p>The balance between learning too much or too little from training data:</p>
+                <ul>
+                    <li><strong>Overfitting:</strong> Model performs well on training data but poorly on unseen data</li>
+                    <li><strong>Underfitting:</strong> Model fails to capture underlying patterns in the data</li>
+                </ul>
+
+                <h3>Regularization Techniques</h3>
+                <p>Methods to prevent overfitting:</p>
+                <ul>
+                    <li><strong>L1/L2 Regularization:</strong> Adding penalty terms to the loss function</li>
+                    <li><strong>Dropout:</strong> Randomly disabling neurons during training</li>
+                    <li><strong>Early Stopping:</strong> Halting training when validation performance starts to degrade</li>
+                    <li><strong>Data Augmentation:</strong> Creating new training examples by modifying existing ones</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="illustration">
+            <!-- SVG illustration for Overfitting vs Underfitting -->
+            <svg width="400" height="350" class="svg-illustration">
+                <!-- Chart area -->
+                <rect x="50" y="50" width="300" height="200" fill="none" stroke="#23C455" />
+
+                <!-- Axes -->
+                <line x1="50" y1="250" x2="350" y2="250" stroke="#23C455" stroke-width="1.5"/>
+                <line x1="50" y1="250" x2="50" y2="50" stroke="#23C455" stroke-width="1.5"/>
+
+                <!-- X and Y labels -->
+                <text x="200" y="280" font-family="monospace" fill="#23C455" font-size="10" text-anchor="middle">FEATURE X</text>
+                <text x="30" y="150" font-family="monospace" fill="#23C455" font-size="10" text-anchor="middle" transform="rotate(-90, 30, 150)">TARGET Y</text>
+
+                <!-- Data points (scattered) -->
+                <circle cx="70" cy="180" r="4" fill="#23C455"/>
+                <circle cx="90" cy="200" r="4" fill="#23C455"/>
+                <circle cx="120" cy="150" r="4" fill="#23C455"/>
+                <circle cx="150" cy="170" r="4" fill="#23C455"/>
+                <circle cx="180" cy="140" r="4" fill="#23C455"/>
+                <circle cx="200" cy="160" r="4" fill="#23C455"/>
+                <circle cx="230" cy="120" r="4" fill="#23C455"/>
+                <circle cx="260" cy="130" r="4" fill="#23C455"/>
+                <circle cx="290" cy="90" r="4" fill="#23C455"/>
+                <circle cx="320" cy="110" r="4" fill="#23C455"/>
+
+                <!-- Underfit line (too simple) -->
+                <path d="M 50 200 L 350 100" stroke="#23C455" stroke-width="2" stroke-dasharray="4,2"/>
+                <text x="370" y="140" font-family="monospace" fill="#23C455" font-size="8">UNDERFITTING</text>
+
+                <!-- Good fit line (just right) -->
+                <path d="M 50 210 Q 200 130 350 90" stroke="#23C455" stroke-width="2"/>
+                <text x="370" y="90" font-family="monospace" fill="#23C455" font-size="8">GOOD FIT</text>
+
+                <!-- Overfit line (too complex) -->
+                <path d="M 50 180 C 70 200, 90 190, 120 150 C 150 170, 180 140, 200 160 C 230 120, 260 130, 290 90 C 310 110, 330 100, 350 110" stroke="#23C455" stroke-width="2" stroke-dasharray="1,1"/>
+                <text x="370" y="110" font-family="monospace" fill="#23C455" font-size="8">OVERFITTING</text>
+
+                <!-- Title -->
+                <text x="200" y="35" font-family="monospace" fill="#23C455" font-size="12" text-anchor="middle" font-weight="bold">MODEL COMPLEXITY TRADE-OFF</text>
+            </svg>
+        </div>
+    </div>
+    <div class="margin-ref margin-ref-right">[ 3.0 TRAIN ]</div>
+</section>
+
+<section class="content">
+    <div class="margin-ref margin-ref-left">ML.004</div>
+    <div class="text-content">
+        <div class="text">
+            <!--Workflow-->
+            <div class="topic">
+                <h2 id="work">Machine Learning Workflow</h2>
+                <p>The end-to-end process of building a machine learning solution:</p>
+
+                <h3>1. Problem Definition</h3>
+                <ul>
+                    <li>Clearly define the problem you're trying to solve</li>
+                    <li>Determine if it's a classification, regression, clustering, or other type of task</li>
+                    <li>Establish success metrics</li>
+                </ul>
+
+                <h3>2. Data Collection and Preparation</h3>
+                <ul>
+                    <li>Gather relevant data</li>
+                    <li>Clean and preprocess the data (handle missing values, outliers)</li>
+                    <li>Perform exploratory data analysis</li>
+                </ul>
+
+                <h3>3. Feature Engineering</h3>
+                <ul>
+                    <li>Create new features</li>
+                    <li>Select the most relevant features</li>
+                    <li>Transform features as needed</li>
+                </ul>
+
+                <h3>4. Model Selection and Training</h3>
+                <ul>
+                    <li>Choose appropriate algorithms</li>
+                    <li>Split data into training, validation, and test sets</li>
+                    <li>Train and tune the model</li>
+                </ul>
+
+                <h3>5. Evaluation</h3>
+                <ul>
+                    <li>Assess model performance using appropriate metrics</li>
+                    <li>Compare against baselines and benchmarks</li>
+                </ul>
+
+                <h3>6. Deployment and Monitoring</h3>
+                <ul>
+                    <li>Deploy the model to a production environment</li>
+                    <li>Monitor performance and retrain as needed</li>
+                    <li>Handle concept drift (changes in data distribution over time)</li>
+                </ul>
+            </div>
+
+            <!--Ethical Considerations-->
+            <div class="topic">
+                <h2 id="ethics">Ethical Considerations</h2>
+                <p>Important ethical aspects of machine learning applications:</p>
+                <ul>
+                    <li><strong>Bias and Fairness:</strong> Models can perpetuate or amplify biases present in training data</li>
+                    <li><strong>Transparency:</strong> Understanding how models make decisions, especially for high-impact applications</li>
+                    <li><strong>Privacy:</strong> Protecting sensitive data used in training and inference</li>
+                    <li><strong>Accountability:</strong> Determining responsibility when AI systems make mistakes</li>
+                </ul>
+            </div>
+
+            <!--Practical Tips-->
+            <div class="topic">
+                <h2 id="tips">Practical Tips</h2>
+
+                <h3>Start Simple</h3>
+                <p>Begin with simple models to establish a baseline before trying more complex approaches. Simple models are often:</p>
+                <ul>
+                    <li>Faster to train</li>
+                    <li>Easier to interpret</li>
+                    <li>Less prone to overfitting</li>
+                </ul>
+
+                <h3>Focus on Data Quality</h3>
+                <p>Quality data is often more important than algorithm sophistication:</p>
+                <ul>
+                    <li>Clean and representative data yields better results</li>
+                    <li>Consider collecting more data before using more complex models</li>
+                </ul>
+
+                <h3>Avoid Common Pitfalls</h3>
+                <ul>
+                    <li>Data leakage: Inadvertently using information not available at prediction time</li>
+                    <li>Selection bias: Training on non-representative samples</li>
+                    <li>Ignoring domain knowledge: Subject matter expertise is valuable for feature engineering</li>
+                </ul>
+
+                <pre><code># Simple but effective ML pipeline in scikit-learn
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import StandardScaler
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.model_selection import train_test_split, GridSearchCV
+
+# Create pipeline with preprocessing and model
+pipeline = Pipeline([
+    ('scaler', StandardScaler()),
+    ('classifier', RandomForestClassifier())
+])
+
+# Split data
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=42
+)
+
+# Define parameter grid for tuning
+param_grid = {
+    'classifier__n_estimators': [100, 200, 300],
+    'classifier__max_depth': [None, 5, 10, 15]
+}
+
+# Grid search with cross-validation
+grid_search = GridSearchCV(
+    pipeline, param_grid, cv=5, scoring='accuracy'
+)
+grid_search.fit(X_train, y_train)
+
+# Best model
+best_model = grid_search.best_estimator_
+accuracy = best_model.score(X_test, y_test)
+print(f"Best parameters: {grid_search.best_params_}")
+print(f"Test accuracy: {accuracy:.4f}")</code></pre>
+            </div>
+
+            <div class="topic">
+                <h2>Conclusion</h2>
+                <p>Machine learning represents a fundamental shift in how we build intelligent systems. Rather than coding explicit instructions, we design algorithms that learn from data and generalize to new situations.</p>
+
+                <p>As data continues to grow in volume and complexity, the importance of effective machine learning techniques will only increase. The key challenges remain:</p>
+                <ul>
+                    <li>Finding the right balance between model complexity and generalization</li>
+                    <li>Creating meaningful features that capture the essence of the problem</li>
+                    <li>Ensuring models are fair, interpretable, and ethically sound</li>
+                    <li>Bridging the gap between academic research and real-world applications</li>
+                </ul>
+
+                <p>By understanding the fundamental principles covered in this crash course, you're well-equipped to start exploring the vast and exciting world of machine learning.</p>
+            </div>
+        </div>
+    </div>
+    <div class="margin-ref margin-ref-right">[ 4.0 PRAC ]</div>
+</section>
+<a href="#" class="back-to-top">Back 2 Top ↑</a>
+
+</body>
+</html>

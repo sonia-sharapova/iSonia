@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Uncontrol in 2002</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background-color: #464646;
+            font-family: Arial, sans-serif;
+            color: #fff;
+        }
+
+        .container {
+            display: flex;
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            color: #fff;
+            margin-bottom: 20px;
+        }
+
+        .pattern-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 4px;
+            width: 50%;
+        }
+
+        .pattern-cell {
+            aspect-ratio: 1;
+            background-color: #333;
+            position: relative;
+        }
+
+        .pattern-cell img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .pattern-label {
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            font-size: 12px;
+            color: #fff;
+            background: rgba(0,0,0,0.5);
+            padding: 2px 5px;
+        }
+
+        .preview-area {
+            width: 50%;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 4px;
+        }
+
+        .controls {
+            background-color: #f5f5f5;
+            padding: 10px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #333;
+        }
+
+        .footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 10px;
+            background-color: #333;
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+        }
+
+        .toolbar {
+            display: flex;
+            gap: 5px;
+        }
+
+        .tool-button {
+            width: 24px;
+            height: 24px;
+            background-color: #555;
+            border: 1px solid #666;
+        }
+    </style>
+</head>
+<body>
+<h1>Uncontrol in 2002</h1>
+<div class="container">
+    <div class="pattern-grid">
+        <!-- Grid cells with placeholder images -->
+        <div class="pattern-cell">
+            <div class="pattern-label">63 | SPINNER</div>
+            <img src="/api/placeholder/150/150" alt="Spinner pattern">
+        </div>
+        <div class="pattern-cell">
+            <div class="pattern-label">67 | BOWL</div>
+            <img src="/api/placeholder/150/150" alt="Bowl pattern">
+        </div>
+        <div class="pattern-cell">
+            <div class="pattern-label">63 | TENTACLE</div>
+            <img src="/api/placeholder/150/150" alt="Tentacle pattern">
+        </div>
+        <!-- Repeat for remaining cells -->
+        <div class="pattern-cell">
+            <img src="/api/placeholder/150/150" alt="Pattern">
+        </div>
+        <div class="pattern-cell">
+            <img src="/api/placeholder/150/150" alt="Pattern">
+        </div>
+        <div class="pattern-cell">
+            <img src="/api/placeholder/150/150" alt="Pattern">
+        </div>
+        <div class="pattern-cell">
+            <img src="/api/placeholder/150/150" alt="Pattern">
+        </div>
+        <div class="pattern-cell">
+            <img src="/api/placeholder/150/150" alt="Pattern">
+        </div>
+        <div class="pattern-cell">
+            <img src="/api/placeholder/150/150" alt="Pattern">
+        </div>
+        <div class="pattern-cell">
+            <img src="/api/placeholder/150/150" alt="Pattern">
+        </div>
+        <div class="pattern-cell">
+            <img src="/api/placeholder/150/150" alt="Pattern">
+        </div>
+        <div class="pattern-cell">
+            <img src="/api/placeholder/150/150" alt="Pattern">
+        </div>
+    </div>
+
+    <div class="preview-area">
+        <div class="controls">
+            <span>▶ ADVANCED</span>
+            <span>Use spacebar to randomize values</span>
+        </div>
+        <img src="/api/placeholder/500/500" alt="Preview area">
+    </div>
+</div>
+
+<div class="footer">
+    <div class="toolbar">
+        <div class="tool-button"></div>
+        <div class="tool-button"></div>
+        <div class="tool-button"></div>
+        <div class="tool-button"></div>
+    </div>
+    <div class="links">
+        <span>DOWNLOAD SPINNER</span>
+        <span>ABOUT</span>
+        <span>CONTACT</span>
+        <span>COPYRIGHT</span>
+    </div>
+</div>
+</body>
+</html>

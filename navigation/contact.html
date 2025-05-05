@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Contact Sonia ^_^</title>
+    <link rel="icon" href="/images/icons/heart3.png" />
+    <link rel="stylesheet" href="../styles/stylesheet.css">
+    <script src="../scripts/siteStyle/bck.js"></script>
+
+    <style>
+        #background-canvas {
+            position: fixed;
+            top: 30%;
+            left: 0;
+            z-index: -1;
+        }
+        .project-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .project-item {
+            flex: 1;
+            text-align: center;
+            padding: 15px;
+            border: 1px solid #666666;
+            border-radius: 5px;
+            transition: transform 0.2s, box-shadow 0.2s;
+            background-color: white;
+        }
+
+        .project-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .project-number {
+            font-size: 18px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .project-thumb {
+            display: flex;
+            width: 100px;
+            height: 100px;
+            margin: 15px auto;
+            align-items: center;
+            justify-content: center;
+            background: #f8f8f8;
+            border-radius: 50%;
+            padding: 20px;
+        }
+
+        .project-thumb img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        .project-info h3 {
+            margin: 0;
+            font-size: 24px;
+            font-weight: 500;
+        }
+
+        .project-info p {
+            color: #666;
+            font-size: 18px;
+            margin: 10px 0;
+        }
+
+        .project-info a {
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+    </style>
+</head>
+<body>
+<nav class="navigation" style="position: absolute;">
+    <a href="../index.html" class="nav-item">HOME</a>
+    <a href="resources.html" class="nav-item">RESOURCES</a>
+    <a href="portfolio.html" class="nav-item">PORTFOLIO</a>
+    <a href="courses.html" class="nav-item">COURSES</a>
+    <a href="contact.html" class="nav-item">CONTACT</a>
+</nav>
+<div class="title-container">
+    <div class="nav-links">
+        <a href="../index.html" class="sub-nav-item">SEE: </a>
+        <a href="../personal/music.html" class="sub-nav-item">music</a>
+        <a href="../personal/movies.html" class="sub-nav-item">movies</a>
+        <a href="../personal/books.html" class="sub-nav-item">books</a>
+        <a href="../personal/cards.html" class="sub-nav-item">cards</a>
+    </div>
+    <h1 class="page-title">CONTACT</h1>
+</div>
+
+<div class="container">
+    <div class="project-list">
+        <div class="project-item">
+            <div class="project-number">01</div>
+            <div class="project-info">
+                <h3>GitHub</h3>
+                <a href="https://github.com/sonia-sharapova" target="_blank" rel="noopener noreferrer">
+                    <div class="project-thumb">
+                            <img src="../images/icons/git.png" alt="GitHub">
+                    </div>
+                </a>
+                <p>sonia-sharapova</p>
+            </div>
+        </div>
+
+        <div class="project-item">
+            <div class="project-number">02</div>
+            <div class="project-info">
+                <h3>LinkedIn</h3>
+                <a href="https://www.linkedin.com/in/sonia-sharapova/" target="_blank" rel="noopener noreferrer">
+                    <div class="project-thumb">
+
+                        <img src="../images/icons/linkme.png" alt="LinkedIn">
+                    </div>
+                </a>
+                <p>sonia-sharapova</p>
+            </div>
+        </div>
+
+        <div class="project-item">
+            <div class="project-number">03</div>
+            <div class="project-info">
+                <h3>Instagram</h3>
+                <div class="project-thumb">
+                    <a href="https://www.instagram.com/sonia.s.ru/ target="_blank" rel="noopener noreferrer"">
+                        <img src="../images/icons/insta.png" alt="Instagram">
+                    </a>
+                </div>
+                <p>sonia.s.ru</p>
+            </div>
+        </div>
+        <div class="project-item">
+            <div class="project-number">04</div>
+            <div class="project-info">
+                <h3>Email</h3>
+                <a href="mailto:sonia.sharapova@yahoo.com" target="_blank" rel="noopener noreferrer">
+                    <div class="project-thumb">
+                        <img src="../images/icons/email.png" alt="Email">
+                    </div>
+                </a>
+                <p style="font-size: smaller">sonia.sharapova@yahoo.com</p>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    animate();
+</script>
+<footer>
+    <p>
+        <a href="https://github.com/sonia-sharapova">GitHub</a> |
+        <a href="https://www.linkedin.com/in/sonia-sharapova/">LinkedIn</a> |
+        <a href="https://www.instagram.com/sonia.s.ru/">Instagram</a>
+    </p>
+    <div>
+        Contact Links<br>
+        2025
+    </div>
+</footer>
+</body>
+</html>

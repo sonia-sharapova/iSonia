@@ -1,0 +1,134 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dot-to-Dot Generator</title>
+    <link rel="icon" href="/images/icons/heart3.png" />
+    <link rel="stylesheet" href="../../styles/stylesheet.css">
+
+    <style>
+
+        .content {
+            max-width: 80%;
+            margin: 0 auto;
+            padding-top: 10px;
+        }
+
+        .navigation {
+            z-index: 2; /* Make sure navigation stays above folders */
+        }
+
+        .canvas-container {
+            position: relative;
+            margin: 20px 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 350px;
+            background: #f5f5f5;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        canvas {
+            max-width: 100%;
+            display: none;
+        }
+
+        .placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: #666;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .placeholder img {
+            max-width: 200px;
+            margin-bottom: 20px;
+            opacity: 0.7;
+        }
+
+        .placeholder p {
+            margin: 5px 0;
+            font-size: 16px;
+        }
+
+        .controls {
+            margin: 20px 0;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .button {
+            padding: 10px 20px;
+            background-color: #3b5998;
+            color: white;
+            border: none;
+            border-radius: 2px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+
+        .button:hover:not(:disabled) {
+            background-color: #0056b3;
+        }
+
+        #imageInput {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<nav class="navigation" style="position: absolute;">
+    <a href="../../index.html" class="nav-item">HOME</a>
+    <a href="../../navigation/resources.html" class="nav-item">RESOURCES</a>
+    <a href="../../navigation/portfolio.html" class="nav-item">PORTFOLIO</a>
+    <a href="../../learning/lectures.html" class="nav-item">COURSES</a>
+    <a href="../../navigation/contact.html" class="nav-item">CONTACT</a>
+</nav>
+<div class="title-container">
+    <div class="nav-links">
+        <a href="../../index.html" class="sub-nav-item">SEE: </a>
+        <a href="../../personal/music.html" class="sub-nav-item">music</a>
+        <a href="../../personal/movies.html" class="sub-nav-item">movies</a>
+        <a href="../../personal/books.html" class="sub-nav-item">books</a>
+        <a href="../../personal/cards.html" class="sub-nav-item">cards</a>
+    </div>
+    <h1 class="page-title">..CONNECTING..DOTS..</h1>
+</div>
+<main class="content">
+    <div class="controls">
+        <label for="imageInput" class="button">Upload Image</label>
+        <input type="file" id="imageInput" accept="image/*">
+        <button id="processBtn" class="button" disabled>Generate Dot-to-Dot</button>
+        <button id="toggleViewBtn" class="button" disabled>Toggle Background</button>
+    </div>
+    <div class="canvas-container">
+        <canvas id="imageCanvas"></canvas>
+        <div class="placeholder">
+            <img src="../../images/icons/camera.png" alt="Upload placeholder">
+            <p>Upload an image to begin</p>
+            <p>Recommended size: 800x600 pixels or smaller</p>
+        </div>
+    </div>
+</main>
+<!-- Load your React component -->
+<script src="dots.js"></script>
+</body>
+</html>
+

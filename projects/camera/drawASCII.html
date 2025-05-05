@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ASCII Art Drawing Converter</title>
+    <meta charset="UTF-8">
+    <title>ASCII Camera - Sonia Online</title>
+    <link rel="icon" href="/images/icons/heart3.png" />
+    <link rel="stylesheet" href="../../styles/stylesheet.css">
+    <link rel="stylesheet" href="camera.css">
+
+    <style>
+        .drawing-area {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+        #canvas {
+            border: 1px solid #333;
+            background-color: white;
+            cursor: crosshair;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        #clear {
+            background-color: #f44336;
+        }
+        #clear:hover {
+            background-color: #d32f2f;
+        }
+        .result-area {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+        #ascii-output {
+            width: 100%;
+            height: 200px;
+            font-family: monospace;
+            font-size: 10px;
+            line-height: 1;
+            white-space: pre;
+            overflow: auto;
+            background-color: white;
+            border: 1px solid #ccc;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+        .settings {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+
+        #characterSet {
+            width: 250px;
+        }
+
+
+    </style>
+</head>
+<body>
+<nav class="navigation">
+    <a href="../../index.html" class="nav-item">HOME</a>
+    <a href="../../navigation/resources.html" class="nav-item">RESOURCES</a>
+    <a href="../../navigation/portfolio.html" class="nav-item">PORTFOLIO</a>
+    <a href="../../learning/lectures.html" class="nav-item">COURSES</a>
+    <a href="../../navigation/contact.html" class="nav-item">CONTACT</a>
+</nav>
+<div class="title-container">
+    <div class="nav-links">
+        <a href="#" class="sub-nav-item">SEE: </a>
+        <a href="../../personal/music.html" class="sub-nav-item">music</a>
+        <a href="../../personal/movies.html" class="sub-nav-item">movies</a>
+        <a href="../../personal/books.html" class="sub-nav-item">books</a>
+        <a href="../../personal/cards.html" class="sub-nav-item">cards</a>
+    </div>
+    <h1 class="page-title">ASCII Paintbrush</h1>
+</div>
+
+<div class="info-section">
+    <h1>ASCII Art Drawing Converter</h1>
+    <p>
+        Convert your drawings into ASCII art!
+    </p>
+    <h2>Features</h2>
+    <p>
+        - Easy drag and draw with pen and eraser<br>
+        - Adjustable resolution and character sets<br>
+        - Copy to Clipboard to share your new ASCII<br>
+    </p>
+</div>
+
+<div class="container">
+    <div class="drawing-area">
+        <div class="controls">
+            <button id="pen">Pen</button>
+            <button id="eraser">Eraser</button>
+            <button id="clear">Clear Canvas</button>
+        </div>
+        <canvas id="canvas" width="500" height="300"></canvas>
+    </div>
+
+    <div class="settings">
+        <div class="slider-container">
+            <label for="resolution">ASCII Resolution:</label>
+            <input type="range" id="resolution" min="10" max="100" value="50">
+        </div>
+        <div class="slider-container">
+            <label for="characterSet">Character Set:</label>
+            <select id="characterSet">
+                <option value="@%#*+=-:. ">Dense (@%#*+=-:. )</option>
+                <option value="$@B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/\|()1{}[]?-_+~<>i!lI;:,\"^`'. " selected>Detailed</option>
+                <option value="@#$%?*+;:,. ">Simple (@#$%?*+;:,. )</option>
+                <option value="█▓▒░ ">Blocks (█▓▒░ )</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="result-area">
+        <button id="convert">Convert to ASCII</button>
+        <button id="copy">Copy ASCII Art</button>
+        <div id="ascii-output"></div>
+    </div>
+</div>
+
+<script>
+    // Canvas setup
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+    ctx.fillStyle = 'white';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    // Drawing state
+    let isDrawing = false;
+    let currentTool = 'pen';
+
+    // Tools
+    document.getElementById('pen').addEventListener('click', () => {
+        currentTool = 'pen';
+        canvas.style.cursor = 'crosshair';
+    });
+
+    document.getElementById('eraser').addEventListener('click', () => {
+        currentTool = 'eraser';
+        canvas.style.cursor = 'cell';
+    });
+
+    document.getElementById('clear').addEventListener('click', () => {
+        ctx.fillStyle = 'white';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+    });
+
+    // Drawing functions
+    function startDrawing(e) {
+        isDrawing = true;
+        draw(e);
+    }
+
+    function stopDrawing() {
+        isDrawing = false;
+        ctx.beginPath();
+    }
+
+    function draw(e) {
+        if (!isDrawing) return;
+
+        const rect = canvas.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+
+        ctx.lineWidth = 5;
+        ctx.lineCap = 'round';
+
+        if (currentTool === 'pen') {
+            ctx.strokeStyle = 'black';
+        } else {
+            ctx.strokeStyle = 'white';
+        }
+
+        ctx.lineTo(x, y);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.moveTo(x, y);
+    }
+
+    // Event listeners for drawing
+    canvas.addEventListener('mousedown', startDrawing);
+    canvas.addEventListener('mousemove', draw);
+    canvas.addEventListener('mouseup', stopDrawing);
+    canvas.addEventListener('mouseout', stopDrawing);
+
+    // Convert to ASCII function
+    document.getElementById('convert').addEventListener('click', convertToAscii);
+
+    function convertToAscii() {
+        const resolution = document.getElementById('resolution').value;
+        const charSet = document.getElementById('characterSet').value;
+        const chars = charSet.split('');
+
+        // Calculate cell size
+        const cellWidth = Math.ceil(canvas.width / resolution);
+        const cellHeight = Math.ceil(canvas.height / (resolution * 0.6)); // Adjust for aspect ratio
+
+        let asciiArt = '';
+
+        for (let y = 0; y < canvas.height; y += cellHeight) {
+            for (let x = 0; x < canvas.width; x += cellWidth) {
+                // Get the pixel data for the cell
+                const pixelData = ctx.getImageData(x, y, cellWidth, cellHeight);
+                const data = pixelData.data;
+
+                // Calculate average brightness and detect if the cell is mostly white
+                let totalBrightness = 0;
+                let isWhite = true;
+                const threshold = 245; // High threshold to detect white areas
+
+                for (let i = 0; i < data.length; i += 4) {
+                    // Check RGB values to determine if pixel is white or not
+                    if (data[i] < threshold || data[i + 1] < threshold || data[i + 2] < threshold) {
+                        isWhite = false;
+                    }
+
+                    // Convert RGB to brightness (0-255)
+                    // Using the luminosity method: 0.21 R + 0.72 G + 0.07 B
+                    const brightness = 0.21 * data[i] + 0.72 * data[i + 1] + 0.07 * data[i + 2];
+                    totalBrightness += brightness;
+                }
+
+                // If the cell is detected as white background, use space character
+                if (isWhite) {
+                    asciiArt += ' ';
+                } else {
+                    const avgBrightness = totalBrightness / (data.length / 4);
+
+                    // Map brightness to character
+                    const charIndex = Math.floor(avgBrightness / 256 * chars.length);
+                    const character = chars[chars.length - charIndex - 1] || chars[chars.length - 1];
+
+                    asciiArt += character;
+                }
+            }
+            asciiArt += '\n';
+        }
+
+        // Display ASCII art
+        document.getElementById('ascii-output').textContent = asciiArt;
+    }
+
+    // Copy to clipboard
+    document.getElementById('copy').addEventListener('click', () => {
+        const asciiOutput = document.getElementById('ascii-output');
+        const text = asciiOutput.textContent;
+
+        if (!text) {
+            alert('No ASCII art to copy! Convert your drawing first.');
+            return;
+        }
+
+        navigator.clipboard.writeText(text)
+            .then(() => {
+                alert('ASCII art copied to clipboard!');
+            })
+            .catch(err => {
+                console.error('Failed to copy: ', err);
+
+                // Fallback copy method
+                asciiOutput.select();
+                document.execCommand('copy');
+                alert('ASCII art copied to clipboard!');
+            });
+    });
+</script>
+</body>
+</html>

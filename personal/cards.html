@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Pokemon Card Collection Viewer</title>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../styles/stylesheet.css">
+    <link rel="icon" href="/images/icons/heart3.png" />
+
+    <style>
+
+        .navigation {
+            width: 100%;
+        }
+
+        #root {
+            min-height: calc(100vh - 60px);
+        }
+
+    </style>
+</head>
+<body>
+<nav class="navigation">
+    <a href="../index.html" class="nav-item">HOME</a>
+    <a href="../navigation/resources.html" class="nav-item">RESOURCES</a>
+    <a href="../navigation/portfolio.html" class="nav-item">PORTFOLIO</a>
+    <a href="../navigation/courses.html" class="nav-item">COURSES</a>
+    <a href="../navigation/contact.html" class="nav-item">CONTACT</a>
+</nav>
+
+<div class="title-container">
+    <div class="nav-links">
+        <a href="../index.html" class="sub-nav-item">SEE: </a>
+        <a href="music.html" class="sub-nav-item">music</a>
+        <a href="movies.html" class="sub-nav-item">movies</a>
+        <a href="books.html" class="sub-nav-item">books</a>
+        <a href="cards.html" class="sub-nav-item">cards</a>
+    </div>
+    <h1 class="page-title">Pokémon Cards</h1><br>
+</div>
+
+<div class="content"></div>
+
+<div id="root"></div>
+
+<footer>
+    <p>
+        <a href="https://github.com/sonia-sharapova">GitHub</a> |
+        <a href="https://www.linkedin.com/in/sonia-sharapova/">LinkedIn</a> |
+        <a href="https://www.instagram.com/sonia.s.ru/">Instagram</a>
+    </p>
+    <div>
+        Pokémon Card Archive<br>
+        2025
+    </div>
+</footer>
+
+<script type="module">
+    // Import React and ReactDOM
+    const React = window.React;
+    const ReactDOM = window.ReactDOM;
+
+    // Import the PokemonMagazine component
+    import PokemonMagazine from '../scripts/projects/PokemonMagazine.js';
+
+    // Add a console log to debug
+    console.log('React:', React);
+    console.log('ReactDOM:', ReactDOM);
+    console.log('PokemonMagazine:', PokemonMagazine);
+
+    // Render the React component using the older render method
+    ReactDOM.render(
+        React.createElement(PokemonMagazine),
+        document.getElementById('root')
+    );
+</script>
+</body>
+</html>

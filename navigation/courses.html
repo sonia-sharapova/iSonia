@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lecture Topics</title>
+    <link rel="icon" href="/images/icons/heart3.png" />
+    <link rel="stylesheet" href="../styles/stylesheet.css">
+
+    <!-- Dependencies -->
+    <!-- Update in the head section -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <!-- Remove the defer attribute and change type to text/babel -->
+    <!-- At the bottom of the body -->
+    <script type="text/babel" src="../scripts/lectures.js"></script>
+
+
+    <style>
+        .content {
+            max-width: 80%;
+            margin: 0 auto;
+            padding-top: 10px;
+        }
+
+        #root {
+            width: 100%;
+            min-height: 100vh;
+            position: relative; /* Add this */
+            z-index: 1; /* Add this */
+        }
+
+        .navigation {
+            z-index: 2; /* Make sure navigation stays above folders */
+        }
+    </style>
+</head>
+<body>
+<nav class="navigation" style="position: absolute; width: unset">
+    <a href="../index.html" class="nav-item">HOME</a>
+    <a href="resources.html" class="nav-item">RESOURCES</a>
+    <a href="portfolio.html" class="nav-item">PORTFOLIO</a>
+    <a href="courses.html" class="nav-item">COURSES</a>
+    <a href="contact.html" class="nav-item">CONTACT</a>
+</nav>
+<div class="title-container">
+    <div class="nav-links">
+        <a href="../index.html" class="sub-nav-item">SEE: </a>
+        <a href="../personal/music.html" class="sub-nav-item">music</a>
+        <a href="../personal/movies.html" class="sub-nav-item">movies</a>
+        <a href="../personal/books.html" class="sub-nav-item">books</a>
+        <a href="../personal/cards.html" class="sub-nav-item">cards</a>
+    </div>
+    <h1 class="page-title">LECTURES</h1>
+</div>
+<main class="content">
+    <div id="root" style="background-color: #f0f0f0; min-height: 90vh;"></div>
+</main>
+
+<!-- Load your React component -->
+<script src="../scripts/courses/lectures.js" type="text/babel" defer></script>
+</body>
+</html>

@@ -1,0 +1,1197 @@
+{
+  "archive": {
+    "title": "GENERAL ARCHIVES",
+    "id": "archive",
+    "image": "",
+    "items": [
+      {
+        "id": "webI",
+        "name": "Website Inspo Archive",
+        "items": [],
+        "image": "../images/resources/archives/brut.png"
+      },
+      {
+        "id": "brand",
+        "name": "Brand Design",
+        "items": [],
+        "image": "../images/resources/archives/brand.png"
+      },
+      {
+        "id": "aes",
+        "name": "Index of Aesthetics",
+        "items": [],
+        "image": "../images/resources/archives/aesth.png"
+      },
+      {
+        "id": "theories",
+        "name": "Cool Theories",
+        "items": [],
+        "image": "../images/resources/archives/theory.png"
+      },
+      {
+        "id": "insect",
+        "name": "Insect Archive",
+        "items": [],
+        "image": "../images/resources/archives/insects.png"
+      },
+      {
+        "id": "synth",
+        "name": "Synth Archive",
+        "items": [],
+        "image": "../images/resources/archives/teen.png"
+      },
+      {
+        "id": "game",
+        "name": "Gaming Systems",
+        "items": [],
+        "image": "../images/resources/archives/game.png"
+      },
+      {
+        "id": "amp",
+        "name": "Winamp Skin Museum",
+        "items": [],
+        "image": "../images/resources/archives/winamp.png"
+      },
+      {
+        "id": "psych",
+        "name": "Psychology Tools",
+        "items": [],
+        "image": "../images/resources/archives/psych.png"
+      },
+      {
+        "id": "mov",
+        "name": "Greatest Films of All Time",
+        "items": [],
+        "image": "../images/resources/archives/film.png"
+      },
+      {
+        "id": "logo",
+        "name": "Archive of Logos",
+        "items": [],
+        "image": "../images/resources/archives/logo.png"
+      },
+      {
+        "id": "ti",
+        "name": "Texas Instrument Covers",
+        "items": [],
+        "image": "../images/resources/archives/texas.png"
+      }
+    ]
+  },
+  "links": {
+    "title": "COOL LINKS",
+    "id": "links",
+    "image": "",
+    "items": [
+      {
+        "id": "streaming",
+        "name": "Pirate Moment ! Arggg (shhh)",
+        "items": [
+          {
+            "id": "Torrents",
+            "name": "Downloads/Torrents",
+            "image": "../images/resources/links/lock.png",
+            "description": "Click at your own risk !! I don't take responsibility for viruses..<br><br>• <a href=\"https://www.pirateproxy-bay.com/\" target=\"_blank\" class=\"text-green-600 hover:underline\">The Pirate Bay</a>\n• <a href=\"https://nyaa.si/\" target=\"_blank\" class=\"text-green-600 hover:underline\">Download Anime</a>"
+          },
+          {
+            "id": "Torrents2",
+            "name": "Streaming",
+            "image": "../images/resources/links/lock.png",
+            "description": "Click at your own risk !! I don't take responsibility for viruses..<br><br>Streaming:\n• <a href=\"https://dopebox.to/\" target=\"_blank\" class=\"text-green-600 hover:underline\">Dopebox</a>\n• <a href=\"https://putlocker-sb.lol/stream/\" target=\"_blank\" class=\"text-green-600 hover:underline\">Putlocker</a>\n• <a href=\"https://www.lookmovie2.to/\" target=\"_blank\" class=\"text-green-600 hover:underline\">LookMovie</a>"
+          },
+          {
+            "id": "extra",
+            "name": "Extra",
+            "image": "../images/resources/links/comp_angel.jpg",
+            "description": "Extra: Pass the Popcorn (need someone to recommend you..)<br><br>Computer Angel Charm for you:"
+          }
+        ],
+        "category": "Streaming",
+        "image": "../images/resources/links/folder_p.png",
+        "url": "https://dopebox.to/"
+      },
+      {
+        "id": "music",
+        "name": "Music Websites / Resources",
+        "items": [
+          {
+            "id": "General",
+            "name": "General",
+            "image": "../images/resources/links/music.jpg",
+            "description": "General<br><br>• <a href=\"https://rateyourmusic.com/\" target=\"_blank\" class=\"text-green-600 hover:underline\">Rate Your Music: Discover new music</a>\n• <a href=\"https://rateyourmusic.com/\" target=\"_blank\" class=\"text-green-600 hover:underline\">Discogs: Buy and Sell Music</a>"
+          },
+          {
+            "id": "projects",
+            "name": "Cool Audio Projects",
+            "image": "../images/resources/links/player.jpg",
+            "description": "Cool Audio Projects<br><br>• <a href=\"https://everynoise.com/engenremap.html\" target=\"_blank\" class=\"text-green-600 hover:underline\">Music of Every Genre</a>\n• <a href=\"https://www.chriskorda.com/software.html\" target=\"_blank\" class=\"text-green-600 hover:underline\">Chris Korda: Music Projects and Software</a>\n• <a href=\"https://oklou.com/\" target=\"_blank\" class=\"text-green-600 hover:underline\">Oklou: Music portfolio</a>\n• <a href=\"https://www.chriskorda.com/software.html\" target=\"_blank\" class=\"text-green-600 hover:underline\">fendoap: Music Projects and Software</a>"
+          },
+          {
+            "id": "audioLearning",
+            "name": "Learning Resources",
+            "image": "../images/resources/links/music_cat.jpg",
+            "description": "Learning Resources<br><br>• <a href=\"https://www.youtube.com/watch?v=lIeP5nbnpeE&list=PLEETnX-uPtBVpZvp-R2daNfy9k3-L-Q3u&ab_channel=thebennybox\" target=\"_blank\" class=\"text-green-600 hover:underline\">Audio Programming Tutorial</a>\n• <a href=\"https://docs.cycling74.com/learn/\" target=\"_blank\" class=\"text-green-600 hover:underline\">Learn MaxMSP</a>"
+          },
+          {
+            "id": "musicILike",
+            "name": "Music I Like",
+            "description": "Music Collections and Stuff I Like<br><br>• <a href=\"https://radio.syg.ma/\" target=\"_blank\" class=\"text-green-600 hover:underline\">Radio Collection</a>\n• <a href=\"https://ambiancejeune.com/\" target=\"_blank\" class=\"text-green-600 hover:underline\">Ambiance</a>\n• <a href=\"https://givemetwentyminutes.bandcamp.com/?fbclid=PAZXh0bgNhZW0CMTEAAabhcWbPDsdkN9SO6nk4velaDSXuJFofHLh34GBt2qXIiKgu99gR0b8zVkU_aem_ASejy179pZAl6XLoO1UEEyGmVOL9GpzSC2hlOzlhtAUsb4RByhTN_YICw1DqoZrvZ0zAz6oWpYmrbNTEGWCfrY3O\" target=\"_blank\" class=\"text-green-600 hover:underline\">Cool bandcamp</a>\n• <a href=\"https://m.soundcloud.com/ciel_dj/baihui-mix-1\" target=\"_blank\" class=\"text-green-600 hover:underline\">Cool Mix</a>"
+          }
+        ],
+        "category": "misc"
+      },
+      {
+        "id": "resources2",
+        "name": "Comp Sci Links",
+        "items": [
+          {
+            "id": "edu",
+            "name": "Good Learning Tools",
+            "description": "• <a href=\"https://home.cern/science/computing/birth-web\" target=\"_blank\" class=\"text-green-600 hover:underline\">Destroy ALl Software</a>\n• <a href=\"https://home.cern/science/computing/birth-web\" target=\"_blank\" class=\"text-green-600 hover:underline\">DistroWatch: All u need about Linux and OS's</a>"
+          },
+          {
+            "id": "webdev",
+            "name": "WebDev Tools and Links",
+            "description": "• <a href=\"https://home.cern/science/computing/birth-web\" target=\"_blank\" class=\"text-green-600 hover:underline\">World Wide Web History</a>\n• <a href=\"https://caniuse.com/\" target=\"_blank\" class=\"text-green-600 hover:underline\">CanIUse: HTML Browser Support</a>\n• <a href=\"https://www.csszengarden.com/\" target=\"_blank\" class=\"text-green-600 hover:underline\">CSS Based Design</a>\n• <a href=\"https://htmlcolorcodes.com/\" target=\"_blank\" class=\"text-green-600 hover:underline\">HTML Colour Codes</a>\n• <a href=\"https://flatuicolors.com/\" target=\"_blank\" class=\"text-green-600 hover:underline\">Colous Boards</a>\n• <a href=\"https://www.w3.org/Style/Examples/007/fonts.en.html\" target=\"_blank\" class=\"text-green-600 hover:underline\">CSS Fonts</a>\n• <a href=\"https://fontello.com/\" target=\"_blank\" class=\"text-green-600 hover:underline\">Icon Fonts Generator</a>\n• <a href=\"https://www.cssscript.com/\" target=\"_blank\" class=\"text-green-600 hover:underline\">CSS Script Templates</a>\n• <a href=\"https://editor.p5js.org/\" target=\"_blank\" class=\"text-green-600 hover:underline\">p5: Run Javascript Real-Time</a>"
+          }
+        ],
+        "category": "Resources"
+      },
+      {
+        "id": "websites",
+        "name": "Cool Websites",
+        "items": [
+          {
+            "id": "coolWeb",
+            "name": "Interesting Sites",
+            "image": "../images/resources/links/web.jpg",
+            "description": "Cooool Websites that I love to explore<br><br>• <a href=\"https://www.police.pref.hokkaido.lg.jp/\" target=\"_blank\" class=\"text-green-600 hover:underline\">Real Japanese Police Records</a>\n• <a href=\"https://readonlymemory.com/\" target=\"_blank\" class=\"text-green-600 hover:underline\">Read Only Memory: Cool book publications (tech centered)</a>\n• <a href=\"https://britneyspears.ac/lasers.htm\" target=\"_blank\" class=\"text-green-600 hover:underline\">Britney Spears Physics</a>"
+          },
+          {
+            "id": "inspoWeb",
+            "name": "Inspirational Websites",
+            "description": "• <a href=\"https://i-land.online/\" target=\"_blank\" class=\"text-green-600 hover:underline\">Cute Walkthrough Game</a>\n• <a href=\"https://plutonist.neocities.org/\" target=\"_blank\" class=\"text-green-600 hover:underline\">Art Website</a>\n• <a href=\"https://3laine.cargo.site/\" target=\"_blank\" class=\"text-green-600 hover:underline\">Elaine Yue: Video, Animation, Sound</a>\n• <a href=\"https://handbook.org/?fbclid=PAZXh0bgNhZW0CMTEAAaaQylPAjTxGpwqPfKkNctnr_sIB1SAknMxt6dY7HLotKY749yxULEuIMEo_aem_SVIZL-919tYkl6eBXZ_zdg\" target=\"_blank\" class=\"text-green-600 hover:underline\">Hans Witschi</a>\n• <a href=\"https://n10.as/\" target=\"_blank\" class=\"text-green-600 hover:underline\">A Digital Gallery</a>\n• <a href=\"https://erikloyer.com/index.php\" target=\"_blank\" class=\"text-green-600 hover:underline\">Eric Loyer: Media Tech + creative Tech (Erik Loyer)</a>\n• <a href=\"https://samlubicz.com/selected-works\" target=\"_blank\" class=\"text-green-600 hover:underline\">Samlubicz Selected Works</a>"
+          }
+        ],
+        "category": "misc"
+      },
+      {
+        "id": "resources1",
+        "name": "Helpful Links",
+        "items": [
+          {
+            "id": "useful",
+            "name": "Useful Tools",
+            "image": "../images/resources/links/yay.JPG",
+            "description": "• <a href=\"https://marginalia-search.com/\" target=\"_blank\" class=\"text-green-600 hover:underline\">Marginalia Search Engine: Prioritizes non-commercial content</a>\n• <a href=\"https://backgroundchecks.org/justdeleteme/#\" target=\"_blank\" class=\"text-green-600 hover:underline\">JustDeleteMe: Delete your account from web services</a>\n• <a href=\"https://www.pirateproxy-bay.com/\" target=\"_blank\" class=\"text-green-600 hover:underline\">The Pirate Bay</a>\n• <a href=\"https://www.remove.bg/upload\" target=\"_blank\" class=\"text-green-600 hover:underline\">Remove Background from Image</a>\n• <a href=\"https://archive.ph/\" target=\"_blank\" class=\"text-green-600 hover:underline\">Create an Archive</a>"
+          },
+          {
+            "id": "lib",
+            "name": "Collections and Libraries",
+            "description": "• <a href=\"https://emojidb.org/kaomoji-emojis\" target=\"_blank\" class=\"text-green-600 hover:underline\">Kaomoji Library >_<</a>"
+          }
+        ],
+        "category": "Resources"
+      },
+      {
+        "id": "graphics",
+        "name": "Graphics Resources",
+        "items": [],
+        "category": "Resources",
+        "image": "../images/resources/links/shaderfrog.png"
+      }
+    ]
+  },
+  "misc": {
+    "title": "COOL THINGS",
+    "id": "interesting",
+    "image": "",
+    "items": [
+      {
+        "id": "russian",
+        "name": "2022 Russian businessmen mystery deaths",
+        "items": [],
+        "category": "Interesting",
+        "image": "../images/resources/terms/business.webp"
+      },
+      {
+        "id": "airbear",
+        "name": "Air Bear",
+        "items": [],
+        "category": "Art",
+        "image": "../images/resources/terms/ab.png"
+      },
+      {
+        "id": "domo",
+        "name": "Domo",
+        "items": [],
+        "category": "Culture",
+        "image": "../images/resources/terms/domo_icon.png"
+      },
+      {
+        "id": "internet",
+        "name": "Early Internet Culture",
+        "items": [],
+        "category": "Culture",
+        "image": "../images/resources/terms/derp.png"
+      },
+      {
+        "id": "kruger",
+        "name": "Dunning-Kruger effect",
+        "items": [],
+        "category": "Science",
+        "image": "../images/resources/terms/dunning.png"
+      },
+      {
+        "id": "loss",
+        "name": "Loss Meme",
+        "items": [],
+        "category": "Internet Culture",
+        "image": "../images/resources/terms/l.png"
+      },
+      {
+        "id": "mirror",
+        "name": "Mirror Stage",
+        "items": [],
+        "category": "Science",
+        "image": "../images/resources/terms/mirror.jpg"
+      },
+      {
+        "id": "punkt",
+        "name": "Punkt Phone",
+        "items": [],
+        "category": "Science",
+        "image": "../images/resources/terms/punkt4.jpg"
+      },
+      {
+        "id": "sj",
+        "name": "Steve Jobs Photobooth",
+        "items": [],
+        "category": "Tech",
+        "image": "../images/resources/terms/sj4.jpg"
+      },
+      {
+        "id": "sundog",
+        "name": "Sundog",
+        "items": [],
+        "category": "Interesting",
+        "image": "../images/resources/terms/sd2.jpg"
+      }
+    ]
+  },
+  "movies": {
+    "title": "FULL MOVIES",
+    "id": "movies",
+    "image": "",
+    "items": [
+      {
+        "id": "aaron",
+        "name": "The Internet's Own Boy",
+        "items": [],
+        "director": "Brian Knappenberger",
+        "description": "The Internet's Own Boy: The Story of Aaron Swartz (2014). Perfect forever.",
+        "videourl": "https://www.youtube.com/watch?v=9vz06QO3UkQ",
+        "videoEmbed": {
+          "type": "youtube",
+          "id": "9vz06QO3UkQ",
+          "title": "The Internet's Own Boy: The Story of Aaron Swartz"
+        },
+        "image": "../images/resources/people/nerds/aaron3.jpg"
+      },
+      {
+        "id": "corpus",
+        "name": "Corpus Collosum",
+        "items": [],
+        "director": "Michael Snow",
+        "description": "Corpus Collosum (2002) - Michael Snow",
+        "videourl": "https://www.youtube.com/watch?v=yx9Nb6-wjIY",
+        "videoEmbed": {
+          "type": "youtube",
+          "id": "yx9Nb6-wjIY",
+          "title": "Corpus Collosum (2002)"
+        },
+        "image": "../images/resources/videos/corpus.jpg"
+      },
+      {
+        "id": "hyper",
+        "name": "Hypernormalisation",
+        "items": [],
+        "director": "Adam Curtis",
+        "description": "Hypernormalisation (2016) - Adam Curtis",
+        "videourl": "https://www.youtube.com/watch?v=AUiqaFIONPQ",
+        "videoEmbed": {
+          "type": "youtube",
+          "id": "AUiqaFIONPQ",
+          "title": "Hypernormalisation (2016)"
+        },
+        "image": "../images/resources/videos/hyper.jpg"
+      },
+      {
+        "id": "karl",
+        "name": "Satisfied Fool",
+        "items": [],
+        "director": "Dave Lambert",
+        "description": "Karl Pilkington - Satisfied Fool",
+        "videourl": "https://www.youtube.com/watch?v=jdnecUl4jYA",
+        "videoEmbed": {
+          "type": "youtube",
+          "id": "jdnecUl4jYA",
+          "title": "Karl Pilkington - Satisfied Fool"
+        },
+        "image": "../images/resources/videos/karl.jpg"
+      },
+      {
+        "id": "ideology",
+        "name": "The Pervert's Guide to Ideology",
+        "items": [],
+        "director": "Slavoj Žižek",
+        "description": "The Pervert's Guide to Ideology (2012) - Slavoj Žižek",
+        "videourl": "https://www.youtube.com/watch?v=oBcFLmu_tlc",
+        "videoEmbed": {
+          "type": "youtube",
+          "id": "oBcFLmu_tlc",
+          "title": "The Pervert's Guide to Ideology"
+        },
+        "image": "../images/resources/videos/ideology.jpg"
+      },
+      {
+        "id": "lange",
+        "name": "L'Ange",
+        "items": [],
+        "director": "Patrick Bokanowski",
+        "description": "L'Ange (1982) - Patrick Bokanowski",
+        "videourl": "https://www.youtube.com/watch?v=ERj66hYLCkg",
+        "videoEmbed": {
+          "type": "youtube",
+          "id": "ERj66hYLCkg",
+          "title": "L'Ange (1982)"
+        },
+        "image": "../images/resources/videos/lange.jpg",
+        "fullmovie": "[Internet Archive](https://archive.org/details/lange1982)"
+      },
+      {
+        "id": "wind",
+        "name": "Voices in the Wind",
+        "items": [],
+        "director": "Nobuhiro Suwa",
+        "description": "Voices in the Wind (full movie)",
+        "videourl": "https://www.youtube.com/watch?v=gptcrYzqkNY",
+        "videoEmbed": {
+          "type": "youtube",
+          "id": "gptcrYzqkNY",
+          "title": "Voices in the Wind"
+        },
+        "image": "../images/resources/videos/wind.jpg"
+      },
+      {
+        "id": "haru",
+        "name": "Haru",
+        "items": [],
+        "director": "Yoshimitsu Morita",
+        "description": "Haru (1996)",
+        "videourl": "https://www.youtube.com/watch?v=Jdys69dKOB0",
+        "videoEmbed": {
+          "type": "youtube",
+          "id": "Jdys69dKOB0",
+          "title": "Haru (1996)"
+        },
+        "image": "../images/resources/videos/haru.jpg"
+      },
+      {
+        "id": "mirror",
+        "name": "Mirrored Mind",
+        "items": [],
+        "director": "Gakuryū Ishii",
+        "description": "Mirrored Mind (2005)",
+        "videourl": "https://www.youtube.com/watch?v=Yzowgw-I-R4",
+        "videoEmbed": {
+          "type": "youtube",
+          "id": "Yzowgw-I-R4",
+          "title": "Mirrored Mind (2005)"
+        },
+        "image": "../images/resources/videos/mirror.jpg"
+      },
+      {
+        "id": "anima",
+        "name": "Anima Mundi",
+        "items": [],
+        "director": "Godfrey Reggio",
+        "description": "Anima Mundi (1992) - Godfrey Reggio",
+        "videourl": "https://www.youtube.com/watch?v=Yfef24cAp4Q",
+        "videoEmbed": {
+          "type": "youtube",
+          "id": "Yfef24cAp4Q",
+          "title": "Anima Mundi"
+        },
+        "image": "../images/resources/videos/anima.jpg",
+        "music": "Philip Glass",
+        "fullmovie": "[VK Video](https://vk.com/video-26512203_160939519?to=L3ZpZGVvLTI2NTEyMjAzXzE2MDkzOTUxOT8-)"
+      },
+      {
+        "id": "sunRa",
+        "name": "The Last Angel of History",
+        "items": [],
+        "director": "John Akomfrah",
+        "description": "The Last Angel of History",
+        "videourl": "https://www.youtube.com/watch?v=gcbSUwPjass",
+        "videoEmbed": {
+          "type": "youtube",
+          "id": "gcbSUwPjass",
+          "title": "The Last Angel of History"
+        },
+        "image": "../images/resources/videos/angel.jpg"
+      },
+      {
+        "id": "sunRa2",
+        "name": "SPACE IS THE PLACE",
+        "items": [],
+        "director": "John Coney",
+        "description": "SUN RA - SPACE IS THE PLACE (1974). Afrofuturist science fiction film made in 1972 and released in 1974.",
+        "videourl": "https://youtu.be/owCPrIEliZc",
+        "videoEmbed": {
+          "type": "youtube",
+          "id": "owCPrIEliZc",
+          "title": "SPACE IS THE PLACE (1974)"
+        },
+        "image": "../images/resources/videos/sunra.png"
+      },
+      {
+        "id": "thunder",
+        "name": "Thunder",
+        "items": [],
+        "director": "Takashi Ito",
+        "description": "Thunder - Film by Takashi Ito",
+        "videourl": "https://youtu.be/owCPrIEliZc",
+        "videoEmbed": {
+          "type": "youtube",
+          "id": "owCPrIEliZc",
+          "title": "Thunder"
+        },
+        "image": "../images/resources/videos/thunder.jpg"
+      },
+      {
+        "id": "barley",
+        "name": "Sleep Has Her House",
+        "items": [],
+        "director": "Scott Barley",
+        "description": "Sleep Has Her House - Scott Barley",
+        "videourl": "https://www.youtube.com/watch?v=uZPePp3byRU",
+        "videoEmbed": {
+          "type": "youtube",
+          "id": "uZPePp3byRU",
+          "title": "Sleep Has Her House"
+        },
+        "image": "../images/resources/videos/sleep.jpg"
+      },
+      {
+        "id": "trashHump",
+        "name": "Trash Humpers",
+        "items": [],
+        "director": "Harmony Korine",
+        "description": "Trash Humpers (2010) - Harmony Korine",
+        "videourl": "https://www.youtube.com/watch?v=0JJhxo-etI0",
+        "videoEmbed": {
+          "type": "youtube",
+          "id": "0JJhxo-etI0",
+          "title": "Trash Humpers"
+        },
+        "image": "../images/resources/videos/trash.jpg"
+      },
+      {
+        "id": "ent",
+        "name": "A Family Finds Entertainment",
+        "items": [],
+        "director": "Ryan Trecartin",
+        "description": "A Family Finds Entertainment (2004) - Ryan Trecartin",
+        "videourl": "https://www.youtube.com/watch?v=aTzcMlNuMXI",
+        "videoEmbed": {
+          "type": "youtube",
+          "id": "aTzcMlNuMXI",
+          "title": "A Family Finds Entertainment"
+        },
+        "image": "../images/resources/videos/ent.jpg"
+      },
+      {
+        "id": "few",
+        "name": "Few of Us",
+        "items": [],
+        "director": "Sharunas Bartas",
+        "description": "Few of Us, Sharunas Bartas (1996) // Нас мало, Шарунас Бартас",
+        "videourl": "https://www.youtube.com/watch?v=-ITN5ZHSTl4",
+        "videoEmbed": {
+          "type": "youtube",
+          "id": "-ITN5ZHSTl4",
+          "title": "Few of Us"
+        },
+        "image": "../images/resources/videos/few.jpg"
+      },
+      {
+        "id": "emotion",
+        "name": "Emotion",
+        "items": [],
+        "director": "Nobuhiko Obayashi",
+        "description": "Emotion 1966 - film by Nobuhiko Obayashi",
+        "videourl": "https://www.youtube.com/watch?v=KzfQq5lXKJM",
+        "videoEmbed": {
+          "type": "youtube",
+          "id": "KzfQq5lXKJM",
+          "title": "Emotion (1966)"
+        },
+        "image": "../images/resources/videos/emotion.jpg"
+      },
+      {
+        "id": "battle",
+        "name": "Battle Royal High School",
+        "items": [],
+        "director": "Ichirō Itano",
+        "description": "Battle Royal High School - 1987 - ANIMATION MOVIE",
+        "videourl": "https://www.youtube.com/watch?v=Kb3O-pgoEok",
+        "videoEmbed": {
+          "type": "youtube",
+          "id": "Kb3O-pgoEok",
+          "title": "Battle Royal High School"
+        },
+        "image": "../images/resources/videos/battle.webp"
+      }
+    ]
+  },
+  "people": {
+    "title": "INFLUENTIAL PEOPLE",
+    "id": "people",
+    "image": "../images/resources/people/binary.jpg",
+    "items": [
+      {
+        "id": "nerds",
+        "name": "Nerds",
+        "items": [
+          {
+            "id": "assange",
+            "name": "Julian Assange",
+            "image": "../images/resources/people/nerds/julian.png",
+            "about": "Julian Assange is the founder of Wikileaks.",
+            "about his case": "",
+            "description": "• <a href=\"https://www.youtube.com/watch?v=mLI-tzJB540\" target=\"_blank\" class=\"text-green-600 hover:underline\">Julian Assange</a><br><br>\n• <a href=\"https://dandelionsalad.wordpress.com/2024/06/25/julian-assange-is-free/comment-page-1/\" target=\"_blank\" class=\"text-green-600 hover:underline\">Julian Assange is Free (blogpost + statements)</a><br><br>• <a href=\"https://www.reddit.com/user/_JulianAssange/\" target=\"_blank\" class=\"text-green-600 hover:underline\">Reddit: Q&A Transcripts</a>"
+          },
+          {
+            "id": "davis",
+            "name": "Terry Davis",
+            "image": "../images/resources/people/nerds/davis.webp",
+            "description": "• <a href=\"https://steemit.com/computers/@winstonalden/schizophrenia-and-genius-templeos-and-the-strange-sad-case-of-terry-a-davis\" target=\"_blank\" class=\"text-green-600 hover:underline\">Terry Davis</a><br><br>• Founder of TempleOS\n• <a href=\"https://www.youtube.com/watch?v=YMUhbIAA9-8\" target=\"_blank\" class=\"text-green-600 hover:underline\">The Tragic Story of a Genius Schizophrenic Programmer</a>"
+          },
+          {
+            "id": "gardner",
+            "name": "Martin Gardner",
+            "image": "../images/resources/people/nerds/Martin_Gardner.jpg",
+            "description": "• <a href=\"https://www.martin-gardner.org/\" target=\"_blank\" class=\"text-green-600 hover:underline\">Martin Gardner</a><br><br>• <a href=\"https://www.youtube.com/watch?v=eqHZY7FYwx0\" target=\"_blank\" class=\"text-green-600 hover:underline\">Celebrating Mind: The Legacy of Martin Gardner</a>\n• <a href=\"https://www.gathering4gardner.org/\" target=\"_blank\" class=\"text-green-600 hover:underline\">Gathering 4 Gardner Foundation</a>\n• <a href=\"https://ia801004.us.archive.org/17/items/martingardnerthecolossalbookofmathematics/Martin%20Gardner%20-%20The%20Colossal%20Book%20Of%20Mathematics.pdf\" target=\"_blank\" class=\"text-green-600 hover:underline\">PDF of The Colossal Book of Mathematics</a>"
+          },
+          {
+            "id": "shannon",
+            "name": "Claude Elwood Shannon",
+            "image": "../images/resources/people/nerds/shannon.png",
+            "description": "• <a href=\"https://www.itsoc.org/about/shannon\" target=\"_blank\" class=\"text-green-600 hover:underline\">Claude Elwood Shannon</a><br><br>• Mathematician and electrical engineer\n• <a href=\"https://www.youtube.com/watch?v=z2Whj_nL-x8\" target=\"_blank\" class=\"text-green-600 hover:underline\">Video: Father of the Information Age</a>"
+          },
+          {
+            "id": "swartz",
+            "name": "Aaron Swartz",
+            "image": "../images/resources/people/nerds/aaron2.png",
+            "description": "• <a href=\"https://www.internethalloffame.org/inductee/aaron-swartz/\" target=\"_blank\" class=\"text-green-600 hover:underline\">Aaron Swartz</a><br><br>Forever my inspiration. I feel gutted every time I see him, his story truly breaks my heart. I would want him to be proud of me one day.<br><br>Watch his documentary here:\n• <a href=\"https://www.youtube.com/watch?v=9vz06QO3UkQ\" target=\"_blank\" class=\"text-green-600 hover:underline\">The Internets Own Boy</a>\n• <a href=\"http://www.rememberaaronsw.com/memories/\" target=\"_blank\" class=\"text-green-600 hover:underline\">Remember Aaron Swartz</a>"
+          },
+          {
+            "id": "tao",
+            "name": "Terence Tao",
+            "image": "../images/resources/people/nerds/terence.jpg",
+            "about": "Terence Tao is an Australian-American mathematician who has made many discoveries in number theory, partial differential equations, and more. He was a child prodigy and became the youngest tenured professor at UCLA at the age of 24.",
+            "description": "• <a href=\"https://paw.princeton.edu/article/mind-mathematician\" target=\"_blank\" class=\"text-green-600 hover:underline\">Terence Tao</a><br><br>\n• <a href=\"https://www.math.ucla.edu/~tao/\" target=\"_blank\" class=\"text-green-600 hover:underline\">Personal Page</a><br><br>• <a href=\"https://www.youtube.com/watch?v=p6ZUeQv2yFQ&ab_channel=tywebbOOOOO\" target=\"_blank\" class=\"text-green-600 hover:underline\">Video: About Terence and Baby Tao</a>\n• <a href=\"https://www.youtube.com/watch?v=MXJ-zpJeY3E\" target=\"_blank\" class=\"text-green-600 hover:underline\">Video: The Worlds Best Mathematician</a>\n• <a href=\"https://www.math.ucla.edu/~tao/arrow.pdf\" target=\"_blank\" class=\"text-green-600 hover:underline\">Video: Tao on AI in Science and Mathematics</a>\n• <a href=\"https://www.math.ucla.edu/~tao/arrow.pdf\" target=\"_blank\" class=\"text-green-600 hover:underline\">Arrow's Theorem</a>"
+          },
+          {
+            "id": "ilya",
+            "name": "Ilya Zhitomirskiy",
+            "image": "../images/resources/people/nerds/ilya.jpg",
+            "description": "One of the four founders of much-hyped open-source social network Diaspora, nicknames a \"Facebook killer.\"<br><br>There exist some conspiracies surrounding his alleged \"suicide\" and autopsy, though not much about it can be easily found. George W Hunt wrote a piece giving insight into the nature of his death and his belief that the death was not a suicide, but rather murder.<br><br>• <a href=\"https://web.archive.org/web/20140305020854/http://www.thebigbadbank.com/videos/how-the-press-lied-about-the-murder-of-ilya-zhitomirskiy/\" target=\"_blank\" class=\"text-green-600 hover:underline\">Read it here</a><br><br>On Oct, 20, 2011, Business Insider wrote: \"PayPal was blocking social networking startup Diaspora from accessing any of the donations in its PayPal account. No one seemed to know why – Diaspora indicated that it's happening \"arbitrarily.\" This happened on the heels of Diaspora reaching out to its users to ask for more donations on top of the $200,000+ already raised via Kickstarter. After lots of tweets and emails from Diaspora users, PayPal has unfrozen the account, reports Launch.is.\"<br><br>It is pretty evident that certain corporations saw him as a threat, and given no prior mental issues, the conspiracies surrounding his death are not surprising.<br><br>• <a href=\"https://en.wikipedia.org/wiki/Ilya_Zhitomirskiy\" target=\"_blank\" class=\"text-green-600 hover:underline\">Ilya Zhitomirskiy Wiki (General)</a>\n• <a href=\"https://github.com/zhitomirskiyi\" target=\"_blank\" class=\"text-green-600 hover:underline\">His GitHub</a>"
+          }
+        ],
+        "role": "Programmers, Mathematicians, and Activists",
+        "image": "../images/resources/people/binary.jpg"
+      },
+      {
+        "id": "philosophy",
+        "name": "Philosophers",
+        "items": [
+          {
+            "id": "botton",
+            "name": "Alain de Botton",
+            "image": "../images/resources/people/phil/alain.webp",
+            "description": "• <a href=\"https://www.alaindebotton.com/\" target=\"_blank\" class=\"text-green-600 hover:underline\">Alain de Botton's Personal Page</a><br><br>Personally, I am a big fan of Alain de Botton. Though he has faced a myriad of scrutiny in the philosophical world for his definition of the subject, as a simpleton myself (at least when it comes to philosophy), I thoroughly enjoy his literature and the topics his works lead me to ponder about.<br><br>In his book \"The Pleasures and Sorrows of Work\", Botton explores and documents careers some may deem \"mundane\" (if even acknowledged). Without displaying strong bias in his accounts, he writes about the joys and perils of the modern workplace, and the various occupations people around the world hold. He leads the reader through a day in the life of each profession he explores, giving insight into worlds I had never given much thought to.<br><br>What I appreciate about this book is that it made me question how things in my surroundings got to be there, such as a chair picked up from a second-hand store or a fish at the supermarket.<br><br>Some other works of his that I liked:<br><br><a href=\"https://www.alaindebotton.com/\" target=\"_blank\" class=\"text-green-600 hover:underline\">The Art of Travel</a><br><br><a href=\"https://www.alaindebotton.com/status/\" target=\"_blank\" class=\"text-green-600 hover:underline\">Status Anxiety</a><br><br>Funny picture I found of him with Harry Styles."
+          },
+          {
+            "id": "deleuze",
+            "name": "Gilles Deleuze",
+            "image": "../images/resources/people/phil/deluze.webp",
+            "description": "• <a href=\"https://iep.utm.edu/gilles-deleuze/\" target=\"_blank\" class=\"text-green-600 hover:underline\">Gilles Deleuze</a><br><br>I love mathematician philosophers teehee.<br><br>\"Deleuze conceived of philosophy as the production of concepts, and he characterized himself as a \"pure metaphysician.\" In his magnum opus Difference and Repetition, he tries to develop a metaphysics adequate to contemporary mathematics and science—a metaphysics in which the concept of multiplicity replaces that of substance, event replaces essence and virtuality replaces possibility.\""
+          },
+          {
+            "id": "fisher",
+            "name": "Mark Fisher",
+            "image": "../images/resources/people/phil/fisher.jpg",
+            "description": "• <a href=\"https://gasgiants.substack.com/p/ghosts-of-my-life-mark-fisher-2014\" target=\"_blank\" class=\"text-green-600 hover:underline\">Mark Fisher</a><br><br>May he rest in peace.<br><br>I sometimes wish I was more competent in literature and analysis, because though I enjoy reading him, I struggle with understanding and even sometimes comprehending what mark fisher has to say. His works on capitalism and politics would probably resonate with me, but I will have to come back to him at another time.<br><br>Some works that I want to come back to:<br><br><a href=\"https://www.opendemocracy.net/en/mark-fisher-ghosts-retromania/\" target=\"_blank\" class=\"text-green-600 hover:underline\">Ghosts of my Life</a><br><br><a href=\"https://lareviewofbooks.org/article/making-sense-of-the-weird-and-the-eerie/\" target=\"_blank\" class=\"text-green-600 hover:underline\">The Weird and the Eerie</a>\n(Links to: Making Sense of \"The Weird and the Eerie\")<br><br><a href=\"https://files.libcom.org/files/Capitalist%20Realism_%20Is%20There%20No%20Alternat%20-%20Mark%20Fisher.pdf\" target=\"_blank\" class=\"text-green-600 hover:underline\">Capitalist Realism</a>\n(Link to full pdf)"
+          },
+          {
+            "id": "hahn",
+            "name": "Thích Nhất Hạnh",
+            "image": "../images/resources/people/phil/hanh.webp",
+            "description": "• <a href=\"https://plumvillage.org/about/thich-nhat-hanh\" target=\"_blank\" class=\"text-green-600 hover:underline\">Thích Nhất Hạnh</a>"
+          },
+          {
+            "id": "heidegger",
+            "name": "Martin Heidegger",
+            "image": "../images/resources/people/phil/heidegger.png",
+            "description": "• <a href=\"https://plato.stanford.edu/entries/heidegger/\" target=\"_blank\" class=\"text-green-600 hover:underline\">Martin Heidegger</a>"
+          },
+          {
+            "id": "lacan",
+            "name": "Jacques Lacan",
+            "image": "../images/resources/people/phil/j-lacan.jpg",
+            "description": "• <a href=\"https://www.lacan.com/\" target=\"_blank\" class=\"text-green-600 hover:underline\">Jacques Lacan</a>"
+          },
+          {
+            "id": "land",
+            "name": "Nick Land",
+            "image": "../images/resources/people/phil/land.png",
+            "videos": "",
+            "description": "• <a href=\"https://cybertrophic.wordpress.com/2020/07/09/waves-spirals-lemurs-nick-land-on-time/\" target=\"_blank\" class=\"text-green-600 hover:underline\">Nick Land on Time (waves, spirals, lemurs)</a><br><br>• <a href=\"https://www.youtube.com/watch?v=TJISIwit0tk\" target=\"_blank\" class=\"text-green-600 hover:underline\">Nick Land: Accelerationism</a>\n• <a href=\"https://www.youtube.com/watch?v=W1qEhkr9k8c\" target=\"_blank\" class=\"text-green-600 hover:underline\">Nick Land: At Theory Underground</a>"
+          },
+          {
+            "id": "zizek",
+            "name": "Slavoj Zizek",
+            "image": "../images/resources/people/phil/zizek.jpg",
+            "videourl": "https://www.youtube.com/watch?v=oBcFLmu_tlc&rco=1&ab_channel=ThePhilosopherKing",
+            "description": "• <a href=\"https://www.versobooks.com/blogs/authors/zizek-slavoj\" target=\"_blank\" class=\"text-green-600 hover:underline\">Slavoj Zizek</a><br><br>I love him! He is funny.<br><br>• <a href=\"https://www.lacan.com/zizfamily.htm\" target=\"_blank\" class=\"text-green-600 hover:underline\">On Slavoj Zizek</a>\n• <a href=\"https://www.youtube.com/watch?v=oBcFLmu_tlc&rco=1&ab_channel=ThePhilosopherKing\" target=\"_blank\" class=\"text-green-600 hover:underline\">The Pervert's Guide to Ideology (2012)</a>\n• <a href=\"https://www.thepervertsguide.com/\" target=\"_blank\" class=\"text-green-600 hover:underline\">The Pervert's Guide to Cinema (2009)</a>"
+          }
+        ],
+        "role": "And Free Thinkers",
+        "image": "../images/resources/people/phil.png"
+      },
+      {
+        "id": "authors",
+        "name": "Authors",
+        "items": [
+          {
+            "id": "bataille",
+            "name": "Georges Bataille",
+            "description": "• <a href=\"https://www.britannica.com/biography/Georges-Bataille\" target=\"_blank\" class=\"text-green-600 hover:underline\">Georges Bataille</a>"
+          },
+          {
+            "id": "blanchot",
+            "name": "Maurice Blanchot",
+            "description": "• <a href=\"https://iep.utm.edu/maurice-blanchot/\" target=\"_blank\" class=\"text-green-600 hover:underline\">Maurice Blanchot</a>"
+          },
+          {
+            "id": "gladwell",
+            "name": "Malcom Gladwell",
+            "description": "• <a href=\"https://www.gladwellbooks.com/\" target=\"_blank\" class=\"text-green-600 hover:underline\">Malcom Gladwell</a>"
+          },
+          {
+            "id": "mishima",
+            "name": "Yukio Mishima",
+            "description": "• <a href=\"https://www.ndbooks.com/author/yukio-mishima/\" target=\"_blank\" class=\"text-green-600 hover:underline\">Yukio Mishima</a>"
+          },
+          {
+            "id": "moravia",
+            "name": "Alberto Moravia",
+            "description": "• <a href=\"https://alchetron.com/Alberto-Moravia\" target=\"_blank\" class=\"text-green-600 hover:underline\">Alberto Moravia</a>"
+          },
+          {
+            "id": "musil",
+            "name": "Robert Musil",
+            "description": "• <a href=\"https://www.britannica.com/biography/Robert-Musil\" target=\"_blank\" class=\"text-green-600 hover:underline\">Robert Musil</a>"
+          },
+          {
+            "id": "nabokov",
+            "name": "Vladimir Nabokov",
+            "description": "• <a href=\"https://www.britannica.com/biography/Vladimir-Nabokov\" target=\"_blank\" class=\"text-green-600 hover:underline\">Vladimir Nabokov</a>"
+          },
+          {
+            "id": "nin",
+            "name": "Anaïs Nin",
+            "description": "• <a href=\"https://anaisnin.org/\" target=\"_blank\" class=\"text-green-600 hover:underline\">Anaïs Nin</a>"
+          },
+          {
+            "id": "pasternak",
+            "name": "Boris Pasternak",
+            "description": "• <a href=\"https://www.britannica.com/biography/Boris-Pasternak\" target=\"_blank\" class=\"text-green-600 hover:underline\">Boris Pasternak</a>"
+          },
+          {
+            "id": "pelevin",
+            "name": "Victor Pelevin",
+            "description": "• <a href=\"https://www.ndbooks.com/author/victor-pelevin/\" target=\"_blank\" class=\"text-green-600 hover:underline\">Victor Pelevin</a>"
+          },
+          {
+            "id": "pirandello",
+            "name": "Luigi Pirandello",
+            "description": "• <a href=\"https://www.britannica.com/biography/Luigi-Pirandello\" target=\"_blank\" class=\"text-green-600 hover:underline\">Luigi Pirandello</a>"
+          },
+          {
+            "id": "platonov",
+            "name": "Andrei Platonov",
+            "full books": "",
+            "description": "• <a href=\"https://monoskop.org/Andrei_Platonov\" target=\"_blank\" class=\"text-green-600 hover:underline\">Andrei Platonov</a><br><br>\n<a href=\"https://archive.org/details/beyondmodernisme0000levi\" target=\"_blank\" class=\"text-green-600 hover:underline\">Beyond modernism: essays on art from the '70s and '80s</a>"
+          }
+        ],
+        "role": "",
+        "image": "../images/resources/people/lit.jpg"
+      },
+      {
+        "id": "artists",
+        "name": "Artists",
+        "items": [
+          {
+            "id": "angrand",
+            "name": "Charles Angrand",
+            "image": "../images/resources/people/art/angrand.jpg",
+            "description": "• <a href=\"https://www.artnet.com/artists/charles-angrand/\" target=\"_blank\" class=\"text-green-600 hover:underline\">Charles Angrand</a>"
+          },
+          {
+            "id": "bosch",
+            "name": "Hieronymus Bosch",
+            "image": "../images/resources/people/art/bosch.jpg",
+            "description": "• <a href=\"https://www.museodelprado.es/en/the-collection/artist/bosch-hieronymus/c9716e4a-4c24-44dd-ac65-44bc4661c8b5\" target=\"_blank\" class=\"text-green-600 hover:underline\">Hieronymus Bosch</a>"
+          },
+          {
+            "id": "brooker",
+            "name": "Bertram Brooker",
+            "image": "../images/resources/people/art/brooker.jpg",
+            "description": "• <a href=\"https://www.aci-iac.ca/art-books/bertram-brooker/biography/\" target=\"_blank\" class=\"text-green-600 hover:underline\">Bertram Brooker</a>"
+          },
+          {
+            "id": "bruegel",
+            "name": "Pieter Bruegel",
+            "image": "../images/resources/people/art/Bruegel.png",
+            "description": "• <a href=\"https://www.nga.gov/collection/artist-info.1031.html#works\" target=\"_blank\" class=\"text-green-600 hover:underline\">Pieter Bruegel</a>"
+          },
+          {
+            "id": "gagnon",
+            "name": "Charles Gagnon",
+            "image": "../images/resources/people/art/gagnon.jpg",
+            "description": "• <a href=\"https://charlesgagnonartist.com/artist\" target=\"_blank\" class=\"text-green-600 hover:underline\">Charles Gagnon</a>"
+          },
+          {
+            "id": "malevich",
+            "name": "Kazimir Malevich",
+            "image": "../images/resources/people/art/malevich.png",
+            "description": "• <a href=\"https://www.moodbook.com/art/malevich.html\" target=\"_blank\" class=\"text-green-600 hover:underline\">Kazimir Malevich</a>"
+          },
+          {
+            "id": "morandi",
+            "name": "Giorgio Morandi",
+            "image": "../images/resources/people/art/morandi.png",
+            "description": "• <a href=\"https://www.estorickcollection.com/the-collection/giorgio-morandi\" target=\"_blank\" class=\"text-green-600 hover:underline\">Giorgio Morandi</a>"
+          },
+          {
+            "id": "redon",
+            "name": "Odilon Redon",
+            "image": "../images/resources/people/art/redon.jpg",
+            "description": "• <a href=\"https://artvee.com/artist/odilon-redon/page/2/\" target=\"_blank\" class=\"text-green-600 hover:underline\">Odilon Redon</a>"
+          },
+          {
+            "id": "roerich",
+            "name": "Nicholas Roerich",
+            "image": "../images/resources/people/art/roerich.jpg",
+            "description": "• <a href=\"https://www.roerich.org/museum-paintings-slideshows.php\" target=\"_blank\" class=\"text-green-600 hover:underline\">Nicholas Roerich</a>"
+          },
+          {
+            "id": "utamaro",
+            "name": "Utamaro",
+            "image": "../images/resources/people/art/utamaro.png",
+            "description": "• <a href=\"https://www.newworldencyclopedia.org/entry/Utamaro\" target=\"_blank\" class=\"text-green-600 hover:underline\">Utamaro</a>"
+          },
+          {
+            "id": "yuki",
+            "name": "Kaori Yuki",
+            "image": "../images/resources/people/art/yuki.jpg",
+            "description": "• <a href=\"https://www.animenewsnetwork.com/encyclopedia/people.php?id=3143\" target=\"_blank\" class=\"text-green-600 hover:underline\">Kaori Yuki</a><br><br><a href=\"http://www.arthistoryarchive.com/arthistory/\" target=\"_blank\" class=\"text-green-600 hover:underline\">Art History Archive</a>"
+          }
+        ],
+        "role": "Fine Art and Illustrators",
+        "image": "../images/resources/people/art.jpg"
+      },
+      {
+        "id": "directors",
+        "name": "Directors",
+        "items": [
+          {
+            "id": "bunuel",
+            "name": "Luis Buñuel",
+            "image": "../images/resources/people/dir/banuel.jpg",
+            "description": "• <a href=\"https://www.luisbunuelfilminstitute.com/\" target=\"_blank\" class=\"text-green-600 hover:underline\">Luis Buñuel</a>"
+          },
+          {
+            "id": "barley",
+            "name": "Scott Barley",
+            "image": "../images/resources/people/dir/barley.jpg",
+            "description": "• <a href=\"https://scottbarley.com/\" target=\"_blank\" class=\"text-green-600 hover:underline\">Scott Barley</a>"
+          },
+          {
+            "id": "bergman",
+            "name": "Ingmar Bergman",
+            "image": "../images/resources/people/dir/bergman.jpg",
+            "description": "• <a href=\"https://www.ingmarbergman.se/en\" target=\"_blank\" class=\"text-green-600 hover:underline\">Ingmar Bergman</a>"
+          },
+          {
+            "id": "curtis",
+            "name": "Adam Curtis",
+            "image": "../images/resources/people/dir/curtis.jpg",
+            "description": "• <a href=\"https://thoughtmaybe.com/by/adam-curtis/\" target=\"_blank\" class=\"text-green-600 hover:underline\">Adam Curtis</a>\n• <a href=\"https://thoughtmaybe.com/by/adam-curtis/\" target=\"_blank\" class=\"text-green-600 hover:underline\">Adam Curtis Documentaries</a>"
+          },
+          {
+            "id": "kieslowski",
+            "name": "Krzysztof Kieślowski",
+            "image": "../images/resources/people/dir/kieslowski.jpg",
+            "description": "• <a href=\"https://thecinemaarchives.com/2019/05/22/the-42nd-best-director-of-all-time-krzysztof-kieslowski/\" target=\"_blank\" class=\"text-green-600 hover:underline\">Krzysztof Kieślowski</a>"
+          },
+          {
+            "id": "kurosawa",
+            "name": "Akira Kurosawa",
+            "image": "../images/resources/people/dir/kurasowa.jpg",
+            "description": "• <a href=\"https://akirakurosawa.info/\" target=\"_blank\" class=\"text-green-600 hover:underline\">Akira Kurosawa</a>"
+          },
+          {
+            "id": "rybczynski",
+            "name": "Zbigniew Rybczyński",
+            "image": "../images/resources/people/dir/zbi.jpg",
+            "description": "• <a href=\"https://cybertrophic.wordpress.com/2020/07/09/waves-spirals-lemurs-nick-land-on-time/\" target=\"_blank\" class=\"text-green-600 hover:underline\">Zbigniew Rybczyński</a><br><br>• <a href=\"https://www.youtube.com/watch?v=z27z7oLQb3o\" target=\"_blank\" class=\"text-green-600 hover:underline\">Tango</a>\n• <a href=\"https://www.youtube.com/watch?v=ihqdvT-iaC0\" target=\"_blank\" class=\"text-green-600 hover:underline\">The Orchestra</a>\n• <a href=\"https://www.youtube.com/watch?v=jhQftemBkF8\" target=\"_blank\" class=\"text-green-600 hover:underline\">Steps</a>"
+          }
+        ],
+        "role": "And Filmmakers",
+        "image": "../images/resources/people/film.jpg"
+      },
+      {
+        "id": "musicians",
+        "name": "Musicians",
+        "items": [
+          {
+            "id": "anderson",
+            "name": "Laurie Anderson",
+            "image": "../images/resources/people/music/anderson.png",
+            "description": "• <a href=\"https://laurieanderson.com/\" target=\"_blank\" class=\"text-green-600 hover:underline\">Laurie Anderson</a>"
+          },
+          {
+            "id": "basinski",
+            "name": "William Basinski",
+            "image": "../images/resources/people/music/basinski.jpg",
+            "description": "• <a href=\"https://www.mmlxii.com/\" target=\"_blank\" class=\"text-green-600 hover:underline\">William Basinski</a>"
+          },
+          {
+            "id": "fennesz",
+            "name": "Fennesz",
+            "image": "../images/resources/people/music/fennesz.jpg",
+            "description": "• <a href=\"https://www.fennesz.com/\" target=\"_blank\" class=\"text-green-600 hover:underline\">Fennesz</a><br><br>• <a href=\"https://www.fennesz.com/\" target=\"_blank\" class=\"text-green-600 hover:underline\">Personal Page</a>\n• <a href=\"https://fenneszreleases.bandcamp.com/\" target=\"_blank\" class=\"text-green-600 hover:underline\">Bandcamp</a>\n• <a href=\"https://www.youtube.com/watch?v=skygudx8Rrs\" target=\"_blank\" class=\"text-green-600 hover:underline\">Endless Summer (full Album)</a>"
+          },
+          {
+            "id": "mizer",
+            "name": "Malice Mizer",
+            "image": "../images/resources/people/music/mizer.jpg",
+            "description": "• <a href=\"https://vk.gy/artists/malice-mizer/\" target=\"_blank\" class=\"text-green-600 hover:underline\">Malice Mizer</a>"
+          },
+          {
+            "id": "momus",
+            "name": "Momus",
+            "image": "../images/resources/people/music/momus.jpg",
+            "description": "• <a href=\"https://momus.ca/\" target=\"_blank\" class=\"text-green-600 hover:underline\">Momus</a><br><br>• <a href=\"https://www.youtube.com/channel/UCwH79Z9-WQe2jwaHCK_Cgpg\" target=\"_blank\" class=\"text-green-600 hover:underline\">momusu channel</a>"
+          },
+          {
+            "id": "monk",
+            "name": "Meredith Monk",
+            "image": "../images/resources/people/music/monk.jpg",
+            "description": "• <a href=\"https://www.meredithmonk.org/\" target=\"_blank\" class=\"text-green-600 hover:underline\">Meredith Monk</a>"
+          },
+          {
+            "id": "nomi",
+            "name": "Klaus Nomi",
+            "image": "../images/resources/people/music/nomi.jpg",
+            "description": "• <a href=\"https://zabakdaz.com/\" target=\"_blank\" class=\"text-green-600 hover:underline\">Klaus Nomi</a>"
+          },
+          {
+            "id": "sakamoto",
+            "name": "Ryuichi Sakamoto",
+            "image": "../images/resources/people/music/sakamoto.jpg",
+            "description": "• <a href=\"https://www.sitesakamoto.com/\" target=\"_blank\" class=\"text-green-600 hover:underline\">Ryuichi Sakamoto</a>"
+          }
+        ],
+        "role": "And Composers",
+        "image": "../images/resources/people/music.jpg"
+      }
+    ]
+  },
+  "videogames": {
+    "title": "VIDEO GAMES",
+    "id": "games",
+    "image": "",
+    "items": [
+      {
+        "id": "gitaroo",
+        "name": "Gitaroo Man",
+        "items": [],
+        "category": "PS2",
+        "image": "../images/resources/videogames/gitaroo.jpg"
+      },
+      {
+        "id": "persona",
+        "name": "Persona 4",
+        "items": [],
+        "category": "PS2",
+        "image": "../images/resources/videogames/persona4.png"
+      },
+      {
+        "id": "ico",
+        "name": "ICO",
+        "items": [],
+        "category": "PS2",
+        "image": "../images/resources/videogames/ico.png"
+      },
+      {
+        "id": "max",
+        "name": "Max Payne",
+        "items": [],
+        "category": "PS2",
+        "image": "../images/resources/videogames/maxpayne.jpg"
+      },
+      {
+        "id": "headhunter",
+        "name": "Headhunter",
+        "items": [],
+        "category": "PS2",
+        "image": "../images/resources/videogames/headhunter.jpg"
+      },
+      {
+        "id": "hitman2",
+        "name": "Hitman 2",
+        "items": [],
+        "category": "PS2",
+        "image": "../images/resources/videogames/hitman2.jpg"
+      },
+      {
+        "id": "jak",
+        "name": "Jak 2",
+        "items": [],
+        "category": "PS2",
+        "image": "../images/resources/videogames/jak.png"
+      },
+      {
+        "id": "midnight",
+        "name": "Midnight Club",
+        "items": [],
+        "category": "PS2",
+        "image": "../images/resources/videogames/midnight.png"
+      },
+      {
+        "id": "astro",
+        "name": "Astro Boy",
+        "items": [],
+        "category": "PS2",
+        "image": "../images/resources/videogames/astro.png"
+      },
+      {
+        "id": "silent",
+        "name": "Silent Hill Origins",
+        "items": [],
+        "category": "PSP",
+        "image": "../images/resources/videogames/silent.png"
+      },
+      {
+        "id": "spore",
+        "name": "Spore",
+        "items": [],
+        "category": "PS2",
+        "image": "../images/resources/videogames/Sporebox.jpg"
+      },
+      {
+        "id": "xy",
+        "name": "Pokemon X/Y",
+        "items": [],
+        "category": "3DS",
+        "image": "../images/resources/videogames/xy.jpg"
+      },
+      {
+        "id": "alpha",
+        "name": "Pokemon Alpha/Omega",
+        "items": [],
+        "category": "3DS",
+        "image": "../images/resources/videogames/alpha.jpg"
+      },
+      {
+        "id": "sword",
+        "name": "Pokemon Sword/Shield",
+        "items": [],
+        "category": "Nintendo Switch",
+        "image": "../images/resources/videogames/sword.jpg"
+      }
+    ]
+  },
+  "videos": {
+    "title": "VIDEOS",
+    "id": "videos",
+    "image": "",
+    "items": [
+      {
+        "id": "FunnyVid",
+        "name": "Funny Videos",
+        "items": [
+          {
+            "id": "cat",
+            "name": "Cat Duet!!",
+            "category": "Funny Video",
+            "description": "",
+            "videourl": "https://www.youtube.com/watch?v=FJDtCw0MTNU&list=LL&index=35&pp=gAQBiAQB",
+            "image": "../images/resources/videos/cat_duet.png"
+          },
+          {
+            "id": "serge",
+            "name": "Le jardin secret de Sébastien - Serge Gainsbourg",
+            "category": "For Serge Gainsbourg",
+            "description": "",
+            "videourl": "https://www.youtube.com/watch?v=b57u85FVQts",
+            "image": "../images/resources/videos/serge.webp"
+          },
+          {
+            "id": "racoon",
+            "name": "Raccoon eats cotton candy in the end!",
+            "category": "Cute Video",
+            "description": "",
+            "videourl": "https://youtu.be/eesxH2-8Jlo?si=od5yzx7O7BWKaFEi",
+            "image": "../images/resources/videos/racoon.png"
+          }
+        ]
+      },
+      {
+        "id": "CoolVid",
+        "name": "Cool Videos",
+        "items": [
+          {
+            "id": "cloth",
+            "name": "Realtime Cloth Simulation",
+            "category": "Cool Coding Project",
+            "videourl": "https://www.youtube.com/watch?v=KpJzoFzDDMw&list=LL&index=239&pp=gAQBiAQB",
+            "image": "../images/resources/videos/cloth.jpg",
+            "description": ""
+          },
+          {
+            "id": "wannacry",
+            "name": "WANNACRY: Earth's Deadliest [Computer] Viruses",
+            "category": "Video Essay",
+            "videourl": "https://www.youtube.com/watch?v=I5Wxh-rCzrY&list=LL&index=238&pp=gAQBiAQB",
+            "image": "../images/resources/videos/wannacry.jpg",
+            "description": ""
+          },
+          {
+            "id": "linux",
+            "name": "The Code: Story of Linux Documentary",
+            "category": "Documentary",
+            "videourl": "https://www.youtube.com/watch?v=XMm0HsmOTFI&list=LL&index=72&pp=gAQBiAQB",
+            "image": "../images/resources/videos/linux.jpg",
+            "description": ""
+          },
+          {
+            "id": "fluid",
+            "name": "Levitating Magnetic Fluid",
+            "category": "Cool Video",
+            "videourl": "https://www.youtube.com/watch?v=bYGQu-LHSNE&list=LL&index=443&t=100s&pp=gAQBiAQB",
+            "image": "../images/resources/videos/fluid.jpg",
+            "description": ""
+          },
+          {
+            "id": "lanark",
+            "name": "Voices Near the Hypocentre",
+            "category": "Cool Video",
+            "description": "",
+            "videourl": "https://www.youtube.com/watch?v=nIYTAQJQjUk&t=1s",
+            "image": "../images/resources/videos/lanark.jpg"
+          }
+        ]
+      },
+      {
+        "id": "TutorialVid",
+        "name": "Tutorial Videos",
+        "items": [
+          {
+            "id": "cmusic",
+            "name": "Music With C",
+            "category": "Tutorial",
+            "description": "",
+            "videourl": "https://youtu.be/8r8wsvHUbCo?si=DmeV-vK9WJSRP7yh",
+            "image": "../images/resources/videos/cmusic.jpg"
+          }
+        ]
+      },
+      {
+        "id": "musicVid",
+        "name": "Music Videos",
+        "items": [
+          {
+            "id": "sugarwater",
+            "name": "Cibo Matto - Sugar Water",
+            "category": "Music Video",
+            "description": "",
+            "videourl": "https://www.youtube.com/watch?v=EN9auBn6Jys&list=LL&index=392&pp=gAQBiAQB",
+            "image": "../images/resources/videos/sugar.jpg"
+          },
+          {
+            "id": "lear",
+            "name": "Amanda Lear - Enigma",
+            "category": "Music Video",
+            "videourl": "https://www.youtube.com/watch?v=wXoWV2DXKYI&list=LL&index=36&pp=gAQBiAQB",
+            "image": "../images/resources/videos/lear.jpg",
+            "description": ""
+          },
+          {
+            "id": "noise",
+            "name": "Art of Noise - Close (To The Edit)",
+            "category": "Music Video",
+            "videourl": "https://www.youtube.com/watch?v=2_HXUhShhmY&list=LL&index=451&pp=gAQBiAQB",
+            "image": "../images/resources/videos/noise.jpg",
+            "description": ""
+          },
+          {
+            "id": "grace",
+            "name": "Grace Jones",
+            "category": "Music Video",
+            "description": "",
+            "videourl": "https://www.youtube.com/watch?v=nIN3IE3DHqc&list=LL&index=432&pp=gAQBiAQB",
+            "image": "../images/resources/videos/grace.jpg"
+          },
+          {
+            "id": "papooz",
+            "name": "Papooz - You and I",
+            "category": "Music Video",
+            "description": "",
+            "videourl": "https://www.youtube.com/watch?v=bS26bkXcLhU&list=LL&index=409&pp=gAQBiAQB",
+            "image": "../images/resources/videos/papooz.jpg"
+          },
+          {
+            "id": "elegance",
+            "name": "Her Morning Elegance",
+            "category": "Music Video",
+            "videourl": "https://www.youtube.com/watch?v=-sFK0-lcjGU&list=LL&index=21&pp=gAQBiAQB",
+            "image": "../images/resources/videos/elegance.jpg",
+            "description": ""
+          },
+          {
+            "id": "buffalo",
+            "name": "Christina Ricci - Buffalo '66",
+            "category": "King Krimson's Moonchild in Buffalo '66",
+            "description": "",
+            "videourl": "https://www.youtube.com/watch?v=8prwvXX-ajM&list=LL&index=393&pp=gAQBiAQB",
+            "image": "../images/resources/videos/buffalo.jpg"
+          },
+          {
+            "id": "foux",
+            "name": "Foux Du FaFa",
+            "category": "Music Video",
+            "description": "Flight of the Concords",
+            "videourl": "https://www.youtube.com/watch?v=EuXdhow3uqQ&list=LL&index=406&pp=gAQBiAQB",
+            "image": "../images/resources/videos/foux.jpg"
+          }
+        ]
+      }
+    ]
+  }
+}

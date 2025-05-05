@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>High-Performance Computing Crash Course</title>
+    <link rel="icon" href="/images/icons/star.png" />
+    <link rel="stylesheet" href="../../styles/lessons.css">
+    <link href="https://fonts.googleapis.com/css2?family=Source+Serif+Pro:wght@400;600&family=Space+Mono&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --main: #d3530c;
+            --light: rgba(230, 81, 0, 0.4);
+            --lighter:  rgba(230, 81, 0, 0.1);
+            --border: rgba(188, 35, 35);
+            --border2: rgba(188, 30, 30, 0.5);
+            --med: #E65100;
+            --dark: #881010;
+            --img: #802222;
+        }
+
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Serif+Pro:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+<!-- Header -->
+<header>
+    <h1 class="pixel-title">HIGH-PERFORMANCE COMPUTING</h1>
+    <p class="subtitle">AKA: HPC <br> Fundamentals of HPC systems and parallel execution.</p>
+</header>
+
+
+<!-- Dotted line divider -->
+<hr class="divider">
+
+<div id="intro" class="topic">
+    <h2>Introduction to HPC</h2>
+    <p>High-Performance Computing (HPC) refers to the practice of aggregating computing power to deliver much higher performance than a typical desktop computer or workstation to solve large problems in science, engineering, or business.</p>
+
+    <div class="text-content">
+        <div class="text">
+        <h3>Why HPC Matters</h3>
+        <p>HPC is beneficial for:</p><br>
+        <ul>
+            <li>Scientific simulations (weather forecasting, molecular modeling)</li>
+            <li>Engineering design and analysis</li>
+            <li>Big data processing and analytics</li>
+            <li>Artificial intelligence and machine learning training</li>
+            <li>Financial modeling and risk analysis</li>
+        </ul>
+        </div>
+        <div class="illustration">
+            <svg width="400" height="250" class="svg-illustration">
+                <!-- Performance Comparison -->
+                <rect x="50" y="50" width="300" height="150" fill="none" stroke="#E65100" />
+
+                <!-- Axes -->
+                <line x1="50" y1="200" x2="350" y2="200" stroke="#E65100" stroke-width="1.5"/>
+                <line x1="50" y1="200" x2="50" y2="50" stroke="#E65100" stroke-width="1.5"/>
+
+                <!-- X-axis and Y-axis labels -->
+                <text x="200" y="220" font-family="monospace" fill="#E65100" font-size="10" text-anchor="middle">COMPUTING RESOURCES</text>
+                <text x="30" y="125" font-family="monospace" fill="#E65100" font-size="10" text-anchor="middle" transform="rotate(-90, 30, 125)">PERFORMANCE</text>
+
+                <!-- Traditional Computing Line -->
+                <path d="M 50 190 L 350 150" stroke="#E65100" stroke-width="2" stroke-dasharray="4,2"/>
+                <text x="360" y="150" font-family="monospace" fill="#E65100" font-size="8">TRADITIONAL</text>
+
+                <!-- HPC Line -->
+                <path d="M 50 190 C 150 170, 250 120, 350 70" stroke="#E65100" stroke-width="2"/>
+                <text x="360" y="70" font-family="monospace" fill="#E65100" font-size="8">HPC</text>
+
+                <!-- Title -->
+                <text x="200" y="35" font-family="monospace" fill="#E65100" font-size="12" text-anchor="middle" font-weight="bold">HPC PERFORMANCE SCALING</text>
+            </svg>
+        </div>
+    </div>
+</div>
+
+
+<!-- Table of Contents -->
+<div class="toc-container">
+    <h2 class="toc-title">Jump to Topic</h2>
+    <ul class="toc-list">
+        <li class="toc-item"><a href="#intro" class="toc-link">Introduction to HPC</a></li>
+        <li class="toc-item"><a href="#hpc-background" class="toc-link">HPC Background</a></li>
+        <li class="toc-item"><a href="#parallelism" class="toc-link">Parallelism</a></li>
+        <li class="toc-item"><a href="#concurrency" class="toc-link">Concurrency</a></li>
+        <li class="toc-item"><a href="#scaling" class="toc-link">Scaling & Speedup</a></li>
+        <li class="toc-item"><a href="#architectures" class="toc-link">Parallel Architectures</a></li>
+        <li class="toc-item"><a href="#memory-models" class="toc-link">Memory</a></li>
+        <li class="toc-item"><a href="#low-precision" class="toc-link">Low-Precision Arithmetic</a></li>
+        <li class="toc-item"><a href="#performance" class="toc-link">Performance</a></li>
+        <li class="toc-item"><a href="#optimizations" class="toc-link">Optimization Techniques</a></li>
+        <li class="toc-item"><a href="#load-balancing" class="toc-link">Load Balancing</a></li>
+        <li class="toc-item"><a href="#comm-protocols" class="toc-link">Communication Protocols</a></li>
+
+    </ul>
+</div>
+
+<!-- Background -->
+<section class="content">
+    <div class="margin-ref margin-ref-left">HPC.001</div>
+    <div class="section-content">
+        <div id="hpc-background" class="topic">
+        <h2>HPC Background</h2>
+
+        <h3>What is HPC?</h3>
+        <p>HPC is a technology that uses clusters of powerful processors that work in parallel to process massive, multidimensional data sets and solve complex problems at extremely high speeds.</p>
+
+        <h3>Standard Computing vs. Parallel Computing</h3>
+        <div style="margin-left: 40px">
+            <h3 style="font-size: 16px; color: var(--dark)">Standard Computing System:</h3>
+                <ul>
+                    <li>Solves problems (primarily) by using <em>serial</em> computing</li>
+                    <li>Divides the workload into a sequence of tasks</li>
+                    <li>Runs the tasks one after the other on the same processor</li>
+                    <li>Requires systems to use only one processor</li>
+                </ul>
+            <h3 style="font-size: 16px; color: var(--dark)">Parallel Computing:</h3>
+                <ul>
+                    <li>Runs multiple tasks simultaneously on numerous computer servers or processors</li>
+                    <li>Large compute problems are broken down into smaller problems that can be solved by multiple processors</li>
+                </ul>
+        </div>
+        <h3>HPC Clusters</h3>
+        <p>Computer Clusters (HPC Clusters) consist of multiple high-speed computer servers (nodes) networked with a centralized scheduler that manages the parallel computing workload.</p>
+
+        <h3>High Performance Components</h3>
+        <p>All computing resources in an HPC Cluster are high speed and high throughput:</p>
+        <ul>
+            <li>Networking</li>
+            <li>Memory</li>
+            <li>Storage</li>
+            <li>File systems</li>
+        </ul>
+    </div>
+    </div>
+    <div class="margin-ref margin-ref-right">[ HPC Background ]</div>
+</section>
+
+<section class="content">
+    <div class="margin-ref margin-ref-left">HPC.002</div>
+    <div class="section-content">
+    <div id="parallelism" class="topic">
+        <h2>Parallelism</h2>
+
+        <h3>Purpose of Parallelism</h3>
+        <ul>
+            <li><strong>Cost Reduction:</strong> Serial computing uses a single processor, which takes incredibly long for complex problems</li>
+            <li><strong>Complex Problem Solving:</strong> Systems need to perform thousands to millions of tasks in an instant. Many bottlenecks if performed sequentially</li>
+            <li><strong>Increased Efficiency:</strong> Resources can be used efficiently. Multiple tasks can be performed concurrently</li>
+        </ul>
+
+        <h3>Types of Parallel Computing</h3>
+        <ol>
+            <li><strong>Bit-Level Parallelism:</strong> Processor word size is increased and number of instructions the processor must run to solve the problem decreased</li>
+            <li><strong>Instruction-level Parallelism:</strong> Processor chooses which instructions it will run. Processors are built to perform certain operations simultaneously to improve resource optimization and increase throughput</li>
+            <li><strong>Task Parallelism:</strong> Parallelized code across several processors simultaneously running tasks on the same data. Reduces serial time by running tasks concurrently</li>
+            <li><strong>Superword-level Parallelism:</strong> Vectorized tactic that is used on inline code. Completes multiple similar tasks at once, saving time and resources</li>
+        </ol>
+
+        <div class="illustration">
+            <svg width="400" height="300" class="svg-illustration">
+                <!-- Sequential vs Parallel Execution -->
+                <!-- Sequential Execution -->
+                <rect x="50" y="50" width="300" height="30" rx="5" class="svg-fill-light" stroke="#E65100" />
+                <rect x="60" y="60" width="70" height="10" fill="#E65100" />
+                <rect x="140" y="60" width="70" height="10" fill="#E65100" />
+                <rect x="220" y="60" width="70" height="10" fill="#E65100" />
+                <text x="50" y="40" class="component-label">SEQUENTIAL EXECUTION</text>
+                <text x="60" y="80" font-family="monospace" fill="#E65100" font-size="8">TASK A</text>
+                <text x="140" y="80" font-family="monospace" fill="#E65100" font-size="8">TASK B</text>
+                <text x="220" y="80" font-family="monospace" fill="#E65100" font-size="8">TASK C</text>
+
+                <!-- Arrows connecting sequential -->
+                <line x1="130" y1="65" x2="140" y2="65" stroke="#E65100" stroke-width="1"/>
+                <polygon points="140,62 145,65 140,68" fill="#E65100"/>
+
+                <line x1="210" y1="65" x2="220" y2="65" stroke="#E65100" stroke-width="1"/>
+                <polygon points="220,62 225,65 220,68" fill="#E65100"/>
+
+                <!-- Parallel Execution -->
+                <rect x="50" y="150" width="300" height="90" rx="5" class="svg-fill-light" stroke="#E65100" />
+                <rect x="60" y="160" width="280" height="10" fill="#E65100" />
+                <rect x="60" y="180" width="180" height="10" fill="#E65100" />
+                <rect x="60" y="200" width="230" height="10" fill="#E65100" />
+                <rect x="60" y="220" width="120" height="10" fill="#E65100" />
+                <text x="50" y="140" class="component-label">PARALLEL EXECUTION</text>
+                <text x="350" y="165" font-family="monospace" fill="#E65100" font-size="8">CORE 1</text>
+                <text x="350" y="185" font-family="monospace" fill="#E65100" font-size="8">CORE 2</text>
+                <text x="350" y="205" font-family="monospace" fill="#E65100" font-size="8">CORE 3</text>
+                <text x="350" y="225" font-family="monospace" fill="#E65100" font-size="8">CORE 4</text>
+
+                <!-- Synchronization point -->
+                <line x1="250" y1="150" x2="250" y2="240" stroke="#E65100" stroke-width="1" stroke-dasharray="4,2"/>
+                <text x="255" y="250" font-family="monospace" fill="#E65100" font-size="8">SYNC POINT</text>
+            </svg>
+        </div>
+    </div>
+
+    <div id="concurrency" class="topic">
+        <h2>Concurrency</h2>
+
+        <h3>Understanding Concurrency</h3>
+        <p>Concurrency refers to managing multiple tasks and is about dealing with multiple things at once. This is distinct from parallelism, which is about doing multiple things at once.</p>
+
+        <p>Multiple computations are happening at the same time across:</p>
+        <ul>
+            <li>Multiple computers on a network</li>
+            <li>Multiple applications running on one computer</li>
+            <li>Multiple processors in a computer (or on one chip)</li>
+        </ul>
+
+        <h3>Multiprocessing</h3>
+        <ul>
+            <li>Want illusion of having CPU for each processor</li>
+            <li>In reality, we have multiprocessing with executions interleaved</li>
+            <li><strong>Multicore processors:</strong>
+                <ul>
+                    <li>Multiple CPUs on a single chip</li>
+                    <li>Share main memory and some of the caches</li>
+                    <li>Each can execute a separate process</li>
+                    <li>Scheduling of processes done by kernel</li>
+                </ul>
+            </li>
+            <li><strong>Concurrent Process:</strong> Flows overlap in time. Sequential otherwise.</li>
+        </ul>
+    </div>
+
+    <div id="scaling" class="topic">
+        <h2>Scaling & Speedup</h2>
+
+        <h3>Scalability</h3>
+        <p>Scalability refers to the ability to handle increased workload by adding resources.</p>
+
+        <h3>Types of Scaling</h3>
+        <ul>
+            <li><strong>Strong Scaling:</strong> Fixed global problem size with increasing processors (number of cores)
+                <ul>
+                    <li>Fix global problem size</li>
+                    <li>Increase n (core count)</li>
+                </ul>
+            </li>
+            <li><strong>Weak Scaling:</strong> Increase problem size with processors (easier to accomplish)
+                <ul>
+                    <li>Increase computational work proportional to the number of cores</li>
+                    <li>As you increase the number of cores, the amount of work each core does stays roughly consistent</li>
+                </ul>
+            </li>
+        </ul>
+
+        <h3>Parallel Speedup</h3>
+        <p>Performance improvement from parallel execution is measured as:</p>
+        <pre>
+            <code>
+    S(n) = T1/Tn
+
+    Where:
+    - S: The number of processors you can execute on, or number of cores
+    - T1: execution time on one processor
+    - Tn: execution time on n processors
+            </code></pre>
+
+        <p>"Perfect Scaling" occurs when S(n) = n</p>
+
+        <h3>Parallel Efficiency</h3>
+        <pre>
+
+    <code>E(n) = S(n)/n
+
+    - E=1 is "Perfect Scaling"
+    - Runs from 0 to 1</code>
+        </pre>
+
+        <h3>Amdahl's Law</h3>
+        <p>Theoretical Speedup Limits on multiple processors:</p>
+        <pre>
+
+    <code>Speedup = 1 / ((1 - p) + p/n)
+
+    Where:
+    p = portion of the program that can be parallelized
+    n = number of processors
+    1 - p = portion that cannot be parallelized</code>
+    </pre>
+
+        <p>"The overall performance improvement gained by optimizing a single part of a system is limited by the fraction of time that the improved part is actually used"</p>
+
+        <div class="illustration">
+            <svg width="400" height="300" class="svg-illustration">
+                <!-- Amdahl's Law visualization -->
+                <rect x="50" y="50" width="300" height="200" fill="none" stroke="#E65100" />
+
+                <!-- Axes -->
+                <line x1="50" y1="250" x2="350" y2="250" stroke="#E65100" stroke-width="1.5"/>
+                <line x1="50" y1="250" x2="50" y2="50" stroke="#E65100" stroke-width="1.5"/>
+
+                <!-- X-axis labels -->
+                <text x="50" y="270" font-family="monospace" fill="#E65100" font-size="10" text-anchor="middle">1</text>
+                <text x="125" y="270" font-family="monospace" fill="#E65100" font-size="10" text-anchor="middle">4</text>
+                <text x="200" y="270" font-family="monospace" fill="#E65100" font-size="10" text-anchor="middle">16</text>
+                <text x="275" y="270" font-family="monospace" fill="#E65100" font-size="10" text-anchor="middle">64</text>
+                <text x="350" y="270" font-family="monospace" fill="#E65100" font-size="10" text-anchor="middle">∞</text>
+                <text x="200" y="290" font-family="monospace" fill="#E65100" font-size="10" text-anchor="middle">NUMBER OF PROCESSORS</text>
+
+                <!-- Y-axis labels -->
+                <text x="40" y="250" font-family="monospace" fill="#E65100" font-size="10" text-anchor="end">1x</text>
+                <text x="40" y="200" font-family="monospace" fill="#E65100" font-size="10" text-anchor="end">2x</text>
+                <text x="40" y="150" font-family="monospace" fill="#E65100" font-size="10" text-anchor="end">5x</text>
+                <text x="40" y="100" font-family="monospace" fill="#E65100" font-size="10" text-anchor="end">10x</text>
+                <text x="40" y="50" font-family="monospace" fill="#E65100" font-size="10" text-anchor="end">20x</text>
+                <text x="30" y="150" font-family="monospace" fill="#E65100" font-size="10" text-anchor="middle" transform="rotate(-90, 30, 150)">SPEEDUP</text>
+
+                <!-- Curves for different parallelization percentages -->
+                <!-- 95% parallel -->
+                <path d="M 50 250 C 125 100, 275 70, 350 65" fill="none" stroke="#E65100" stroke-width="2"/>
+                <text x="355" y="65" font-family="monospace" fill="#E65100" font-size="8">95% PARALLEL</text>
+
+                <!-- 90% parallel -->
+                <path d="M 50 250 C 125 150, 275 120, 350 110" fill="none" stroke="#E65100" stroke-width="2" stroke-dasharray="4,2"/>
+                <text x="355" y="110" font-family="monospace" fill="#E65100" font-size="8">90% PARALLEL</text>
+
+                <!-- 75% parallel -->
+                <path d="M 50 250 C 125 200, 275 180, 350 170" fill="none" stroke="#E65100" stroke-width="2" stroke-dasharray="1,1"/>
+                <text x="355" y="170" font-family="monospace" fill="#E65100" font-size="8">75% PARALLEL</text>
+
+                <!-- 50% parallel -->
+                <path d="M 50 250 C 125 225, 275 215, 350 210" fill="none" stroke="#E65100" stroke-width="2" stroke-dasharray="8,2"/>
+                <text x="355" y="210" font-family="monospace" fill="#E65100" font-size="8">50% PARALLEL</text>
+
+                <!-- Title -->
+                <text x="200" y="35" font-family="monospace" fill="#E65100" font-size="12" text-anchor="middle" font-weight="bold">AMDAHL'S LAW</text>
+            </svg>
+        </div>
+    </div>
+
+    <div id="architectures" class="topic">
+        <h2>Parallel Architectures</h2>
+
+        <h3>Parallel Computing Architectures</h3>
+        <ul>
+            <li><strong>Shared Memory:</strong> Computers rely on multiple processors to contact the same shared memory resource</li>
+            <li><strong>Distributed Memory:</strong> Multiple processors with their own memory resources are linked over a network</li>
+            <li><strong>Hybrid Memory:</strong> Combines shared memory computers on distributed memory networks. Connected CPUs can access shared memory and tasks assigned to other units on the same network</li>
+        </ul>
+
+        <h3>Multicore CPUs</h3>
+        <p>Every core owns all of the data (visible to all cores), which allows for updating and viewing data in parallel.</p>
+        <ul>
+            <li>Core synchronization is important for proper usage</li>
+            <li>Message-passing platform (shared): core asks other cores for data it doesn't own</li>
+            <li>Processors don't work in isolation, they have a memory hierarchy. Data has to be moved to the processor to perform operations</li>
+            <li>In Parallel: Cache coherency is important. Synchronization between caches and main memory is required</li>
+        </ul>
+    </div>
+    </div>
+    <div class="margin-ref margin-ref-right">[ HPC Topics ]</div>
+</section>
+<!-- Background -->
+<section class="content">
+    <div class="margin-ref margin-ref-left">HPC.003</div>
+    <div class="section-content">
+    <div id="memory-models" class="topic">
+        <h2>Memory Models</h2>
+
+        <h3>UMA and NUMA</h3>
+        <ul>
+            <li><strong>Uniform Memory Access (UMA):</strong> Each core (CPU's in graphic) can read and write to entire memory space but they do so with roughly similar latency</li>
+            <li><strong>Non-Uniform Memory Access (NUMA):</strong> Memory access time depends on memory location relative to processor. Affinities between groups of CPU's and a certain subset of the memory</li>
+        </ul>
+        <p>Both architectures are used in symmetric multiprocessing (SMP) systems - multiple processors share a common memory pool.</p>
+
+        <h3>Shared vs. Distributed Memory</h3>
+        <ul>
+            <li><strong>Shared Memory:</strong> Multiple processors access the same memory space
+                <ul>
+                    <li>All memory is visible to all cores (threading)</li>
+                    <li>Uniform Memory Access: SMP-symmetric multiprocessors</li>
+                    <li>Non-Uniform Memory Access</li>
+                </ul>
+            </li>
+            <li><strong>Distributed Memory:</strong> Each processor has its own private memory
+                <ul>
+                    <li>Every core only sees its subpiece of memory (no OpenMP)</li>
+                    <li>Processors need to know boundary information from neighboring processors</li>
+                    <li>Can be done through message passing. MPI is most commonly used</li>
+                    <li>Interior Process vs. Boundary Process</li>
+                </ul>
+            </li>
+        </ul>
+
+        <h3>RDMA Networking</h3>
+        <p>Remote Direct Memory Access (RDMA) enables one networked computer to access another networked computer's memory without involving either computer's operating system or interrupting either computer's processing.</p>
+        <ul>
+            <li>Helps minimize latency and maximize throughput</li>
+            <li>Reduces memory bandwidth bottlenecks</li>
+            <li>Emerging high-performance RDMA fabrics—including InfiniBand, virtual interface architecture and RDMA over converged Ethernet—make cloud-based HPC possible</li>
+        </ul>
+    </div>
+
+    <div id="memory-hierarchy" class="topic">
+        <h2>Memory Hierarchy</h2>
+
+        <h3>Why Memory Hierarchy Matters</h3>
+        <p>Memory is organized to minimize access time by optimizing the available memory in the computer. This organization follows the principle of locality of references: same data or nearby data is likely to be accessed repeatedly.</p>
+
+        <h3>Memory Types and Organization</h3>
+        <p>Each level in the hierarchy has its own size, cost, and performance characteristics:</p>
+        <ol>
+            <li><strong>Registers:</strong> Smallest, fastest memory units directly in the CPU (16-64 bits)</li>
+            <li><strong>Cache Memory (L1, L2, L3):</strong> Small, fast memory close to the CPU for frequently accessed data
+                <ul>
+                    <li>L1 Cache: Accessed in one cycle, very small but extremely fast</li>
+                    <li>L2 Cache: Larger but slightly slower</li>
+                    <li>L3 Cache: Shared among cores, larger and slower than L1/L2</li>
+                </ul>
+            </li>
+            <li><strong>Main Memory (RAM):</strong> Primary memory with larger capacity but slower access
+                <ul>
+                    <li>Static RAM (SRAM): Stores binary information in flip flops, faster but more expensive</li>
+                    <li>Dynamic RAM (DRAM): Stores binary info as charge on capacitors, higher density</li>
+                </ul>
+            </li>
+            <li><strong>External Storage:</strong> Disk drives, SSDs, and other persistent storage</li>
+        </ol>
+
+        <div class="illustration">
+            <svg width="400" height="300" class="svg-illustration">
+                <!-- Memory Hierarchy Pyramid -->
+                <polygon points="200,50 50,250 350,250" fill="none" stroke="#E65100" stroke-width="2" />
+
+                <!-- Layers -->
+                <line x1="100" y1="200" x2="300" y2="200" stroke="#E65100" stroke-width="1" />
+                <line x1="125" y1="175" x2="275" y2="175" stroke="#E65100" stroke-width="1" />
+                <line x1="150" y1="150" x2="250" y2="150" stroke="#E65100" stroke-width="1" />
+                <line x1="175" y1="125" x2="225" y2="125" stroke="#E65100" stroke-width="1" />
+
+                <!-- Labels -->
+                <text x="200" y="240" font-family="monospace" fill="#E65100" font-size="10" text-anchor="middle">STORAGE (HDD/SSD)</text>
+                <text x="200" y="190" font-family="monospace" fill="#E65100" font-size="10" text-anchor="middle">MAIN MEMORY (DRAM)</text>
+                <text x="200" y="165" font-family="monospace" fill="#E65100" font-size="10" text-anchor="middle">L3 CACHE</text>
+                <text x="200" y="140" font-family="monospace" fill="#E65100" font-size="10" text-anchor="middle">L2 CACHE</text>
+                <text x="200" y="115" font-family="monospace" fill="#E65100" font-size="10" text-anchor="middle">L1 CACHE</text>
+                <text x="200" y="90" font-family="monospace" fill="#E65100" font-size="10" text-anchor="middle">REGISTERS</text>
+
+                <!-- Left side metrics -->
+                <text x="30" y="150" font-family="monospace" fill="#E65100" font-size="8" text-anchor="middle" transform="rotate(-90, 30, 150)">SPEED INCREASES</text>
+
+                <!-- Right side metrics -->
+                <text x="370" y="150" font-family="monospace" fill="#E65100" font-size="8" text-anchor="middle" transform="rotate(90, 370, 150)">SIZE INCREASES</text>
+
+                <!-- Title -->
+                <text x="200" y="35" font-family="monospace" fill="#E65100" font-size="12" text-anchor="middle" font-weight="bold">MEMORY HIERARCHY</text>
+            </svg>
+        </div>
+
+        <h3>Characteristics and Trade-offs</h3>
+        <ul>
+            <li><strong>Capacity:</strong> Global volume of information the memory can store</li>
+            <li><strong>Access Time:</strong> Time interval between the read/write request and availability of the data</li>
+            <li><strong>Performance:</strong> Frequently accessed data is stored in faster memory</li>
+            <li><strong>Cost per Bit:</strong> Cost increases as you move up the hierarchy (internal memory is costlier than external)</li>
+        </ul>
+    </div>
+
+    </div>
+    <div class="margin-ref margin-ref-right">[ Memory ]</div>
+</section>
+<section class="content">
+    <div class="margin-ref margin-ref-left">HPC.004</div>
+    <div class="section-content">
+    <div id="low-precision" class="topic">
+        <h2>Low-Precision Arithmetic</h2>
+
+        <h3>Floating Point Representation</h3>
+        <p>Real numbers in computers are represented as floating point numbers (scientific notation), with components:</p>
+        <ul>
+            <li>Fractional part: actual value</li>
+            <li>Exponent term: scale</li>
+            <li>Sign</li>
+        </ul>
+
+        <h3>Low-Precision Benefits</h3>
+        <ul>
+            <li><strong>FP16 (Half-Precision):</strong>
+                <ul>
+                    <li>16-bit floating-point format</li>
+                    <li>Faster computation, less memory</li>
+                    <li>Used in NVIDIA's Tensor Cores</li>
+                </ul>
+            </li>
+            <li><strong>INT8 Quantization:</strong>
+                <ul>
+                    <li>8-bit integer format</li>
+                    <li>Further memory reduction</li>
+                    <li>Common in inference deployments</li>
+                </ul>
+            </li>
+        </ul>
+
+        <h3>Mixed Precision Training</h3>
+        <p>Combining FP16 and FP32:</p>
+        <ul>
+            <li>FP16 for most operations</li>
+            <li>FP32 for critical accumulations</li>
+            <li>Loss scaling to prevent underflow</li>
+        </ul>
+
+        <p>This approach provides significant performance gains while maintaining numerical stability.</p>
+    </div>
+
+    <div id="performance" class="topic">
+        <h2>Performance</h2>
+
+        <h3>Performance Considerations</h3>
+        <p>If performance is neglected, computations could run for extremely long periods. Understanding system capacity is crucial:</p>
+        <ul>
+            <li><strong>FLOPS:</strong> Floating point operations per second</li>
+            <li>Multiple CPUs make complex computations more manageable</li>
+        </ul>
+
+        <h3>Common Bottlenecks</h3>
+        <ul>
+            <li><strong>Memory Bandwidth:</strong> The rate at which data can be read from or stored into memory</li>
+            <li><strong>Compute Utilization:</strong> How efficiently computational resources are used</li>
+            <li><strong>Data Loading:</strong> The time to load data from storage to memory</li>
+            <li><strong>Communication Overhead:</strong> Time spent transferring data between nodes</li>
+        </ul>
+
+        <h3>Latency and Bandwidth</h3>
+        <ul>
+            <li><strong>Latency:</strong> Delay before a transfer of data begins following an instruction</li>
+            <li><strong>Bandwidth:</strong> How much you can transfer per unit of time</li>
+        </ul>
+        <p>When training neural networks, bandwidth (for weights) is typically more important than latency.</p>
+
+        <h3>Hiding Latency</h3>
+        <p>Strategies for managing latency include:</p>
+        <ul>
+            <li><strong>Prefetching:</strong> Request data before it's needed</li>
+            <li><strong>Concurrency:</strong> Use pipelining to switch between computations as data is coming in</li>
+        </ul>
+        <p>Note that bandwidth is fundamental and can't be "hidden" - it represents a hard limit on system performance.</p>
+    </div>
+
+    <div id="optimizations" class="topic">
+        <h2>Optimization Techniques</h2>
+
+        <h3>Memory Management Optimizations</h3>
+        <ol>
+            <li>Tensor memory layout optimization</li>
+            <li>Pinned memory for faster transfers</li>
+            <li>Memory pool allocators</li>
+            <li>Gradient checkpointing</li>
+        </ol>
+
+        <h3>Data Loading Optimizations</h3>
+        <ol>
+            <li>NVIDIA DALI for efficient data loading</li>
+            <li>Prefetching and caching</li>
+            <li>GPU direct memory access</li>
+            <li>Dataset sharding for multi-GPU</li>
+        </ol>
+
+        <h3>Distributed Training Optimizations</h3>
+        <ol>
+            <li>Data parallel training</li>
+            <li>Model parallel training</li>
+            <li>Pipeline parallelism</li>
+            <li>Communication optimization</li>
+        </ol>
+
+        <h3>Kernel Optimizations</h3>
+        <ul>
+            <li><strong>Kernel Fusion:</strong> Combining multiple operations</li>
+            <li><strong>Memory Coalescing:</strong> Optimizing memory access patterns</li>
+            <li><strong>Thread Block Optimization:</strong> Efficient thread organization</li>
+            <li><strong>Pipeline Parallelism:</strong> Overlapping computation and communication</li>
+        </ul>
+    </div>
+
+    <div id="load-balancing" class="topic">
+        <h2>Load Balancing</h2>
+
+        <h3>Purpose of Load Balancing</h3>
+        <p>Load balancing ensures that work is distributed efficiently across computing resources, preventing any single resource from becoming a bottleneck.</p>
+
+        <h3>Key Components</h3>
+        <ul>
+            <li><strong>Work Distribution:</strong> Dividing tasks among processors</li>
+            <li><strong>Dynamic Load Balancing:</strong> Runtime task redistribution</li>
+            <li><strong>Task Scheduling:</strong> Organizing execution order</li>
+            <li><strong>Resource Allocation:</strong> Assigning computing resources</li>
+        </ul>
+
+        <h3>Strategies</h3>
+        <p>Common load balancing strategies include:</p>
+        <ul>
+            <li><strong>Static Distribution:</strong> Work divided evenly before execution</li>
+            <li><strong>Dynamic Distribution:</strong> Tasks allocated during runtime based on processor availability</li>
+            <li><strong>Work Stealing:</strong> Idle processors "steal" work from busy ones</li>
+            <li><strong>Hierarchical Approaches:</strong> Combining different strategies at different levels</li>
+        </ul>
+    </div>
+    </div>
+    <div class="margin-ref margin-ref-right">[ Performance ]</div>
+</section>
+<section class="content">
+    <div class="margin-ref margin-ref-left">HPC.005</div>
+    <div class="section-content">
+    <div id="comm-protocols" class="topic">
+        <h2>Communication Protocols</h2>
+
+        <h3>MPI (Message Passing Interface)</h3>
+        <p>Standard protocol for distributed computing that allows users to communicate between nodes in a cluster or across a network.</p>
+        <ul>
+            <li><strong>Point-to-point Communication:</strong> Direct message between two processes</li>
+            <li><strong>Collective Communication:</strong> Operations involving all processes</li>
+            <li><strong>Process Management:</strong> Handling multiple parallel processes</li>
+        </ul>
+
+        <h3>Hybrid Approach</h3>
+        <p>Many HPC applications use a hybrid approach:</p>
+        <ul>
+            <li>Local memory threaded with OpenMP</li>
+            <li>Distributed memory parallelism with MPI</li>
+        </ul>
+
+        <h3>Communication Patterns</h3>
+        <p>Common communication patterns in HPC:</p>
+        <ul>
+            <li><strong>Broadcast:</strong> One process sends data to all other processes</li>
+            <li><strong>Scatter/Gather:</strong> Distributing/collecting data across processes</li>
+            <li><strong>Reduction:</strong> Combining results from all processes</li>
+            <li><strong>All-to-All:</strong> Every process communicates with every other process</li>
+        </ul>
+    </div>
+    </div>
+    <div class="margin-ref margin-ref-right">[ Protocols ]</div>
+</section>
+
+<!-- Back to Top Button -->
+<a href="#" class="back-to-top">Back to Top</a>
+
+</body>
+</html>

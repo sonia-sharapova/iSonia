@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Algorithm Ref Manual</title>
+    <link rel="icon" href="/images/icons/star.png" />
+    <!-- Link to the external CSS file -->
+    <link rel="stylesheet" href="../../styles/lessons.css">
+    <!-- Font import -->
+    <link href="https://fonts.googleapis.com/css2?family=Source+Serif+Pro:wght@400;600&family=Space+Mono&display=swap" rel="stylesheet">
+</head>
+<style>
+
+    :root {
+        --main: #c13333;
+        --light: rgba(228, 150, 150, 0.3);
+        --lighter: rgba(228, 180, 180, 0.08);
+        --border: rgba(188, 35, 35);
+        --border2: rgba(188, 30, 30, 0.5);
+        --med: rgba(200, 45, 45);
+        --dark: #802222;
+        --img: #802222;
+    }
+
+
+</style>
+<body>
+<!-- Header -->
+<header>
+    <h1 class="pixel-title">ALGORITHMS</h1>
+    <p class="subtitle">A reference manual for common algorithms and their properties.</p>
+</header>
+
+<!-- Dotted line divider -->
+<hr class="divider">
+
+<!-- Main content area with margin references -->
+<main class="content">
+    <!-- Left margin reference -->
+    <div class="margin-ref margin-ref-left">ALG.000</div>
+
+    <!-- Main content split into text and illustrations -->
+    <div class="text-content">
+        <div class="text">
+            <h1>M<span style="font-size: 1.5rem;">AIN FOCUS: <br>Design and analysis of efficient algorithms.</span></h1>
+
+            <div class="illustration">
+                <!-- First smaller illustration (included inline for simplicity) -->
+                <svg width="300" height="200" class="svg-illustration">
+                    <circle cx="150" cy="25" r="20" class="svg-fill-light" />
+
+                    <line x1="150" y1="25" x2="80" y2="75" stroke-width="1.5"/>
+                    <circle cx="80" cy="75" r="20" class="svg-fill-light" />
+
+                    <line x1="80" y1="75" x2="40" y2="125" stroke-width="1.5"/>
+                    <circle cx="40" cy="125" r="20" class="svg-fill-light" />
+                    <line x1="80" y1="75" x2="120" y2="125" stroke-width="1.5"/>
+                    <circle cx="120" cy="125" r="20" class="svg-fill-light" />
+
+                    <line x1="150" y1="25" x2="220" y2="75" stroke-width="1.5"/>
+                    <circle cx="220" cy="75" r="20" class="svg-fill-light" />
+
+                    <line x1="220" y1="75" x2="180" y2="125" stroke-width="1.5"/>
+                    <circle cx="180" cy="125" r="20" class="svg-fill-light" />
+                    <line x1="220" y1="75" x2="260" y2="125" stroke-width="1.5"/>
+                    <circle cx="260" cy="125" r="20" class="svg-fill-light" />
+
+                </svg>
+            </div>
+
+            <p>Algorithms are step-by-step procedures for solving computational problems. This reference provides a concise overview of major algorithmic paradigms, their applications, complexity analysis, and implementation details.</p>
+        </div>
+
+        <div class="illustration">
+            <!-- Include the external SVG using an object tag -->
+            <object data="alg.svg" type="image/svg+xml" width="500" height="500">
+                Your browser does not support SVG
+            </object>
+        </div>
+    </div>
+
+    <!-- Right margin reference -->
+    <div class="margin-ref margin-ref-right">[ 1.0 INTRO ]</div>
+</main>
+
+<!-- Table of Contents -->
+<div class="toc-container">
+    <h2 class="toc-title">Topics</h2>
+    <ul class="toc-list">
+        <li class="toc-item"><a href="#alg-complx" class="toc-link">Time and Space Complexity</a></li>
+        <li class="toc-item"><a href="#divide-conquer" class="toc-link">Divide and Conquer</a></li>
+        <li class="toc-item"><a href="#randomization" class="toc-link">Randomization</a></li>
+        <li class="toc-item"><a href="#dynamic-programming" class="toc-link">Dynamic Programming</a></li>
+        <li class="toc-item"><a href="#data-structures" class="toc-link">Data Structures</a></li>
+        <li class="toc-item"><a href="#graph-algorithms" class="toc-link">Graph Algorithms</a></li>
+    </ul>
+</div>
+
+
+<!-- Algorithm Topics Sections -->
+<section id="alg-complx" class="content">
+    <div class="margin-ref margin-ref-left">ALG.001</div>
+    <div class="section-content">
+        <div class="topic">
+            <h2>Algorithm Complexity</h2>
+            <p>A measure of how long an algorithm would take to complete given an input of size n.</p>
+            <h3>Key Points:</h3>
+            <ul>
+                <li><span style="text-decoration: underline; font-weight: bold">Big O:</span> Algorithm's worst-case complexity </li>
+                <li><span style="text-decoration: underline; font-weight: bold">Time Complexity:</span> How long it will take to execute an algorithm as a function of its input size.</li>
+                <li><span style="text-decoration: underline; font-weight: bold">Space Complexity:</span> Total amount of space or memory required to execute an algorithm as a function of the size of the input.</li>
+            </ul>
+            <h3>Time Complexity:</h3>
+            <ul>
+                <li>Constant: O(1)</li>
+                <li>Linear time: O(n)</li>
+                <li>Logarithmic time: O(n log n)</li>
+                <li>Quadratic time: O(n^2)</li>
+                <li>Exponential time: O(2^n)</li>
+                <li>Factorial time: O(n!)</li>
+            </ul>
+            <h3>Performance:</h3>
+            <ul>
+                <li>O(1) - Excellent/Best</li>
+                <li>O(log n) - Good</li>
+                <li>O(n) - Fair</li>
+                <li>O(n log n) - Bad</li>
+                <li>O(n^2), O(2^n) and O(n!) - Horrible/Worst</li>
+            </ul>
+        </div>
+        <div class="illustration">
+            <!-- Illustration placeholder -->
+        </div>
+    </div>
+    <div class="margin-ref margin-ref-right">[ 2.1 D&C ]</div>
+</section>
+
+<!-- Algorithm Topics Sections -->
+<section id="divide-conquer" class="content">
+    <div class="margin-ref margin-ref-left">ALG.002</div>
+    <div class="section-content">
+        <div class="topic">
+            <h2 class="section-title">Divide and Conquer</h2>
+            <p>A paradigm that solves a problem by breaking it into smaller subproblems, solving each recursively, then combining the results.</p>
+            <h3>Key Algorithms:</h3>
+            <ul>
+                <li>Merge Sort</li>
+                <li>Quick Sort</li>
+                <li>Binary Search</li>
+                <li>Strassen's Matrix Multiplication</li>
+            </ul>
+            <h3>Time Complexity:</h3>
+            <p>Often O(n log n) for sorting algorithms</p>
+        </div>
+        <div class="illustration">
+            <!-- Illustration placeholder -->
+        </div>
+    </div>
+    <div class="margin-ref margin-ref-right">[ 2.1 D&C ]</div>
+</section>
+
+<section id="randomization" class="content">
+    <div class="margin-ref margin-ref-left">ALG.003</div>
+    <div class="section-content">
+        <div class="topic">
+            <h2 class="section-title">Randomization</h2>
+            <p>Algorithms that use random numbers to achieve good expected performance regardless of input.</p>
+            <h3>Key Algorithms:</h3>
+            <ul>
+                <li>Randomized Quicksort</li>
+                <li>Randomized Selection</li>
+                <li>Monte Carlo Methods</li>
+                <li>Las Vegas Algorithms</li>
+            </ul>
+            <h3>Time Complexity:</h3>
+            <p>Expected O(n log n) for randomized sorting</p>
+        </div>
+        <div class="illustration">
+            <!-- Illustration placeholder -->
+        </div>
+    </div>
+    <div class="margin-ref margin-ref-right">[ 2.2 RAND ]</div>
+</section>
+
+<section id="dynamic-programming" class="content">
+    <div class="margin-ref margin-ref-left">ALG.004</div>
+    <div class="section-content">
+        <div class="topic">
+            <h2 class="section-title">Dynamic Programming</h2>
+            <p>A method for solving complex problems by breaking them down into simpler subproblems and storing their solutions to avoid redundant computation.</p>
+            <h3>Key Algorithms:</h3>
+            <ul>
+                <li>Fibonacci Sequence</li>
+                <li>Longest Common Subsequence</li>
+                <li>Knapsack Problem</li>
+                <li>Matrix Chain Multiplication</li>
+            </ul>
+            <h3>Time Complexity:</h3>
+            <p>Usually polynomial time, depending on problem dimensions</p>
+        </div>
+        <div class="illustration">
+            <!-- Illustration placeholder -->
+        </div>
+    </div>
+    <div class="margin-ref margin-ref-right">[ 2.3 DP ]</div>
+</section>
+
+<section id="data-structures" class="content">
+    <div class="margin-ref margin-ref-left">ALG.005</div>
+    <div class="section-content">
+        <div class="topic">
+            <h2 class="section-title">Data Structures</h2>
+            <p>Specialized formats for organizing and storing data to enable efficient access and modification.</p>
+            <h3>Key Data Structures:</h3>
+            <ul>
+                <li>Hash Tables</li>
+                <li>Binary Trees</li>
+                <li>Heaps</li>
+                <li>Balanced Search Trees</li>
+            </ul>
+            <h3>Time Complexity:</h3>
+            <p>From O(1) to O(log n) for most operations in optimized structures</p>
+        </div>
+        <div class="illustration">
+            <!-- Illustration placeholder -->
+        </div>
+    </div>
+    <div class="margin-ref margin-ref-right">[ 2.4 DS ]</div>
+</section>
+
+<section id="graph-algorithms" class="content">
+    <div class="margin-ref margin-ref-left">ALG.006</div>
+    <div class="section-content">
+        <div class="topic">
+            <h2 class="section-title">Graph Algorithms</h2>
+            <p>Algorithms that operate on graph data structures consisting of vertices connected by edges.</p>
+            <h3>Key Algorithms:</h3>
+            <ul>
+                <li>Breadth-First Search</li>
+                <li>Depth-First Search</li>
+                <li>Dijkstra's Algorithm</li>
+                <li>Minimum Spanning Tree</li>
+            </ul>
+            <h3>Time Complexity:</h3>
+            <p>From O(V+E) to O(V²) depending on graph representation and algorithm</p>
+        </div>
+        <div class="illustration">
+            <!-- Illustration placeholder -->
+        </div>
+    </div>
+    <div class="margin-ref margin-ref-right">[ 2.5 GRAPH ]</div>
+    <a href="#" class="back-to-top">Back 2 Top ↑</a>
+
+</section>
+</body>
+</html>

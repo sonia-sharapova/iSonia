@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Camera Detection - Sonia Online</title>
+    <link rel="icon" href="/images/icons/heart3.png" />
+    <link rel="stylesheet" href="../../styles/stylesheet.css">
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd"></script>
+    <script src="camera.js" defer></script>
+</head>
+<body>
+<nav class="navigation">
+    <a href="../../index.html" class="nav-item">HOME</a>
+    <a href="../../navigation/resources.html" class="nav-item">RESOURCES</a>
+    <a href="../../navigation/portfolio.html" class="nav-item">PORTFOLIO</a>
+    <a href="../../learning/lectures.html" class="nav-item">COURSES</a>
+    <a href="../../navigation/contact.html" class="nav-item">CONTACT</a>
+</nav>
+<div class="title-container">
+    <div class="nav-links">
+        <a href="#" class="sub-nav-item">SEE: </a>
+        <a href="../../personal/music.html" class="sub-nav-item">music</a>
+        <a href="../../personal/movies.html" class="sub-nav-item">movies</a>
+        <a href="../../personal/books.html" class="sub-nav-item">books</a>
+        <a href="../../personal/cards.html" class="sub-nav-item">cards</a>
+    </div>
+    <h1 class="page-title">LIVE IDENTIFICATION</h1>
+</div>
+<div class="camera-container">
+    <div class="video-container">
+        <video id="video" playsinline style="display: none;"></video>
+        <canvas id="canvas"></canvas>
+    </div>
+    <div class="controls">
+        <select id="cameraSelect" class="camera-select">
+            <option value="">Loading cameras...</option>
+        </select>
+        <button id="startCamera">Start Camera</button>
+        <button id="stopCamera">Stop Camera</button>
+        <button id="flipButton">Flip Camera View</button>
+
+    </div>
+</div>
+
+<footer>
+    <p style="text-align: center">
+        <a href="https://github.com/sonia-sharapova">GitHub</a> |
+        <a href="https://www.linkedin.com/in/sonia-sharapova/">LinkedIn</a> |
+        <a href="https://www.instagram.com/sonia.s.ru/">Instagram</a>
+    </p>
+    <div style="margin-top: 5px;">
+        Sonia's Web Archive<br>
+        2025
+    </div>
+</footer>
+</body>
+</html>

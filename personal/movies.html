@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sonia's Movies</title>
+    <link rel="icon" href="/images/icons/heart3.png" />
+    <link rel="stylesheet" href="../styles/stylesheet.css">
+    <style>
+
+        .content {
+            display: grid;
+            grid-template-columns: 3fr 1fr;
+            gap: 40px;
+            width: 80%;
+            margin: 40px auto;
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 30px;
+            margin-right: 20px;
+            margin-bottom: 70px;
+        }
+
+        .thumbnail {
+            aspect-ratio: 2/3;
+            cursor: pointer;
+            transition: opacity 0.3s;
+        }
+
+        .thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border: 1px solid #666666;
+        }
+
+        .thumbnail:hover {
+            opacity: 0.7;
+        }
+
+        .preview-section {
+            position: sticky;
+            top: 120px;
+            background: #f5f5f5;
+            padding: 20px;
+            height: calc(100vh - 200px); /* Set fixed height for container */
+            border: 1px solid #666666;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .preview-img {
+            min-width: 200px;
+            width: 100%;
+            border: 1px solid #666666;
+            flex-shrink: 0; /* Prevent image from shrinking */
+        }
+
+        .movie-info {
+            margin-top: 20px;
+            overflow-y: auto; /* Enable vertical scrolling */
+            flex-grow: 1; /* Allow text container to grow */
+        }
+
+        .movie-title {
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .movie-description {
+            font-size: 10px;
+            line-height: 1.5;
+            color: #666;
+            padding-right: 10px; /* Add space for scrollbar */
+        }
+
+    </style>
+</head>
+<body>
+<nav class="navigation">
+    <a href="../index.html" class="nav-item">HOME</a>
+    <a href="../navigation/resources.html" class="nav-item">RESOURCES</a>
+    <a href="../navigation/portfolio.html" class="nav-item">PORTFOLIO</a>
+    <a href="../navigation/courses.html" class="nav-item">COURSES</a>
+    <a href="../navigation/contact.html" class="nav-item">CONTACT</a>
+</nav>
+
+<div class="title-container">
+    <div class="nav-links">
+        <a href="../index.html" class="sub-nav-item">SEE: </a>
+        <a href="music.html" class="sub-nav-item">music</a>
+        <a href="movies.html" class="sub-nav-item">movies</a>
+        <a href="books.html" class="sub-nav-item">books</a>
+        <a href="cards.html" class="sub-nav-item">cards</a>
+    </div>
+    <h1 class="page-title">FILMS</h1>
+</div>
+
+<div class="content">
+    <div class="gallery">
+        <div class="thumbnail">
+            <img src="../images/movies/aeon.jpeg"
+                 alt="Aeon Flux"
+                 data-title="Aeon Flux"
+                 data-description="love love love.">
+        </div>
+        <div class="thumbnail">
+            <img src="../images/movies/battle.jpg"
+                 alt="Battle Royale"
+                 data-title="Battle Royale"
+                 data-description="One of my favourite childhood films. I loved Gogo Yubari in kill bill.">
+        </div>
+        <div class="thumbnail">
+            <img src="../images/movies/lilya.png"
+                 alt="Lilya 4-Ever"
+                 data-title="Lilya 4-Ever"
+                 data-description=":'(">
+        </div>
+        <div class="thumbnail">
+            <img src="../images/movies/alice.jpg"
+                 alt="Alice in the Cities"
+                 data-title="Alice in the Cities 1974"
+                 data-description="The actress in this film looks and acts identical to my childhood best friend. I love Wim Wenders.">
+        </div>
+        <div class="thumbnail">
+            <img src="../images/movies/lilyChouChou.png"
+                 alt="All About Lily Chou Chou"
+                 data-title="All About Lily Chou Chou"
+                 data-description="Perfect original sountrack">
+        </div>
+        <div class="thumbnail">
+            <img src="../images/movies/AaronSwartz.jpg"
+                 alt="Aaron Swartz"
+                 data-title="The Internet’s Own Boy: The Story of Aaron Swartz 2014"
+                 data-description="Haven't had any media leave such an impact on me and my outlook towards my profession as this.
+                                    I find it silly that I’m crying over the death of someone 10 years after their passing, but more so surprised that now is my first time coming across Aaron Swartz and the whirlwind of internet politics at the start of this century. Crazy how relatively recent this was, I wish I was old enough to comprehend it at the time.
+                                    Forever an inspiration, taken far too soon."></div>
+        <div class="thumbnail">
+            <img src="../images/movies/coffeeCig.jpg"
+                 alt="Coffee and Cigarettes"
+                 data-title="Coffee and Cigarettes"
+                 data-description="Craziest casting I've seen to this day, all my favourites in one place!"></div>
+        <div class="thumbnail">
+            <img src="../images/movies/belladonna.jpeg" alt="Belladonna of Sadness" data-title="Belladonna of Sadness"
+                 data-description=""></div>
+        <div class="thumbnail">
+            <img src="../images/movies/loveNpop.jpg"
+                 alt="Love & Pop"
+                 data-title="Love & Pop"
+                 data-description="Tugs at the heart strings the same way as Lilya 4-ever.">
+        </div>
+        <div class="thumbnail">
+            <img src="../images/movies/Haine.jpg"
+                 alt="La Haine"
+                 data-title="La Haine"
+                 data-description="So cool.">
+        </div>
+        <div class="thumbnail">
+            <img src="../images/movies/naked.jpg"
+                 alt="Naked"
+                 data-title="Naked"
+                 data-description="">
+        </div>
+        <div class="thumbnail">
+            <img src="../images/movies/mood.jpg"
+                 alt="In the Mood for Love"
+                 data-title="In the Mood for Love"
+                 data-description="">
+        </div>
+
+        <div class="thumbnail">
+            <img src="../images/movies/100yen.png" alt="100 Yen Love" data-title="100 Yen Love"
+                 data-description="Amazing character arc and better than any manosphere motivation you can get.">
+        </div>
+        <div class="thumbnail">
+            <img src="../images/movies/buffalo66.jpg" alt="Buffalo66" data-title="Buffalo 66"
+                 data-description="Greatest romance movie <3 just kidding I just love Vincent">
+        </div>
+        <div class="thumbnail">
+            <img src="../images/movies/videodrome.jpg" alt="videodrome" data-title="videodrome"
+                 data-description="My only points of reference towards James Woods is this and family guy...">
+        </div>
+        <div class="thumbnail">
+            <img src="../images/movies/superbad.png"
+                 alt="superbad"
+                 data-title="superbad"
+                 data-description="I think of at least one quote from this movie every day for the past 12 years.">
+        </div>
+        <div class="thumbnail">
+            <img src="../images/movies/haru.jpg"
+                 alt="Haru"
+                 data-title="Haru"
+                 data-description="">
+        </div>
+        <div class="thumbnail">
+            <img src="../images/movies/ghostWorld.jpg"
+                 alt="Ghost World"
+                 data-title="Ghost World"
+                 data-description="Basically a live action Daria. In high school I thought it was so me.">
+        </div>
+        <div class="thumbnail">
+            <img src="../images/movies/piecesOfApril.jpg" alt="Pieces Of April" data-title="Pieces Of April"
+                 data-description="I love anything and all Magnetic Fields">
+        </div>
+        <div class="thumbnail">
+            <img src="../images/movies/night.jpg" alt="Night on Earth" data-title="Night on Earth"
+                 data-description="Jim Jarmusch gives me exactly everything I ever need from a movie.">
+        </div>
+        <div class="thumbnail">
+            <img src="../images/movies/landscape.jpg" alt="Landscape Suicide 1986" data-title="Landscape Suicide 1986"
+                 data-description="Benning's films feel like he stole my memories to use as footage.
+                                    It is touching to see the places where I grew up be portrayed in such an purposeful way.
+                                    Deeply nostalgic, almost to the point of discomfort.
+                                    My nose started bleeding 40 minutes in, which only happens to movies that strongly affect me.">
+        </div>
+        <div class="thumbnail">
+            <img src="../images/movies/brakhage.jpg"
+                 alt="Brakhage"
+                 data-title="Brakhage"
+                 data-description="">
+        </div>
+
+        <div class="thumbnail">
+            <img src="../images/movies/spun.jpg" alt="Spun" data-title="Spun"
+                 data-description="I don't usually like dark comedy but this one is so over the top I love it.">
+        </div>
+        <div class="thumbnail">
+            <img src="../images/movies/analife.jpg" alt="Analife" data-title="Analife"
+                 data-description="Such amazing and unique way of showing the story. I have never seen anything like it.">
+        </div>
+        <div class="thumbnail">
+            <img src="../images/movies/kronos.jpg"
+                 alt="Kronos Quartet"
+                 data-title="Kronos Quartet"
+                 data-description="">
+        </div>
+        <div class="thumbnail">
+            <img src="../images/movies/anima.jpg" alt="Anima Mundi" data-title="Anima Mundi"
+                 data-description="My mom would always put this on as kids. I always cried when the flower ate the bee </3.">
+        </div>
+        <div class="thumbnail">
+            <img src="../images/movies/kayonoquatzi.jpg"
+                 alt="Koyaanisqatsi"
+                 data-title="Koyaanisqatsi"
+                 data-description="">
+        </div>
+        <div class="thumbnail">
+            <img src="../images/movies/animatrix.jpg"
+                 alt="Animatrix"
+                 data-title="Animatrix"
+                 data-description="">
+        </div>
+        <div class="thumbnail">
+            <img src="../images/movies/beavers.jpg" alt="Hundreds of Beavers" data-title="Hundreds of Beavers"
+                 data-description="Absolutely genius. Haven't seen my dad chuckle this hard in a while.">
+        </div>
+        <div class="thumbnail">
+            <img src="../images/movies/irony.jpg" alt="The Irony of Fate" data-title="The Irony of Fate"
+                 data-description="New Years classic have to watch every year.">
+        </div>
+        <div class="thumbnail">
+            <img src="../images/movies/theLastAngel.png" alt="The Last Angel of History" data-title="The Last Angel of History"
+                 data-description="Astounded by the inner-workings of Sun Ra's brain.">
+        </div>
+        <div class="thumbnail">
+            <img src="../images/movies/tiemeup.jpeg" alt="Tie Me Up, Tie Me Down" data-title="¡Átame! (Tie Me Up! Tie Me Down!)"
+                 data-description="Yes Almodóvar! Yes Antonio!"></div>
+        <div class="thumbnail">
+            <img src="../images/movies/bridge.jpg" alt="Lovers on a Bridge" data-title="Lovers on a Bridge"
+                 data-description="Went to Paris the summer I watched this. They had a Lars Von Trier marathon at the cinema
+                 and I got to experience being loved on the bridge."></div>
+        <div class="thumbnail">
+            <img src="../images/movies/lainShow.jpg"
+                 alt="Serial Experiments Lain" data-title="Serial Experiments Lain"
+                 data-description="Me!"></div>
+        <div class="thumbnail">
+            <img src="../images/movies/angelsEgg.jpg" alt="Angels Egg" data-title="Angels Egg"
+                 data-description="A masterpiece."></div>
+        <div class="thumbnail">
+            <img src="../images/movies/pingPong.png"
+                 alt="Ping Pong the Animation"
+                 data-title="Ping Pong the Animation"
+                 data-description="">
+        </div>
+        <div class="thumbnail">
+            <img src="../images/movies/paranoiaAgent.jpg" alt="Paranoia Agent" data-title="Paranoia Agent"
+                 data-description=""></div>
+    <div class="thumbnail">
+        <img src="../images/movies/GTO.jpeg" alt="Greatest Teacher Onizuka" data-title="Greatest Teacher Onizuka"
+             data-description="He is good and pure!! Just misunderstood.. He cares when no one else does.."></div>
+
+    <div class="thumbnail">
+            <img src="../images/movies/neonGen.jpeg" alt="Neon Genesis Evangelion" data-title="Neon Genesis Evangelion"
+                 data-description=""></div>
+
+
+    </div>
+
+    <div class="preview-section">
+        <img id="preview-img" src="../images/movies/aeon.jpeg" alt="Preview" class="preview-img">
+        <div class="movie-info">
+            <div class="movie-title" id="movie-title">Aeon Flux</div>
+            <div class="movie-description" id="movie-description">love love love.</div>
+        </div>
+    </div>
+</div>
+
+<footer>
+    <p>
+        <a href="https://github.com/sonia-sharapova">GitHub</a> |
+        <a href="https://www.linkedin.com/in/sonia-sharapova/">LinkedIn</a> |
+        <a href="https://www.instagram.com/sonia.s.ru/">Instagram</a>
+    </p>
+    <div>
+        Movie Archive Directory<br>
+        2025
+    </div>
+</footer>
+
+<script>
+    const thumbnails = document.querySelectorAll('.thumbnail');
+    const previewImg = document.getElementById('preview-img');
+    const movieTitle = document.getElementById('movie-title');
+    const movieDescription = document.getElementById('movie-description');
+
+    thumbnails.forEach(thumb => {
+        thumb.addEventListener('click', () => {
+            const img = thumb.querySelector('img');
+            previewImg.src = img.src;
+            movieTitle.textContent = img.dataset.title;
+            movieDescription.textContent = img.dataset.description;
+        });
+    });
+</script>
+</body>
+</html>
