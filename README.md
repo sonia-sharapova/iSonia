@@ -6,7 +6,7 @@
 ```
 iSonia/
 ├── archiveContent/               # Markdown content files 
-  │   ├── people.md               # Each category has its own markdown file
+│   ├── people.md                 # Each category has its own markdown file
 │   ├── videos.md
 │   └── ...
 ├── archiveData/                  # Generated JSON data
