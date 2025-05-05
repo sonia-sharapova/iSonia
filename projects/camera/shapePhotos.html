@@ -7,6 +7,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="icon" href="/images/icons/heart3.png" />
     <link rel="stylesheet" href="../../styles/stylesheet.css">
+    <link rel="stylesheet" href="camera.css">
+
     <!-- Load the shape photo maker script -->
     <script src="shapePhotos.js" defer></script>
 
@@ -38,39 +40,6 @@
             background-color: white;
         }
 
-        .controls {
-            display: flex;
-            flex-wrap: wrap;
-            column-count: 3;
-            gap: 10px;
-            margin-top: 15px;
-            justify-content: center;
-            margin-bottom: 15px;
-            width: 100%;
-        }
-
-        button, select {
-            padding: 8px 15px;
-            background-color: #333;
-            border: 1px solid #3b5998;
-            border-radius: 1px;
-            cursor: pointer;
-            font-size: 14px;
-            color: white;
-        }
-
-        #startCamera {
-            background-color: lightgreen;
-            border: 1px solid #3b5998;
-            border-radius: 1px;
-            color: #666666;
-        }
-
-        #stopCamera {
-            background-color: indianred;
-            border: 1px solid #3b5998;
-            border-radius: 1px;
-        }
 
         #clearPhotosButton {
             border: 1px solid #3b5998;
@@ -80,91 +49,6 @@
         #downloadButton {
             border: 1px solid #3b5998;
             border-radius: 1px;
-        }
-
-
-        button:hover, select:hover {
-            filter: brightness(1.2);
-        }
-
-        button:disabled {
-            background-color: #666666;
-            color: #dddddd;
-            cursor: not-allowed;
-            filter: brightness(0.8);
-            border: 1px solid #3b5998;
-            border-radius: 1px;
-        }
-
-        /* Styles for sliders */
-        .slider-controls {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            margin-top: 15px;
-            width: 100%;
-            max-width: 400px;
-        }
-
-        .slider-group {
-            display: flex;
-            flex-direction: column;
-            width: 100%;
-        }
-
-        .slidecontainer {
-            width: 100%;
-        }
-
-        .slider {
-            -webkit-appearance: none;
-            width: 100%;
-            height: 25px;
-            background: #d3d3d3;
-            outline: none;
-            opacity: 0.7;
-            -webkit-transition: .2s;
-            transition: opacity .2s;
-        }
-
-        .slider:hover {
-            opacity: 1;
-        }
-
-        .slider::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            appearance: none;
-            width: 20px;
-            height: 20px;
-            background: #333333;
-            cursor: pointer;
-        }
-
-        .slider::-moz-range-thumb {
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            background: #333333;
-            cursor: pointer;
-        }
-
-        label {
-            margin-bottom: 5px;
-            color: #666666;
-        }
-
-        /* Take Photo button styling */
-        .photo-button {
-            border: 1px solid #3b5998;
-            border-radius: 1px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 8px 15px;
-        }
-
-        .camera-icon {
-            font-size: 16px;
         }
 
         .shape-preview {
@@ -178,31 +62,6 @@
             opacity: 0.3;
         }
 
-        /* Flash effect for the camera */
-        @keyframes cameraFlash {
-            0% { background-color: rgba(255, 255, 255, 0); }
-            50% { background-color: rgba(255, 255, 255, 0.8); }
-            100% { background-color: rgba(255, 255, 255, 0); }
-        }
-
-        .flash {
-            animation: cameraFlash 0.5s ease-out;
-        }
-
-
-        .info-section {
-            margin: 20px auto;
-            max-width: 75%;
-            text-align: center;
-            padding: 30px;
-            background-color: rgba(0,0,0,0.1);
-            border-radius: 5px;
-        }
-
-        .info-section h1 {
-            text-decoration: underline;
-            font-weight: unset;
-        }
         .shape-options, .grid-options {
             display: flex;
             justify-content: center;
@@ -251,11 +110,6 @@
             opacity: 0;
 
             cursor: pointer;
-        }
-
-        .upload-btn {
-            background-color: #d9e5ff;
-            color: #666666;
         }
 
         #videoElement {
@@ -312,7 +166,7 @@
     <a href="../../index.html" class="nav-item">HOME</a>
     <a href="../../navigation/resources.html" class="nav-item">RESOURCES</a>
     <a href="../../navigation/portfolio.html" class="nav-item">PORTFOLIO</a>
-    <a href="../../learning/lectures.html" class="nav-item">COURSES</a>
+    <a href="../../navigation/courses.html" class="nav-item">COURSES</a>
     <a href="../../navigation/contact.html" class="nav-item">CONTACT</a>
 </nav>
 <div class="title-container">
@@ -351,20 +205,20 @@
             </svg>
             <span>Star</span>
         </div>
+        <!--
         <div class="shape-option" data-shape="spiral">
             <svg class="shape-preview-option" viewBox="0 0 100 100">
                 <path d="M50 50
-                    C50 10, 90 10, 90 50
                     C90 80, 20 80, 20 50
                     C20 30, 70 30, 70 50
                     C70 70, 30 70, 30 50
                     C30 40, 60 40, 60 50
-                    C60 60, 40 60, 40 50
-                    C40 45, 55 45, 50 50"
+                    C60 60, 40 60, 40 50"
                       fill="#06d6a0" stroke="black" stroke-width="1" fill-rule="evenodd" />
             </svg>
             <span>Spiral</span>
         </div>
+        -->
     </div>
 
     <div class="grid-options">
@@ -398,7 +252,7 @@
             <span class="camera-icon">📸</span> Take Photo
         </button>
         <div class="upload-btn-wrapper">
-            <button class="upload-btn">Upload Photo</button>
+            <button class="button">Upload Photo</button>
             <input type="file" id="uploadPhoto" accept="image/*" />
         </div>
         <button id="clearPhotosButton">Clear Photos</button>

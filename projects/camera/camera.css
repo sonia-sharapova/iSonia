@@ -54,6 +54,11 @@ button:disabled {
 
 
 /* Additional styles for sliders */
+.slider-accent {
+    accent-color: #88a4b3;
+    background: #d3d3d3;
+}
+
 .slider-controls {
     display: flex;
     flex-direction: column;
