@@ -1,0 +1,98 @@
+* {
+    padding: 20px;
+}
+
+body {
+    background: rgb(255, 255, 255);
+    background: linear-gradient(0deg, rgba(157, 201, 212, 1) 0%, rgba(240, 244, 247, 1) 100%);
+    background-attachment: fixed; /*full screen*/
+    height: 100%;
+    font-family: Arial, Helvetica, sans-serif;
+    color: gray; /* All text will be this colour unless stated otherwise*/
+}
+
+main {
+    max-width: 90%;
+    margin: 5px auto;
+    box-shadow: 5px 0px 5px #88a4b3, -5px 0px 5px #33b4ff52;
+    display: flex;
+    flex-direction: column; /*vertical alignment*/
+}
+
+header {
+    color: #bfbfbf;
+}
+
+/* example footer */
+footer {
+    padding-top: 40px;
+    padding-left: 60px;
+    font-size: 12px;
+    line-height: 25px;
+    letter-spacing: 2px;
+}
+
+/* Headers: Can have H1 to H6 */
+h1 {
+    font: normal 20px 'Optima', arial, sans-serif;
+    font-size:3em; /* Dynamic font size */
+    color: white;
+}
+
+h2 {
+    font: normal 80% 'Optima', arial, sans-serif;
+    font-style: italic;
+    font-size:2em; /* Dynamic font size */
+}
+
+p {
+    font: normal 15px 'Comic Sans MS', sans-serif;
+    color: darkslateblue;
+}
+
+/* Class bc it can be reoccuring */
+.contentBlock {
+    display: block;
+    margin: 10px auto;
+    background-color: #E7E7E7;
+    border: 1px Solid #88a4b3;
+    width: 90%;
+}
+
+.spiral {
+    background-image: url("../images/spiral.jpg"); /* The image used */
+    float: right; /*on the right*/
+    height: 200px; /* You must set a specified height */
+    background-repeat: no-repeat; /* Do not repeat the image */
+}
+
+/* ID bc we only have one */
+#menubar {
+    display: block;
+    margin: 20px auto; /* between buttons */
+    text-align: center;
+    width: 95%;
+    justify-content: center;
+    background: white;
+    border: 1px Solid #88a4b3;
+}
+
+/*buttons !! a = link and its attributed to the menubar ID*/
+#menubar a {
+    margin: 10px; /* between buttons */
+    text-align: center;
+    font: normal 12pt 'Optima', arial, sans-serif;
+    color: #386b77;
+    text-decoration: none; /* Remove Underline */
+    letter-spacing: 5px;
+    border-radius: 50%;
+    transition: all 0.4s ease 0s;
+}
+
+/*animated*/
+a:not([disabled]):hover{
+    background-color: #E7E7E7;
+    box-shadow: 0 5px 7px #386b77;
+    transform: translateY(-3px);
+}
+

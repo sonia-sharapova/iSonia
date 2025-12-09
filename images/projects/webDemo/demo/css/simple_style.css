@@ -1,0 +1,44 @@
+body {
+    background: #e3efdb;
+}
+
+main {
+    margin: 20px;
+    padding: 20px;
+    max-width: 90%;
+    background: #dbefed;
+    border: 1px Solid #88a4b3;
+}
+
+header {
+    color: #bfbfbf;
+}
+
+/* Headers: Can have H1 to H6 */
+h1 {
+    font: normal 20px 'American Typewriter', arial, sans-serif;
+    font-size:3em; /* Dynamic font size */
+    color: #88a4b3;
+}
+
+h2 {
+    font: normal 10px 'American Typewriter', arial, sans-serif;
+    font-style: italic;
+    font-size:2em; /* Dynamic font size */
+    color: darkgrey;
+}
+
+p {
+    font: normal 15px 'Comic Sans MS', sans-serif;
+    color: darkslateblue;
+}
+
+/* Class bc it can be reoccuring */
+.contentBlock {
+    display: block;
+    margin: 10px auto;
+    padding: 10px;
+    background-color: whitesmoke;
+    border: 1px Solid #88a4b3;
+    width: 90%;
+}

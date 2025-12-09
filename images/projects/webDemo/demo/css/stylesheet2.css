@@ -1,0 +1,100 @@
+* {
+    padding: 20px;
+}
+
+body {
+    background: rgb(255, 255, 255);
+    background: linear-gradient(0deg, rgba(157, 201, 212, 1) 0%, rgba(240, 244, 247, 1) 100%);
+    background-attachment: fixed; /*full screen*/
+    height: 100%;
+    font-family: Arial, Helvetica, sans-serif;
+    color: gray;
+}
+
+header {
+    width: 30%;
+    justify-content: left;
+    border-right: 1px Solid #111111;
+    padding: 10px;
+    color: #bfbfbf;
+    font-size: 12px;
+    font-style: italic;
+}
+
+footer {
+    padding-top: 40px;
+    padding-left: 60px;
+    position: fixed;    /*doesn't move*/
+    font-size: 12px;
+    line-height: 25px;
+    letter-spacing: 2px;
+}
+
+h1 {
+    font: normal 80% 'Optima', arial, sans-serif;
+    font-size:4em;
+    color: white;
+}
+
+h2 {
+    font: normal 80% 'Optima', arial, sans-serif;
+    font-size:2em;
+    color: #386b77;
+}
+
+p {
+    font: normal 80% 'Optima', arial, sans-serif;
+    color: #386b77;
+}
+
+/* Class bc it can be reoccuring */
+.headline {
+    margin-top: 5%;
+    padding-bottom: 5%;
+    padding-top: 0;
+    /*background-image: url("../images/binder_paper.jpg"); can use image */
+    background: #e9f4e0;
+    width: 62%;
+    border: 1px Solid #88a4b3;
+    float: right;
+    height: 100px;
+}
+
+.contentBlock {
+    width: 62%;
+    background: #edf6f9;
+    border: 1px Solid #88a4b3;
+    float: right;
+    height: 600px;
+}
+
+.sidenav {
+    height: 100%;
+    width: 30%;
+    position: fixed;
+    top: 0; /* optional, you can play around */
+    left: 0;
+    border-right: 1px Solid #89baca;
+    background-color: #edf6f9;
+}
+
+.sidenav a {
+    font: normal 15pt 'Optima', arial, sans-serif;
+    color: #386b77;
+    display: inline-block;
+    background-color: aliceblue;
+    letter-spacing: 7px;
+    text-decoration: none;
+    border-radius: 0 9px 0 0; /* top right bottom left*/
+    border: 1px Solid #89baca;
+    width: 90%;
+    text-align: center;
+    margin-bottom: 15px;
+    transition: all 0.4s ease 0s;
+}
+
+a:not([disabled]):hover{
+    background-color: #E7E7E7;
+    box-shadow: 0 5px 7px #386b77;
+    transform: translateY(-3px);
+}
