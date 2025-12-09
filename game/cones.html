@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Cone Grid</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background: #000;
+            cursor: none;
+        }
+        #canvas {
+            display: block;
+        }
+        #cursor {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            background: #ff0000;
+            transform: translate(-50%, -50%) rotate(45deg);
+            pointer-events: none;
+            z-index: 1000;
+        }
+    </style>
+</head>
+<body>
+<div id="canvas"></div>
+<div id="cursor"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+    const cursorEl = document.getElementById('cursor');
+
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x000000);
+
+    const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.set(0, 15, 30);
+    camera.lookAt(0, 0, 0);
+
+    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    document.getElementById('canvas').appendChild(renderer.domElement);
+
+    // Lighting
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
+    scene.add(ambientLight);
+
+    const mainLight = new THREE.DirectionalLight(0xffffff, 0.8);
+    mainLight.position.set(-10, 20, 10);
+    mainLight.castShadow = true;
+    mainLight.shadow.mapSize.width = 2048;
+    mainLight.shadow.mapSize.height = 2048;
+    mainLight.shadow.camera.left = -30;
+    mainLight.shadow.camera.right = 30;
+    mainLight.shadow.camera.top = 30;
+    mainLight.shadow.camera.bottom = -30;
+    scene.add(mainLight);
+
+    const fillLight = new THREE.DirectionalLight(0xffffff, 0.3);
+    fillLight.position.set(10, 10, -10);
+    scene.add(fillLight);
+
+    // Ground plane for shadows
+    const groundGeometry = new THREE.PlaneGeometry(100, 100);
+    const groundMaterial = new THREE.ShadowMaterial({ opacity: 0.3 });
+    const ground = new THREE.Mesh(groundGeometry, groundMaterial);
+    ground.rotation.x = -Math.PI / 2;
+    ground.position.y = -4;
+    ground.receiveShadow = true;
+    scene.add(ground);
+
+    const mouse = { x: 0, y: 0 };
+    const mouse3D = new THREE.Vector3();
+
+    const rows = 5;
+    const cols = 10;
+    const spacing = 5;
+    const maxTilt = Math.PI / 4;
+
+    class ArticulatedCone {
+        constructor(x, z) {
+            this.baseX = x;
+            this.baseZ = z;
+
+            // Base sphere (joint)
+            const jointGeometry = new THREE.SphereGeometry(0.5, 16, 16);
+            const jointMaterial = new THREE.MeshStandardMaterial({
+                color: 0x444444,
+                metalness: 0.6,
+                roughness: 0.4
+            });
+            this.joint = new THREE.Mesh(jointGeometry, jointMaterial);
+            this.joint.position.set(x, 0, z);
+            this.joint.castShadow = true;
+            this.joint.receiveShadow = true;
+            scene.add(this.joint);
+
+            // Cone
+            const coneGeometry = new THREE.ConeGeometry(1.2, 4, 32);
+            const coneMaterial = new THREE.MeshStandardMaterial({
+                color: 0xcccccc,
+                metalness: 0.2,
+                roughness: 0.7
+            });
+            this.cone = new THREE.Mesh(coneGeometry, coneMaterial);
+            this.cone.position.y = 2;
+            this.cone.castShadow = true;
+            this.cone.receiveShadow = true;
+
+            this.pivot = new THREE.Group();
+            this.pivot.position.set(x, 0, z);
+            this.pivot.add(this.cone);
+            scene.add(this.pivot);
+
+            this.targetRotationX = 0;
+            this.targetRotationZ = 0;
+            this.currentRotationX = 0;
+            this.currentRotationZ = 0;
+        }
+
+        update() {
+            const dx = mouse3D.x - this.baseX;
+            const dz = mouse3D.z - this.baseZ;
+            const dist = Math.sqrt(dx * dx + dz * dz);
+            const maxDist = 15;
+
+            if (dist < maxDist) {
+                const influence = 1 - (dist / maxDist);
+                const angle = Math.atan2(dz, dx);
+
+                this.targetRotationZ = Math.cos(angle) * influence * maxTilt;
+                this.targetRotationX = -Math.sin(angle) * influence * maxTilt;
+            } else {
+                this.targetRotationX = 0;
+                this.targetRotationZ = 0;
+            }
+
+            // Smooth interpolation
+            this.currentRotationX += (this.targetRotationX - this.currentRotationX) * 0.1;
+            this.currentRotationZ += (this.targetRotationZ - this.currentRotationZ) * 0.1;
+
+            this.pivot.rotation.x = this.currentRotationX;
+            this.pivot.rotation.z = this.currentRotationZ;
+        }
+    }
+
+    const cones = [];
+    const startX = -(cols - 1) * spacing / 2;
+    const startZ = -(rows - 1) * spacing / 2;
+
+    for (let row = 0; row < rows; row++) {
+        for (let col = 0; col < cols; col++) {
+            const x = startX + col * spacing;
+            const z = startZ + row * spacing;
+            cones.push(new ArticulatedCone(x, z));
+        }
+    }
+
+    function updateMouse3D(clientX, clientY) {
+        const rect = renderer.domElement.getBoundingClientRect();
+        mouse.x = ((clientX - rect.left) / rect.width) * 2 - 1;
+        mouse.y = -((clientY - rect.top) / rect.height) * 2 + 1;
+
+        const raycaster = new THREE.Raycaster();
+        raycaster.setFromCamera(mouse, camera);
+
+        const plane = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0);
+        raycaster.ray.intersectPlane(plane, mouse3D);
+    }
+
+    function animate() {
+        requestAnimationFrame(animate);
+
+        cones.forEach(cone => cone.update());
+
+        renderer.render(scene, camera);
+    }
+
+    window.addEventListener('mousemove', (e) => {
+        updateMouse3D(e.clientX, e.clientY);
+        cursorEl.style.left = e.clientX + 'px';
+        cursorEl.style.top = e.clientY + 'px';
+    });
+
+    window.addEventListener('resize', () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+
+    animate();
+</script>
+</body>
+</html>

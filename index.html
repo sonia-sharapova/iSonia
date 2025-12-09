@@ -6,7 +6,9 @@
   <link rel="icon" href="/images/icons/heart3.png" />
   <link rel="stylesheet" href="styles/stylesheet.css">
   <link rel="stylesheet" href="styles/clock.css">
-  <link rel="stylesheet" href="styles/projectDisplay.css">
+  <link rel="stylesheet" href="styles/homepage.css">
+  <link rel="stylesheet" href="styles/blogs.css">
+
 
   <script src="scripts/siteStyle/bck.js"></script>
   <script src="scripts/siteStyle/images.js"></script>
@@ -28,8 +30,8 @@
     }
 
     .preview-image {
-      width: 250px;
-      height: 250px;
+      width: 300px;
+      height: 300px;
       background: #eee;
       border: 1px solid #ddd;
       float: left;
@@ -42,6 +44,7 @@
 
     .description h1 {
       font-weight: unset;
+      font-size: 40px;
     }
     .left-column {
       flex: 1;
@@ -49,13 +52,13 @@
       flex-direction: column;
     }
 
-    .profile-section {
-      display: flex;
-      margin-bottom: 40px;
+    .right-column {
+      width: 20%;
+      flex-direction: column;
     }
 
-    .projects-section {
-      margin-top: 50px;
+    .profile-section {
+      display: flex;
     }
 
     .preview-image {
@@ -71,42 +74,6 @@
       flex: 1;
     }
 
-    .project-images {
-      width: 100%;
-      height: 100%;
-      position: relative;
-      overflow: hidden;
-      display: flex; /* Use flexbox to display images side by side */
-    }
-
-    .project-images img {
-      position: relative; /* Change from absolute to relative */
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      flex-shrink: 0; /* Don't allow images to shrink */
-      transform: translateX(0); /* Start at position 0 */
-      transition: opacity 0.5s;
-    }
-
-    /* Default state - hide all images except the first one */
-    .project-images img:not(:first-child) {
-      transform: translateX(100%); /* Move other images off to the right */
-    }
-
-    /* Add visual indicator for projects with multiple images */
-    .gallery-item {
-      position: relative !important;
-      text-decoration: none;
-      color: #3b5998;
-    }
-
-    .gallery-item p {
-      font-family: Optima, sans-serif;
-      text-align: center;
-    }
-
-
   </style>
 </head>
 <body>
@@ -114,7 +81,7 @@
   <a href="index.html" class="nav-item">HOME</a>
   <a href="navigation/resources.html" class="nav-item">RESOURCES</a>
   <a href="navigation/portfolio.html" class="nav-item">PORTFOLIO</a>
-  <a href="navigation/courses.html" class="nav-item">COURSES</a>
+  <a href="navigation/about.html" class="nav-item">ABOUT</a>
   <a href="navigation/contact.html" class="nav-item">CONTACT</a>
 </nav>
 
@@ -136,7 +103,7 @@
       </div>
       <div class="description">
         <br>
-        <img src="images/personal/board-removebg.png" alt="Gallery item 3" style="float: right; width:40%">
+        <img src="images/personal/board-removebg.png" alt="Gallery item 3" style="float: right; width:30%">
         <h1>SONIA SHARAPOVA</h1>
         <p>
           I sent you my http://localhost:3000 please respond<br><br>
@@ -145,223 +112,67 @@
       </div>
     </div>
 
-    <!-- Complete example for all 5 projects -->
-    <div class="projects-section">
-      <div class="gallery">
+    <div style="display: flex; gap: 20px; margin-top: 20px;">
 
-        <!-- Proj 1 Shape photos -->
-        <a href="projects/camera/shapePhotos.html" class="gallery-item">
+      <div class="navigation-column">
+        <a href="creations/blogs.html" class="nav-column-item">Writings</a>
+        <a href="creations/projects.html" class="nav-column-item">Projects</a>
+        <a href="creations/tutorials.html" class="nav-column-item">Guides</a>
+        <a href="navigation/resources.html" class="nav-column-item">Links</a>
+        <a href="creations/games.html" class="nav-column-item">Games</a>
+      </div>
 
-          <div class="topic-branch">
-            <div class="vertical-line"></div>
-            <div class="topic-item">
-              <div class="horizontal-line"></div>
-              <div class="topic">Scripting</div>
+
+      <div class="blog-section">
+        <h2 class="blog-title">Recent Thoughts</h2>
+
+        <!-- Blog Post 1 -->
+        <a href="creations/blogs/entry.html?post=archive" style="text-decoration:none">
+          <div class="blog-entry" id="post-1">
+            <div class="blog-entry-header">
+              <h2 class="blog-entry-title">Digital Hoarding</h2>
+              <span class="blog-entry-date">October 14, 2025</span>
             </div>
-            <div class="topic-item">
-              <div class="horizontal-line"></div>
-              <div class="topic">Coordinate Matching</div>
-            </div>
-            <div class="topic-item">
-              <div class="horizontal-line"></div>
-              <div class="topic">User Interaction</div>
-            </div>
+            <p class="blog-entry-excerpt">
+              At which point does archival bleed into hoarding? And is there a difference at all..
+            </p>
           </div>
-
-          <div class="project-images">
-            <img src="images/projects/preview/heartShape2.png" alt="Project 1" style="opacity: 0;">
-            <img src="images/projects/preview/shape1.png" alt="Project 1" style="opacity: 1;">
-            <img src="images/projects/preview/heartShape.jpeg" alt="Project 1" style="opacity: 1;">
-            <img src="images/projects/preview/shape2.png" alt="Project 1" style="opacity: 1;">
-          </div>
-          <div class="topic-indicator"></div>
-          <p>Webcam Shape-Maker</p>
-        </a>
-        <!-- Project 5
-        <a href="projects/camera/ascii_cam.html" class="gallery-item">
-
-          <div class="topic-branch">
-            <div class="vertical-line"></div>
-            <div class="topic-item">
-              <div class="horizontal-line"></div>
-              <div class="topic">Ascii</div>
-            </div>
-            <div class="topic-item">
-              <div class="horizontal-line"></div>
-              <div class="topic">Image Filters</div>
-            </div>
-            <div class="topic-item">
-              <div class="horizontal-line"></div>
-              <div class="topic">React</div>
-            </div>
-          </div>
-
-          <div class="project-images">
-            <img src="images/projects/preview/ascii-im.png" alt="Project 5" style="opacity: 0;">
-            <img src="images/projects/preview/ascii-im2.png" alt="Project 5" style="opacity: 1;">
-            <img src="images/projects/preview/ascii-5.png" alt="Project 5" style="opacity: 1;">
-
-            <img src="images/projects/preview/ascii-im5.png" alt="Project 5" style="opacity: 0;">
-            <img src="images/projects/preview/ascii-im4.png" alt="Project 5" style="opacity: 0;">
-            <img src="images/projects/preview/ascii2.png" alt="Project 5" style="opacity: 0;">
-
-          </div>
-          <div class="topic-indicator"></div>
-          <p>ASCII Camera</p>
         </a>
 
-        -->
-        <!-- Project 1: Camera -->
-        <a href="projects/camera/recognition.html" class="gallery-item">
-          <div class="topic-branch">
-            <div class="vertical-line"></div>
-            <div class="topic-item">
-              <div class="horizontal-line"></div>
-              <div class="topic">TensorFlow</div>
+        <a href="creations/blogs/entry.html?post=loss" style="text-decoration: none;">
+          <div class="blog-entry" id="post-2">
+            <div class="blog-entry-header">
+              <h2 class="blog-entry-title">Letting Go</h2>
+              <span class="blog-entry-date">October 2025</span>
             </div>
-            <div class="topic-item">
-              <div class="horizontal-line"></div>
-              <div class="topic">React</div>
-            </div>
-            <div class="topic-item">
-              <div class="horizontal-line"></div>
-              <div class="topic">UI Design</div>
-            </div>
+            <p class="blog-entry-excerpt">
+              My grief over a computer as a programmer.
+            </p>
           </div>
-          <div class="project-images">
-            <img src="images/projects/preview/car.png" alt="Project 1">
-            <img src="images/projects/preview/person.png" alt="Project 1" style="opacity: 0;">
-            <img src="images/projects/preview/cat.png" alt="Project 1" style="opacity: 0;">
-          </div>
-          <div class="topic-indicator"></div>
-          <p>Identification Camera</p>
         </a>
 
-        <!-- Project 2 -->
-        <a href="./projects/synth.html" class="gallery-item">
-          <div class="topic-branch">
-            <div class="vertical-line"></div>
-            <div class="topic-item">
-              <div class="horizontal-line"></div>
-              <div class="topic">Audio</div>
+        <a href="creations/blogs/entry.html?post=notes" style="text-decoration: none;">
+          <div class="blog-entry" id="post-3">
+            <div class="blog-entry-header">
+              <h2 class="blog-entry-title">Excerpts from my Notes App</h2>
+              <span class="blog-entry-date">2023 - 2025</span>
             </div>
-            <div class="topic-item">
-              <div class="horizontal-line"></div>
-              <div class="topic">JS/React</div>
-            </div>
-            <div class="topic-item">
-              <div class="horizontal-line"></div>
-              <div class="topic">Vite/Tailwind</div>
-            </div>
+            <p class="blog-entry-excerpt">
+              A collection of some of my entries in my Notes App over the years.
+            </p>
           </div>
-          <div class="project-images">
-            <img src="images/projects/preview/harp.png" alt="Project 2">
-            <img src="images/projects/preview/synth.png" alt="Project 2" style="opacity: 0;">
-            <img src="images/projects/preview/controls.png" alt="Project 2" style="opacity: 0;">
-          </div>
-          <div class="topic-indicator"></div>
-          <p>Synthesizer</p>
         </a>
 
-        <!-- Projects 3-5 follow the same pattern... -->
-        <!-- Project 3
-        <a href="./projects/camera/dots/dots.html" class="gallery-item">
-          <div class="topic-branch">
-            <div class="vertical-line"></div>
-            <div class="topic-item">
-              <div class="horizontal-line"></div>
-              <div class="topic">Feature Detection</div>
-            </div>
-            <div class="topic-item">
-              <div class="horizontal-line"></div>
-              <div class="topic">Computer Vision</div>
-            </div>
-            <div class="topic-item">
-              <div class="horizontal-line"></div>
-              <div class="topic">Tracing</div>
-            </div>
-          </div>
-          <div class="project-images">
-            <img src="images/projects/preview/lpb.png" alt="Project 2">
-            <img src="images/projects/preview/lpa.png" alt="Project 2" style="opacity: 0;">
-            <img src="images/projects/preview/lpb.png" alt="Project 2" style="opacity: 0;">
-            <img src="images/projects/preview/lpc.png" alt="Project 2" style="opacity: 0;">
-            <img src="images/projects/preview/lp1.png" alt="Project 2" style="opacity: 0;">
-            <img src="images/projects/preview/lp2.png" alt="Project 2" style="opacity: 0;">
-            <img src="images/projects/preview/lp3.png" alt="Project 2" style="opacity: 0;">
-          </div>
-          <div class="topic-indicator"></div>
-          <p>Connect Dots</p>
-        </a>
-        -->
-
-        <!-- Project 3 -->
-        <a href="./projects/camera/drawASCII.html" class="gallery-item">
-          <div class="topic-branch">
-            <div class="vertical-line"></div>
-            <div class="topic-item">
-              <div class="horizontal-line"></div>
-              <div class="topic">ASCII Conversion</div>
-            </div>
-            <div class="topic-item">
-              <div class="horizontal-line"></div>
-              <div class="topic">Border Detection</div>
-            </div>
-            <div class="topic-item">
-              <div class="horizontal-line"></div>
-              <div class="topic">Character Mapping</div>
-            </div>
-          </div>
-          <div class="project-images">
-            <img src="images/projects/preview/star1.png" alt="Project 3" style="opacity: 0;">
-            <img src="images/projects/preview/star2.png" alt="Project 3" style="opacity: 0;">
-            <img src="images/projects/preview/star4.png" alt="Project 3" style="opacity: 0;">
-            <img src="images/projects/preview/star3.png" alt="Project 3" style="opacity: 0;">
-
-            <img src="images/projects/preview/heart1.png" alt="Project 3">
-            <img src="images/projects/preview/heart2.png" alt="Project 3" style="opacity: 0;">
-            <img src="images/projects/preview/heart4.png" alt="Project 3" style="opacity: 0;">
-            <img src="images/projects/preview/heart3.png" alt="Project 3" style="opacity: 0;">
-
-          </div>
-          <div class="topic-indicator"></div>
-          <p>Draw ASCII Art</p>
-        </a>
-
-
-        <!-- Project 2 -->
-        <a href="game/object.html" class="gallery-item">
-          <div class="topic-branch">
-            <div class="vertical-line"></div>
-            <div class="topic-item">
-              <div class="horizontal-line"></div>
-              <div class="topic">Graphics</div>
-            </div>
-            <div class="topic-item">
-              <div class="horizontal-line"></div>
-              <div class="topic">Three.js</div>
-            </div>
-            <div class="topic-item">
-              <div class="horizontal-line"></div>
-              <div class="topic">User Control</div>
-            </div>
-          </div>
-          <div class="project-images">
-            <img src="images/projects/preview/obj2.png" alt="Project 4">
-            <img src="images/projects/preview/obj3.png" alt="Project 4" style="opacity: 0;">
-            <img src="images/projects/preview/obj1.png" alt="Project 4" style="opacity: 0;">
-          </div>
-          <div class="topic-indicator"></div>
-          <p>Graphics Playground</p>
-        </a>
-
-
+        <a href="creations/blogs.html" class="see-all-link">SEE ALL</a>
       </div>
     </div>
+
   </div>
+
+
   <hr>
+
   <div class="right-column">
-    <!-- Clock component on the right side -->
     <div class="widgets-container">
       <div class="clock-wrapper">
         <div class="digital-time" id="digitalTime"></div>
@@ -374,33 +185,61 @@
           </div>
         </div>
       </div>
-    <!-- Calendar component below clock -->
-      <div class="calendar-wrapper">
-        <div class="controls">
-          <button id="prevMonth">&lt;</button>
-          <button id="nextMonth">&gt;</button>
-        </div>
-        <div class="calendar-header">
-          <span id="month-display" class="month-display"></span>
-        </div>
-        <div class="days-header">
-          <div class="day-header">Su</div>
-          <div class="day-header">Mo</div>
-          <div class="day-header">Tu</div>
-          <div class="day-header">We</div>
-          <div class="day-header">Th</div>
-          <div class="day-header">Fr</div>
-          <div class="day-header">Sa</div>
-        </div>
 
-        <div class="calendar-body" id="calendar-body"></div>
+      <!-- Interactive Section -->
+      <div class="contact-form-container" style="max-width: 600px; margin: 30px auto; padding: 0 10px;">
+        <h2 style="text-align: center; margin-bottom: 15px; font-size: 25px; font-weight: 500;">Send Me a Message :)</h2>
 
+        <form id="contact-form" style="background: #f5f6f6; padding: 30px; border: 1px solid #cdd0e3; border-radius: 5px; box-shadow: 0 5px 15px rgba(0,0,0,0.05);">
+          <div style="margin-bottom: 10px;">
+            <label for="name" style="display: block; margin-bottom: 8px; font-weight: 500;">Your Name</label>
+            <input type="text" id="name" name="name" required
+                   style="width: 90%; padding: 12px; border: 1px solid #ddd; border-radius: 5px; font-size: 16px;">
+          </div>
+
+          <div style="margin-bottom: 10px;">
+            <label for="email" style="display: block; margin-bottom: 8px; font-weight: 500;">Your Email</label>
+            <input type="email" id="email" name="email" required
+                   style="width: 90%; padding: 12px; border: 1px solid #ddd; border-radius: 5px; font-size: 16px;">
+          </div>
+
+          <div style="margin-bottom: 10px;">
+            <label for="subject" style="display: block; margin-bottom: 8px; font-weight: 500;">Subject</label>
+            <input type="text" id="subject" name="subject" required
+                   style="width: 90%; padding: 12px; border: 1px solid #ddd; border-radius: 5px; font-size: 16px;">
+          </div>
+
+          <div style="margin-bottom: 15px;">
+            <label for="message" style="display: block; margin-bottom: 8px; font-weight: 500;">Message</label>
+            <textarea id="message" name="message" rows="6" required
+                      style="width: 90%; padding: 12px; border: 1px solid #ddd; border-radius: 5px; font-size: 16px; resize: vertical;">Coming soon! Do NOT message yet..</textarea>
+          </div>
+
+          <button type="submit"
+                  style="background: #92bc9c; font-family: 'Optima', serif; color: white; border: none; padding: 15px 30px; border-radius: 5px; font-size: 18px; cursor: pointer; width: 100%; transition: background 0.3s;">
+            ~~ Message Feature Coming SOON!! Once email reconfiguration successful~~
+          </button>
+
+          <div id="form-message" style="margin-top: 15px; text-align: center; display: none;"></div>
+        </form>
       </div>
 
 
+          <!--
+          <a href="projects/synth.html" class="interactive-item">
+            <div class="interactive-image">
+              <img src="images/projects/preview/synth.png" alt="Synthesizer">
+            </div>
+            <div class="interactive-overlay">
+              <span class="interactive-title">Synthesizer</span>
+            </div>
+          </a>
+          -->
+     </div>
+
     </div>
-  </div>
 </main>
+
 <div class="modal" id="imageModal">
   <div class="modal-content">
     <button class="modal-close">✕</button>
@@ -408,22 +247,48 @@
   </div>
 </div>
 <script>
+  document.getElementById('contact-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const formData = {
+      name: document.getElementById('name').value,
+      email: document.getElementById('email').value,
+      subject: document.getElementById('subject').value,
+      message: document.getElementById('message').value
+    };
+
+    const messageDiv = document.getElementById('form-message');
+
+    // Here you would typically send the data to a server
+    // For now, we'll just show a success message
+    messageDiv.style.display = 'block';
+    messageDiv.style.color = 'green';
+    messageDiv.textContent = 'Thank you for your message! I\'ll get back to you soon.';
+
+    // Clear the form
+    document.getElementById('contact-form').reset();
+
+    // Hide message after 5 seconds
+    setTimeout(() => {
+      messageDiv.style.display = 'none';
+    }, 5000);
+  });
+</script>
+<script>
   animate();
 </script>
+
 <footer>
   <p style="text-align: center">
     <a href="https://github.com/sonia-sharapova">GitHub</a> |
     <a href="https://www.linkedin.com/in/sonia-sharapova/">LinkedIn</a> |
     <a href="https://www.instagram.com/sonia.s.ru/">Instagram</a>
-
   </p>
   <div style="margin-top: 5px;">
     Sonia's Web Archive<br>
     2025
   </div>
 </footer>
-
-
 
 </body>
 </html>

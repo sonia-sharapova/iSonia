@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Draggable Three.js Scene</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+        }
+        canvas {
+            display: block;
+        }
+        #info {
+            position: absolute;
+            top: 10px;
+            width: 100%;
+            text-align: center;
+            color: white;
+            font-family: Arial, sans-serif;
+            padding: 10px;
+            background: rgba(0,0,0,0.7);
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+<div id="info">Click and drag objects to reposition them</div>
+<script>
+    let camera, scene, renderer, raycaster, plane;
+    let draggableObjects = [];
+    let selectedObject = null;
+    let offset = new THREE.Vector3();
+    let mouse = new THREE.Vector2();
+    let intersectionPoint = new THREE.Vector3();
+    let planeNormal = new THREE.Vector3();
+    let dragPlane = new THREE.Plane();
+
+    init();
+    animate();
+
+    function init() {
+        // Scene setup
+        scene = new THREE.Scene();
+        scene.background = new THREE.Color(0x222222);
+
+        // Camera setup
+        camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.z = 5;
+
+        // Renderer setup
+        renderer = new THREE.WebGLRenderer({ antialias: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
+
+        // Lighting
+        const ambientLight = new THREE.AmbientLight(0x404040);
+        scene.add(ambientLight);
+
+        const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+        directionalLight.position.set(5, 5, 5);
+        scene.add(directionalLight);
+
+        // Raycaster setup
+        raycaster = new THREE.Raycaster();
+
+        // Create objects
+        const objects = [
+            createCube(),
+            createSphere(),
+            createCone()
+        ];
+
+        draggableObjects = objects;
+
+        // Event listeners
+        renderer.domElement.addEventListener('mousedown', onMouseDown);
+        renderer.domElement.addEventListener('mousemove', onMouseMove);
+        renderer.domElement.addEventListener('mouseup', onMouseUp);
+        window.addEventListener('resize', onWindowResize);
+    }
+
+    function createCube() {
+        const geometry = new THREE.BoxGeometry();
+        const material = new THREE.MeshPhongMaterial({
+            color: 0x00ff00,
+            transparent: true,
+            opacity: 0.8
+        });
+        const cube = new THREE.Mesh(geometry, material);
+        cube.position.x = -2;
+        scene.add(cube);
+        return cube;
+    }
+
+    function createSphere() {
+        const geometry = new THREE.SphereGeometry(0.5, 32, 32);
+        const material = new THREE.MeshPhongMaterial({
+            color: 0xff0000,
+            transparent: true,
+            opacity: 0.8
+        });
+        const sphere = new THREE.Mesh(geometry, material);
+        scene.add(sphere);
+        return sphere;
+    }
+
+    function createCone() {
+        const geometry = new THREE.ConeGeometry(0.5, 1, 32);
+        const material = new THREE.MeshPhongMaterial({
+            color: 0x0000ff,
+            transparent: true,
+            opacity: 0.8
+        });
+        const cone = new THREE.Mesh(geometry, material);
+        cone.position.x = 2;
+        scene.add(cone);
+        return cone;
+    }
+
+    function onMouseDown(event) {
+        // Calculate mouse position
+        mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+        mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+        // Update raycaster
+        raycaster.setFromCamera(mouse, camera);
+
+        // Check for intersections
+        const intersects = raycaster.intersectObjects(draggableObjects);
+
+        if (intersects.length > 0) {
+            selectedObject = intersects[0].object;
+
+            // Calculate the offset
+            planeNormal.copy(camera.position).normalize();
+            dragPlane.setFromNormalAndCoplanarPoint(
+                planeNormal,
+                selectedObject.position
+            );
+
+            raycaster.ray.intersectPlane(dragPlane, intersectionPoint);
+            offset.copy(selectedObject.position).sub(intersectionPoint);
+
+            // Change cursor and object appearance
+            renderer.domElement.style.cursor = 'grab';
+            selectedObject.material.opacity = 0.5;
+        }
+    }
+
+    function onMouseMove(event) {
+        if (selectedObject) {
+            // Update mouse position
+            mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+            mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+            // Update raycaster
+            raycaster.setFromCamera(mouse, camera);
+
+            // Calculate new position
+            raycaster.ray.intersectPlane(dragPlane, intersectionPoint);
+            selectedObject.position.copy(intersectionPoint.add(offset));
+        }
+    }
+
+    function onMouseUp() {
+        if (selectedObject) {
+            selectedObject.material.opacity = 0.8;
+            selectedObject = null;
+            renderer.domElement.style.cursor = 'auto';
+        }
+    }
+
+    function onWindowResize() {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+    }
+
+    function animate() {
+        requestAnimationFrame(animate);
+
+        // Gentle rotation for non-selected objects
+        draggableObjects.forEach(obj => {
+            if (obj !== selectedObject) {
+                obj.rotation.x += 0.005;
+                obj.rotation.y += 0.005;
+            }
+        });
+
+        renderer.render(scene, camera);
+    }
+</script>
+</body>
+</html>

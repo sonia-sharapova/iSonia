@@ -1,0 +1,1245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" href="/images/icons/star.png" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>p0st3r Maker</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg-color: #f5f5f5;
+      --sidebar-bg: #e0e0e0;
+      --text-color: #333;
+      --border-color: #777676;
+      --control-bg: #fff;
+      --canvas-bg: #fff;
+      --grid-color: #ff4444; /* Keep red as default in light mode too */
+    }
+
+
+    body.dark-mode {
+      --primary-color: #ff4444;
+      --bg-color: #000;
+      --sidebar-bg: #1a1a1a;
+      --text-color: #fff;
+      --border-color: #0b0a0a;
+      --control-bg: #2a2a2a;
+      --canvas-bg: #fff;
+      --grid-color: #ff4444; /* Set red as default grid color */
+    }
+
+    body {
+      font-family: 'Roboto', Arial, sans-serif;
+      background: var(--bg-color);
+      color: var(--text-color);
+      overflow: hidden;
+      height: 100vh;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    .container {
+      display: flex;
+      height: 100vh;
+    }
+
+    .sidebar {
+      width: 320px;
+      background: var(--sidebar-bg);
+      padding: 20px;
+      overflow-y: auto;
+      border-right: 1px solid var(--border-color);
+      transition: background 0.3s;
+    }
+
+    .logo {
+      color: var(--primary-color);
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .theme-toggle {
+      background: var(--control-bg);
+      border: 1px solid var(--border-color);
+      color: var(--text-color);
+      padding: 5px 10px;
+      border-radius: 15px;
+      cursor: pointer;
+      font-size: 12px;
+    }
+
+    .canvas-container {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: var(--bg-color);
+      position: relative;
+      transition: background 0.3s;
+    }
+
+    .canvas {
+      width: 800px;
+      height: 600px;
+      background: var(--canvas-bg);
+      position: relative;
+      overflow: hidden;
+      cursor: crosshair;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .canvas {
+      --grid-color: var(--grid-color);
+      --grid-width: 40px;
+      --grid-height: 30px;
+    }
+
+    .canvas.grid {
+      background-image:
+              linear-gradient(to right, var(--grid-color) 1px, transparent 1px),
+              linear-gradient(to bottom, var(--grid-color) 1px, transparent 1px);
+      background-size: var(--grid-width) var(--grid-height);
+    }
+
+    .text-element {
+      position: absolute;
+      font-weight: bold;
+      cursor: move;
+      user-select: none;
+      z-index: 10;
+      line-height: 0.8;
+      letter-spacing: -0.02em;
+      transition: outline 0.2s;
+    }
+
+    .text-element.selected {
+      outline: 2px solid var(--primary-color);
+    }
+
+    .image-element {
+      position: absolute;
+      cursor: move;
+      user-select: none;
+      z-index: 5;
+      mix-blend-mode: multiply;
+      max-width: none;
+      max-height: none;
+      transition: outline 0.2s;
+    }
+
+    .image-element.selected {
+      outline: 2px solid var(--primary-color);
+    }
+
+    .resize-handle {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background: var(--primary-color);
+      border: 1px solid #fff;
+      z-index: 20;
+    }
+
+    .resize-handle.nw { top: -5px; left: -5px; cursor: nw-resize; }
+    .resize-handle.ne { top: -5px; right: -5px; cursor: ne-resize; }
+    .resize-handle.sw { bottom: -5px; left: -5px; cursor: sw-resize; }
+    .resize-handle.se { bottom: -5px; right: -5px; cursor: se-resize; }
+    .resize-handle.n { top: -5px; left: 50%; transform: translateX(-50%); cursor: n-resize; }
+    .resize-handle.s { bottom: -5px; left: 50%; transform: translateX(-50%); cursor: s-resize; }
+    .resize-handle.w { top: 50%; left: -5px; transform: translateY(-50%); cursor: w-resize; }
+    .resize-handle.e { top: 50%; right: -5px; transform: translateY(-50%); cursor: e-resize; }
+
+    .control-group {
+      margin-bottom: 25px;
+      background: var(--control-bg);
+      border-radius: 8px;
+      padding: 15px;
+      transition: background 0.3s;
+    }
+
+    .control-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 0 12px 0;
+      border-bottom: 1px solid var(--border-color);
+      margin-bottom: 15px;
+      font-size: 14px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .hide-btn {
+      background: none;
+      border: none;
+      color: var(--text-color);
+      opacity: 0.7;
+      cursor: pointer;
+      font-size: 12px;
+      text-transform: uppercase;
+      transition: opacity 0.2s;
+    }
+
+    .hide-btn:hover {
+      opacity: 1;
+      color: var(--primary-color);
+    }
+
+    .control-content {
+      display: block;
+    }
+
+    .control-content.hidden {
+      display: none;
+    }
+
+    .text-input {
+      width: 100%;
+      background: var(--control-bg);
+      border: 1px solid var(--border-color);
+      color: var(--text-color);
+      padding: 8px 12px;
+      margin-bottom: 15px;
+      font-size: 14px;
+      border-radius: 4px;
+      transition: border 0.2s;
+    }
+
+    .text-input:focus {
+      border-color: var(--primary-color);
+      outline: none;
+    }
+
+    .slider-group {
+      margin-bottom: 15px;
+    }
+
+    .slider-label {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 12px;
+      text-transform: uppercase;
+      color: var(--text-color);
+      opacity: 0.8;
+    }
+
+    .slider {
+      width: 100%;
+      height: 4px;
+      background: var(--border-color);
+      outline: none;
+      border-radius: 2px;
+      appearance: none;
+    }
+
+    .slider::-webkit-slider-thumb {
+      appearance: none;
+      width: 16px;
+      height: 16px;
+      background: var(--primary-color);
+      border-radius: 50%;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    .slider::-webkit-slider-thumb:hover {
+      transform: scale(1.2);
+    }
+
+    .slider::-moz-range-thumb {
+      width: 16px;
+      height: 16px;
+      background: var(--primary-color);
+      border-radius: 50%;
+      cursor: pointer;
+      border: none;
+      transition: transform 0.2s;
+    }
+
+    .slider::-moz-range-thumb:hover {
+      transform: scale(1.2);
+    }
+
+    .color-group {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 15px;
+      flex-wrap: wrap;
+    }
+
+    .color-option {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: transform 0.2s;
+    }
+
+    .color-option:hover {
+      transform: scale(1.1);
+    }
+
+    .color-option.selected {
+      border-color: var(--primary-color);
+      transform: scale(1.1);
+    }
+
+    .color-option.white { background: #fff; }
+    .color-option.black { background: #000; }
+    .color-option.red { background: #ff4444; }
+    .color-option.blue { background: #4444ff; }
+    .color-option.green { background: #44ff44; }
+    .color-option.yellow { background: #ffff44; }
+    .color-option.purple { background: #aa44ff; }
+
+    .color-picker-container {
+      margin-bottom: 15px;
+    }
+
+    .color-picker-label {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 12px;
+      text-transform: uppercase;
+      color: var(--text-color);
+      opacity: 0.8;
+    }
+
+    .color-picker {
+      width: 100%;
+      height: 40px;
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      cursor: pointer;
+      background: var(--control-bg);
+    }
+
+    .font-select {
+      width: 100%;
+      background: var(--control-bg);
+      border: 1px solid var(--border-color);
+      color: var(--text-color);
+      padding: 8px 12px;
+      margin-bottom: 15px;
+      border-radius: 4px;
+      transition: border 0.2s;
+    }
+
+    .font-select:focus {
+      border-color: var(--primary-color);
+      outline: none;
+    }
+
+    .align-group {
+      display: flex;
+      gap: 5px;
+      margin-bottom: 15px;
+    }
+
+    .align-btn {
+      background: var(--control-bg);
+      border: 1px solid var(--border-color);
+      color: var(--text-color);
+      padding: 8px 12px;
+      cursor: pointer;
+      flex: 1;
+      text-align: center;
+      border-radius: 4px;
+      transition: all 0.2s;
+    }
+
+    .align-btn:hover {
+      background: var(--border-color);
+    }
+
+    .align-btn.selected {
+      background: var(--primary-color);
+      border-color: var(--primary-color);
+      color: white;
+    }
+
+    .open-library-btn {
+      width: 100%;
+      background: var(--control-bg);
+      border: 1px solid var(--primary-color);
+      color: var(--primary-color);
+      padding: 12px;
+      cursor: pointer;
+      text-transform: uppercase;
+      font-weight: bold;
+      margin-bottom: 15px;
+      border-radius: 4px;
+      transition: all 0.2s;
+    }
+
+    .open-library-btn:hover {
+      background: var(--primary-color);
+      color: #fff;
+    }
+
+    .file-input {
+      display: none;
+    }
+
+    .right-sidebar {
+      width: 280px;
+      background: var(--sidebar-bg);
+      padding: 20px;
+      border-left: 1px solid var(--border-color);
+      transition: background 0.3s;
+    }
+
+    .view-controls {
+      margin-bottom: 30px;
+    }
+
+    .output-section {
+      margin-top: 30px;
+    }
+
+    .action-btn {
+      width: 100%;
+      background: var(--control-bg);
+      border: 1px solid var(--primary-color);
+      color: var(--primary-color);
+      padding: 12px;
+      cursor: pointer;
+      text-transform: uppercase;
+      font-weight: bold;
+      margin-bottom: 10px;
+      border-radius: 4px;
+      transition: all 0.2s;
+    }
+
+    .action-btn:hover {
+      background: var(--primary-color);
+      color: #fff;
+    }
+
+    .canvas-controls {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      z-index: 100;
+      display: flex;
+      gap: 10px;
+    }
+
+    .canvas-btn {
+      background: rgba(161, 161, 161, 0.7);
+      border: 1px solid var(--border-color);
+      color: rgba(0, 0, 0, 0.75);
+      padding: 8px 12px;
+      cursor: pointer;
+      font-size: 12px;
+      border-radius: 4px;
+      transition: all 0.2s;
+    }
+
+    .canvas-btn:hover {
+      background: var(--primary-color);
+      border-color: var(--primary-color);
+    }
+
+    .layer-list {
+      margin-top: 20px;
+      max-height: 200px;
+      overflow-y: auto;
+    }
+
+    .layer-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 12px;
+      background: var(--control-bg);
+      margin-bottom: 5px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .layer-item:hover {
+      background: var(--border-color);
+    }
+
+    .layer-item.selected {
+      background: var(--primary-color);
+      color: white;
+    }
+
+    .layer-visibility {
+      cursor: pointer;
+      opacity: 0.7;
+    }
+
+    .layer-visibility:hover {
+      opacity: 1;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 1200px) {
+      .sidebar, .right-sidebar {
+        width: 260px;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <!-- Left Sidebar -->
+  <div class="sidebar">
+    <div class="logo">
+      <span>p0st3r</span>
+      <button class="theme-toggle" id="themeToggle">Dark Mode</button>
+    </div>
+
+    <!-- Layer Controls -->
+    <div class="control-group">
+      <div class="control-header">
+        <span>HEADLINE</span>
+        <button class="hide-btn" onclick="toggleSection('headline')">HIDE</button>
+      </div>
+      <div class="control-content" id="headline-content">
+        <!-- Content will be managed by JavaScript -->
+      </div>
+    </div>
+
+    <div class="control-group">
+      <div class="control-header">
+        <span>SUBLINE</span>
+        <button class="hide-btn" onclick="toggleSection('subline')">HIDE</button>
+      </div>
+      <div class="control-content" id="subline-content">
+        <!-- Content will be managed by JavaScript -->
+      </div>
+    </div>
+
+    <div class="control-group">
+      <div class="control-header">
+        <span>IMAGE</span>
+        <button class="hide-btn" onclick="toggleSection('image')">HIDE</button>
+      </div>
+      <div class="control-content" id="image-content">
+        <button class="open-library-btn" onclick="document.getElementById('image-upload').click()">OPEN LIBRARY</button>
+        <input type="file" id="image-upload" class="file-input" accept="image/*">
+      </div>
+    </div>
+
+    <div class="control-group">
+      <div class="control-header">
+        <span>IMAGE2</span>
+        <button class="hide-btn" onclick="toggleSection('image2')">HIDE</button>
+      </div>
+      <div class="control-content" id="image2-content">
+        <button class="open-library-btn" onclick="document.getElementById('image2-upload').click()">OPEN LIBRARY</button>
+        <input type="file" id="image2-upload" class="file-input" accept="image/*">
+      </div>
+    </div>
+
+    <div class="control-group">
+      <div class="control-header">
+        <span>GRID</span>
+        <button class="hide-btn" onclick="toggleSection('grid')">HIDE</button>
+      </div>
+      <div class="control-content" id="grid-content">
+        <div class="color-picker-container">
+          <label class="color-picker-label">GRID COLOR</label>
+          <input type="color" class="color-picker" id="grid-color-picker" value="#ff4444">
+        </div>
+        <div class="slider-group">
+          <label class="slider-label">ROWS</label>
+          <input type="range" class="slider" min="5" max="50" value="20" id="grid-rows">
+        </div>
+        <div class="slider-group">
+          <label class="slider-label">COLS</label>
+          <input type="range" class="slider" min="5" max="50" value="20" id="grid-cols">
+        </div>
+      </div>
+    </div>
+
+    <div class="control-group">
+      <div class="control-header">
+        <span>BASE</span>
+        <button class="hide-btn" onclick="toggleSection('base')">HIDE</button>
+      </div>
+      <div class="control-content" id="base-content">
+        <div class="color-picker-container">
+          <label class="color-picker-label">CANVAS COLOR</label>
+          <input type="color" class="color-picker" id="canvas-color-picker" value="#ffffff">
+        </div>
+      </div>
+    </div>
+
+    <!-- Text Controls (when text is selected) -->
+    <div class="control-group" id="text-controls" style="display: none;">
+      <div class="control-header">
+        <span>TEXT</span>
+      </div>
+      <div class="control-content">
+        <input type="text" class="text-input" id="text-content" placeholder="Enter text">
+        <div class="slider-group">
+          <label class="slider-label">FONTSIZE</label>
+          <input type="range" class="slider" min="12" max="200" value="72" id="font-size">
+        </div>
+        <div class="slider-group">
+          <label class="slider-label">LINEHEIGHT</label>
+          <input type="range" class="slider" min="0.5" max="2" step="0.1" value="0.8" id="line-height">
+        </div>
+        <div class="color-picker-container">
+          <label class="color-picker-label">TEXT COLOR</label>
+          <input type="color" class="color-picker" id="text-color-picker" value="#ff4444">
+        </div>
+        <select class="font-select" id="font-family">
+          <option value="Roboto">Roboto</option>
+          <option value="Arial">Arial</option>
+          <option value="Helvetica">Helvetica</option>
+          <option value="Georgia">Georgia</option>
+          <option value="Times New Roman">Times New Roman</option>
+          <option value="Courier New">Courier New</option>
+          <option value="Verdana">Verdana</option>
+          <option value="Impact">Impact</option>
+          <option value="Comic Sans MS">Comic Sans MS</option>
+          <option value="Trebuchet MS">Trebuchet MS</option>
+        </select>
+        <div class="align-group">
+          <button class="align-btn" onclick="setTextAlign('left')">Left</button>
+          <button class="align-btn selected" onclick="setTextAlign('center')">Center</button>
+          <button class="align-btn" onclick="setTextAlign('right')">Right</button>
+        </div>
+        <div class="slider-group">
+          <label class="slider-label">OPACITY</label>
+          <input type="range" class="slider" min="0" max="1" step="0.1" value="1" id="text-opacity">
+        </div>
+      </div>
+    </div>
+
+    <!-- Layer Management -->
+    <div class="control-group">
+      <div class="control-header">
+        <span>LAYERS</span>
+      </div>
+      <div class="layer-list" id="layer-list">
+        <!-- Layers will be dynamically added here -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Canvas Area -->
+  <div class="canvas-container">
+    <div class="canvas" id="canvas">
+      <!-- Dynamic content will be added here -->
+    </div>
+    <div class="canvas-controls">
+      <button class="canvas-btn" onclick="toggleGrid()">Toggle Grid</button>
+      <button class="canvas-btn" onclick="addText()">Add Text</button>
+      <button class="canvas-btn" onclick="clearCanvas()">Clear</button>
+    </div>
+  </div>
+
+  <!-- Right Sidebar -->
+  <div class="right-sidebar">
+    <div class="view-controls">
+      <div class="control-header">
+        <span>VIEW</span>
+      </div>
+      <div class="slider-group">
+        <label class="slider-label">ZOOM</label>
+        <input type="range" class="slider" min="0.5" max="2" step="0.1" value="1" id="zoom">
+      </div>
+      <div class="slider-group">
+        <label class="slider-label">BRIGHTNESS</label>
+        <input type="range" class="slider" min="0.5" max="1.5" step="0.1" value="1" id="brightness">
+      </div>
+    </div>
+
+    <div class="output-section">
+      <div class="control-header">
+        <span>OUTPUT</span>
+      </div>
+      <button class="action-btn" onclick="logToConsole()">LOG TO CONSOLE</button>
+      <button class="action-btn" onclick="savePNG()">SAVE PNG</button>
+      <button class="action-btn" onclick="saveJPG()">SAVE JPG</button>
+      <button class="action-btn" onclick="recordVideo()">RECORD VIDEO</button>
+      <button class="action-btn" onclick="exportAsPDF()">EXPORT PDF</button>
+    </div>
+
+    <div class="control-group">
+      <div class="control-header">
+        <span>PRESETS</span>
+      </div>
+      <div class="control-content">
+        <button class="action-btn" onclick="applyPreset('minimal')">MINIMAL</button>
+        <button class="action-btn" onclick="applyPreset('bold')">BOLD</button>
+        <button class="action-btn" onclick="applyPreset('vintage')">VINTAGE</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  let selectedElement = null;
+  let draggedElement = null;
+  let dragOffset = { x: 0, y: 0 };
+  let elementCounter = 0;
+  let isGridVisible = true;
+  let resizeHandle = null;
+  let resizeStartSize = { width: 0, height: 0 };
+  let resizeStartPos = { x: 0, y: 0 };
+  let layers = [];
+  let isDarkMode = true;
+
+  // Initialize the application
+  function init() {
+    setupEventListeners();
+    addText('CREA\nTIVE', 100, 100, '#ff4444', 120);
+    addText('Subline', 100, 450, '#ff4444', 24);
+
+    // Initialize grid as visible with red color
+    const canvas = document.getElementById('canvas');
+    canvas.classList.add('grid');
+
+    // Force update grid with red color
+    updateGrid();
+    setGridColor('#ff4444'); // This ensures the CSS variable is set
+
+    // Set default color pickers
+    document.getElementById('grid-color-picker').value = '#ff4444';
+    document.getElementById('canvas-color-picker').value = '#ffffff';
+    document.getElementById('text-color-picker').value = '#ff4444';
+  }
+
+  function setupEventListeners() {
+    const canvas = document.getElementById('canvas');
+
+    // Canvas event listeners
+    canvas.addEventListener('click', handleCanvasClick);
+    canvas.addEventListener('mousedown', handleMouseDown);
+    canvas.addEventListener('mousemove', handleMouseMove);
+    canvas.addEventListener('mouseup', handleMouseUp);
+
+    // File upload listeners
+    document.getElementById('image-upload').addEventListener('change', handleImageUpload);
+    document.getElementById('image2-upload').addEventListener('change', handleImage2Upload);
+
+    // Text control listeners
+    document.getElementById('text-content').addEventListener('input', updateSelectedText);
+    document.getElementById('font-size').addEventListener('input', updateTextSize);
+    document.getElementById('line-height').addEventListener('input', updateLineHeight);
+    document.getElementById('font-family').addEventListener('change', updateFontFamily);
+    document.getElementById('text-opacity').addEventListener('input', updateTextOpacity);
+
+    // Color picker listeners
+    document.getElementById('grid-color-picker').addEventListener('input', updateGridColor);
+    document.getElementById('canvas-color-picker').addEventListener('input', updateCanvasColor);
+    document.getElementById('text-color-picker').addEventListener('input', updateTextColor);
+
+    // View control listeners
+    document.getElementById('zoom').addEventListener('input', updateZoom);
+    document.getElementById('brightness').addEventListener('input', updateBrightness);
+
+    // Grid control listeners
+    document.getElementById('grid-rows').addEventListener('input', updateGrid);
+    document.getElementById('grid-cols').addEventListener('input', updateGrid);
+
+    // Theme toggle
+    document.getElementById('themeToggle').addEventListener('click', toggleTheme);
+
+    // Keyboard listeners
+    document.addEventListener('keydown', handleKeyDown);
+
+    // Initialize grid
+    updateGrid();
+  }
+
+  function setGridColor(color) {
+    const canvas = document.getElementById('canvas');
+    canvas.style.setProperty('--grid-color', color);
+  }
+
+  function handleCanvasClick(e) {
+    const clickedElement = e.target;
+    if (clickedElement.classList.contains('text-element') || clickedElement.classList.contains('image-element')) {
+      selectElement(clickedElement);
+    } else {
+      deselectAll();
+    }
+  }
+
+  function handleMouseDown(e) {
+    if (e.target.classList.contains('resize-handle')) {
+      resizeHandle = e.target;
+      const imgElement = resizeHandle.parentElement;
+      resizeStartSize.width = imgElement.offsetWidth;
+      resizeStartSize.height = imgElement.offsetHeight;
+      resizeStartPos.x = e.clientX;
+      resizeStartPos.y = e.clientY;
+      e.preventDefault();
+      e.stopPropagation();
+    } else if (e.target.classList.contains('text-element') || e.target.classList.contains('image-element')) {
+      draggedElement = e.target;
+      const rect = e.target.getBoundingClientRect();
+      const canvasRect = document.getElementById('canvas').getBoundingClientRect();
+      dragOffset.x = e.clientX - rect.left;
+      dragOffset.y = e.clientY - rect.top;
+      e.preventDefault();
+    }
+  }
+
+  function handleMouseMove(e) {
+    if (resizeHandle) {
+      const imgElement = resizeHandle.parentElement;
+      const deltaX = e.clientX - resizeStartPos.x;
+      const deltaY = e.clientY - resizeStartPos.y;
+      const handleClass = resizeHandle.className.split(' ')[1];
+
+      let newWidth = resizeStartSize.width;
+      let newHeight = resizeStartSize.height;
+
+      // Calculate new dimensions based on handle direction
+      switch(handleClass) {
+        case 'se': // Southeast - bottom right
+          newWidth = Math.max(20, resizeStartSize.width + deltaX);
+          newHeight = Math.max(20, resizeStartSize.height + deltaY);
+          break;
+        case 'sw': // Southwest - bottom left
+          newWidth = Math.max(20, resizeStartSize.width - deltaX);
+          newHeight = Math.max(20, resizeStartSize.height + deltaY);
+          if (newWidth !== imgElement.offsetWidth) {
+            imgElement.style.left = (parseInt(imgElement.style.left) + deltaX) + 'px';
+          }
+          break;
+        case 'ne': // Northeast - top right
+          newWidth = Math.max(20, resizeStartSize.width + deltaX);
+          newHeight = Math.max(20, resizeStartSize.height - deltaY);
+          if (newHeight !== imgElement.offsetHeight) {
+            imgElement.style.top = (parseInt(imgElement.style.top) + deltaY) + 'px';
+          }
+          break;
+        case 'nw': // Northwest - top left
+          newWidth = Math.max(20, resizeStartSize.width - deltaX);
+          newHeight = Math.max(20, resizeStartSize.height - deltaY);
+          if (newWidth !== imgElement.offsetWidth) {
+            imgElement.style.left = (parseInt(imgElement.style.left) + deltaX) + 'px';
+          }
+          if (newHeight !== imgElement.offsetHeight) {
+            imgElement.style.top = (parseInt(imgElement.style.top) + deltaY) + 'px';
+          }
+          break;
+        case 'e': // East - right
+          newWidth = Math.max(20, resizeStartSize.width + deltaX);
+          break;
+        case 'w': // West - left
+          newWidth = Math.max(20, resizeStartSize.width - deltaX);
+          if (newWidth !== imgElement.offsetWidth) {
+            imgElement.style.left = (parseInt(imgElement.style.left) + deltaX) + 'px';
+          }
+          break;
+        case 's': // South - bottom
+          newHeight = Math.max(20, resizeStartSize.height + deltaY);
+          break;
+        case 'n': // North - top
+          newHeight = Math.max(20, resizeStartSize.height - deltaY);
+          if (newHeight !== imgElement.offsetHeight) {
+            imgElement.style.top = (parseInt(imgElement.style.top) + deltaY) + 'px';
+          }
+          break;
+      }
+
+      imgElement.style.width = newWidth + 'px';
+      imgElement.style.height = newHeight + 'px';
+
+    } else if (draggedElement) {
+      const canvasRect = document.getElementById('canvas').getBoundingClientRect();
+      const x = e.clientX - canvasRect.left - dragOffset.x;
+      const y = e.clientY - canvasRect.top - dragOffset.y;
+
+      draggedElement.style.left = Math.max(0, Math.min(x, canvasRect.width - draggedElement.offsetWidth)) + 'px';
+      draggedElement.style.top = Math.max(0, Math.min(y, canvasRect.height - draggedElement.offsetHeight)) + 'px';
+    }
+  }
+
+  function handleMouseUp() {
+    draggedElement = null;
+    resizeHandle = null;
+  }
+
+  function handleKeyDown(e) {
+    if (e.key === 'Delete' && selectedElement) {
+      selectedElement.remove();
+      selectedElement = null;
+      hideTextControls();
+      updateLayerList();
+    }
+  }
+
+  function selectElement(element) {
+    deselectAll();
+    selectedElement = element;
+    element.classList.add('selected');
+
+    if (element.classList.contains('text-element')) {
+      showTextControls();
+      updateTextControlsFromElement(element);
+    } else if (element.classList.contains('image-element')) {
+      addResizeHandles(element);
+    }
+
+    updateLayerList();
+  }
+
+  function deselectAll() {
+    document.querySelectorAll('.selected').forEach(el => {
+      el.classList.remove('selected');
+      removeResizeHandles(el);
+    });
+    selectedElement = null;
+    hideTextControls();
+    updateLayerList();
+  }
+
+  function addResizeHandles(element) {
+    removeResizeHandles(element);
+
+    const handles = ['nw', 'n', 'ne', 'e', 'se', 's', 'sw', 'w'];
+    handles.forEach(direction => {
+      const handle = document.createElement('div');
+      handle.className = `resize-handle ${direction}`;
+      element.appendChild(handle);
+    });
+  }
+
+  function removeResizeHandles(element) {
+    const handles = element.querySelectorAll('.resize-handle');
+    handles.forEach(handle => handle.remove());
+  }
+
+  function showTextControls() {
+    document.getElementById('text-controls').style.display = 'block';
+  }
+
+  function hideTextControls() {
+    document.getElementById('text-controls').style.display = 'none';
+  }
+
+  function updateTextControlsFromElement(element) {
+    document.getElementById('text-content').value = element.textContent.replace(/\n/g, ' ');
+    const fontSize = parseInt(window.getComputedStyle(element).fontSize);
+    document.getElementById('font-size').value = fontSize;
+    document.getElementById('text-color-picker').value = rgbToHex(element.style.color);
+    document.getElementById('line-height').value = parseFloat(element.style.lineHeight) || 0.8;
+    document.getElementById('text-opacity').value = parseFloat(element.style.opacity) || 1;
+
+    // Set font family
+    const fontFamily = element.style.fontFamily.split(',')[0].replace(/['"]/g, '');
+    document.getElementById('font-family').value = fontFamily;
+
+    // Set text align
+    const align = element.style.textAlign || 'center';
+    updateAlignSelection(align);
+  }
+
+  function rgbToHex(rgb) {
+    if (!rgb) return '#ff4444';
+
+    // If already hex, return it
+    if (rgb.startsWith('#')) return rgb;
+
+    // Convert rgb to hex
+    const result = rgb.match(/\d+/g);
+    if (!result) return '#ff4444';
+
+    return "#" + ((1 << 24) + (parseInt(result[0]) << 16) + (parseInt(result[1]) << 8) + parseInt(result[2])).toString(16).slice(1);
+  }
+
+  function addText(text = 'New Text', x = 100, y = 100, color = '#ff4444', size = 72) {
+    const canvas = document.getElementById('canvas');
+    const textElement = document.createElement('div');
+    textElement.className = 'text-element';
+    textElement.textContent = text;
+    textElement.style.left = x + 'px';
+    textElement.style.top = y + 'px';
+    textElement.style.color = color;
+    textElement.style.fontSize = size + 'px';
+    textElement.style.fontFamily = 'Roboto, sans-serif';
+    textElement.style.fontWeight = 'bold';
+    textElement.style.textAlign = 'center';
+    textElement.style.whiteSpace = 'pre-line';
+    textElement.id = 'element-' + (++elementCounter);
+
+    canvas.appendChild(textElement);
+    selectElement(textElement);
+    updateLayerList();
+  }
+
+  function handleImageUpload(e) {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function(event) {
+        addImage(event.target.result, 200, 100);
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+
+  function handleImage2Upload(e) {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function(event) {
+        addImage(event.target.result, 400, 100);
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+
+  function addImage(src, x = 100, y = 100) {
+    const canvas = document.getElementById('canvas');
+    const imgElement = document.createElement('img');
+    imgElement.className = 'image-element';
+    imgElement.src = src;
+    imgElement.style.left = x + 'px';
+    imgElement.style.top = y + 'px';
+    imgElement.style.width = '300px';
+    imgElement.style.height = 'auto';
+    imgElement.id = 'element-' + (++elementCounter);
+
+    imgElement.onload = function() {
+      // Maintain aspect ratio
+      const aspectRatio = this.naturalWidth / this.naturalHeight;
+      const width = 300;
+      const height = width / aspectRatio;
+      this.style.width = width + 'px';
+      this.style.height = height + 'px';
+    };
+
+    canvas.appendChild(imgElement);
+    selectElement(imgElement);
+    updateLayerList();
+  }
+
+  function updateSelectedText() {
+    if (selectedElement && selectedElement.classList.contains('text-element')) {
+      selectedElement.textContent = document.getElementById('text-content').value;
+    }
+  }
+
+  function updateTextSize() {
+    if (selectedElement && selectedElement.classList.contains('text-element')) {
+      selectedElement.style.fontSize = document.getElementById('font-size').value + 'px';
+    }
+  }
+
+  function updateLineHeight() {
+    if (selectedElement && selectedElement.classList.contains('text-element')) {
+      selectedElement.style.lineHeight = document.getElementById('line-height').value;
+    }
+  }
+
+  function updateFontFamily() {
+    if (selectedElement && selectedElement.classList.contains('text-element')) {
+      selectedElement.style.fontFamily = document.getElementById('font-family').value + ', sans-serif';
+    }
+  }
+
+  function updateTextOpacity() {
+    if (selectedElement && selectedElement.classList.contains('text-element')) {
+      selectedElement.style.opacity = document.getElementById('text-opacity').value;
+    }
+  }
+
+  function updateTextColor(e) {
+    const color = e.target.value;
+    if (selectedElement && selectedElement.classList.contains('text-element')) {
+      selectedElement.style.color = color;
+    }
+  }
+
+  function setTextAlign(align) {
+    if (selectedElement && selectedElement.classList.contains('text-element')) {
+      selectedElement.style.textAlign = align;
+    }
+    updateAlignSelection(align);
+  }
+
+  function updateAlignSelection(align) {
+    document.querySelectorAll('.align-btn').forEach(btn => btn.classList.remove('selected'));
+    document.querySelectorAll('.align-btn').forEach(btn => {
+      if (btn.textContent.toLowerCase() === align.toLowerCase()) {
+        btn.classList.add('selected');
+      }
+    });
+  }
+
+  function toggleGrid() {
+    const canvas = document.getElementById('canvas');
+    isGridVisible = !isGridVisible;
+    if (isGridVisible) {
+      canvas.classList.add('grid');
+    } else {
+      canvas.classList.remove('grid');
+    }
+  }
+
+  function updateGrid() {
+    const rows = parseInt(document.getElementById('grid-rows').value);
+    const cols = parseInt(document.getElementById('grid-cols').value);
+    const canvas = document.getElementById('canvas');
+
+    const cellWidth = 800 / cols;
+    const cellHeight = 600 / rows;
+
+    canvas.style.setProperty('--grid-width', cellWidth + 'px');
+    canvas.style.setProperty('--grid-height', cellHeight + 'px');
+  }
+
+  function updateGridColor(e) {
+    const color = e.target.value;
+    const canvas = document.getElementById('canvas');
+    canvas.style.setProperty('--grid-color', color);
+  }
+
+  function updateCanvasColor(e) {
+    const color = e.target.value;
+    document.getElementById('canvas').style.backgroundColor = color;
+  }
+
+  function updateZoom() {
+    const zoom = document.getElementById('zoom').value;
+    const canvas = document.getElementById('canvas');
+    canvas.style.transform = `scale(${zoom})`;
+  }
+
+  function updateBrightness() {
+    const brightness = document.getElementById('brightness').value;
+    const canvas = document.getElementById('canvas');
+    canvas.style.filter = `brightness(${brightness})`;
+  }
+
+  function toggleSection(sectionName) {
+    const content = document.getElementById(sectionName + '-content');
+    content.classList.toggle('hidden');
+
+    const btn = content.previousElementSibling.querySelector('.hide-btn');
+    btn.textContent = content.classList.contains('hidden') ? 'SHOW' : 'HIDE';
+  }
+
+  function clearCanvas() {
+    const canvas = document.getElementById('canvas');
+    const elements = canvas.querySelectorAll('.text-element, .image-element');
+    elements.forEach(el => el.remove());
+    deselectAll();
+    updateLayerList();
+  }
+
+  function logToConsole() {
+    console.log('Canvas state logged');
+    const elements = document.querySelectorAll('.text-element, .image-element');
+    elements.forEach(el => console.log(el));
+  }
+
+  function savePNG() {
+    // Implementation for PNG export would require html2canvas or similar library
+    alert('PNG save functionality would be implemented with html2canvas library');
+  }
+
+  function saveJPG() {
+    // Implementation for JPG export would require html2canvas or similar library
+    alert('JPG save functionality would be implemented with html2canvas library');
+  }
+
+  function recordVideo() {
+    // Implementation for video recording would require MediaRecorder API
+    alert('Video recording functionality would be implemented with MediaRecorder API');
+  }
+
+  function exportAsPDF() {
+    alert('PDF export functionality would be implemented with jsPDF library');
+  }
+
+  function applyPreset(preset) {
+    clearCanvas();
+
+    switch(preset) {
+      case 'minimal':
+        addText('MINIMAL\nDESIGN', 200, 200, '#000000', 80);
+        document.getElementById('canvas-color-picker').value = '#ffffff';
+        updateCanvasColor({target: {value: '#ffffff'}});
+        break;
+      case 'bold':
+        addText('BOLD\nSTATEMENT', 150, 150, '#ff4444', 100);
+        document.getElementById('canvas-color-picker').value = '#000000';
+        updateCanvasColor({target: {value: '#000000'}});
+        break;
+      case 'vintage':
+        addText('VINTAGE\nSTYLE', 250, 250, '#8B4513', 70);
+        document.getElementById('canvas-color-picker').value = '#F5F5DC';
+        updateCanvasColor({target: {value: '#F5F5DC'}});
+        document.getElementById('font-family').value = 'Georgia';
+        updateFontFamily();
+        break;
+    }
+  }
+
+  function toggleTheme() {
+    isDarkMode = !isDarkMode;
+    document.body.classList.toggle('dark-mode');
+    document.getElementById('themeToggle').textContent = isDarkMode ? 'Dark Mode' : 'Light Mode';
+  }
+
+  function updateLayerList() {
+    const layerList = document.getElementById('layer-list');
+    layerList.innerHTML = '';
+
+    const elements = document.querySelectorAll('.text-element, .image-element');
+
+    elements.forEach((element, index) => {
+      const layerItem = document.createElement('div');
+      layerItem.className = 'layer-item';
+      if (element === selectedElement) {
+        layerItem.classList.add('selected');
+      }
+
+      const elementType = element.classList.contains('text-element') ? 'Text' : 'Image';
+      const content = element.classList.contains('text-element') ?
+              element.textContent.substring(0, 20) + (element.textContent.length > 20 ? '...' : '') :
+              'Image';
+
+      layerItem.innerHTML = `
+        <span>${elementType}: ${content}</span>
+        <span class="layer-visibility" onclick="toggleLayerVisibility('${element.id}')">👁️</span>
+      `;
+
+      layerItem.addEventListener('click', () => {
+        selectElement(element);
+      });
+
+      layerList.appendChild(layerItem);
+    });
+  }
+
+  function toggleLayerVisibility(elementId) {
+    const element = document.getElementById(elementId);
+    if (element) {
+      element.style.display = element.style.display === 'none' ? 'block' : 'none';
+      updateLayerList();
+    }
+  }
+
+  // Initialize the application when the page loads
+  window.addEventListener('load', init);
+</script>
+</body>
+</html>

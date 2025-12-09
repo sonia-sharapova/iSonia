@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>de Casteljau's Algorithm</title>
+  <link rel="icon" href="/images/icons/star.png" />
+  <style>
+    body {
+      margin: 0;
+      padding: 20px;
+      font-family: 'Optima', Verdana, sans-serif;
+      background: #6fa1b8;
+      color: #e1f6f3;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    h1 {
+      margin-bottom: 10px;
+      text-align: center;
+    }
+
+    h2 {
+      margin-top: 0;
+      text-align: center;
+    }
+
+    /* Enhanced Home Button */
+    .home-btn {
+      position: fixed;
+      top: 50px;
+      left: 75px;
+      background: linear-gradient(135deg, #87b5b2, #57978b);
+      padding: 12px 24px;
+      font-size: 18px;
+      color: white;
+      border-radius: 5px;
+      text-decoration: none;
+      font-weight: bold;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.3s ease;
+      z-index: 100;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .home-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+      background: linear-gradient(135deg, #ff6b4a, #fea366);
+    }
+
+    .home-btn:active {
+      transform: translateY(1px);
+    }
+
+    .home-icon {
+      font-size: 18px;
+    }
+
+    .container {
+      display: flex;
+      width: 70%;
+      gap: 20px;
+      margin-top: 30px;
+      margin-bottom: 20px;
+    }
+
+    .left-panel, .right-panel {
+      flex: 1;
+      background: rgba(255, 255, 255, 0.9);
+      padding: 20px;
+      border-radius: 5px;
+      color: #333;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      max-width: 250px;
+    }
+
+    .canvas-container {
+      flex: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    canvas {
+      border: 2px solid #942f2f;
+      background: #ffffff;
+      cursor: crosshair;
+      border-radius: 5px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .info-section {
+      margin-bottom: 20px;
+    }
+
+    .info-section h3 {
+      border-bottom: 2px solid #3a8fb7;
+      padding-bottom: 5px;
+      margin-top: 0;
+    }
+
+    .info-section ul {
+      padding-left: 20px;
+    }
+
+    .info-section li {
+      margin-bottom: 8px;
+    }
+
+    .controls {
+      margin-top: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .slider-group {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    label {
+      font-size: 14px;
+      color: #333;
+      font-weight: bold;
+    }
+
+    input[type="range"] {
+      width: 100%;
+      accent-color: #3a8fb7;
+    }
+
+    .button-group {
+      display: flex;
+      gap: 10px;
+    }
+
+    button {
+      padding: 8px 15px;
+      background: #3a8fb7;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+      flex: 1;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background: #2a7fa7;
+    }
+
+    .legend {
+      margin-top: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .legend-color {
+      width: 20px;
+      height: 20px;
+      border-radius: 3px;
+    }
+
+    .calculation-display {
+      margin-top: 20px;
+      padding: 15px;
+      background: #f5f5f5;
+      border-radius: 4px;
+      font-family: monospace;
+      font-size: 14px;
+      color: #333;
+      max-height: 200px;
+      overflow-y: auto;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .calculation-step {
+      margin-bottom: 10px;
+    }
+
+    .calculation-value {
+      font-weight: bold;
+      color: #3a8fb7;
+    }
+  </style>
+</head>
+<body>
+<!-- Enhanced Home Button -->
+<a class="home-btn" href="../index.html">
+  <span>Back Home</span>
+</a>
+
+<div class="container">
+  <div class="left-panel" style="min-width: 300px;">
+    <div class="info-section">
+
+      <h2>De Casteljau's Algorithm</h2>
+      <p style="text-align: center; font-size: 20px;">(For quadratic Bézier curves)</p>
+
+      <br>
+      <h3>Core Algorithm</h3>
+      <ul>
+        <li>Uses de Casteljau's recursive algorithm to evaluate points on the Bézier curve</li>
+        <li>Given three control points (P₀, P₁, P₂), it constructs intermediate points and evaluates the curve at parameter t</li>
+      </ul>
+    </div>
+
+    <div class="info-section">
+      <h3>How It Works</h3>
+      <ol>
+        <li>Start with 3 control points</li>
+        <li>Calculate 2 intermediate points by linear interpolation at parameter t</li>
+        <li>Calculate 1 final point from those 2 intermediate points</li>
+        <li>This final point lies exactly on the Bézier curve!</li>
+      </ol>
+    </div>
+
+    <div class="info-section">
+      <h3>Try This</h3>
+      <ul>
+        <li>Drag control points to reshape the curve in real-time</li>
+        <li>Adjust the t slider to see how the algorithm works at different positions</li>
+        <li>Click Animate to watch the algorithm trace along the curve</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="canvas-container">
+    <canvas id="canvas" width="800" height="600"></canvas>
+    <div class="calculation-display" id="calculationDisplay">
+      <!-- Calculation steps will be displayed here -->
+    </div>
+  </div>
+
+  <div class="right-panel">
+    <div class="controls">
+      <div class="slider-group">
+        <label>Parameter t: <span id="tValue">0.50</span></label>
+        <input type="range" id="tSlider" min="0" max="1" step="0.01" value="0.5">
+      </div>
+
+      <div class="button-group">
+        <button id="animateBtn">Animate</button>
+        <button id="resetBtn">Reset Points</button>
+      </div>
+    </div>
+
+    <div class="legend">
+      <h3>Visual Elements</h3>
+      <div class="legend-item">
+        <div class="legend-color" style="background: #d0104c;"></div>
+        <span>Bézier Curve</span>
+      </div>
+      <div class="legend-item">
+        <div class="legend-color" style="background: #ef4444;"></div>
+        <span>Control Points</span>
+      </div>
+      <div class="legend-item">
+        <div class="legend-color" style="background: #10b981;"></div>
+        <span>Intermediate Points</span>
+      </div>
+      <div class="legend-item">
+        <div class="legend-color" style="background: #3b82f6;"></div>
+        <span>Final Point B(t)</span>
+      </div>
+      <div class="legend-item">
+        <div class="legend-color" style="background: #888; border: 1px dashed #444;"></div>
+        <span>Construction Lines</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const canvas = document.getElementById('canvas');
+  const ctx = canvas.getContext('2d');
+  const tSlider = document.getElementById('tSlider');
+  const tValue = document.getElementById('tValue');
+  const animateBtn = document.getElementById('animateBtn');
+  const resetBtn = document.getElementById('resetBtn');
+  const calculationDisplay = document.getElementById('calculationDisplay');
+
+  let controlPoints = [
+    { x: 150, y: 450 },
+    { x: 400, y: 150 },
+    { x: 650, y: 450 }
+  ];
+
+  let draggingPoint = null;
+  let isAnimating = false;
+  let animationT = 0;
+  let intermediatePoints = [];
+
+  // de Casteljau's algorithm implementation
+  function deCasteljauRecursive(points, t) {
+    if (points.length === 1) {
+      return points[0];
+    }
+
+    const newPoints = [];
+    for (let i = 0; i < points.length - 1; i++) {
+      const x = (1 - t) * points[i].x + t * points[i + 1].x;
+      const y = (1 - t) * points[i].y + t * points[i + 1].y;
+      newPoints.push({ x, y });
+    }
+
+    return deCasteljauRecursive(newPoints, t);
+  }
+
+  // Full de Casteljau with intermediate steps
+  function deCasteljau(points, t) {
+    if (points.length === 1) {
+      return { final: points[0], intermediate: null };
+    }
+
+    const newPoints = [];
+    for (let i = 0; i < points.length - 1; i++) {
+      const x = (1 - t) * points[i].x + t * points[i + 1].x;
+      const y = (1 - t) * points[i].y + t * points[i + 1].y;
+      newPoints.push({ x, y });
+    }
+
+    return {
+      intermediate: newPoints,
+      final: deCasteljauRecursive(newPoints, t)
+    };
+  }
+
+  // Evaluate Bézier curve at parameter t
+  function evaluateBezier(t) {
+    return deCasteljau(controlPoints, t);
+  }
+
+  // Update calculation display
+  function updateCalculationDisplay(t) {
+    const result = evaluateBezier(t);
+    intermediatePoints = result.intermediate || [];
+
+    let html = '<div class="calculation-step">';
+    html += `<strong>Control Points:</strong><br>`;
+    html += `P₀ = (${controlPoints[0].x.toFixed(1)}, ${controlPoints[0].y.toFixed(1)})<br>`;
+    html += `P₁ = (${controlPoints[1].x.toFixed(1)}, ${controlPoints[1].y.toFixed(1)})<br>`;
+    html += `P₂ = (${controlPoints[2].x.toFixed(1)}, ${controlPoints[2].y.toFixed(1)})<br>`;
+    html += '</div>';
+
+    if (intermediatePoints.length > 0) {
+      html += '<div class="calculation-step">';
+      html += `<strong>Intermediate Points (t = ${t.toFixed(2)}):</strong><br>`;
+      html += `Q₀ = (1-t)P₀ + tP₁ = (${intermediatePoints[0].x.toFixed(1)}, ${intermediatePoints[0].y.toFixed(1)})<br>`;
+      html += `Q₁ = (1-t)P₁ + tP₂ = (${intermediatePoints[1].x.toFixed(1)}, ${intermediatePoints[1].y.toFixed(1)})<br>`;
+      html += '</div>';
+
+      html += '<div class="calculation-step">';
+      html += `<strong>Final Point:</strong><br>`;
+      html += `B(t) = (1-t)Q₀ + tQ₁ = (${result.final.x.toFixed(1)}, ${result.final.y.toFixed(1)})<br>`;
+      html += '</div>';
+    }
+
+    calculationDisplay.innerHTML = html;
+  }
+
+  // Draw the complete Bézier curve
+  function drawBezierCurve() {
+    ctx.strokeStyle = '#d0104c';
+    ctx.lineWidth = 5;
+    ctx.shadowColor = '#d0104c';
+    ctx.shadowBlur = 10;
+    ctx.beginPath();
+
+    for (let t = 0; t <= 1; t += 0.005) {
+      const result = evaluateBezier(t);
+      const point = result.final;
+
+      if (t === 0) {
+        ctx.moveTo(point.x, point.y);
+      } else {
+        ctx.lineTo(point.x, point.y);
+      }
+    }
+
+    ctx.stroke();
+    ctx.shadowBlur = 0;
+  }
+
+  // Draw control polygon
+  function drawControlPolygon() {
+    ctx.strokeStyle = '#888';
+    ctx.lineWidth = 1;
+    ctx.setLineDash([5, 5]);
+    ctx.beginPath();
+    ctx.moveTo(controlPoints[0].x, controlPoints[0].y);
+    for (let i = 1; i < controlPoints.length; i++) {
+      ctx.lineTo(controlPoints[i].x, controlPoints[i].y);
+    }
+    ctx.stroke();
+    ctx.setLineDash([]);
+  }
+
+  // Draw control points
+  function drawControlPoints() {
+    controlPoints.forEach((point, index) => {
+      ctx.fillStyle = '#ef4444';
+      ctx.beginPath();
+      ctx.arc(point.x, point.y, 8, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.fillStyle = '#070707';
+      ctx.font = '12px sans-serif';
+      ctx.fillText(`P${index}`, point.x + 12, point.y - 12);
+    });
+  }
+
+  // Draw de Casteljau construction at parameter t
+  function drawDeCasteljauConstruction(t) {
+    const result = evaluateBezier(t);
+
+    // Draw first iteration points and lines
+    if (result.intermediate) {
+      ctx.strokeStyle = '#10b981';
+      ctx.lineWidth = 2;
+      ctx.setLineDash([3, 3]);
+      ctx.beginPath();
+      ctx.moveTo(result.intermediate[0].x, result.intermediate[0].y);
+      ctx.lineTo(result.intermediate[1].x, result.intermediate[1].y);
+      ctx.stroke();
+      ctx.setLineDash([]);
+
+      result.intermediate.forEach((point, index) => {
+        ctx.fillStyle = '#10b981';
+        ctx.beginPath();
+        ctx.arc(point.x, point.y, 6, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.fillStyle = '#10b981';
+        ctx.font = '11px sans-serif';
+        ctx.fillText(`Q${index}`, point.x + 10, point.y - 10);
+      });
+    }
+
+    // Draw final point on curve
+    const finalPoint = result.final || result;
+    ctx.fillStyle = '#3b82f6';
+    ctx.beginPath();
+    ctx.arc(finalPoint.x, finalPoint.y, 8, 0, Math.PI * 2);
+    ctx.fill();
+
+    ctx.strokeStyle = '#3b82f6';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.arc(finalPoint.x, finalPoint.y, 12, 0, Math.PI * 2);
+    ctx.stroke();
+
+    ctx.fillStyle = '#000000';
+    ctx.font = '12px sans-serif';
+    ctx.fillText(`B(${t.toFixed(2)})`, finalPoint.x + 15, finalPoint.y + 15);
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    drawControlPolygon();
+    drawBezierCurve();
+    drawDeCasteljauConstruction(parseFloat(tSlider.value));
+    drawControlPoints();
+
+    updateCalculationDisplay(parseFloat(tSlider.value));
+  }
+
+  // Mouse event handlers
+  canvas.addEventListener('mousedown', (e) => {
+    const rect = canvas.getBoundingClientRect();
+    const mouseX = e.clientX - rect.left;
+    const mouseY = e.clientY - rect.top;
+
+    controlPoints.forEach((point, index) => {
+      const dist = Math.sqrt((mouseX - point.x) ** 2 + (mouseY - point.y) ** 2);
+      if (dist < 12) {
+        draggingPoint = index;
+      }
+    });
+  });
+
+  canvas.addEventListener('mousemove', (e) => {
+    if (draggingPoint !== null) {
+      const rect = canvas.getBoundingClientRect();
+      controlPoints[draggingPoint].x = e.clientX - rect.left;
+      controlPoints[draggingPoint].y = e.clientY - rect.top;
+      draw();
+    }
+  });
+
+  canvas.addEventListener('mouseup', () => {
+    draggingPoint = null;
+  });
+
+  tSlider.addEventListener('input', (e) => {
+    tValue.textContent = parseFloat(e.target.value).toFixed(2);
+    draw();
+  });
+
+  animateBtn.addEventListener('click', () => {
+    if (isAnimating) {
+      isAnimating = false;
+      animateBtn.textContent = 'Animate';
+    } else {
+      isAnimating = true;
+      animateBtn.textContent = 'Stop';
+      animate();
+    }
+  });
+
+  resetBtn.addEventListener('click', () => {
+    controlPoints = [
+      { x: 150, y: 450 },
+      { x: 400, y: 150 },
+      { x: 650, y: 450 }
+    ];
+    draw();
+  });
+
+  function animate() {
+    if (!isAnimating) return;
+
+    animationT += 0.005;
+    if (animationT > 1) animationT = 0;
+
+    tSlider.value = animationT;
+    tValue.textContent = animationT.toFixed(2);
+    draw();
+
+    requestAnimationFrame(animate);
+  }
+
+  draw();
+</script>
+</body>
+</html>

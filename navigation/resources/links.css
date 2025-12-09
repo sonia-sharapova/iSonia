@@ -1,0 +1,229 @@
+
+.content {
+    max-width: 1200px;
+    margin: 0 auto;
+    margin-bottom: 5%;
+    padding: 0 20px;
+}
+
+.back-link {
+    display: inline-block;
+    margin: 20px 0;
+    padding: 10px 20px;
+    background: #f9f9f9;
+    border: 1px solid #d5d5d5;
+    text-decoration: none;
+    color: #414141;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+}
+
+.back-link:hover {
+    background: #fff;
+    color: #45a049;
+}
+
+/* Folder Navigation */
+.folder-navigation {
+    background: #f9f9f9;
+    border: 1px solid #d5d5d5;
+    border-radius: 4px;
+    margin-bottom: 30px;
+    font-family: 'Courier New', monospace;
+}
+
+.folder-item {
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.folder-item:last-child {
+    border-bottom: none;
+}
+
+.folder-header {
+    padding: 15px 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: all 0.2s ease;
+    user-select: none;
+}
+
+.folder-header:hover {
+    background: #fff;
+}
+
+.folder-icon {
+    font-size: 16px;
+    width: 20px;
+    transition: transform 0.2s ease;
+}
+
+.folder-item.open .folder-icon {
+    transform: rotate(90deg);
+}
+
+.folder-name {
+    font-size: 16px;
+    color: #414141;
+    font-weight: normal;
+}
+
+.folder-count {
+    margin-left: auto;
+    font-size: 12px;
+    color: #888f8d;
+}
+
+.folder-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+}
+
+.folder-item.open .folder-content {
+    max-height: 5000px;
+}
+
+/* Resource Table */
+.resource-table {
+    width: 100%;
+    background: white;
+    border-collapse: collapse;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 14px;
+}
+
+.resource-table thead {
+    background: #f5f5f5;
+    border-bottom: 2px solid #d5d5d5;
+}
+
+.resource-table th {
+    padding: 12px 15px;
+    text-align: left;
+    font-weight: normal;
+    color: #414141;
+    border-right: 1px solid #e5e5e5;
+}
+
+.resource-table th:last-child {
+    border-right: none;
+}
+
+.resource-table td {
+    padding: 10px 15px;
+    border-bottom: 1px solid #f0f0f0;
+    border-right: 1px solid #f5f5f5;
+    vertical-align: top;
+}
+
+.resource-table td:last-child {
+    border-right: none;
+}
+
+.resource-table tbody tr:hover {
+    background: #fafafa;
+}
+
+.resource-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.resource-name {
+    font-weight: normal;
+    color: #414141;
+}
+
+.resource-description {
+    color: #666666;
+    line-height: 1.5;
+}
+
+.resource-link {
+    color: #666666;
+    text-decoration: none;
+    word-break: break-all;
+    font-size: 12px;
+}
+
+.resource-link:hover {
+    color: #45a049;
+    text-decoration: underline;
+}
+
+/* Column widths */
+.col-name {
+    width: 25%;
+}
+
+.col-description {
+    width: 45%;
+}
+
+.col-link {
+    width: 30%;
+}
+
+.loading {
+    text-align: center;
+    padding: 40px;
+    color: #888f8d;
+    font-family: 'Courier New', monospace;
+}
+
+@media (max-width: 768px) {
+    .content {
+        padding: 0 10px;
+    }
+
+    .resource-table {
+        font-size: 12px;
+    }
+
+    .resource-table th,
+    .resource-table td {
+        padding: 8px 10px;
+    }
+
+    .folder-header {
+        padding: 12px 15px;
+    }
+
+    .folder-name {
+        font-size: 14px;
+    }
+
+    /* Stack table on mobile */
+    .resource-table,
+    .resource-table tbody,
+    .resource-table tr,
+    .resource-table td {
+        display: block;
+        width: 100%;
+    }
+
+    .resource-table thead {
+        display: none;
+    }
+
+    .resource-table td {
+        border: none;
+        padding: 8px 15px;
+    }
+
+    .resource-table td:before {
+        content: attr(data-label);
+        font-weight: bold;
+        display: block;
+        margin-bottom: 5px;
+        color: #414141;
+    }
+
+    .resource-table tbody tr {
+        border: 1px solid #e5e5e5;
+        margin-bottom: 10px;
+        border-radius: 4px;
+    }
+}

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>ASCII Art Drawing Converter</title>
     <meta charset="UTF-8">
     <title>ASCII Camera - Sonia Online</title>
@@ -57,49 +57,87 @@
             padding: 10px;
             box-sizing: border-box;
         }
-        .settings {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-bottom: 10px;
-        }
+
 
         #characterSet {
             width: 250px;
         }
 
+        /* Additional CSS for tool size display */
+        #sizeValue {
+            display: inline-block;
+            width: 40px;
+            text-align: left;
+            margin-left: 5px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        /* Make the tool size slider match your other sliders */
+        #toolSize {
+            accent-color: #88a4b3;
+        }
+
+
+        /* Responsive container styling */
+        @media (max-width: 768px) {
+
+            /* Make the canvas responsive */
+            #canvas {
+                width: 100% !important;
+                max-width: 100%;
+                height: auto !important;
+            }
+
+            /* Adjust result area to fit mobile screens */
+            .result-area {
+                width: 100%;
+            }
+
+            /* Make ASCII output fit screen */
+            #ascii-output {
+                width: 100%;
+                font-size: 8px; /* Smaller font for mobile */
+                box-sizing: border-box;
+            }
+
+            /* Ensure character set dropdown fits mobile screens */
+            #characterSet {
+                width: 100%;
+                max-width: 100%;
+            }
+        }
 
     </style>
 </head>
 <body>
 <nav class="navigation">
     <a href="../../index.html" class="nav-item">HOME</a>
-    <a href="../../navigation/resources.html" class="nav-item">RESOURCES</a>
+    <a href="../../misc/resources.html" class="nav-item">RESOURCES</a>
     <a href="../../navigation/portfolio.html" class="nav-item">PORTFOLIO</a>
-    <a href="../../navigation/courses.html" class="nav-item">COURSES</a>
+    <a href="../../creations/tutorials.html" class="nav-item">ABOUT</a>
     <a href="../../navigation/contact.html" class="nav-item">CONTACT</a>
 </nav>
+
 <div class="title-container">
     <div class="nav-links">
-        <a href="#" class="sub-nav-item">SEE: </a>
+        <a href="../../index.html" class="sub-nav-item">SEE: </a>
         <a href="../../personal/music.html" class="sub-nav-item">music</a>
         <a href="../../personal/movies.html" class="sub-nav-item">movies</a>
         <a href="../../personal/books.html" class="sub-nav-item">books</a>
         <a href="../../personal/cards.html" class="sub-nav-item">cards</a>
     </div>
     <h1 class="page-title">ASCII Paintbrush</h1>
+
 </div>
 
 <div class="info-section">
     <h1>ASCII Art Drawing Converter</h1>
     <p>
-        Convert your drawings into ASCII art!
+        Convert your drawings into ASCII art! Jst drag your cursor to draw with pen, or use eraser to remove!
     </p>
-    <h2>Features</h2>
     <p>
-        - Easy drag and draw with pen and eraser<br>
-        - Adjustable resolution and character sets<br>
-        - Copy to Clipboard to share your new ASCII<br>
+        Toggle between character sets to change resolution and copy to clipboard to share your creations.<br>
     </p>
 </div>
 
@@ -126,6 +164,11 @@
                 <option value="@#$%?*+;:,. ">Simple (@#$%?*+;:,. )</option>
                 <option value="█▓▒░ ">Blocks (█▓▒░ )</option>
             </select>
+        </div>
+        <div class="slider-container">
+            <label for="toolSize">Tool Size:</label>
+            <input class="slider-accent" type="range" id="toolSize" min="1" max="30" value="5">
+            <span id="sizeValue">5px</span>
         </div>
     </div>
 
@@ -163,10 +206,24 @@
         ctx.fillRect(0, 0, canvas.width, canvas.height);
     });
 
-    // Drawing functions
+    // Size update handler
+    document.getElementById('toolSize').addEventListener('input', function() {
+        const size = this.value;
+        document.getElementById('sizeValue').textContent = size + 'px';
+    });
+
+
+    // Modify these drawing functions to handle both mouse and touch events
     function startDrawing(e) {
         isDrawing = true;
-        draw(e);
+        // Handle both mouse and touch events
+        const point = getPointCoordinates(e);
+        if (point) {
+            // Start a new path at this point
+            ctx.beginPath();
+            ctx.moveTo(point.x, point.y);
+            draw(e); // Draw a dot if they just tap
+        }
     }
 
     function stopDrawing() {
@@ -177,26 +234,66 @@
     function draw(e) {
         if (!isDrawing) return;
 
-        const rect = canvas.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
+        // Get coordinates whether it's touch or mouse
+        const point = getPointCoordinates(e);
+        if (point) {
+            // Get current tool size from slider
+            const toolSize = document.getElementById('toolSize').value;
 
-        ctx.lineWidth = 5;
-        ctx.lineCap = 'round';
+            ctx.lineWidth = parseInt(toolSize);
+            ctx.lineCap = 'round';
 
-        if (currentTool === 'pen') {
-            ctx.strokeStyle = 'black';
-        } else {
-            ctx.strokeStyle = 'white';
+            if (currentTool === 'pen') {
+                ctx.strokeStyle = 'black';
+            } else {
+                ctx.strokeStyle = 'white';
+            }
+
+            ctx.lineTo(point.x, point.y);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo(point.x, point.y);
         }
-
-        ctx.lineTo(x, y);
-        ctx.stroke();
-        ctx.beginPath();
-        ctx.moveTo(x, y);
     }
 
-    // Event listeners for drawing
+    // Helper function to get coordinates from either mouse or touch event
+    function getPointCoordinates(e) {
+        const rect = canvas.getBoundingClientRect();
+        let x, y;
+
+        // Handle touch event
+        if (e.touches && e.touches.length > 0) {
+            x = e.touches[0].clientX - rect.left;
+            y = e.touches[0].clientY - rect.top;
+        }
+        // Handle mouse event
+        else if (e.clientX) {
+            x = e.clientX - rect.left;
+            y = e.clientY - rect.top;
+        }
+        // Return null if we can't get coordinates
+        else {
+            return null;
+        }
+
+        return { x, y };
+    }
+
+    // Touch events
+    canvas.addEventListener('touchstart', function(e) {
+        e.preventDefault(); // Prevent scrolling
+        startDrawing(e);
+    });
+
+    canvas.addEventListener('touchmove', function(e) {
+        e.preventDefault(); // Prevent scrolling
+        draw(e);
+    });
+
+    canvas.addEventListener('touchend', stopDrawing);
+    canvas.addEventListener('touchcancel', stopDrawing);
+
+    // Mouse events
     canvas.addEventListener('mousedown', startDrawing);
     canvas.addEventListener('mousemove', draw);
     canvas.addEventListener('mouseup', stopDrawing);
@@ -204,6 +301,60 @@
 
     // Convert to ASCII function
     document.getElementById('convert').addEventListener('click', convertToAscii);
+
+
+    // Canvas responsive sizing function
+    function resizeCanvas() {
+        const containerWidth = document.querySelector('.drawing-area').clientWidth;
+
+        // Get the original canvas size
+        const originalWidth = 500;
+        const originalHeight = 300;
+
+        // Calculate new dimensions that maintain aspect ratio
+        let newWidth = Math.min(containerWidth - 20, originalWidth); // Subtract padding
+        let newHeight = (newWidth * originalHeight) / originalWidth;
+
+        // Update canvas size
+        canvas.width = newWidth;
+        canvas.height = newHeight;
+
+        // Redraw canvas with white background (to prevent clearing when resizing)
+        ctx.fillStyle = 'white';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        // Log the new dimensions
+        console.log(`Canvas resized to: ${newWidth}x${newHeight}`);
+    }
+
+    // Call resize function on page load and when window is resized
+    window.addEventListener('load', resizeCanvas);
+    window.addEventListener('resize', resizeCanvas);
+
+    // Improve touch event handling by adding this after your existing touch event listeners
+    function handleTouchStart(e) {
+        e.preventDefault(); // Prevent scrolling and zooming
+        startDrawing(e);
+    }
+
+    function handleTouchMove(e) {
+        e.preventDefault(); // Prevent scrolling and zooming
+        draw(e);
+    }
+
+    // Replace your existing touch event listeners with these improved ones
+    canvas.removeEventListener('touchstart', function(e) {
+        e.preventDefault();
+        startDrawing(e);
+    });
+    canvas.removeEventListener('touchmove', function(e) {
+        e.preventDefault();
+        draw(e);
+    });
+
+    // Add the new event listeners
+    canvas.addEventListener('touchstart', handleTouchStart, { passive: false });
+    canvas.addEventListener('touchmove', handleTouchMove, { passive: false });
 
     function convertToAscii() {
         const resolution = document.getElementById('resolution').value;
