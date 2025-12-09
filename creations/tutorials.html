@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sonia's course</title>
+    <link rel="icon" href="/images/icons/heart3.png" />
+    <link rel="stylesheet" href="../styles/stylesheet.css">
+    <script src="../scripts/siteStyle/bck.js"></script>
+
+    <style>
+        #background-canvas {
+            position: fixed;
+            top: 30%;
+            left: 0;
+            z-index: -1;
+        }
+
+        .content {
+            max-width: 900px;
+            margin: 0 auto;
+            margin-bottom: 5%;
+            padding: 0 20px;
+        }
+
+        .course-list {
+            margin-top: 40px;
+        }
+
+        .course-entry {
+            padding: 25px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            background: #f9f9f9;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .course-entry:hover {
+            background: #fff;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border-color: #ccc;
+        }
+
+        .course-entry.expanded {
+            background: #fff;
+            border-color: #45a049;
+            cursor: default;
+        }
+
+        .course-entry-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 10px;
+        }
+
+        .course-entry-title {
+            font-size: 28px;
+            font-weight: 300;
+            color: #666666;
+            margin: 0;
+            transition: color 0.3s ease;
+        }
+
+        .course-entry:hover .course-entry-title {
+            color: #45a049;
+        }
+
+        .course-entry.expanded .course-entry-title {
+            color: #45a049;
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
+
+        .course-entry-date {
+            font-size: 14px;
+            color: #999;
+            white-space: nowrap;
+            margin-left: 20px;
+        }
+
+        .course-entry-excerpt {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #888f8d;
+            margin: 10px 0 0 0;
+        }
+
+        .course-entry-content {
+            display: none;
+            font-size: 17px;
+            line-height: 1.8;
+            color: #666666;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .course-entry.expanded .course-entry-content {
+            display: block;
+        }
+
+        .course-entry.expanded .course-entry-excerpt {
+            display: none;
+        }
+
+        .course-entry-content p {
+            margin-bottom: 18px;
+        }
+
+        .course-entry-content h2 {
+            font-size: 24px;
+            font-weight: 300;
+            color: #666666;
+            margin: 35px 0 15px 0;
+        }
+
+        .course-entry-content h3 {
+            font-size: 20px;
+            font-weight: 300;
+            color: #666666;
+            margin: 25px 0 12px 0;
+        }
+
+        .course-entry-content blockquote {
+            border-left: 3px solid #45a049;
+            padding-left: 20px;
+            margin: 25px 0;
+            font-style: italic;
+            color: #888f8d;
+        }
+
+        .close-button {
+            display: none;
+            float: right;
+            background: #f0f0f0;
+            border: 1px solid #ddd;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            color: #666666;
+            transition: all 0.3s ease;
+        }
+
+        .course-entry.expanded .close-button {
+            display: inline-block;
+        }
+
+        .close-button:hover {
+            background: #e0e0e0;
+            color: #45a049;
+        }
+
+        /* Mobile adjustments */
+        @media (max-width: 768px) {
+            .content {
+                max-width: 95%;
+                padding: 0 15px;
+            }
+
+            .course-entry {
+                padding: 20px;
+            }
+
+            .course-entry-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .course-entry-date {
+                margin-left: 0;
+                margin-top: 5px;
+            }
+
+            .course-entry-title {
+                font-size: 24px;
+            }
+
+            .course-entry.expanded .course-entry-title {
+                font-size: 28px;
+            }
+
+            .course-entry-content {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+<nav class="navigation">
+    <a href="../index.html" class="nav-item">HOME</a>
+    <a href="../navigation/resources.html" class="nav-item">RESOURCES</a>
+    <a href="../navigation/portfolio.html" class="nav-item">PORTFOLIO</a>
+    <a href="../navigation/about.html" class="nav-item">ABOUT</a>
+    <a href="../navigation/contact.html" class="nav-item">CONTACT</a>
+</nav>
+
+<div class="title-container">
+    <div class="nav-links">
+        <a href="../index.html" class="sub-nav-item">SEE: </a>
+        <a href="../personal/music.html" class="sub-nav-item">music</a>
+        <a href="../personal/movies.html" class="sub-nav-item">movies</a>
+        <a href="../personal/books.html" class="sub-nav-item">books</a>
+        <a href="../personal/cards.html" class="sub-nav-item">cards</a>
+    </div>
+    <h1 class="page-title" style="margin-bottom: unset">TUTORIALS</h1>
+</div>
+
+<div class="content">
+    <div class="course-list">
+
+        <!-- HTML -->
+        <div class="course-entry" onclick="togglePost(this)">
+            <div class="course-entry-header">
+                <h2 class="course-entry-title">Web Design Tutorial</h2>
+                <span class="course-entry-date">Code, Programming, Tutorial</span>
+            </div>
+            <p class="course-entry-excerpt">
+                Make your own website!
+            </p>
+            <div class="course-entry-content">
+                <p>
+                    HTML Tutorial<br>
+                <blockquote>
+                        <a href="../images/projects/webDemo/html.png" target="_blank" rel="noopener noreferrer">READ OVERVIEW</a><br>
+                        <a class="paper" href="https://github.com/sonia-sharapova/WebDemo/blob/main/Intro.pdf" target="_blank" rel="noopener noreferrer">CODE REPOSITORY</a>
+                    </blockquote>
+                </p>
+                <hr>
+                <p>
+                    CSS Tutorial<br>
+                    <blockquote>
+                        <a href="../images/projects/webDemo/css.png" target="_blank" rel="noopener noreferrer">READ OVERVIEW</a><br>
+                        <a class="paper" href="https://github.com/sonia-sharapova/WebDemo/blob/main/CSS.pdf" target="_blank" rel="noopener noreferrer">CODE REPOSITORY</a>
+                    </blockquote>
+                </p>
+                <hr>
+                <p>
+                    <blockquote>
+                        Brief demo of how to start creating a simple website.<br>
+                        <a class="paper" href="https://github.com/sonia-sharapova/WebDemo" target="_blank" rel="noopener noreferrer">CODE REPOSITORY</a>
+                    </blockquote>
+                </p>
+                <hr>
+                <p>
+                    <blockquote>
+                        Hands-on projects in Web Development.<br>
+                        <a class="paper" href="https://github.com/sonia-sharapova/WebDev101" target="_blank" rel="noopener noreferrer">CODE REPOSITORY</a>
+                    </blockquote>
+                </p>
+            </div>
+        </div>
+
+        <!-- course Post 2 -->
+        <div class="course-entry" onclick="togglePost(this)">
+            <div class="course-entry-header">
+                <h2 class="course-entry-title">Algorithms</h2>
+                <span class="course-entry-date">Overview</span>
+            </div>
+            <p class="course-entry-excerpt">
+                Crash course in Algorithms
+            </p>
+            <div class="course-entry-content">
+
+                <p>
+                    <blockquote>
+                        <a href="../learning/alg/alg.html" class="sub-nav-item">Algorithms Crash Course</a>
+                    </blockquote>
+                </p>
+            </div>
+        </div>
+
+        <!-- course Post 3 -->
+        <div class="course-entry" onclick="togglePost(this)">
+            <div class="course-entry-header">
+                <h2 class="course-entry-title">Machine Learning</h2>
+                <span class="course-entry-date">Overview</span>
+            </div>
+            <p class="course-entry-excerpt">
+                Overview of Machine Learning Concepts
+            </p>
+            <div class="course-entry-content">
+                <blockquote>
+                    <a href="../learning/ml/machine_learning.html" class="sub-nav-item">Machine Learning Overview</a>
+                </blockquote>
+                <blockquote>
+                    <a href="../learning/ml/ai.html" class="sub-nav-item">Artificial Intelligence Overview</a>
+                </blockquote>
+
+            </div>
+        </div>
+        <!-- course Post 4 -->
+        <div class="course-entry" onclick="togglePost(this)">
+            <div class="course-entry-header">
+                <h2 class="course-entry-title">High Performance Computing</h2>
+                <span class="course-entry-date">Overview, Programming</span>
+            </div>
+            <p class="course-entry-excerpt">
+                Overview of Machine Learning Concepts
+            </p>
+            <div class="course-entry-content">
+                <blockquote>
+                    <a href="../learning/parallel/parallel.html" class="sub-nav-item">Parallel Computing Overview</a>
+                </blockquote>
+                <blockquote>
+                    <a href="../learning/parallel/go.html" class="sub-nav-item">GoLang Intro (Language)</a>
+                </blockquote>
+                <blockquote>
+                    <a href="../learning/HPC/HPC.html" class="sub-nav-item">HPC Overview</a>
+                </blockquote>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    animate();
+
+    function togglePost(element) {
+        // Close all other posts
+        document.querySelectorAll('.course-entry').forEach(entry => {
+            if (entry !== element) {
+                entry.classList.remove('expanded');
+            }
+        });
+
+        // Toggle clicked post
+        element.classList.toggle('expanded');
+
+        // Scroll to post if expanding
+        if (element.classList.contains('expanded')) {
+            setTimeout(() => {
+                element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 100);
+        }
+    }
+</script>
+
+<footer>
+    <p>
+        <a href="https://github.com/sonia-sharapova">GitHub</a> |
+        <a href="https://www.linkedin.com/in/sonia-sharapova/">LinkedIn</a> |
+        <a href="https://www.instagram.com/sonia.s.ru/">Instagram</a>
+    </p>
+    <div>
+        Contact Links<br>
+        2025
+    </div>
+</footer>
+
+</body>
+</html>

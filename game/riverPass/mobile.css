@@ -1,0 +1,58 @@
+/* Mobile Compatibility Notice */
+
+/* Hide mobile warning by default */
+#mobile-warning {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    z-index: 9999;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+#mobile-warning-content {
+    background: #eae4e4;
+    padding: 40px 30px;
+    border-radius: 10px;
+    text-align: center;
+    max-width: 400px;
+}
+
+#mobile-warning-content h2 {
+    color: #333;
+    margin-bottom: 15px;
+    font-size: 24px;
+}
+
+#mobile-warning-content p {
+    color: #555;
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+/* Show warning on tablets and smaller */
+@media screen and (max-width: 1024px) {
+    #mobile-warning {
+        display: flex;
+    }
+
+    #game-container {
+        filter: blur(5px);
+    }
+}
+
+/* Specifically for very small screens */
+@media screen and (max-width: 768px) {
+    #mobile-warning-content h2 {
+        font-size: 20px;
+    }
+
+    #mobile-warning-content p {
+        font-size: 14px;
+    }
+}

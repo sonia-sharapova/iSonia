@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="mobile.css">
+    <link rel="icon" href="images/wolfGrin.png" />
+    <title>River Crossing Puzzle</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Optima, sans-serif;
+            overflow: hidden;
+        }
+
+        #game-container {
+            width: 100vw;
+            height: 100vh;
+            position: fixed;
+            background-image: url('images/bg.png');
+            background-size: cover;
+            background-position: center;
+        }
+
+        #instructions {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(234, 210, 210, 0.83);
+            padding: 10px 20px;
+            border-radius: 5px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+            z-index: 100;
+            max-width: 600px;
+            text-align: center;
+        }
+
+        #instructions h2 {
+            margin: 0 0 8px 0;
+            font-size: 20px;
+            color: #333;
+        }
+
+        #instructions p {
+            margin: 5px 0;
+            font-size: 14px;
+            color: #555;
+        }
+
+        .island {
+            position: absolute;
+            top: 55%;
+            transform: translateY(-50%);
+            width: 250px;
+            min-height: 300px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 0px;
+            padding: 20px;
+        }
+
+        #left-island {
+            left: 23%;
+        }
+
+        #right-island {
+            right: 25%;
+        }
+
+        .item {
+            width: 30%;
+            height: 30%;
+            cursor: pointer;
+            transition: transform 0.2s;
+            filter: drop-shadow(0 0 5px rgba(111, 220, 244, 0.8))
+            drop-shadow(0 0 25px rgba(22, 237, 212, 0.5))
+            drop-shadow(0 4px 6px rgba(0,0,0,0.3));
+        }
+
+        .item:hover {
+            transform: scale(1.1);
+        }
+
+        .item.disabled {
+            cursor: not-allowed;
+            opacity: 0.5;
+        }
+
+        #raft-container {
+            position: absolute;
+            top: 85%;
+            transform: translateY(-50%);
+            width: 150px;
+            height: 100px;
+            z-index: 50;
+            cursor: pointer;
+            transition: left 1.5s ease-in-out;
+        }
+
+        #raft-container.left {
+            left: 20%;
+        }
+
+        #raft-container.right {
+            left: calc(100% - 500px);
+        }
+
+        #raft {
+            width: 150%;
+            height: 150%;
+            background-image: url('images/raft.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #raft-item {
+            width: 70px;
+            height: 70px;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+
+        #cross-button {
+            position: absolute;
+            font-family: "Times New Roman", sans-serif;
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 10px 20px;
+            background: rgba(215, 247, 250, 0.76);
+            color: #54586a;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: bold;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+            z-index: 100;
+        }
+
+        #cross-button:disabled {
+            background: rgba(204, 204, 204, 0.75);
+            cursor: not-allowed;
+        }
+
+        #cross-button:hover:not(:disabled) {
+            background: #d2e3fa;
+        }
+
+        #game-over-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 200;
+        }
+
+        #game-over-overlay.show {
+            display: flex;
+        }
+
+        #game-over-content {
+            text-align: center;
+            background: rgba(234, 228, 228, 0.7);
+            padding: 40px;
+            border-radius: 5px;
+        }
+
+        #game-over-image {
+            max-width: 300px;
+            max-height: 300px;
+            margin-bottom: 20px;
+        }
+
+        #restart-button {
+            padding: 10px 20px;
+            background: rgba(112, 84, 62, 0.7);
+            font-family: "Times New Roman", sans-serif;
+            color: #bdbdbd;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+
+        #restart-button:hover {
+            background: #8a6a59;
+        }
+
+        .message {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .message.win {
+            color: #2c4932;
+        }
+
+        .message.lose {
+            color: #604832;
+        }
+    </style>
+</head>
+<body>
+<div id="mobile-warning">
+    <div id="mobile-warning-content">
+        <h2>Desktop Only</h2>
+        <p>This game is currently implemented for desktop and larger screens (iPad size and above). Mobile coming soon!</p>
+    </div>
+</div>
+<div id="game-container">
+    <div id="instructions">
+        <h2>River Crossing</h2>
+        <p id="instruction-text">Get everyone across the river safely.
+            The raft can only hold one at a time, so be careful who you leave behind!
+            <br><br>
+            Load and unload the raft by clicking on someone (wolf, sheep, or cabbage)
+
+        </p>
+        <!--
+            <li>Wolf eat sheep</li>
+            <li>Sheep will eat cabbage</li>
+            -->
+    </div>
+
+    <div id="left-island" class="island"></div>
+    <div id="right-island" class="island"></div>
+
+    <div id="raft-container" class="left">
+        <div id="raft">
+            <div id="raft-item"></div>
+        </div>
+    </div>
+
+    <button id="cross-button">Cross River</button>
+
+    <div id="game-over-overlay">
+        <div id="game-over-content">
+            <img id="game-over-image" src="" alt="Game Over">
+            <div id="game-over-message" class="message"></div>
+            <button id="restart-button">Play Again</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    const gameState = {
+        leftIsland: ['sheep', 'wolf', 'cabbage'],
+        rightIsland: [],
+        raftPosition: 'left',
+        raftContent: null,
+        isAnimating: false,
+        gameOver: false,
+        gameWon: false
+    };
+
+    const itemImages = {
+        sheep: 'images/sheep.png',
+        wolf: 'images/wolf.png',
+        cabbage: 'images/cab.png'
+    };
+
+    function renderIsland(islandId, items) {
+        const island = document.getElementById(islandId);
+        island.innerHTML = '';
+
+        items.forEach(item => {
+            const img = document.createElement('img');
+            img.src = itemImages[item];
+            img.className = 'item';
+            img.alt = item;
+            img.dataset.item = item;
+
+            if (!gameState.gameOver && !gameState.gameWon && !gameState.isAnimating) {
+                img.onclick = () => handleItemClick(item, islandId);
+            } else {
+                img.classList.add('disabled');
+            }
+
+            island.appendChild(img);
+        });
+    }
+
+    function handleItemClick(item, islandId) {
+        const isLeftIsland = islandId === 'left-island';
+        const currentIsland = isLeftIsland ? gameState.leftIsland : gameState.rightIsland;
+        const correctPosition = (isLeftIsland && gameState.raftPosition === 'left') ||
+            (!isLeftIsland && gameState.raftPosition === 'right');
+
+        if (!correctPosition || gameState.raftContent || !currentIsland.includes(item)) {
+            return;
+        }
+
+        // Load item onto raft
+        if (isLeftIsland) {
+            gameState.leftIsland = gameState.leftIsland.filter(i => i !== item);
+        } else {
+            gameState.rightIsland = gameState.rightIsland.filter(i => i !== item);
+        }
+
+        gameState.raftContent = item;
+        updateGame();
+    }
+
+    function handleRaftClick() {
+        if (gameState.gameOver || gameState.gameWon || gameState.isAnimating || !gameState.raftContent) {
+            return;
+        }
+
+        // Unload item from raft
+        if (gameState.raftPosition === 'left') {
+            gameState.leftIsland.push(gameState.raftContent);
+        } else {
+            gameState.rightIsland.push(gameState.raftContent);
+        }
+
+        gameState.raftContent = null;
+        updateGame();
+    }
+
+    function crossRiver() {
+        if (gameState.gameOver || gameState.gameWon || gameState.isAnimating) {
+            return;
+        }
+
+        gameState.isAnimating = true;
+        document.getElementById('cross-button').disabled = true;
+
+        const raftContainer = document.getElementById('raft-container');
+        raftContainer.classList.toggle('left');
+        raftContainer.classList.toggle('right');
+
+        setTimeout(() => {
+            gameState.raftPosition = gameState.raftPosition === 'left' ? 'right' : 'left';
+            gameState.isAnimating = false;
+            document.getElementById('cross-button').disabled = false;
+            updateGame();
+        }, 1500);
+    }
+
+    function checkGameState() {
+        if (gameState.isAnimating) return;
+
+        // Check win condition
+        if (gameState.rightIsland.length === 3) {
+            gameState.gameWon = true;
+            showGameOver('sheep.png', 'Yay! Everyone made it across safely :)', true);
+            return;
+        }
+
+        // Check lose conditions on both islands
+        // Items are only in danger when left ALONE together (not all 3 present)
+        const checkIsland = gameState.raftPosition === 'left' ? gameState.leftIsland : gameState.rightIsland;
+        const otherIsland = gameState.raftPosition === 'left' ? gameState.rightIsland : gameState.leftIsland;
+
+        // Check the island where the raft is NOT present
+        if (otherIsland.length === 2) {
+            if (otherIsland.includes('sheep') && otherIsland.includes('wolf')) {
+                gameState.gameOver = true;
+                showGameOver('wolfWin.png', 'Oh no! The wolf ate the sheep :(', false);
+            } else if (otherIsland.includes('sheep') && otherIsland.includes('cabbage')) {
+                gameState.gameOver = true;
+                showGameOver('sheepWin.png', 'Oh no! The sheep ate the cabbage..', false);
+            }
+        }
+    }
+
+    function showGameOver(imageSrc, message, isWin) {
+        const overlay = document.getElementById('game-over-overlay');
+        const image = document.getElementById('game-over-image');
+        const messageEl = document.getElementById('game-over-message');
+
+        image.src = 'images/' + imageSrc;
+        messageEl.textContent = message;
+        messageEl.className = 'message ' + (isWin ? 'win' : 'lose');
+
+        overlay.classList.add('show');
+    }
+
+    function updateGame() {
+        renderIsland('left-island', gameState.leftIsland);
+        renderIsland('right-island', gameState.rightIsland);
+
+        const raftItem = document.getElementById('raft-item');
+        if (gameState.raftContent) {
+            raftItem.style.backgroundImage = `url('${itemImages[gameState.raftContent]}')`;
+        } else {
+            raftItem.style.backgroundImage = 'none';
+        }
+
+        checkGameState();
+    }
+
+    function resetGame() {
+        gameState.leftIsland = ['sheep', 'wolf', 'cabbage'];
+        gameState.rightIsland = [];
+        gameState.raftPosition = 'left';
+        gameState.raftContent = null;
+        gameState.isAnimating = false;
+        gameState.gameOver = false;
+        gameState.gameWon = false;
+
+        const raftContainer = document.getElementById('raft-container');
+        raftContainer.className = 'left';
+
+        document.getElementById('game-over-overlay').classList.remove('show');
+        document.getElementById('cross-button').disabled = false;
+
+        updateGame();
+    }
+
+    // Event listeners
+    document.getElementById('raft').addEventListener('click', handleRaftClick);
+    document.getElementById('cross-button').addEventListener('click', crossRiver);
+    document.getElementById('restart-button').addEventListener('click', resetGame);
+
+    // Initialize game
+    updateGame();
+</script>
+</body>
+</html>

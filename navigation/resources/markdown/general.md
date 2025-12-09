@@ -1,0 +1,380 @@
+# General Resources
+
+## Alternative Search Engines
+
+### Specialized Search
+- **All in One Search**: All major search engines in one
+  - https://all-io.net/
+- **Big List of Specialized Search Engines**: Comprehensive directory
+  - https://medium.com/@internetmoneyjournal/specializedsearchengines-d869c81b1be1
+- **Curlie**: Search Websites / source for any topic
+  - https://curlie.org/
+- **Kagi Search**: No ads, no tracking, no third parties
+  - https://kagi.com/
+- **LumpySoft**: Google Index Search (find files)
+  - https://lumpysoft.com/
+- **Marginalia Search**: Independent DIY search engine focusing on non-commercial content
+  - https://marginalia-search.com/
+- **Shodan**: Search engine for internet-connected devices
+  - https://www.shodan.io/
+- **Start Page**: Private Search Engine
+  - https://www.startpage.com/
+- **4get**: Open-source metasearch engine for privacy
+  - https://4get.ca/
+
+## Search Specific Media
+
+- **Gophie**: Open-source Gopher browser
+  - https://gophie.org/
+- **Libraries**: Search open source frameworks and libraries
+  - https://libraries.io/
+- **Musgle**: Google for music, search music files
+  - http://musgle.com/
+- **RFC Editor**: Technical and organizational documents about the Internet
+  - https://www.rfc-editor.org/
+- **Search My Site**: Search through personal sites, blogs, and the small web
+  - https://searchmysite.net/
+- **Snowfl**: Search public torrents
+  - https://snowfl.com/
+- **TinyEye**: Reverse Image Search by image
+  - https://tineye.com/
+- **Wayback Machine**: Web archive
+  - https://archive.org/web/
+- **Wiby**: Search through / find old websites
+  - https://wiby.me/
+
+## Guides & How To's
+
+- **Blackstump**: HowTos on anything
+  - https://www.blackstump.com.au/house.htm
+- **The Creative Independent**: Creative How-Tos
+  - https://thecreativeindependent.com/guides/
+- **FilmScalpel**: Video Making Best Practices
+  - https://www.filmscalpel.com/
+- **Guru**: Simple and easy learning
+  - https://www.guru99.com/
+- **How to make a Zine**: Guide on Making a magazine
+  - https://thecreativeindependent.com/guides/how-to-make-a-zine/
+- **Instructables**: How to Make Anything
+  - https://www.instructables.com/
+- **WebZine**: Web 101 making a zine
+  - https://coolguy.website/web-zine/01/table-of-contents.html
+- **Writing**: How to Write on the Internet
+  - https://www.benkuhn.net/writing/
+
+## Useful (General)
+
+### Info
+- **Erowid**: Drug Info (research only)
+  - https://www.erowid.org/splash.php
+- **FabricLink**: Stain Removal
+  - https://www.fabriclink.com/stains/holidaystain.cfm
+- **The Free Country**: Free Stuff
+  - https://www.thefreecountry.com/
+- **FreeCycle**: Find Free Stuff
+  - https://www.freecycle.org/
+- **Free Harvard Courses**: Free courses from Harvard
+  - https://pll.harvard.edu/catalog/free
+- **The Free Site**: Free stuff
+  - https://www.thefreesite.com/
+- **MyLifeElsewhere**: Compare countries if you're considering moving
+  - https://www.mylifeelsewhere.com/
+- **OpenStax**: Free textbooks
+  - https://openstax.org/
+- **Open Textbook Library**: Free textbooks
+  - https://open.umn.edu/opentextbooks
+- **Paper CD Case**: Make CD Cover paper
+  - https://papercdcase.com/
+- **Printable Paper**: Print paper and stuff
+  - https://www.printablepaper.net/
+- **Printed Matter**: Printing and binding
+  - https://www.printedmatter.org/services/the-bulletin/printing-and-binding
+- **Sci-Hub V1**: Free Scientific Journals / Papers
+  - https://sci-hub.se/
+- **Sci-Hub V2**: Remove paywalls on academic articles
+  - https://www.sci-hub.st/
+- **Totse**: Drug info (research only)
+  - https://totseans.com/totse/en/drugs/index.html
+
+### Shopping
+- **/csg/ Guide**: Online Shopping Guide
+  - https://csg-guide.neocities.org/
+- **eBay**: Cheap, strange, or old
+  - http://www.ebay.com/
+- **Epoka**: Supercomputers / hardware
+  - https://epoka.com/
+- **Japanese Bidding**: Service for Bidding on Japan auctions
+  - https://yahoo.aleado.com/about_yahoo_en.htm
+- **Thieve**: Reverse image search tool for finding products on AliExpress
+  - https://thieve.co/tools/image-search
+
+### Tools
+- **ASCII Art Creator**: Create ASCII art
+  - https://asciiart.club/
+- **ASCII Art Generator**: Generate ASCII art
+  - https://www.ascii-art-generator.org/
+- **BugMeNot**: Share Logins
+  - https://bugmenot.com/
+- **Down Detector**: Detect when services are down
+  - https://downdetector.com/
+- **Download YT**: Download YouTube videos
+  - https://www.4kdownload.com/
+- **Emailinator**: Generates temporary Gmail inbox
+  - https://www.emailnator.com/
+- **Free PDF Tools**: Anything PDF
+  - https://www.ilovepdf.com/
+- **Generative tools**: Arena of generative tools
+  - https://www.are.na/serena-ho/generative-tools-48i6d9oltye
+- **Pharmapsychotic**: Tools and Resources for AI art
+  - https://pharmapsychotic.com/tools.html
+- **PineTools**: Free online tools
+  - https://pinetools.com/
+- **PlText**: Plagiarism checker
+  - https://pltext.com/
+- **Remove Paywall**: Remove your paywalls
+  - https://www.removepaywall.com/
+- **Toolboxd**: Tools for your letterboxd
+  - https://letterboxd.tools/
+- **TorchSoft**: Home of ASCII Art Studio
+  - http://torchsoft.com/
+- **Vector Halftone Maker**: Halftones
+  - https://halftone.xoihazard.com/
+- **VisiBone**: Touch-Typing Tutor
+  - https://www.visibone.com/type/
+- **Zoom Escaper**: Self-sabotage your audio stream
+  - https://zoomescaper.com/
+
+## Archives
+
+### Collections
+- **Alt Museum**: Texts of Open Access artworks from around the world
+  - https://afterneworder.com/altmuseum/about.html
+- **Anime Girls Holding Programming Books**: As the title states
+  - https://github.com/cat-milk/Anime-Girls-Holding-Programming-Books
+- **Artists' Books at MassArt**: Book layout design
+  - https://blogs.massart.edu/artistsbooks/
+- **ASCII Art**: ASCII Collection
+  - https://asciiart.website/
+- **Bahai Library**: Bahai teachings and information
+  - https://bahai-library.com/
+- **Bottlecaps**: Over 4000 Bottle caps from around the world
+  - https://capacedebere.neocities.org/
+- **Bug Guide**: Guide to all bugs
+  - https://bugguide.net/node/view/15740
+- **Commarts**: Design gallery
+  - https://www.commarts.com/gallery?d=design
+- **Consollection**: Collection of gaming consoles
+  - https://consollection.de/
+- **Cover Junkie**: Magazine Covers
+  - https://coverjunkie.com/
+- **The Cover Project**: Video Game Covers
+  - https://thecoverproject.net/index.php
+- **Everything Can Be Scanned**: Scans of everything
+  - https://ecbscanned.com/
+- **Flash Game Archive**: Archive of Flash games
+  - https://archive.org/details/softwarelibrary_flash?page=2
+- **Go Canucks**: Library of cute pixel guys
+  - http://gocanucks.free.fr/
+- **Greatest Films of All Time**: Top films
+  - https://www.bfi.org.uk/sight-and-sound/greatest-films-all-time
+- **Hatsune Miku Friends**: Learn about Hatsune Miku
+  - https://www.giantbomb.com/hatsune-miku/3005-7367/friends/
+- **The Hydrant Directory**: Showcase of fire hydrants
+  - https://www.dayroselane.com/hydrants
+- **Insect Portraits**: Archive of bugs
+  - http://microsculpture.net/
+- **I/O games**: Various I/O games
+  - https://iogames.space/
+- **Jigsaw Explorer**: Jigsaw puzzles
+  - https://www.jigsawexplorer.com/
+- **Kaleidoscope**: Kaleidoscope schemes from around the WWW
+  - https://kaleidoscope.hryjksn.com/
+- **Kaomoji Library**: Library of Kaomojis
+  - https://emojidb.org/kaomoji-emojis
+- **KB Archive**: KnowledgeBase archive of early Microsoft articles
+  - https://jeffpar.github.io/kbarchive/
+- **The LED Watch**: LED Watches
+  - https://www.theledwatch.com/watches
+- **Living Room Candidate**: Presidential Campaign Commercials
+  - https://www.livingroomcandidate.org/commercials/1952
+- **Lock Wiki**: All about locks
+  - https://lockwiki.com/index.php/Main_Page/
+- **Logo Archive**: Archive of logos
+  - https://archive.org/details/bitsavers_unitedTechngineersMasterVol2_242068752/page/n397/mode/2up?view=theater
+- **MyCalcDB**: Calculator Database
+  - http://mycalcdb.free.fr/
+- **The Old Robots**: Gallery of retro robots
+  - https://www.theoldrobots.com/index.html
+- **Optical Illusions**: 152 Visual Phenomena and optical illusions
+  - https://michaelbach.de/ot/index.html
+- **Packaging**: Collection of various packaging
+  - https://www.flickr.com/photos/13166455@N05/albums/72157608888976602/with/3022967918
+- **PC Fonts**: Oldschool PC fonts
+  - https://int10h.org/oldschool-pc-fonts/fontlist/
+- **Pose Maniacs**: Human body poses (anatomy)
+  - https://www.posemaniacs.com/
+- **Rare Historical Photos**: As title says
+  - https://rarehistoricalphotos.com/
+- **The Rosetta Stone PowerPac**: Free Download and Streaming
+  - http://archive.org/details/trs-power-pac/
+- **Rubiks Cubes**: Everything you need to know
+  - https://www.grubiks.com/
+- **Swatch**: Virtual Swatch Museum
+  - https://www.stay-tuned-to-sw.de/specials.html
+- **Texas Instrument Covers**: Archive of TI covers
+  - https://archive.org/details/tibooks
+- **THA LTD**: Design Gallery
+  - https://tha.jp/works
+- **TM Research Archive**: Interesting designs and covers
+  - http://www.tm-research-archive.ch/
+- **Tralfaz**: Album Cover Art Gallery
+  - https://tralfaz-archives.com/coverart/coverart.html
+- **WebAmp**: Winamp skin museum
+  - https://skins.webamp.org/
+- **XKCD**: Answers to Random Science Questions
+  - https://what-if.xkcd.com/
+- **50 Watts**: International book designs, illustrations, and covers
+  - https://50watts.com/
+
+### General Archives
+- **AO3: Our Own Archive**: Fan-created archive for transformative fanworks
+  - https://archiveofourown.org/
+- **Cold War Transcripts**: Transcripts from NSArchive
+  - https://nsarchive.gwu.edu/briefing-book/russia-programs/2016-12-18/new-book-combines-soviet-us-transcripts-highest-level
+- **The Eye**: An archive of random files
+  - the-eye.eu/public
+- **Flickr Archive**: Spreadsheet of Flickr archives
+  - https://docs.google.com/spreadsheets/d/1psWduzRxBHzi-aKD_McSM4P7eNO8wHhANCrus_uo6e8/edit?gid=770506321#gid=770506321
+- **F0ck!**: Random misc. Images (may be NSFW)
+  - https://f0ck.me/
+- **Motto Distribution**: Shop/browse interesting media
+  - https://www.mottodistribution.com/shop/
+- **PetitTube**: Random YouTube videos with less than 10 views
+  - https://petittube.com/
+- **So Much**: Free website link directory
+  - https://www.somuch.com/
+- **Sundry Obscure Topics**: Collection of links to strange topics
+  - http://tamivox.org/
+- **Ubu Web**: Pirate shadow library of avant-garde artifacts
+  - https://www.ubu.com/
+- **Under Consideration**: Misc. collections archive
+  - https://www.underconsideration.com/brandnew/collected
+- **VidLii**: Mimics pre-2009 YouTube
+  - https://www.vidlii.com/videos
+
+## Personal Blogs & Sites I Like
+
+### Blogs and Organizations
+- **AreByte**: Cool art community
+  - https://aos.arebyte.com/
+- **ChadNet**: ChadNet library of information
+  - https://wiki.chadnet.org/
+- **Creative Commons**: A home for technology efforts in the public interest
+  - https://commonsconservancy.org/
+- **Lacan.com**: Lacan in the US
+  - https://www.lacan.com/
+- **Negative Land**: Multimedia Collective
+  - https://negativland.com/
+- **Nerdy Pleasures**: Lots of nerdy pleasures
+  - https://nerdlypleasures.blogspot.com/
+- **New Models**: New Models archive
+  - https://www.newmodels.io/
+- **Our Friend the Computer**: Cute podcast about technology
+  - https://www.ourfriendthe.computer/
+- **Perfectly Imperfect**: Interviews with public figures
+  - https://www.pi.fyi/welcome
+- **Read Only Memory**: Books on videogames and world building
+  - https://readonlymemory.com/
+
+### Forums
+- **KiwiFarms**: Lolcows, internet social discourse
+  - https://kiwifarms.st/
+- **Lolcow**: Internet discussion forum
+  - https://lolcow.farm/
+
+### Magazines
+- **BYTE FAQ**: Tom's Unofficial BYTE FAQ
+  - https://www.halfhill.com/bytefaq.html
+- **Lainezine**: Serial Experiments Lain themed magazine
+  - https://lainzine.org/
+- **Literature Zine**: Based on /li/
+  - https://lampbylit.com/magazine/
+- **Low-Tech Magazine**: Magazine on technology
+  - https://solar.lowtechmagazine.com/
+- **PTYUCH**: Archive of PTYUCH issues
+  - https://archive.org/details/Ptuch/
+- **Real Life Mag**: Magazine about living with technology
+  - https://reallifemag.com/
+- **TANK Magazine**: Collection of blogs and other media
+  - https://tank.tv/magazine
+- **Volvox Observer**: Small independent magazines
+  - https://volvox.observer/archive
+
+### Personal Websites
+- **Chris Korda**: Interesting audio and code projects
+  - https://www.chriskorda.com
+- **Dan Luu**: Dan Luu's programming blog
+  - https://www.hamhamparadise.com/
+- **Erik Loyer**: Interesting works
+  - https://erikloyer.com/
+- **Hans Witschi**: Hans Witschi's personal site
+  - https://handbook.org/
+- **Le Hipster Portal**: Meg Superstar Princess's former blog
+  - https://lehipsterportal.blogspot.com/
+- **Jason Scott**: Jason Scott's Weblog
+  - https://ascii.textfiles.com/
+- **Oneotrix Point Never**: OPN personal site
+  - https://pointnever.com/
+- **Paul Graham**: Paul Graham's Essays
+  - http://paulgraham.com/articles.html
+- **Tao Lin**: Tao Lin's Books
+  - https://www.taolin.us/books
+- **Xan Lee**: Xan Lee's website, filled with interesting math and programming
+  - http://xahlee.org/index.html
+
+## Silly & Misc.
+
+- **AM Stereo**: Listen to the AM radio
+  - http://www.amstereo.org/
+- **Chrome Experiments**: Complete Stellar Network
+  - https://stars.chromeexperiments.com/
+- **Dark Site Finder**: Dark locations to see stars
+  - https://darksitefinder.com/
+- **Deep Fried Memes**: Meme Deep Fryer
+  - https://deepfriedmemes.com/
+- **EarthCam**: Live Webcams across the world
+  - https://www.earthcam.com/
+- **HamHamParadise**: Hamtaro fan site
+  - https://www.hamhamparadise.com/
+- **Holotypic Occlupanid Research Group**: Interesting fascination
+  - https://www.horg.com/horg/
+- **Human Clock**: So cute!
+  - https://humanclock.com/
+- **Internet Trash**: Some internet trash
+  - https://www.internettrash.com/
+- **Japanese Police Records**: Public japanese police records
+  - https://www.police.pref.hokkaido.lg.jp/
+- **LockLab**: Everything about lockpicking
+  - https://locklab.com/
+- **OpenTopia**: More LiveCams
+  - http://www.opentopia.com/
+- **PostSecret**: Postcards with secrets
+  - https://postsecret.com/
+- **Public Radio**: It's a public radio
+  - https://www.publicradio.info/
+- **SCUM Games**: TempleOS Games
+  - https://scumgames.neocities.org/
+- **Space Ghetto**: Cool random images, may be nsfw
+  - https://www.spaceghetto.space/
+- **Spurious Correlations**: Correlation != causation
+  - https://tylervigen.com/spurious-correlations
+- **This Porn Does Not Exist**: Generated porn, not technically NSFW
+  - https://nsfwai.com/
+- **Tracky Birthday**: A crazy site
+  - http://www.trackybirthday.com/
+- **Windows93**: A parody OS Game
+  - https://www.windows93.net/
+- **The Worst Things for Sale**: Silly collection of funny things on the market
+  - https://theworstthingsforsale.com/
+- **WXYZWebCams**: Some more webcams!
+  - https://wxyzwebcams.com/

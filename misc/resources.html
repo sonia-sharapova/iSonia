@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sonia's Resources</title>
+    <link rel="icon" href="/images/icons/heart3.png" />
+    <link rel="stylesheet" href="../styles/stylesheet.css">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.5/babel.min.js"></script>
+
+</head>
+<body>
+<nav class="navigation" style="width: 100%;position: absolute;">
+    <a href="../index.html" class="nav-item">HOME</a>
+    <a href="resources.html" class="nav-item">RESOURCES</a>
+    <a href="portfolio.html" class="nav-item">PORTFOLIO</a>
+    <a href="about.html" class="nav-item">ABOUT</a>
+    <a href="contact.html" class="nav-item">CONTACT</a>
+</nav>
+
+<div class="title-container">
+    <div class="nav-links">
+        <a href="../index.html" class="sub-nav-item">SEE: </a>
+        <a href="../personal/music.html" class="sub-nav-item">music</a>
+        <a href="../personal/movies.html" class="sub-nav-item">movies</a>
+        <a href="../personal/books.html" class="sub-nav-item">books</a>
+        <a href="../personal/cards.html" class="sub-nav-item">cards</a>
+    </div>
+    <a href="resources.html"><h1 class="page-title">RESOURCES</h1></a>
+</div>
+
+<div class="container" style="margin: 30px auto 0;width: 80%">
+    <h2 style="font-size: 30px">Le Internet Archive ^_^</h2>
+    <div class="content">
+        <div id="root"></div>
+    </div>
+</div>
+
+<!-- Load components first -->
+<script type="text/babel" src="../scripts/resources/archiveComponents.js"></script>
+<!-- Then load main application -->
+<script type="text/babel" src="../scripts/resources/archiveMain.js"></script>
+
+<footer>
+    <p style="text-align: center">
+        <a href="https://github.com/sonia-sharapova">GitHub</a> |
+        <a href="https://www.linkedin.com/in/sonia-sharapova/">LinkedIn</a> |
+        <a href="https://www.instagram.com/sonia.s.ru/">Instagram</a>
+    </p>
+    <div style="margin-top: 5px;">
+        Resources Archive<br>
+        2025
+    </div>
+</footer>
+
+</body>
+</html>
