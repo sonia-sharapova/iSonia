@@ -13,8 +13,30 @@
     <script src="ascii_cam.js" defer></script>
 
     <style>
+
+
+        .left-panel, .right-panel {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 5px;
+            color: #333;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 250px;
+        }
+
+        .canvas-container {
+            flex: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            aspect-ratio: 16/9;
+        }
+
+
+
         .video-container {
-            width: 100%;
+            width: 80%;
             aspect-ratio: 16/9;
             background-color: black;
             position: relative;
@@ -25,17 +47,25 @@
             justify-content: center;
             align-items: center;
         }
+
+        canvas {
+            border: 2px solid #942f2f;
+            background: #ffffff;
+            cursor: crosshair;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
     </style>
 </head>
 <body>
 <nav class="navigation">
     <a href="../../index.html" class="nav-item">HOME</a>
-    <a href="../../misc/resources.html" class="nav-item">RESOURCES</a>
+    <a href="../../navigation/resources.html" class="nav-item">RESOURCES</a>
     <a href="../../navigation/portfolio.html" class="nav-item">PORTFOLIO</a>
-    <a href="../../creations/tutorials.html" class="nav-item">ABOUT</a>
+    <a href="../../navigation/about.html" class="nav-item">ABOUT</a>
     <a href="../../navigation/contact.html" class="nav-item">CONTACT</a>
 </nav>
-
 <div class="title-container">
     <div class="nav-links">
         <a href="../../index.html" class="sub-nav-item">SEE: </a>
@@ -47,53 +77,77 @@
     <h1 class="page-title">ASCII WEBCAM</h1>
 </div>
 
-<div class="info-section">
-    <h1>ASCII Camera</h1>
-    <p>
-        This camera converts your webcam video into ASCII art in real-time!!
-        ASCII art uses text characters to create images,
-        a technique dating back to early computing when graphical capabilities were limited.
-    </p>
-    <p>
-        Adjust the contrast and character size sliders to fine-tune the output!
-    </p>
+
+<div class="container" style="width: 70%;">
+    <div class="left-panel" style="min-width: 300px;">
+        <div class="info-section">
+            <h2 style="margin-bottom: 0; margin-top: 0;">ASCII Camera</h2><hr>
+            <p style="text-align: left">
+                This camera converts your webcam video into ASCII art in real-time!!
+                ASCII art uses text characters to create images,
+                a technique dating back to early computing when graphical capabilities were limited.
+            </p>
+            <p style="text-align: left">
+                Adjust the contrast and character size sliders to fine-tune the output!
+            </p>
+        </div>
+        <div class="slider-controls">
+            <div class="controls">
+                <button id="flipButton">Invert Camera (<span id="cameraMode">front</span>)</button>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="canvas-container">
+        <canvas id="canvas" width="600" height="500">
+            <video id="video" playsinline style="display: none;"></video>
+        </canvas>
+
+    </div>
+
+    <div class="right-panel">
+        <div class="slider-controls">
+            <div class="slider-group">
+                <label for="contrastSlider">Contrast: <span id="contrastValue">50</span>%</label>
+                <input type="range" id="contrastSlider" min="0" max="100" value="50" class="slider">
+            </div>
+
+            <div class="slider-group">
+                <label for="charSizeSlider">Character Size: <span id="charSizeValue">8</span>px</label>
+                <input type="range" id="charSizeSlider" min="4" max="16" value="8" class="slider">
+            </div>
+
+            <div class="slider-group">
+                <label for="hueSlider">Hue: <span id="hueValue">0</span>°</label>
+                <input type="range" id="hueSlider" min="0" max="360" value="0" class="slider">
+            </div>
+
+            <br>
+            <select id="cameraSelect" class="camera-select">
+                <option value="">Loading cameras...</option>
+            </select>
+            <div class="camControl">
+                <button id="startCamera" >Start Camera</button>
+                <button id="stopCamera" >Stop Camera</button>
+            </div>
+            <!-- Add this to the controls div, next to saveButton -->
+            <button id="takePhotoButton" class="photo-button">
+                <span class="camera-icon">📸</span> Take Photo
+            </button>
+            <button id="saveButton" class="photo-button">
+                Save Photo
+            </button>
+        </div>
+
+
+    </div>
 </div>
 
+
 <div class="container">
-    <div class="video-container">
-        <!-- Always keep the video hidden but available for processing -->
-        <video id="video" playsinline style="display: none;"></video>
-        <canvas id="canvas"></canvas>
-    </div>
-    <div class="controls">
-        <select id="cameraSelect" class="camera-select">
-            <option value="">Loading cameras...</option>
-        </select>
-        <button id="startCamera">Start Camera</button>
-        <button id="stopCamera">Stop Camera</button>
-        <button id="flipButton">Invert Camera (<span id="cameraMode">front</span>)</button>
-    </div>
-    <!-- Add this to the controls div, next to saveButton -->
-    <button id="takePhotoButton" class="photo-button">
-        <span class="camera-icon">📸</span> Take Photo
-    </button>
-    <!-- Add this inside the .ascii-options div in ascii_cam.html -->
-    <div class="slider-controls">
-        <div class="slider-group">
-            <label for="contrastSlider">Contrast: <span id="contrastValue">50</span>%</label>
-            <input type="range" id="contrastSlider" min="0" max="100" value="50" class="slider">
-        </div>
 
-        <div class="slider-group">
-            <label for="charSizeSlider">Character Size: <span id="charSizeValue">8</span>px</label>
-            <input type="range" id="charSizeSlider" min="4" max="16" value="8" class="slider">
-        </div>
 
-        <div class="slider-group">
-            <label for="hueSlider">Hue: <span id="hueValue">0</span>°</label>
-            <input type="range" id="hueSlider" min="0" max="360" value="0" class="slider">
-        </div>
-    </div>
 
 
 </div>
