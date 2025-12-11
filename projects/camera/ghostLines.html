@@ -5,190 +5,26 @@
   <title>Ghostlines Detector - Sonia Online</title>
   <link rel="icon" href="/images/icons/heart3.png" />
   <link rel="stylesheet" href="../../styles/stylesheet.css">
+  <link rel="stylesheet" href="camera.css">
+
   <script src="ghostLines.js" defer></script>
-
   <style>
-    .camera-container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+    canvas {
+      background: transparent;
     }
-
-    .video-container {
-      width: 100%;
-      max-width: 800px;
-      aspect-ratio: 4/3;
-      background-color: black;
-      position: relative;
-      overflow: hidden;
-      margin-bottom: 15px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      border: 2px solid #3b5998;
-    }
-
-    #canvas {
-      max-width: 100%;
-      max-height: 100%;
-      display: block;
-      background-color: black;
-    }
-
-    .controls {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 15px;
-      justify-content: center;
-      margin-bottom: 15px;
-      width: 100%;
-    }
-
-    button, select {
-      padding: 8px 15px;
-      background-color: #333;
-      border: 1px solid #3b5998;
-      border-radius: 1px;
-      cursor: pointer;
-      font-size: 14px;
-      color: white;
-      min-width: 120px;
-    }
-
-    #startCamera {
-      background-color: lightgreen;
-      color: #666666;
-    }
-
-    #stopCamera {
-      background-color: indianred;
-    }
-
-    #flipCamera {
-      background-color: #FF9800;
-    }
-
-    select:disabled {
-      background-color: #666666;
-      color: #dddddd;
-      cursor: not-allowed;
-      filter: brightness(0.8);
-    }
-
-    button:hover, select:hover {
-      filter: brightness(1.2);
-    }
-
-    button:disabled {
-      background-color: #666666;
-      color: #dddddd;
-      cursor: not-allowed;
-      filter: brightness(0.8);
-    }
-
-    .slider-controls {
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
-      margin-top: 20px;
-      width: 100%;
-      max-width: 500px;
-    }
-
-    .slider-group {
-      display: flex;
-      flex-direction: column;
-      width: 100%;
-    }
-
-    .slider {
-      -webkit-appearance: none;
-      width: 100%;
-      height: 25px;
-      background: #d3d3d3;
-      outline: none;
-      opacity: 0.7;
-      -webkit-transition: .2s;
-      transition: opacity .2s;
-      margin-top: 5px;
-    }
-
-    .slider:hover {
-      opacity: 1;
-    }
-
-    .slider::-webkit-slider-thumb {
-      -webkit-appearance: none;
-      appearance: none;
-      width: 20px;
-      height: 20px;
-      background: #333333;
-      cursor: pointer;
-    }
-
-    .slider::-moz-range-thumb {
-      width: 20px;
-      height: 20px;
-      border-radius: 50%;
-      background: #333333;
-      cursor: pointer;
-    }
-
-    label {
-      margin-bottom: 5px;
-      color: #666666;
-      font-weight: bold;
-    }
-
-    .info-section {
-      margin: 20px auto;
-      max-width: 75%;
-      text-align: center;
-      padding: 30px;
-      background-color: rgba(0,0,0,0.1);
-      border-radius: 5px;
-    }
-
-    .info-section h1{
-      text-decoration: underline;
-      font-weight: unset;
-    }
-
-    .stats-display {
-      background-color: rgba(0,0,0,0.7);
-      color: white;
-      padding: 10px;
-      border-radius: 5px;
-      margin-top: 10px;
-      font-family: monospace;
-      text-align: left;
-      max-width: 500px;
-    }
-
-    .status-indicator {
-      display: inline-block;
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      margin-right: 8px;
-    }
-
-    .status-active {
-      background-color: #4CAF50;
-    }
-
-    .status-inactive {
-      background-color: #f44336;
+    @media (max-width: 1200px) {
+      .left-panel {
+        display: none !important;
+      }
     }
   </style>
 </head>
 <body>
 <nav class="navigation">
   <a href="../../index.html" class="nav-item">HOME</a>
-  <a href="../../misc/resources.html" class="nav-item">RESOURCES</a>
+  <a href="../../navigation/resources.html" class="nav-item">RESOURCES</a>
   <a href="../../navigation/portfolio.html" class="nav-item">PORTFOLIO</a>
-  <a href="../../creations/tutorials.html" class="nav-item">ABOUT</a>
+  <a href="../../navigation/about.html" class="nav-item">ABOUT</a>
   <a href="../../navigation/contact.html" class="nav-item">CONTACT</a>
 </nav>
 
@@ -201,99 +37,106 @@
     <a href="../../personal/cards.html" class="sub-nav-item">cards</a>
   </div>
   <h1 class="page-title">GHOSTLINES DETECTOR</h1>
+  <hr>
+  <a href="../../creations/projects.html" style="text-decoration: none; font-size: 18px; color: #881010">← BACK TO ALL PROJECTS</a>
 </div>
 
-<div class="info-section">
-  <h1>Ghostlines Motion Detector</h1>
-  <p>
-    Visualize motion in your webcam/camera feed! Display these cool, customizable, vector fields straight from your input source!<br>
-
-  </p>
-  <h2>
-    Customizations:
-  </h2>
-  <p>
-    - <b>Detection:</b> Fine-tune by adjusting the sensitivity and vector scale<br>
-    - <b>Webcam Filter:</b> Choose between colour and grayscale displays<br>
-    - <b>Motion Colour:</b> Customize vector colors (red, green, or grey)<br><br>
-  </p>
-</div>
-
-<div class="camera-container">
-  <div class="video-container">
-    <video id="video" playsinline style="display: none;"></video>
-    <canvas id="canvas"></canvas>
+<div class="container" style="width: 80%;">
+  <div class="left-panel">
+    <div class="info-section" style="margin-top: 0; margin-bottom: 0">
+      <p style="font-size: 16px; text-align: left; line-height: 22px;">
+        <b>Detection:</b> <br>Fine-tune by adjusting the sensitivity and vector scale<br><br>
+        <b>Webcam Filter:</b> <br>Choose between colour and grayscale displays<br><br>
+        <b>Motion Colour:</b> <br>Customize vector colors (red, green, or grey)<br><br>
+      </p>
+      <hr>
+      <p style="font-size: 16px; text-align: left; line-height: 22px;">
+        <br>
+        <b>How it Works:</b> <br>
+        Tracks the center of mass movement and draws vectors from areas of change
+        toward the direction of motion, displaying trails of movement.
+      </p>
+    </div>
   </div>
-
-  <div class="controls">
+  <div class="canvas-container">
+    <div class="camControl" style="grid-template-columns: repeat(2, 1fr);">
     <select id="cameraSelect" class="camera-select">
       <option value="">Loading cameras...</option>
     </select>
-    <button id="startCamera">Start Camera</button>
-    <button id="stopCamera">Stop Camera</button>
-    <button id="flipCamera">Flip Camera (<span id="cameraFacing">front</span>)</button>
-
-    <select id="displayModeSelect">
-      <option value="color">Color Mode</option>
-      <option value="grayscale">Grayscale Mode</option>
-    </select>
-
-    <select id="vectorColorSelect">
-      <option value="red">Red Vectors</option>
-      <option value="green">Green Vectors</option>
-      <option value="grey">Grey Vectors</option>
-    </select>
-  </div>
-
-  <div class="slider-controls">
-    <div class="slider-group">
-      <label for="sensitivitySlider">
-        Motion Sensitivity: <span id="sensitivityValue">30</span>
-        <small>(higher = more sensitive)</small>
-      </label>
-      <input type="range" id="sensitivitySlider" min="10" max="100" value="30" class="slider">
+    <button id="startCamera" >Start Camera</button>
+    </div>
+    <div class="video-container">
+      <video id="video" playsinline style="display: none;"></video>
+      <canvas id="canvas"></canvas>
+    </div>
+    <div class="camControl" style="margin-top: 5px; grid-template-columns: repeat(2, 1fr);">
+      <button id="flipButton">Flip Camera (<span id="cameraMode">front</span>)</button>
+      <button id="stopCamera" >Stop Camera</button>
+      <button id="takePhotoButton" class="photo-button">
+        <span class="camera-icon">📸</span> Take Photo
+      </button>
+      <button id="saveButton" class="photo-button">
+        Save Photo
+      </button>
     </div>
 
-    <div class="slider-group">
-      <label for="vectorScaleSlider">
-        Vector Scale: <span id="vectorScaleValue">5.0</span>
-        <small>(length of motion arrows)</small>
-      </label>
-      <input type="range" id="vectorScaleSlider" min="1" max="10" value="5" step="0.5" class="slider">
-    </div>
-
-    <div class="slider-group">
-      <label for="samplePointsSlider">
-        Sample Points: <span id="samplePointsValue">50</span>
-        <small>(number of vectors drawn)</small>
-      </label>
-      <input type="range" id="samplePointsSlider" min="10" max="200" value="50" class="slider">
-    </div>
   </div>
 
-  <div class="stats-display" id="statsDisplay">
-    <div><span class="status-indicator status-inactive" id="statusIndicator"></span>Status: <span id="statusText">Inactive</span></div>
-    <div>Center Movement: <span id="movementDisplay">(0, 0)</span></div>
-    <div>Change Points: <span id="changePointsDisplay">0</span></div>
-    <div>Display Mode: <span id="displayModeText">Color</span></div>
-    <div>Camera: <span id="cameraFacingDisplay">Front (Mirrored)</span></div>
+  <div class="right-panel" style="height: max-content">
+    <div class="slider-controls">
+        <div class="controls">
+          Display Mode:
+          <select id="displayModeSelect" style="width: 100%">
+            <option value="color">Color Mode</option>
+            <option value="grayscale">Grayscale Mode</option>
+          </select>
+          Vector Colour:
+          <select id="vectorColorSelect" style="width: 100%">
+            <option value="red">Red Vectors</option>
+            <option value="green">Green Vectors</option>
+            <option value="grey">Grey Vectors</option>
+          </select>
+        </div>
+      <br>
+
+      <div class="slider-group">
+        <label for="sensitivitySlider">
+          Motion Sensitivity: <span id="sensitivityValue">30</span><br>
+          <small>(higher = more sensitive)</small>
+        </label>
+        <input type="range" id="sensitivitySlider" min="10" max="100" value="30" class="slider">
+      </div>
+
+      <div class="slider-group">
+        <label for="vectorScaleSlider">
+          Vector Scale: <span id="vectorScaleValue">5.0</span><br>
+          <small>(length of motion arrows)</small>
+        </label>
+        <input type="range" id="vectorScaleSlider" min="1" max="10" value="5" step="0.5" class="slider">
+      </div>
+      <div class="slider-group">
+        <label for="samplePointsSlider">
+          Sample Points: <span id="samplePointsValue">50</span><br>
+          <small>(number of vectors drawn)</small>
+        </label>
+        <input type="range" id="samplePointsSlider" min="10" max="200" value="50" class="slider">
+      </div>
+    </div>
+
   </div>
-  <br>
-  <p style="font-size: small; text-align: left">
-    <b>Methodology:</b> <br>
-    Tracks the center of mass movement and draws vectors from areas of change
-    toward the direction of motion, displaying trails of movement.
-  </p>
+
+
 </div>
 
 <footer>
-  <p style="text-align: center">
-    <a href="https://github.com/sonia-sharapova">GitHub</a> |
-    <a href="https://www.linkedin.com/in/sonia-sharapova/">LinkedIn</a> |
+  <div class="socials">
+    <a href="https://github.com/sonia-sharapova">GitHub</a>|
+    <a href="https://www.linkedin.com/in/sonia-sharapova/">LinkedIn</a>|
     <a href="https://www.instagram.com/sonia.s.ru/">Instagram</a>
-  </p>
-  <div style="margin-top: 5px;">
-    Sonia's Web Archive<br>
+  </div>
+
+  <div>
+    Contact Links<br>
     2025
   </div>
 </footer>

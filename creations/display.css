@@ -20,6 +20,8 @@
     grid-template-columns: repeat(2, 1fr);
     gap: 30px;
     width: 100%;
+    background: rgba(232, 232, 232, 0.28);
+
 }
 
 .item {
@@ -28,7 +30,7 @@
     gap: 15px;
     text-decoration: none;
     color: inherit;
-    padding: 15px;
+    padding: 10px;
     border: 1px solid rgba(162, 162, 162, 0.8);
     transition: all 0.2s ease;
 }
@@ -41,18 +43,15 @@
 
 .preview {
     flex-shrink: 0;
-    width: 180px;
-    height: 140px;
-    border: 1px solid #ddd;
+    width: 50%;
     overflow: hidden;
-    background: #eee;
+    margin: 10px 0;
 }
 
 .preview img {
     width: 100%;
-    height: 100%;
-    object-fit: cover;
     transition: transform 0.3s ease;
+    border: 1px solid #ababab;
 }
 
 .item:hover .preview img {
@@ -69,9 +68,10 @@
 .info h2 {
     font-size: 20px;
     font-weight: 300;
-    margin: 0 0 8px 0;
+    margin: 0 0 3px 0;
     color: #666666;
     transition: color 0.3s ease;
+    border-bottom: 1px solid #c5c4c4;
 }
 
 .item:hover .info h2 {
@@ -79,48 +79,48 @@
 }
 
 .info p {
+    text-align: left;
     font-size: 14px;
-    line-height: 1.5;
+    line-height: 1.2;
     color: #888f8d;
     margin: 0;
+}
+
+@media (max-width: 1100px) {
+
+    .grid {
+        gap: 10px;
+    }
 }
 
 /* Mobile adjustments */
 @media (max-width: 768px) {
     .content {
         max-width: 95%;
-        padding: 0 10px;
     }
 
     .grid {
-        grid-template-columns: 1fr;
-        gap: 20px;
+        gap: 30px;
     }
 
     .item {
         flex-direction: column;
-        padding: 10px;
     }
 
     .preview {
         width: 100%;
-        height: 150px;
-    }
-
-    .info h2 {
-        font-size: 18px;
-    }
-
-    .info p {
-        font-size: 14px;
     }
 
     .h1 {
         font-size: 24px;
     }
+    .info {
+        padding: 0;
+        margin: 0;
+    }
 
     .info h2 {
-        font-size: 22px;
+        font-size: 20px;
     }
 
     .info p {

@@ -7,19 +7,21 @@
 
 .content {
     display: flex;
-    max-width: 1200px;
+    width: 80%;
     margin: 0 auto;
-    margin-bottom: 5%;
     padding: 0 20px;
+    justify-content: center;
     gap: 40px;
 }
 
 .blog-sidebar {
-    width: 250px;
+    width: 240px;
     flex-shrink: 0;
     position: sticky;
-    top: 200px;
+    float: left;
     align-self: flex-start;
+    padding-right: 20px;
+    margin-top: 20px;
 }
 
 .sidebar-section {
@@ -78,7 +80,7 @@
 
 .blog-entry:hover {
     background: #fff;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 8px rgb(210, 245, 250);
     border-color: #cccaca;
 }
 
@@ -90,10 +92,10 @@
 }
 
 .blog-entry-title {
-    font-size: 28px;
+    font-size: 23px;
     font-weight: 300;
     color: #666666;
-    margin: 0;
+    margin: 5px;
     transition: color 0.3s ease;
 }
 
@@ -115,29 +117,31 @@
     margin: 10px 0 0 0;
 }
 
+@media (max-width: 1000px) {
 
-/* Mobile adjustments */
-@media (max-width: 768px) {
     .content {
-        flex-direction: column;
-        max-width: 95%;
-        padding: 0 15px;
+        width: 90%;
+        margin-left: 60px;
     }
-
     .blog-sidebar {
-        width: 100%;
-        position: static;
-        order: -1;
+        padding-right: 10px;
+        width: 210px;
+    }
+    .sidebar-title {
+        font-size: 20px;
+    }
+    .sidebar-link {
+        font-size: 16px;
+        margin: 5px 0;
     }
 
-    .sidebar-section {
-        margin-bottom: 20px;
+    .blog-list {
+        margin-top: 10px;
     }
 
     .blog-entry {
-        padding: 20px;
+        margin-bottom: 5px;
     }
-
     .blog-entry-header {
         flex-direction: column;
         align-items: flex-start;
@@ -146,7 +150,38 @@
     .blog-entry-date {
         margin-left: 0;
         margin-top: 5px;
+        font-size:12px;
     }
+
+    .blog-entry-title {
+        font-size: 20px;
+    }
+    .blog-entry-excerpt {
+        font-size: 15px;
+        line-height: 20px;
+    }
+}
+/* Mobile adjustments */
+@media (max-width: 768px) {
+    .content {
+        flex-direction: column;
+        width: 100%;
+        margin-left: unset;
+
+    }
+    .blog-sidebar {
+        display: none;
+    }
+    .blog-entry {
+        padding: 20px;
+        width: 100%;
+    }
+
+    .blog-entry-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
 
     .blog-entry-title {
         font-size: 18px;

@@ -8,27 +8,47 @@ document.addEventListener('DOMContentLoaded', () => {
     const shapePreview = document.getElementById('shapePreview');
     const startButton = document.getElementById('startCamera');
     const stopButton = document.getElementById('stopCamera');
-    const takePhotoButton = document.getElementById('takePhotoButton');
     const cameraSelect = document.getElementById('cameraSelect');
     const uploadPhotoInput = document.getElementById('uploadPhoto');
     const clearPhotosButton = document.getElementById('clearPhotosButton');
     const downloadButton = document.getElementById('downloadButton');
     const opacitySlider = document.getElementById('opacitySlider');
     const opacityValue = document.getElementById('opacityValue');
-    const scaleSlider = document.getElementById('scaleSlider');
-    const scaleValue = document.getElementById('scaleValue');
     const gridContainer = document.getElementById('gridContainer');
     const shapeOptions = document.querySelectorAll('.shape-option');
     const gridOptions = document.querySelectorAll('.grid-option');
+    const flipButton = document.getElementById('flipButton');
+    const cameraModeSpan = document.getElementById('cameraMode');
+
+    // Debug: Check if critical elements exist
+    console.log('DOM Elements Check:', {
+        canvas: !!canvas,
+        gridContainer: !!gridContainer,
+        shapePreview: !!shapePreview,
+        videoElement: !!videoElement,
+        shapeOptions: shapeOptions.length,
+        gridOptions: gridOptions.length
+    });
+
+    if (!gridContainer) {
+        console.error('CRITICAL: gridContainer not found!');
+        return;
+    }
+
+    console.log('Grid container dimensions:', {
+        width: gridContainer.offsetWidth,
+        height: gridContainer.offsetHeight,
+        display: window.getComputedStyle(gridContainer).display
+    });
 
     // Configuration
     let currentShape = 'heart'; // Default shape
     let currentGrid = 3; // Default grid size (3x3)
     let currentCellIndex = 0; // Current cell to fill
     let stream = null;
-    let imageScale = 100; // Default scale percentage
     let isRunning = false;
     let photoGrid = [];
+    let isFrontCamera = true; // Start with front camera (mirrored)
     let shapePaths = {
         heart: "M50 30 L20 10 Q0 10 0 30 Q0 60 50 90 Q100 60 100 30 Q100 10 80 10 Z",
         star: "M50 10 L61 39 L93 39 L67 59 L78 90 L50 70 L22 90 L33 59 L7 39 L39 39 Z",
@@ -37,7 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Shape colors
     let shapeColors = {
-        heart: "#ff6b6b",
+        heart: "#ffc9c9",
         star: "#ffd166",
         spiral: "#06d6a0"
     };
@@ -85,6 +105,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Setup grid based on currentGrid value (3x3 or 4x4)
     function setupGrid() {
+        console.log('=== SETUP GRID START ===');
+        console.log('Setting up grid with size:', currentGrid);
+        console.log('Grid container element:', gridContainer);
+        console.log('Grid container parent:', gridContainer.parentElement);
+
         // Clear previous grid
         while (gridContainer.firstChild) {
             gridContainer.removeChild(gridContainer.firstChild);
@@ -97,29 +122,62 @@ document.addEventListener('DOMContentLoaded', () => {
         // Set grid template
         gridContainer.style.gridTemplateColumns = `repeat(${currentGrid}, 1fr)`;
         gridContainer.style.gridTemplateRows = `repeat(${currentGrid}, 1fr)`;
+        gridContainer.style.display = 'grid';
+        gridContainer.style.gap = '0px';
+
+        console.log('Grid container styles set:', {
+            gridTemplateColumns: gridContainer.style.gridTemplateColumns,
+            gridTemplateRows: gridContainer.style.gridTemplateRows,
+            display: gridContainer.style.display,
+            width: gridContainer.style.width,
+            height: gridContainer.style.height
+        });
 
         // Create grid cells
-        for (let i = 0; i < currentGrid * currentGrid; i++) {
+        const cellsToCreate = currentGrid * currentGrid;
+        console.log('Creating', cellsToCreate, 'grid cells');
+
+        for (let i = 0; i < cellsToCreate; i++) {
             const cell = document.createElement('div');
             cell.className = 'grid-item';
             cell.dataset.index = i;
+            cell.style.border = '3px solid red'; // Temporary high-visibility border for testing
+            cell.style.minHeight = '50px';
+            cell.style.minWidth = '50px';
+            cell.style.background = 'rgba(255, 0, 0, 0.1)'; // Temporary red tint for testing
 
             const overlay = document.createElement('div');
             overlay.className = 'grid-item-overlay';
-            overlay.innerHTML = '+';
+            overlay.innerHTML = `+${i}`; // Show cell number for debugging
             overlay.dataset.index = i;
-            overlay.addEventListener('click', () => {
+            overlay.style.fontSize = '20px';
+            overlay.style.fontWeight = 'bold';
+            overlay.addEventListener('click', (e) => {
+                console.log('Grid cell clicked:', i);
+                e.stopPropagation();
                 currentCellIndex = i;
                 if (isRunning) {
                     takePhoto();
                 } else {
-                    uploadPhotoInput.click();
+                    alert('Please start the camera first to take photos');
                 }
             });
 
             cell.appendChild(overlay);
             gridContainer.appendChild(cell);
+
+            if (i === 0) {
+                console.log('First cell created:', {
+                    element: cell,
+                    classList: cell.classList,
+                    styles: cell.style.cssText
+                });
+            }
         }
+
+        console.log('Grid cells created. Grid container children count:', gridContainer.children.length);
+        console.log('Grid container computed style:', window.getComputedStyle(gridContainer).display);
+        console.log('=== SETUP GRID END ===');
 
     }
 
@@ -133,6 +191,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const constraints = {
                 video: {
                     deviceId: cameraSelect.value ? { exact: cameraSelect.value } : undefined,
+                    facingMode: isFrontCamera ? 'user' : 'environment',
                     width: { ideal: 1280 },
                     height: { ideal: 720 }
                 },
@@ -143,6 +202,10 @@ document.addEventListener('DOMContentLoaded', () => {
             videoElement.srcObject = stream;
             videoElement.style.display = 'block';
 
+            // Apply mirroring for front camera
+            videoElement.style.transform = isFrontCamera ? 'scaleX(-1)' : 'scaleX(1)';
+            cameraModeSpan.textContent = isFrontCamera ? 'front' : 'back';
+
             videoElement.onloadedmetadata = () => {
                 videoElement.play().then(() => {
                     console.log('Camera started');
@@ -152,6 +215,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     startButton.disabled = true;
                     stopButton.disabled = false;
                     takePhotoButton.disabled = false;
+                    flipButton.disabled = false;
                 }).catch(err => {
                     console.error('Error playing video:', err);
                     alert('Could not play video: ' + err.message);
@@ -182,7 +246,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (updateUI) {
             startButton.disabled = false;
             stopButton.disabled = true;
-            takePhotoButton.disabled = true;
+            flipButton.disabled = true;
         }
     }
 
@@ -193,21 +257,89 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        // Create a temporary canvas to capture the video frame
+        console.log('Taking photo for cell:', currentCellIndex);
+
+        // Get the grid cell element
+        const gridCell = gridContainer.querySelector(`.grid-item[data-index="${currentCellIndex}"]`);
+        if (!gridCell) {
+            console.error('Grid cell not found');
+            return;
+        }
+
+        // Get the position and size of the grid cell relative to the video element
+        const gridRect = gridCell.getBoundingClientRect();
+        const videoRect = videoElement.getBoundingClientRect();
+
+        console.log('Grid rect:', gridRect);
+        console.log('Video rect:', videoRect);
+
+        // Create a temporary canvas
         const tempCanvas = document.createElement('canvas');
         const tempCtx = tempCanvas.getContext('2d');
 
-        // Set the size to match the video dimensions
-        tempCanvas.width = videoElement.videoWidth;
-        tempCanvas.height = videoElement.videoHeight;
+        // Set canvas size to match the grid cell size exactly
+        tempCanvas.width = gridRect.width;
+        tempCanvas.height = gridRect.height;
 
-        // Draw the current video frame to the temporary canvas
-        tempCtx.drawImage(videoElement, 0, 0, tempCanvas.width, tempCanvas.height);
+        // Calculate what portion of the video is visible in this grid cell
+        // This accounts for the video's object-fit: cover behavior
+        const videoAspectRatio = videoElement.videoWidth / videoElement.videoHeight;
+        const displayAspectRatio = videoRect.width / videoRect.height;
+
+        let renderWidth, renderHeight, offsetX, offsetY;
+
+        if (videoAspectRatio > displayAspectRatio) {
+            // Video is wider than display - it's cropped on left/right
+            renderHeight = videoRect.height;
+            renderWidth = videoElement.videoWidth * (videoRect.height / videoElement.videoHeight);
+            offsetX = (videoRect.width - renderWidth) / 2;
+            offsetY = 0;
+        } else {
+            // Video is taller than display - it's cropped on top/bottom
+            renderWidth = videoRect.width;
+            renderHeight = videoElement.videoHeight * (videoRect.width / videoElement.videoWidth);
+            offsetX = 0;
+            offsetY = (videoRect.height - renderHeight) / 2;
+        }
+
+        // Calculate the position within the rendered video
+        const cellLeftInVideo = (gridRect.left - videoRect.left - offsetX) / renderWidth;
+        const cellTopInVideo = (gridRect.top - videoRect.top - offsetY) / renderHeight;
+        const cellWidthInVideo = gridRect.width / renderWidth;
+        const cellHeightInVideo = gridRect.height / renderHeight;
+
+        // Convert to source video coordinates
+        const sourceX = cellLeftInVideo * videoElement.videoWidth;
+        const sourceY = cellTopInVideo * videoElement.videoHeight;
+        const sourceWidth = cellWidthInVideo * videoElement.videoWidth;
+        const sourceHeight = cellHeightInVideo * videoElement.videoHeight;
+
+        console.log('Source crop:', { sourceX, sourceY, sourceWidth, sourceHeight });
+
+        // If front camera, account for mirroring
+        if (isFrontCamera) {
+            tempCtx.translate(tempCanvas.width, 0);
+            tempCtx.scale(-1, 1);
+
+            // Flip x coordinate for mirrored video
+            const mirroredSourceX = videoElement.videoWidth - sourceX - sourceWidth;
+            tempCtx.drawImage(
+                videoElement,
+                mirroredSourceX, sourceY, sourceWidth, sourceHeight,
+                0, 0, tempCanvas.width, tempCanvas.height
+            );
+        } else {
+            tempCtx.drawImage(
+                videoElement,
+                sourceX, sourceY, sourceWidth, sourceHeight,
+                0, 0, tempCanvas.width, tempCanvas.height
+            );
+        }
 
         // Get the image data as a data URL
         const imageDataURL = tempCanvas.toDataURL('image/png');
 
-        // Add the photo to the grid
+        // Add the photo to the specific grid cell
         addPhotoToGrid(imageDataURL);
 
         // Flash effect
@@ -218,6 +350,8 @@ document.addEventListener('DOMContentLoaded', () => {
         shutterSound.play().catch(error => {
             console.log('Could not play shutter sound:', error);
         });
+
+        console.log('Photo captured and added to cell:', currentCellIndex);
     }
 
     // Create flash effect
@@ -241,11 +375,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Add photo to the grid
     function addPhotoToGrid(imageDataURL) {
+        console.log('Adding photo to grid cell:', currentCellIndex);
+
         // Store the image data URL in the photoGrid array
         photoGrid[currentCellIndex] = imageDataURL;
 
         // Get the corresponding grid cell
         const gridCell = gridContainer.querySelector(`.grid-item[data-index="${currentCellIndex}"]`);
+
+        if (!gridCell) {
+            console.error('Grid cell not found for index:', currentCellIndex);
+            return;
+        }
 
         // Check if there's already an image in this cell
         let img = gridCell.querySelector('img');
@@ -256,45 +397,27 @@ document.addEventListener('DOMContentLoaded', () => {
             gridCell.appendChild(img);
         }
 
-        // Set the image source and scale
+        // Set the image source and styling to fill the cell
         img.src = imageDataURL;
-        img.style.transform = `scale(${imageScale / 100})`;
+        img.style.width = '100%';
+        img.style.height = '100%';
+        img.style.objectFit = 'cover';
+        img.style.objectPosition = 'center';
+        img.style.position = 'absolute';
+        img.style.top = '0';
+        img.style.left = '0';
+        img.style.transform = 'none'; // Remove scale transform
 
-        // Hide the overlay
+        // Mark cell as filled and hide the overlay
+        gridCell.classList.add('filled');
         const overlay = gridCell.querySelector('.grid-item-overlay');
         if (overlay) {
             overlay.style.display = 'none';
         }
 
-        // Move to next cell if available
-        if (currentCellIndex < photoGrid.length - 1) {
-            currentCellIndex++;
-        }
+        console.log('Photo added to cell:', currentCellIndex, 'Grid cell now has', gridCell.children.length, 'children');
 
-    }
-
-    // Handle file upload
-    function handleFileUpload(event) {
-        const files = event.target.files;
-        if (files && files.length > 0) {
-            const file = files[0];
-
-            // Check if it's an image
-            if (!file.type.startsWith('image/')) {
-                alert('Please select an image file');
-                return;
-            }
-
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const imageDataURL = e.target.result;
-                addPhotoToGrid(imageDataURL);
-            };
-            reader.readAsDataURL(file);
-        }
-
-        // Reset the input so the same file can be selected again
-        event.target.value = '';
+        // Don't auto-advance - let user click the cell they want to fill next
     }
 
     // Clear all photos
@@ -456,26 +579,22 @@ document.addEventListener('DOMContentLoaded', () => {
         shapePreview.style.opacity = opacity / 100;
     }
 
-    // Update image scale
-    function updateScale() {
-        imageScale = scaleSlider.value;
-        scaleValue.textContent = imageScale;
-
-        // Update all displayed images with new scale
-        document.querySelectorAll('.grid-item img').forEach(img => {
-            img.style.transform = `scale(${imageScale / 100})`;
-        });
+    // Flip camera between front and back
+    function flipCamera() {
+        isFrontCamera = !isFrontCamera;
+        if (isRunning) {
+            startCamera();
+        }
     }
 
     // Event listeners
     startButton.addEventListener('click', startCamera);
     stopButton.addEventListener('click', () => stopCamera(true));
-    takePhotoButton.addEventListener('click', takePhoto);
-    uploadPhotoInput.addEventListener('change', handleFileUpload);
+    flipButton.addEventListener('click', flipCamera);
+    // Removed upload functionality
     clearPhotosButton.addEventListener('click', clearPhotos);
     downloadButton.addEventListener('click', generateFinalImage);
     opacitySlider.addEventListener('input', updateOpacity);
-    scaleSlider.addEventListener('input', updateScale);
 
     // Shape option event listeners
     shapeOptions.forEach(option => {
@@ -520,7 +639,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Initial setup
     stopButton.disabled = true;
-    takePhotoButton.disabled = true;
+    flipButton.disabled = true;
 
     // Function to initialize everything
     function init() {
@@ -550,12 +669,8 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log('Initialization complete');
     }
 
-    // Call init when DOM is fully loaded
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', init);
-    } else {
-        init();
-    }
+    // Call init immediately since we're already in DOMContentLoaded
+    init();
 
     // Handle window resize
     window.addEventListener('resize', initCanvas);

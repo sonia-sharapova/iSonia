@@ -11,52 +11,68 @@
     <link rel="stylesheet" href="camera.css">
 
     <style>
-        .drawing-area {
+        .drawing-area,.result-area {
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 10px;
+            width: 100%;
         }
         #canvas {
             border: 1px solid #333;
             background-color: white;
             cursor: crosshair;
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            margin-bottom: 5px;
         }
+
+        #ascii-output {
+            border: 1px solid #333;
+            background-color: white;
+            cursor: crosshair;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            font-family: monospace;
+            font-size: 10px;
+            line-height: 1;
+            letter-spacing: 1px;
+            white-space: pre;
+            width: 100%;
+            min-height: 200px;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+
 
         #pen {
             border: 1px solid #3b5998;
+            background-color: rgba(202, 227, 208, 0.61);
+        }
+        #pen:hover {
+            background-color: #a2c9ab;
         }
         #eraser {
             border: 1px solid #3b5998;
+            background-color: #FFE5E5;
+        }
+        #eraser:hover {
+            background-color: #f1b2b2;
         }
         #clear {
-            background-color: #FFE5E5;
             border: 1px solid #3b5998;
+            background-color: rgba(245, 239, 205, 0.98);
         }
         #clear:hover {
             background-color: #d32f2f;
         }
-        .result-area {
-            min-width: 400px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 10px;
-        }
-        #ascii-output {
+        #convert {
+            border: 1px solid #3b5998;
             width: 100%;
-            height: 400px;
-            font-family: monospace;
-            font-size: 10px;
-            line-height: 1;
-            white-space: pre;
-            overflow: auto;
-            background-color: white;
-            border: 1px solid #ccc;
-            padding: 10px;
-            box-sizing: border-box;
+            height: 50px;
+            background-color: #e3efdb
         }
+        #convert:hover {
+            background-color: #b7d0bd;
+        }
+
 
 
         #characterSet {
@@ -78,6 +94,11 @@
             accent-color: #88a4b3;
         }
 
+        @media (max-width: 1200px) {
+            .left-panel {
+                display: none !important;
+            }
+        }
 
         /* Responsive container styling */
         @media (max-width: 768px) {
@@ -115,7 +136,7 @@
     <a href="../../index.html" class="nav-item">HOME</a>
     <a href="../../misc/resources.html" class="nav-item">RESOURCES</a>
     <a href="../../navigation/portfolio.html" class="nav-item">PORTFOLIO</a>
-    <a href="../../creations/tutorials.html" class="nav-item">ABOUT</a>
+    <a href="../../navigation/about.html" class="nav-item">ABOUT</a>
     <a href="../../navigation/contact.html" class="nav-item">CONTACT</a>
 </nav>
 
@@ -128,54 +149,77 @@
         <a href="../../personal/cards.html" class="sub-nav-item">cards</a>
     </div>
     <h1 class="page-title">ASCII Paintbrush</h1>
-
+    <hr>
+    <a href="../../creations/projects.html" style="text-decoration: none; font-size: 18px; color: #881010">← BACK TO ALL PROJECTS</a>
 </div>
 
-<div class="info-section">
-    <h1>ASCII Art Drawing Converter</h1>
-    <p>
-        Convert your drawings into ASCII art! Jst drag your cursor to draw with pen, or use eraser to remove!
-    </p>
-    <p>
-        Toggle between character sets to change resolution and copy to clipboard to share your creations.<br>
-    </p>
-</div>
 
-<div class="container">
-    <div class="drawing-area">
-        <div class="controls">
+<div class="container" style="width: 80%;">
+    <div class="left-panel" style="min-width: 300px;">
+        <div class="info-section" style="margin-top: 0; margin-bottom: 0">
+            <h2 style="margin: 0; font-size: 20px;">ASCII Art Drawing Converter</h2><hr>
+            <p style="text-align: left">
+                Convert your drawings into ASCII art! Jst drag your cursor to draw with pen, or use eraser to remove!
+            </p>
+            <p style="text-align: left">
+                Toggle between character sets to change resolution and copy to clipboard to share your creations.<br>
+            </p>
+        </div>
+    </div>
+
+    <div class="canvas-container" >
+        <h2>Draw Here:</h2>
+        <div class="slider-controls" style="display: grid;
+    grid-template-columns: repeat(3, 1fr); margin: 0 20px 10px 20px; width: 90%;">
             <button id="pen">Pen</button>
             <button id="eraser">Eraser</button>
             <button id="clear">Clear Canvas</button>
         </div>
-        <canvas id="canvas" width="500" height="300"></canvas>
-    </div>
-
-    <div class="settings">
-        <div class="slider-container">
-            <label for="resolution">ASCII Resolution:</label>
-            <input class="slider-accent" type="range" id="resolution" min="10" max="100" value="50">
+        <div class="drawing-area">
+            <canvas id="canvas"></canvas>
         </div>
-        <div class="slider-container">
-            <label for="characterSet">Character Set:</label>
-            <select id="characterSet">
-                <option value="@%#*+=-:. ">Dense (@%#*+=-:. )</option>
-                <option value="$@B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/\|()1{}[]?-_+~<>i!lI;:,\^`'. " selected>Detailed</option>
-                <option value="@#$%?*+;:,. ">Simple (@#$%?*+;:,. )</option>
-                <option value="█▓▒░ ">Blocks (█▓▒░ )</option>
-            </select>
+        <div style="margin-top: 0; width: 95%;">
+            <button id="convert">Convert to ASCII</button>
         </div>
-        <div class="slider-container">
-            <label for="toolSize">Tool Size:</label>
-            <input class="slider-accent" type="range" id="toolSize" min="1" max="30" value="5">
-            <span id="sizeValue">5px</span>
+        <h2>Result:</h2>
+        <div class="result-area">
+            <div id="ascii-output" style="color: #999;">Your ASCII art will appear here after conversion...</div>
+            <button id="copy" style="width: 100%; height: 50px; background-color: rgba(255,247,197,0.8)">Copy ASCII Art</button>
         </div>
     </div>
 
-    <div class="result-area">
-        <button id="convert">Convert to ASCII</button>
-        <button id="copy">Copy ASCII Art</button>
-        <div id="ascii-output"></div>
+    <div class="right-panel" style="height: max-content">
+
+        <div class="slider-controls">
+
+            <div class="slider-group">
+                <label for="resolution">ASCII Resolution:</label>
+                <input class="slider-accent" type="range" id="resolution" min="10" max="100" value="50">
+            </div>
+            <div class="slider-group">
+                <label for="characterSet">Character Set:</label>
+                <select id="characterSet">
+                    <option value="@%#*+=-:. ">Dense (@%#*+=-:. )</option>
+                    <option value="$@B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/\|()1{}[]?-_+~<>i!lI;:,\^`'. " selected>Detailed</option>
+                    <option value="@#$%?*+;:,. ">Simple (@#$%?*+;:,. )</option>
+                    <option value="█▓▒░ ">Blocks (█▓▒░ )</option>
+                </select>
+            </div>
+            <div class="slider-group">
+                <label for="toolSize">Tool Size:</label>
+                <input class="slider-accent" type="range" id="toolSize" min="1" max="30" value="5">
+                <span id="sizeValue">5px</span>
+            </div>
+
+        </div>
+
+        <h2>Gallery</h2>
+        <img src="../../images/projects/preview/marta_ascii.PNG" alt="Marta's Art">
+        <img src="../../images/projects/preview/worm.jpg" alt="Nina's Art">
+        <img src="../../images/projects/preview/prev_cat.png" alt="ASCII Cat">
+        <img src="../../images/projects/preview/prev_heart.png" alt="ASCII Heart">
+        <img src="../../images/projects/preview/prev_star.png" alt="ASCII Star">
+
     </div>
 </div>
 
@@ -407,7 +451,9 @@
         }
 
         // Display ASCII art
-        document.getElementById('ascii-output').textContent = asciiArt;
+        const outputElement = document.getElementById('ascii-output');
+        outputElement.textContent = asciiArt;
+        outputElement.style.color = ''; // Remove placeholder gray color
     }
 
     // Copy to clipboard
@@ -434,5 +480,16 @@
             });
     });
 </script>
+<footer>
+    <div class="socials">
+        <a href="https://github.com/sonia-sharapova">GitHub</a>|
+        <a href="https://www.linkedin.com/in/sonia-sharapova/">LinkedIn</a>|
+        <a href="https://www.instagram.com/sonia.s.ru/">Instagram</a>
+    </div>
+    <div>
+        Contact Links<br>
+        2025
+    </div>
+</footer>
 </body>
 </html>

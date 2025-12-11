@@ -2,14 +2,14 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 10px;
+    margin-top: 5px;
     margin-right: 20px;
 }
 
 .clock-wrapper {
     width: 160px;
     height: 160px;
-    padding: 40px;
+    padding: 30px;
     position: relative;
     border-top: none;
     justify-items: center;
@@ -181,45 +181,8 @@
     }
 
     .clock {
-        width: 80%;
-        height: 80%;
-        margin-top: 10px;
+        display: none;
     }
-
-    .clock-face {
-        width: 100px;
-        height: 100px;
-    }
-
-    .hour-marks {
-        width: 15px;
-        height: 15px;
-    }
-
-    .hour-mark {
-        width: 4px;
-        height: 4px;
-    }
-
-    .hour-hand {
-        width: 4px;
-        height: 25px;
-        top: 25px;
-        left: 50px;
-    }
-
-    .minute-hand {
-        height: 35px;
-        top: 15px;
-        left: 50px;
-    }
-
-    .second-hand {
-        height: 35px;
-        top: 5px;
-        left: 355px;
-    }
-
 
 
     .digital-time {

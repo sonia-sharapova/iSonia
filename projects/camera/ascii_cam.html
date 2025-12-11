@@ -11,51 +11,12 @@
 
     <!-- Then load the camera script -->
     <script src="ascii_cam.js" defer></script>
-
     <style>
-
-
-        .left-panel, .right-panel {
-            flex: 1;
-            background: rgba(255, 255, 255, 0.9);
-            padding: 20px;
-            border-radius: 5px;
-            color: #333;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            max-width: 250px;
+        @media (max-width: 1200px) {
+            .left-panel {
+                display: none !important;
+            }
         }
-
-        .canvas-container {
-            flex: 2;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            aspect-ratio: 16/9;
-        }
-
-
-
-        .video-container {
-            width: 80%;
-            aspect-ratio: 16/9;
-            background-color: black;
-            position: relative;
-            overflow: hidden;
-            margin-bottom: 15px;
-            /* Remove the extra black space */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        canvas {
-            border: 2px solid #942f2f;
-            background: #ffffff;
-            cursor: crosshair;
-            border-radius: 5px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
-
     </style>
 </head>
 <body>
@@ -75,34 +36,45 @@
         <a href="../../personal/cards.html" class="sub-nav-item">cards</a>
     </div>
     <h1 class="page-title">ASCII WEBCAM</h1>
+    <hr>
+    <a href="../../creations/projects.html" style="text-decoration: none; font-size: 18px; color: #881010">← BACK TO ALL PROJECTS</a>
 </div>
 
 
-<div class="container" style="width: 70%;">
-    <div class="left-panel" style="min-width: 300px;">
+<div class="container" style="width: 80%;">
+    <div class="left-panel">
         <div class="info-section">
             <h2 style="margin-bottom: 0; margin-top: 0;">ASCII Camera</h2><hr>
             <p style="text-align: left">
-                This camera converts your webcam video into ASCII art in real-time!!
-                ASCII art uses text characters to create images,
-                a technique dating back to early computing when graphical capabilities were limited.
+                This program turns your webcam stream into ASCII characters!
             </p>
             <p style="text-align: left">
-                Adjust the contrast and character size sliders to fine-tune the output!
+                Use controls to adjust contrast and character size <3
             </p>
-        </div>
-        <div class="slider-controls">
-            <div class="controls">
-                <button id="flipButton">Invert Camera (<span id="cameraMode">front</span>)</button>
-
-            </div>
         </div>
     </div>
 
     <div class="canvas-container">
-        <canvas id="canvas" width="600" height="500">
+        <div class="camControl" style="grid-template-columns: repeat(2, 1fr);">
+            <select id="cameraSelect" class="camera-select">
+                <option value="">Loading cameras...</option>
+            </select>
+            <button id="startCamera" >Start Camera</button>
+        </div>
+        <div class="video-container">
             <video id="video" playsinline style="display: none;"></video>
-        </canvas>
+            <canvas id="canvas">
+        </div>
+        <div class="camControl" style="margin-top: 5px; grid-template-columns: repeat(2, 1fr);">
+            <button id="flipButton">Flip Camera (<span id="cameraMode">front</span>)</button>
+            <button id="stopCamera" >Stop Camera</button>
+            <button id="takePhotoButton" class="photo-button">
+                <span class="camera-icon">📸</span> Take Photo
+            </button>
+            <button id="saveButton" class="photo-button">
+                Save Photo
+            </button>
+        </div>
 
     </div>
 
@@ -122,44 +94,17 @@
                 <label for="hueSlider">Hue: <span id="hueValue">0</span>°</label>
                 <input type="range" id="hueSlider" min="0" max="360" value="0" class="slider">
             </div>
-
-            <br>
-            <select id="cameraSelect" class="camera-select">
-                <option value="">Loading cameras...</option>
-            </select>
-            <div class="camControl">
-                <button id="startCamera" >Start Camera</button>
-                <button id="stopCamera" >Stop Camera</button>
-            </div>
-            <!-- Add this to the controls div, next to saveButton -->
-            <button id="takePhotoButton" class="photo-button">
-                <span class="camera-icon">📸</span> Take Photo
-            </button>
-            <button id="saveButton" class="photo-button">
-                Save Photo
-            </button>
         </div>
-
-
     </div>
 </div>
-
-
-<div class="container">
-
-
-
-
-</div>
-
 <footer>
-    <p style="text-align: center">
-        <a href="https://github.com/sonia-sharapova">GitHub</a> |
-        <a href="https://www.linkedin.com/in/sonia-sharapova/">LinkedIn</a> |
+    <div class="socials">
+        <a href="https://github.com/sonia-sharapova">GitHub</a>|
+        <a href="https://www.linkedin.com/in/sonia-sharapova/">LinkedIn</a>|
         <a href="https://www.instagram.com/sonia.s.ru/">Instagram</a>
-    </p>
-    <div style="margin-top: 5px;">
-        Sonia's Web Archive<br>
+    </div>
+    <div>
+        Contact Links<br>
         2025
     </div>
 </footer>

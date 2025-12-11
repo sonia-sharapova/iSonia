@@ -8,6 +8,15 @@
 .blog-header {
     width:100%;
     margin-bottom: 40px;
+    font-size: 20px;
+    font-weight: 200;
+}
+
+.blog-title {
+    font-size: 30px;
+    font-weight: normal;
+    text-transform: uppercase;
+    margin-bottom: 0;
 }
 
 .blog-post-title {
@@ -38,7 +47,7 @@
 }
 
 .blog-content h2 {
-    font-size: 28px;
+    font-size: 24px;
     font-weight: 300;
     color: #666666;
     margin: 40px 0 20px 0;
@@ -126,11 +135,20 @@
     content: " →";
 }
 
+@media (max-width: 1000px) {
+
+}
+
 /* Mobile adjustments */
 @media (max-width: 768px) {
     .content {
         max-width: 95%;
         padding: 0 15px;
+    }
+
+    .blog-title {
+        font-size: 24px;
+        letter-spacing: 1px;
     }
 
     .blog-post-title {
@@ -142,7 +160,7 @@
     }
 
     .blog-content h2 {
-        font-size: 24px;
+        font-size: 22px;
     }
 
     .blog-content h3 {

@@ -13,43 +13,6 @@
     <script src="shapePhotos.js" defer></script>
 
     <style>
-        .photo-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .canvas-container {
-            width: 40%;
-            aspect-ratio: 1/1;
-            background-color: white;
-            position: relative;
-            overflow: hidden;
-            margin-bottom: 15px;
-            /* Remove the extra space */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            border: 1px solid #3b5998;
-        }
-
-        #canvas {
-            max-height: 100%;
-            display: block;
-            margin: 0 auto;
-            background-color: white;
-        }
-
-
-        #clearPhotosButton {
-            border: 1px solid #3b5998;
-            border-radius: 1px;
-        }
-
-        #downloadButton {
-            border: 1px solid #3b5998;
-            border-radius: 1px;
-        }
 
         .shape-preview {
             position: absolute;
@@ -58,7 +21,7 @@
             width: 100%;
             height: 100%;
             pointer-events: none;
-            z-index: 2;
+            z-index: 3;
             opacity: 0.3;
         }
 
@@ -119,8 +82,9 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            z-index: 1;
+            z-index: 2;
             display: none;
+            transform: scaleX(-1); /* Mirror the video by default */
         }
 
         #gridContainer {
@@ -131,18 +95,27 @@
             top: 0;
             left: 0;
             z-index: 3;
+            pointer-events: none; /* Allow clicks to pass through empty areas */
         }
 
         .grid-item {
-            border: 1px dashed rgba(59, 89, 152, 0.5);
+            border: 2px solid rgba(59, 89, 152, 0.8);
             position: relative;
             overflow: hidden;
+            background: rgba(255, 255, 255, 0.05);
+            pointer-events: auto; /* Re-enable clicks on grid items */
+            min-height: 50px; /* Ensure grid items have minimum size */
         }
 
         .grid-item img {
             width: 100%;
             height: 100%;
             object-fit: cover;
+            object-position: center;
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: block;
         }
 
         .grid-item-overlay {
@@ -158,6 +131,15 @@
             color: white;
             font-size: 24px;
             cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .grid-item-overlay:hover {
+            background-color: rgba(59, 89, 152, 0.4);
+        }
+
+        .grid-item.filled .grid-item-overlay {
+            display: none;
         }
     </style>
 </head>
@@ -179,108 +161,99 @@
         <a href="../../personal/cards.html" class="sub-nav-item">cards</a>
     </div>
     <h1 class="page-title">SHAPE PHOTO MAKER</h1>
+    <hr>
+    <a href="../../creations/projects.html" style="text-decoration: none; font-size: 18px; color: #881010">← BACK TO ALL PROJECTS</a>
 </div>
 
-<div class="info-section">
-    <h1>Shape Photo Maker</h1>
-    <p>
-        Create collage photos 4 free! Choose a shape,
-        and arrange your photos in a 3x3 or 4x4 grid.
-    </p>
-    <p>
-        You can upload photos or take them with your camera. Position yourself within the shape outline when taking photos.
-    </p>
-</div>
+<div class="container" style="width: 80%;">
+    <div class="left-panel" style="min-width: 300px;">
+        <div class="info-section" style="margin-top: 0; margin-bottom: 0">
+            <h2 style="margin: 0; font-size: 20px;">Shape Photo Maker</h2><hr>
+            <p style="text-align: left">
+                Create collage of photos in the shape of a heart of a strar 4 free!
+            </p>
+            <br>
+            <h2 style="margin: 0; font-size: 20px;">How to use:</h2><hr>
+            <p style="text-align: left">
+                1. Choose a shape (heart or star)
+                2. Choose a 3x3 or 4x4 grid
+                3. Click "Start Camera"<br><br>
+                4. Position yourself within the shape outline<br><br>
+                5. Click on the grid cell and the current frame will freeze in that cell!<br>
+            </p>
 
-<div class="photo-container">
-    <div class="shape-options">
-        <div class="shape-option" data-shape="heart">
-            <svg class="shape-preview-option" viewBox="0 0 100 100">
-                <path d="M50 30 L20 10 Q0 10 0 30 Q0 60 50 90 Q100 60 100 30 Q100 10 80 10 Z" fill="#ff6b6b" />
-            </svg>
-            <span>Heart</span>
         </div>
-        <div class="shape-option" data-shape="star">
-            <svg class="shape-preview-option" viewBox="0 0 100 100">
-                <path d="M50 10 L61 39 L93 39 L67 59 L78 90 L50 70 L22 90 L33 59 L7 39 L39 39 Z" fill="#ffd166" />
-            </svg>
-            <span>Star</span>
-        </div>
-        <!--
-        <div class="shape-option" data-shape="spiral">
-            <svg class="shape-preview-option" viewBox="0 0 100 100">
-                <path d="M50 50
-                    C90 80, 20 80, 20 50
-                    C20 30, 70 30, 70 50
-                    C70 70, 30 70, 30 50
-                    C30 40, 60 40, 60 50
-                    C60 60, 40 60, 40 50"
-                      fill="#06d6a0" stroke="black" stroke-width="1" fill-rule="evenodd" />
-            </svg>
-            <span>Spiral</span>
-        </div>
-        -->
-    </div>
-
-    <div class="grid-options">
-        <div class="grid-option" data-grid="3">
-            <span>3×3 Grid</span>
-        </div>
-        <div class="grid-option" data-grid="4">
-            <span>4×4 Grid</span>
-        </div>
-    </div>
-
-    <div class="controls">
-        <select id="cameraSelect" class="camera-select">
-            <option value="">Loading cameras...</option>
-        </select>
-        <button id="startCamera">Start Camera</button>
-        <button id="stopCamera">Stop Camera</button>
     </div>
 
     <div class="canvas-container">
-        <canvas id="canvas"></canvas>
-        <div id="gridContainer"></div>
-        <video id="videoElement" playsinline autoplay></video>
-        <svg class="shape-preview" id="shapePreview" viewBox="0 0 100 100">
-            <!-- Shape will be drawn here via JavaScript -->
-        </svg>
+        <div class="camControl" style="grid-template-columns: repeat(2, 1fr);">
+            <button id="startCamera">Start Camera</button>
+            <button id="stopCamera" >Stop Camera</button>
+        </div>
+        <div style="position: relative; width: 100%; max-width: 600px; aspect-ratio: 1/1;">
+            <canvas id="canvas" style="width: 100%; height: 100%; position: absolute; top: 0; left: 0;"></canvas>
+            <div id="gridContainer" style="width: 100%; height: 100%; position: absolute; top: 0; left: 0;"></div>
+            <video id="videoElement" playsinline autoplay></video>
+            <svg class="shape-preview" id="shapePreview" viewBox="0 0 100 100" style="width: 100%; height: 100%; position: absolute; top: 0; left: 0;">
+                <!-- Shape will be drawn here via JavaScript -->
+            </svg>
+        </div>
     </div>
 
-    <div class="controls">
-        <button id="takePhotoButton" class="photo-button">
-            <span class="camera-icon">📸</span> Take Photo
-        </button>
-        <div class="upload-btn-wrapper">
-            <button class="button">Upload Photo</button>
-            <input type="file" id="uploadPhoto" accept="image/*" />
-        </div>
-        <button id="clearPhotosButton">Clear Photos</button>
-        <button id="downloadButton"><i class="fa fa-download"></i> Download Collage</button>
-    </div>
 
-    <div class="slider-controls">
-        <div class="slider-group">
-            <label for="opacitySlider">Shape Outline Opacity: <span id="opacityValue">30</span>%</label>
-            <input type="range" id="opacitySlider" min="0" max="100" value="30" class="slider">
-        </div>
-        <div class="slider-group">
-            <label for="scaleSlider">Image Scale: <span id="scaleValue">100</span>%</label>
-            <input type="range" id="scaleSlider" min="50" max="150" value="100" class="slider">
+    <div class="right-panel" style="height: max-content">
+
+        <div class="slider-controls">
+            <div class="slider-group">
+                <label for="opacitySlider">Shape Outline Opacity: <span id="opacityValue">30</span>%</label>
+                <input type="range" id="opacitySlider" min="0" max="100" value="30" class="slider">
+            </div>
+            <div class="grid-options">
+                <div class="grid-option" data-grid="3">
+                    <span>3×3 Grid</span>
+                </div>
+                <div class="grid-option" data-grid="4">
+                    <span>4×4 Grid</span>
+                </div>
+            </div>
+            <div class="shape-options">
+                <div class="shape-option" data-shape="heart">
+                    <svg class="shape-preview-option" viewBox="0 0 100 100">
+                        <path d="M50 30 L20 10 Q0 10 0 30 Q0 60 50 90 Q100 60 100 30 Q100 10 80 10 Z" fill="#ff6b6b" />
+                    </svg>
+                    <span>Heart</span>
+                </div>
+                <div class="shape-option" data-shape="star">
+                    <svg class="shape-preview-option" viewBox="0 0 100 100">
+                        <path d="M50 10 L61 39 L93 39 L67 59 L78 90 L50 70 L22 90 L33 59 L7 39 L39 39 Z" fill="#ffd166" />
+                    </svg>
+                    <span>Star</span>
+                </div>
+            </div>
+            <select id="cameraSelect" class="camera-select">
+                <option value="">Loading cameras...</option>
+            </select>
+            <div class="camControl" style="grid-template-columns: repeat(1, 1fr);">
+                <button id="flipButton">Flip Camera (<span id="cameraMode">front</span>)</button>
+            </div>
+            <button id="clearPhotosButton">Clear Photos</button>
+            <button id="downloadButton"><i class="fa fa-download"></i> Download Collage</button>
+
         </div>
     </div>
 
 </div>
 
+
 <footer>
-    <p style="text-align: center">
-        <a href="https://github.com/sonia-sharapova">GitHub</a> |
-        <a href="https://www.linkedin.com/in/sonia-sharapova/">LinkedIn</a> |
+    <div class="socials">
+        <a href="https://github.com/sonia-sharapova">GitHub</a>|
+        <a href="https://www.linkedin.com/in/sonia-sharapova/">LinkedIn</a>|
         <a href="https://www.instagram.com/sonia.s.ru/">Instagram</a>
-    </p>
-    <div style="margin-top: 5px;">
-        Sonia's Web Archive<br>
+    </div>
+
+    <div>
+        Contact Links<br>
         2025
     </div>
 </footer>

@@ -4,14 +4,6 @@
     width: 100%;
 }
 
-/* Navigation Column Styles */
-.navigation-column {
-    display: flex;
-    flex-direction: column;
-    width: 250px;
-    gap: 0;
-    flex-shrink: 0;
-}
 
 
 /* Blog Section Styles */
@@ -25,14 +17,15 @@
 
 .blog-title {
     font-size: 22px;
-    font-weight: normal;
+    font-weight: 200;
     color: #666666;
     margin: 0 0 20px 0;
     font-family: 'Optima', arial, sans-serif;
 }
 
+
 .blog-post {
-    margin-bottom: 25px;
+    margin-bottom: 20px;
     padding-bottom: 20px;
     border-bottom: 1px solid #e0e0e0;
     cursor: pointer;
@@ -68,7 +61,7 @@
 .blog-post-date {
     font-size: 13px;
     color: #999;
-    margin: 0 0 8px 0;
+    margin: 0 0 5px 0;
     font-family: 'Optima', arial, sans-serif;
 }
 
@@ -92,6 +85,42 @@
     color: #45a049;
 }
 
+
+.contact-form-container {
+    width: 250px;
+    margin: 40px;
+    border-top: 1px solid #cdd0e3;
+    font-family: "Courier New", Courier, monospace;
+}
+
+.contact-form-container h2 {
+    margin: 20px 0 10px 20px;
+    text-align: center;
+    text-shadow:  5px 5px 15px rgba(87, 192, 176, 0.29);
+    font-size: 20px;
+    font-weight: 500;
+}
+
+#contact-form {
+    margin-left: 20px;
+    background: #f5f6f6;
+    padding: 10px;
+    border: 1px solid #cdd0e3;
+    border-radius: 4px;
+    box-shadow: 0 5px 10px rgba(0,0,0,0.05);
+}
+
+
+/* Navigation Column Styles */
+.navigation-column {
+    display: flex;
+    flex-direction: column;
+    width: 250px;
+    color: #414141;
+    gap: 0;
+    flex-shrink: 0;
+}
+
 .nav-column-item {
     display: block;
     padding: 15px 20px;
@@ -103,6 +132,8 @@
     border-bottom: none;
     background: #f9f9f9;
     transition: all 0.3s ease;
+    box-sizing: border-box;
+    width: 100%;
 }
 
 .nav-column-item:first-child {
@@ -217,23 +248,29 @@
     text-transform: uppercase;
     color: #45a049;
 }
-
+@media (max-width: 1000px) {
+    /* Hide right column on mobile */
+    .right-column {
+        display: none !important;
+    }
+    /* Expand blog section to full width */
+    .blog-section {
+        width: 100% !important;
+        margin-top: 0;
+        padding: 15px;
+    }
+}
 /* Mobile responsive adjustments */
 @media (max-width: 768px) {
-    .navigation-column {
-        width: 100%;
-        margin-top: 20px;
-    }
 
+    .navigation-column {
+        width: 30%;
+        margin: 0;
+    }
     .nav-column-item {
         font-size: 16px;
         padding: 12px 15px;
-    }
-
-    .blog-section {
-        width: 100%;
-        margin-top: 20px;
-        padding: 15px;
+        text-align: left;
     }
 
     .blog-title {
