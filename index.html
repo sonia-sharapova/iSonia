@@ -103,6 +103,11 @@
     }
 
     @media only screen and (max-width: 1200px) {
+
+      .content {
+        width: 90%;
+      }
+
       .description h1 {
         font-size: 30px;
       }
@@ -113,8 +118,13 @@
         display: none;
       }
     }
+    @media only screen and (max-width: 1000px) {
+      .nav-message-btn {
+        margin-top: 30px;
+      }
+    }
 
-    @media only screen and (max-width: 768px) {
+      @media only screen and (max-width: 768px) {
       .content {
         width: 100%;
       }
@@ -129,7 +139,7 @@
         font-size: 18px;
       }
       #note {
-        font-size: 11px;
+        font-size: 14px;
         margin-bottom: 0;
       }
 
@@ -138,8 +148,21 @@
         height: 200px;
         margin-right: 10px;
       }
+      .nav-message-btn {
+        margin-top: 10px;
+      }
+
     }
-</style>
+    @media only screen and (max-width: 500px) {
+      #note {
+        font-size: 11px;
+        margin-bottom: 0;
+      }
+      .nav-message-btn {
+        margin-top: 0;
+      }
+    }
+  </style>
 </head>
 <body>
 <nav class="navigation">
@@ -366,8 +389,8 @@
   document.getElementById('mobile-message-btn').addEventListener('click', function(e) {
     e.preventDefault();
 
-    // Check if on mobile (screen width <= 1100px)
-    if (window.innerWidth <= 1200) {
+    // Check if on mobile (screen width <= 768px)
+    if (window.innerWidth <= 2000) {
       document.getElementById('contactModal').classList.add('active');
     } else {
       // On desktop, scroll to the contact form
