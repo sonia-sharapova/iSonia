@@ -141,6 +141,7 @@
 
     .blog-entry {
         margin-bottom: 5px;
+        width: 100%;
     }
     .blog-entry-header {
         flex-direction: column;
@@ -174,7 +175,6 @@
     }
     .blog-entry {
         padding: 20px;
-        width: 100%;
     }
 
     .blog-entry-header {
