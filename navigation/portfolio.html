@@ -10,7 +10,6 @@
 
     <style>
 
-
         img {
             border: 1px solid #3b5998;
         }
@@ -137,6 +136,28 @@
             position: absolute;
             font-size: 16px;
             bottom: 0;
+        }
+        @media (max-width: 1000px) {
+            .container_inner {
+                width: 100%;
+            }
+            .section-header h1 {
+                font-size: 15px;
+            }
+            .section-content p {
+                font-size: 12px;
+            }
+            .topics-box {
+                width: 100px;
+            }
+            .topics-list {
+                grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            }
+            .topics-list li {
+                font-size: 12px;
+                padding: 10px;
+            }
+
         }
 
     </style>
