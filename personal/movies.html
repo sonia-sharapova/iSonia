@@ -9,7 +9,7 @@
 
         .content {
             display: grid;
-            grid-template-columns: 3fr 1fr;
+            grid-template-columns: 2fr 1fr;
             gap: 40px;
             width: 80%;
             margin: 40px auto;
@@ -76,6 +76,23 @@
             color: #666;
             padding-right: 10px; /* Add space for scrollbar */
         }
+        @media (max-width: 1000px) {
+            .gallery {
+                grid-template-columns: repeat(4, 1fr);
+                gap: 10px;
+            }
+            .content {
+                gap: 20px;
+                margin: 20px auto;
+            }
+        }
+        @media (max-width: 760px) {
+            .gallery {
+                width: 100%;
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
 
     </style>
 </head>
