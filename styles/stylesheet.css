@@ -285,26 +285,37 @@ footer .socials {
     to { opacity: 1; }
 }
 
+@media (max-width: 1000px) {
+
+    /* Better tap targets */
+    button, select, a {
+        min-height: 44px !important;
+        min-width: 44px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+    }
+}
+
 /* Base fixes for all pages */
 @media (max-width: 768px) {
     html, body {
         overflow-x: hidden;
-        margin: 0 auto;
         width: 90%;
         max-width: 100%;
-        position: relative;
+        margin: 0 auto;
     }
 
     .navigation {
         width: 100% !important;
-        padding: 20px 0 10px !important;
+        padding: 20px 5px 10px !important;
         justify-content: space-around;
         flex-wrap: wrap;
         gap: 10px;
     }
 
     .nav-item {
-        font-size: 14px !important;
+        font-size: 18px !important;
         padding-bottom: 5px !important;
     }
 
@@ -326,7 +337,7 @@ footer .socials {
     }
 
     .sub-nav-item {
-        font-size: 16px !important;
+        font-size: 18px !important;
     }
 
     .page-title {
@@ -337,14 +348,6 @@ footer .socials {
     }
 
 
-    /* Better tap targets */
-    button, select, a {
-        min-height: 44px !important;
-        min-width: 44px !important;
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-    }
 
     footer div {
         /* Better tap targets */
