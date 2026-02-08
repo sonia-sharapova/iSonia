@@ -53,7 +53,7 @@ h2 {
 .nav-item {
     text-decoration: none;
     color: #333;
-    font-size: clamp(16px, 1.5vw, 20px); /* Responsive font size */
+    font-size: clamp(16px, 1.5vw, 20px);
     position: relative;
     padding-bottom: 10px;
     white-space: nowrap;
@@ -78,7 +78,7 @@ h2 {
     padding-bottom: 5px;
     border-bottom: 1px solid #ddd;
     position: fixed;
-    top: 80px;  /* Position it below the main navigation */
+    top: 80px;
     left: 0;
     right: 0;
     background: rgba(245,245,245,0.9);
@@ -110,7 +110,6 @@ h2 {
     gap: 20px;
 }
 
-
 .title {
     font-size: 30px;
     font-weight: normal;
@@ -124,11 +123,9 @@ h2 {
     font-size: 40px;
     margin-top: 40px;
     text-align: left;
-
     font-weight: normal;
     line-height: 1;
 }
-
 
 /* pop up images */
 .modal {
@@ -177,7 +174,7 @@ h2 {
     max-width: 90%;
     max-height: 90vh;
     position: relative;
-    pointer-events: none; /* Let clicks pass through */
+    pointer-events: none;
 }
 
 .modal-content img {
@@ -185,7 +182,7 @@ h2 {
     max-height: 90vh;
     object-fit: contain;
     border: none;
-    pointer-events: auto; /* Make sure image still receives clicks */
+    pointer-events: auto;
 }
 
 .overlay {
@@ -248,7 +245,6 @@ button #back-btn:hover {
     background: #eee;
 }
 
-
 footer {
     display: block;
     height: 50px;
@@ -278,16 +274,13 @@ footer .socials {
     width: 300px;
 }
 
-
-
 @keyframes fadeIn {
     from { opacity: 0; }
     to { opacity: 1; }
 }
 
+/* MOBILE IMPROVEMENTS - Better tap targets and spacing */
 @media (max-width: 1000px) {
-
-    /* Better tap targets */
     button, select, a {
         min-height: 44px !important;
         min-width: 44px !important;
@@ -297,7 +290,7 @@ footer .socials {
     }
 }
 
-/* Base fixes for all pages */
+/* MOBILE OPTIMIZATIONS - Enhanced readability and navigation */
 @media (max-width: 768px) {
     html, body {
         overflow-x: hidden;
@@ -306,67 +299,84 @@ footer .socials {
         margin: 0 auto;
     }
 
+
+    .nav-item {
+        font-size: 18px !important;
+        font-weight: 500;
+        color: #333333 !important;
+    }
+
+
+    .title-container {
+        width: 95% !important;
+        margin-top: 100px !important;
+    }
+
+    .nav-links {
+        justify-content: center;
+    }
+
+    .sub-nav-item {
+        font-size: 20px !important;
+        font-weight: 500;
+        padding: 0 10px;
+        color: #737373 !important;
+    }
+
+    .sub-nav-item:hover {
+        background: #45a049;
+        color: #ffffff !important;
+        text-transform: none;
+        text-decoration: none;
+    }
+
+    .page-title {
+        font-size: 38px !important;
+        padding: 15px 0 !important;
+        text-align: center !important;
+        letter-spacing: 0.5px;
+        color: #333333;
+        font-weight: 500;
+    }
+
+    /* Better footer readability */
+    footer {
+        font-size: 16px;
+        padding: 30px 15px;
+        color: #555555;
+    }
+
+    footer a {
+        color: #333333;
+        font-weight: 500;
+        font-size: 18px;
+    }
+
+    footer .socials {
+        gap: 15px;
+        width: 100%;
+        max-width: 350px;
+    }
+}
+
+/* Extra small screens - maintain readability */
+@media (max-width: 320px) {
     .navigation {
-        width: 100% !important;
-        padding: 20px 5px 10px !important;
-        justify-content: space-around;
-        flex-wrap: wrap;
+        padding: 15px 5px !important;
         gap: 10px;
     }
 
     .nav-item {
-        font-size: 18px !important;
-        padding-bottom: 5px !important;
-    }
-
-    .nav-item::after {
-        height: 15px !important;
-        bottom: -7px !important;
-    }
-
-    .title-container {
-        width: 95% !important;
-        margin-top: 80px !important;
-    }
-
-    .nav-links {
-        flex-wrap: wrap;
-        justify-content: left;
-        gap: 10px !important;
-        padding-bottom: 5px !important;
+        font-size: 16px !important;
+        padding: 6px 10px !important;
     }
 
     .sub-nav-item {
-        font-size: 18px !important;
+        font-size: 16px !important;
+        padding: 6px 12px !important;
     }
 
     .page-title {
-        font-size: 35px !important;
-        padding: 0 0 10px 0 !important;
-        text-align: center !important;
-        letter-spacing: 1px;
-    }
-
-
-
-    footer div {
-        /* Better tap targets */
-        a {
-            min-height: 10px !important;
-            min-width: 10px !important;
-        }
-    }
-}
-
-/* Fine-tuning for extremely small screens */
-@media (max-width: 320px) {
-
-
-    .navigation {
-        font-size: 12px !important;
-    }
-
-    .nav-item {
-        font-size: 12px !important;
+        font-size: 30px !important;
     }
 }
