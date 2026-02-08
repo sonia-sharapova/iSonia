@@ -97,6 +97,12 @@
       flex-shrink: 0;
     }
 
+    .home-cont {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
     img#chip {
       width: 200px;
       height: 200px;
@@ -152,6 +158,10 @@
         margin-top: 10px;
         margin-right: 20px;
       }
+        .home-cont {
+          gap: 5px;
+          margin-top: 10px;
+        }
 
     }
     @media only screen and (max-width: 500px) {
@@ -206,7 +216,7 @@
       <img id="chip" src="images/personal/board-removebg.png" alt="Computer Chip">
     </div>
 
-    <div style="display: flex; gap: 10px; margin-top: 20px;">
+    <div class="home-cont">
 
       <div class="navigation-column">
         <a href="creations/blogs.html" class="nav-column-item">Writings</a>
