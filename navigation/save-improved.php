@@ -69,25 +69,28 @@ try {
     // Get file path
     $filePath = FILES_PATH . $fileName;
 
-    // Create backup directory if it doesn't exist
+    // Try to create backup directory if it doesn't exist
     $backupPath = FILES_PATH . 'backups/';
+    $backupCreated = false;
+    
     if (!is_dir($backupPath)) {
-        if (!mkdir($backupPath, 0755, true)) {
-            throw new Exception('Failed to create backup directory');
-        }
+        // Try to create the directory
+        $backupCreated = @mkdir($backupPath, 0755, true);
+    } else {
+        $backupCreated = true;
     }
 
-    // Backup existing file
-    if (file_exists($filePath)) {
+    // Try to backup existing file (non-fatal if it fails)
+    if (file_exists($filePath) && $backupCreated && is_writable($backupPath)) {
         $timestamp = date('Y-m-d_H-i-s');
         $backupFile = $backupPath . pathinfo($fileName, PATHINFO_FILENAME) . '_' . $timestamp . '.md';
         
-        if (!copy($filePath, $backupFile)) {
-            throw new Exception('Failed to create backup');
+        // Attempt backup, but don't fail the save if backup fails
+        if (@copy($filePath, $backupFile)) {
+            // Keep only last 10 backups per file
+            cleanupBackups($backupPath, $fileName);
         }
-        
-        // Keep only last 10 backups per file
-        cleanupBackups($backupPath, $fileName);
+        // If backup fails, continue anyway - saving is more important
     }
 
     // Check if file is writable
@@ -108,7 +111,8 @@ try {
         'message' => 'File saved successfully',
         'file' => $fileName,
         'bytes' => $result,
-        'timestamp' => date('Y-m-d H:i:s')
+        'timestamp' => date('Y-m-d H:i:s'),
+        'backup_created' => $backupCreated && is_writable($backupPath)
     ]);
 
 } catch (Exception $e) {
