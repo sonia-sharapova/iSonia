@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 }
 
 // Configuration
-define('PASSWORD_HASH', 'YOUR_PASSWORD_HASH_HERE'); // UPDATE THIS
+define('PASSWORD_HASH', 'a796d16cd05e917f54070cfb47ef5d7b90a5515473f2af9244116d9ef17b72ce'); // UPDATE THIS
 define('FILES_PATH', __DIR__ . '/resources/markdown/');
 
 // Allowed files (whitelist for security)

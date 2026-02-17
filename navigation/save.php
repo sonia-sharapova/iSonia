@@ -14,7 +14,7 @@ $allowedFiles = [
     'media.md',
     'music.md',
     'opensource.md',
-    'technology.md',
+    'tech.md',
     'web.md'
 ];
 
