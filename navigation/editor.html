@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Resources Editor - Admin</title>
+  <link rel="icon" href="/images/icons/heart3.png" />
+  <link rel="stylesheet" href="../styles/stylesheet.css">
+  
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Courier New', monospace;
+      margin: 0;
+      padding: 0;
+      background: #f5f5f5;
+    }
+
+    /* Login Screen */
+    .login-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+
+    .login-box {
+      background: white;
+      padding: 40px;
+      border-radius: 8px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+      width: 100%;
+      max-width: 400px;
+    }
+
+    .login-box h2 {
+      margin: 0 0 30px 0;
+      color: #414141;
+      text-align: center;
+      font-size: 24px;
+    }
+
+    .login-box input {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 20px;
+      border: 1px solid #d5d5d5;
+      border-radius: 4px;
+      font-family: 'Courier New', monospace;
+      font-size: 14px;
+    }
+
+    .login-box button {
+      width: 100%;
+      padding: 12px;
+      background: #45a049;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      font-family: 'Courier New', monospace;
+      font-size: 14px;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+
+    .login-box button:hover {
+      background: #388e3c;
+    }
+
+    .error-message {
+      color: #d32f2f;
+      text-align: center;
+      margin-bottom: 15px;
+      font-size: 14px;
+    }
+
+    /* Editor Interface */
+    .editor-container {
+      display: none;
+      height: 100vh;
+      flex-direction: column;
+    }
+
+    .editor-header {
+      background: #414141;
+      color: white;
+      padding: 15px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .editor-header h1 {
+      margin: 0;
+      font-size: 18px;
+      font-weight: normal;
+    }
+
+    .editor-controls {
+      display: flex;
+      gap: 10px;
+    }
+
+    .editor-controls button {
+      padding: 8px 16px;
+      background: #45a049;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-family: 'Courier New', monospace;
+      font-size: 12px;
+      transition: background 0.2s ease;
+    }
+
+    .editor-controls button:hover {
+      background: #388e3c;
+    }
+
+    .editor-controls button.logout {
+      background: #d32f2f;
+    }
+
+    .editor-controls button.logout:hover {
+      background: #b71c1c;
+    }
+
+    .editor-main {
+      flex: 1;
+      display: flex;
+      overflow: hidden;
+    }
+
+    .file-list {
+      width: 250px;
+      background: #fafafa;
+      border-right: 1px solid #d5d5d5;
+      overflow-y: auto;
+    }
+
+    .file-item {
+      padding: 12px 20px;
+      cursor: pointer;
+      border-bottom: 1px solid #e5e5e5;
+      transition: background 0.2s ease;
+    }
+
+    .file-item:hover {
+      background: #fff;
+    }
+
+    .file-item.active {
+      background: #45a049;
+      color: white;
+    }
+
+    .file-name {
+      font-size: 14px;
+      margin-bottom: 4px;
+    }
+
+    .file-lines {
+      font-size: 11px;
+      color: #888f8d;
+    }
+
+    .file-item.active .file-lines {
+      color: rgba(255,255,255,0.8);
+    }
+
+    .editor-workspace {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .editor-toolbar {
+      background: #fafafa;
+      padding: 10px 20px;
+      border-bottom: 1px solid #d5d5d5;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .current-file {
+      font-size: 14px;
+      color: #414141;
+    }
+
+    .save-status {
+      font-size: 12px;
+      color: #888f8d;
+    }
+
+    .save-status.saved {
+      color: #45a049;
+    }
+
+    .save-status.unsaved {
+      color: #d32f2f;
+    }
+
+    .editor-panes {
+      flex: 1;
+      display: flex;
+      overflow: hidden;
+    }
+
+    .editor-pane {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .pane-header {
+      background: #f5f5f5;
+      padding: 10px 20px;
+      border-bottom: 1px solid #d5d5d5;
+      font-size: 12px;
+      color: #666;
+      text-transform: uppercase;
+    }
+
+    .editor-textarea {
+      flex: 1;
+      padding: 20px;
+      border: none;
+      font-family: 'IBM Plex Mono', 'Courier New', monospace;
+      font-size: 14px;
+      line-height: 1.6;
+      resize: none;
+      outline: none;
+      background: white;
+    }
+
+    .preview-pane {
+      flex: 1;
+      padding: 20px;
+      overflow-y: auto;
+      background: white;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .preview-pane h2 {
+      color: #414141;
+      font-size: 18px;
+      margin: 20px 0 10px 0;
+      font-weight: normal;
+    }
+
+    .preview-pane h3 {
+      color: #666;
+      font-size: 16px;
+      margin: 15px 0 10px 0;
+      font-weight: normal;
+    }
+
+    .preview-pane ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .preview-pane li {
+      margin: 10px 0;
+    }
+
+    .preview-pane a {
+      color: #45a049;
+      text-decoration: none;
+    }
+
+    .preview-pane a:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 768px) {
+      .editor-panes {
+        flex-direction: column;
+      }
+
+      .file-list {
+        width: 100%;
+        max-height: 200px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Login Screen -->
+<div class="login-container" id="loginScreen">
+  <div class="login-box">
+    <h2>Resources Editor</h2>
+    <div id="errorMessage" class="error-message"></div>
+    <input type="password" id="passwordInput" placeholder="Enter password" autocomplete="current-password">
+    <button onclick="login()">Login</button>
+  </div>
+</div>
+
+<!-- Editor Interface -->
+<div class="editor-container" id="editorInterface">
+  <div class="editor-header">
+    <h1>📝 Resources Editor</h1>
+    <div class="editor-controls">
+      <button onclick="saveFile()">💾 Save</button>
+      <button onclick="saveAll()">💾 Save All</button>
+      <button onclick="logout()" class="logout">🚪 Logout</button>
+    </div>
+  </div>
+
+  <div class="editor-main">
+    <div class="file-list" id="fileList">
+      <!-- Files will be loaded here -->
+    </div>
+
+    <div class="editor-workspace">
+      <div class="editor-toolbar">
+        <div class="current-file" id="currentFile">No file selected</div>
+        <div class="save-status" id="saveStatus">Saved</div>
+      </div>
+
+      <div class="editor-panes">
+        <div class="editor-pane">
+          <div class="pane-header">Editor</div>
+          <textarea class="editor-textarea" id="editor" placeholder="Select a file to edit..."></textarea>
+        </div>
+
+        <div class="editor-pane">
+          <div class="pane-header">Live Preview</div>
+          <div class="preview-pane" id="preview">
+            <p style="color: #888f8d;">Preview will appear here...</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script>
+  // Configuration
+  const PASSWORD_HASH = 'a796d16cd05e917f54070cfb47ef5d7b90a5515473f2af9244116d9ef17b72ce'; // You'll replace this
+  const SESSION_KEY = 'resources_editor_session';
+  const FILES_BASE_PATH = './resources/markdown/';
+
+  const files = [
+    { name: 'general.md', lines: 380 },
+    { name: 'media.md', lines: 185 },
+    { name: 'music.md', lines: 159 },
+    { name: 'opensource.md', lines: 391 },
+    { name: 'technology.md', lines: 997 },
+    { name: 'web.md', lines: 450 }
+  ];
+
+  let currentFile = null;
+  let fileContents = {};
+  let unsavedChanges = {};
+
+  // Simple hash function (for demo - use proper hashing in production)
+  async function hashPassword(password) {
+    const encoder = new TextEncoder();
+    const data = encoder.encode(password);
+    const hash = await crypto.subtle.digest('SHA-256', data);
+    return Array.from(new Uint8Array(hash))
+      .map(b => b.toString(16).padStart(2, '0'))
+      .join('');
+  }
+
+  // Login
+  async function login() {
+    const password = document.getElementById('passwordInput').value;
+    const hash = await hashPassword(password);
+    
+    if (hash === PASSWORD_HASH) {
+      sessionStorage.setItem(SESSION_KEY, hash);
+      showEditor();
+    } else {
+      document.getElementById('errorMessage').textContent = 'Invalid password';
+    }
+  }
+
+  // Logout
+  function logout() {
+    if (Object.keys(unsavedChanges).length > 0) {
+      if (!confirm('You have unsaved changes. Are you sure you want to logout?')) {
+        return;
+      }
+    }
+    sessionStorage.removeItem(SESSION_KEY);
+    location.reload();
+  }
+
+  // Check session
+  function checkSession() {
+    const session = sessionStorage.getItem(SESSION_KEY);
+    if (session === PASSWORD_HASH) {
+      showEditor();
+    }
+  }
+
+  // Show editor
+  function showEditor() {
+    document.getElementById('loginScreen').style.display = 'none';
+    document.getElementById('editorInterface').style.display = 'flex';
+    loadFiles();
+  }
+
+  // Load files
+  async function loadFiles() {
+    const fileListEl = document.getElementById('fileList');
+    fileListEl.innerHTML = '';
+
+    for (const file of files) {
+      const item = document.createElement('div');
+      item.className = 'file-item';
+      item.innerHTML = `
+        <div class="file-name">${file.name}</div>
+        <div class="file-lines">~${file.lines} lines</div>
+      `;
+      item.onclick = () => loadFile(file.name);
+      fileListEl.appendChild(item);
+
+      // Load file content
+      try {
+        const response = await fetch(FILES_BASE_PATH + file.name);
+        const content = await response.text();
+        fileContents[file.name] = content;
+      } catch (error) {
+        console.error('Error loading', file.name, error);
+      }
+    }
+  }
+
+  // Load file into editor
+  function loadFile(fileName) {
+    if (currentFile && unsavedChanges[currentFile]) {
+      if (!confirm('You have unsaved changes. Switch files anyway?')) {
+        return;
+      }
+    }
+
+    currentFile = fileName;
+    const content = fileContents[fileName] || '';
+    
+    document.getElementById('editor').value = content;
+    document.getElementById('currentFile').textContent = fileName;
+    updatePreview(content);
+    updateSaveStatus();
+
+    // Update active state
+    document.querySelectorAll('.file-item').forEach((item, index) => {
+      item.classList.toggle('active', files[index].name === fileName);
+    });
+  }
+
+  // Update preview
+  function updatePreview(markdown) {
+    const preview = document.getElementById('preview');
+    preview.innerHTML = marked.parse(markdown);
+  }
+
+  // Track changes
+  document.getElementById('editor').addEventListener('input', (e) => {
+    if (currentFile) {
+      unsavedChanges[currentFile] = true;
+      updateSaveStatus();
+      updatePreview(e.target.value);
+    }
+  });
+
+  // Update save status
+  function updateSaveStatus() {
+    const status = document.getElementById('saveStatus');
+    if (currentFile && unsavedChanges[currentFile]) {
+      status.textContent = 'Unsaved changes';
+      status.className = 'save-status unsaved';
+    } else {
+      status.textContent = 'Saved';
+      status.className = 'save-status saved';
+    }
+  }
+
+  // Save file
+  async function saveFile() {
+    if (!currentFile) {
+      alert('No file selected');
+      return;
+    }
+
+    const content = document.getElementById('editor').value;
+    
+    try {
+      const response = await fetch('save.php', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          file: currentFile,
+          content: content,
+          session: sessionStorage.getItem(SESSION_KEY)
+        })
+      });
+
+      const result = await response.json();
+      
+      if (result.success) {
+        fileContents[currentFile] = content;
+        delete unsavedChanges[currentFile];
+        updateSaveStatus();
+        alert('File saved successfully!');
+      } else {
+        alert('Error saving file: ' + (result.error || 'Unknown error'));
+      }
+    } catch (error) {
+      alert('Error saving file: ' + error.message);
+    }
+  }
+
+  // Save all
+  async function saveAll() {
+    const unsaved = Object.keys(unsavedChanges);
+    if (unsaved.length === 0) {
+      alert('No unsaved changes');
+      return;
+    }
+
+    for (const fileName of unsaved) {
+      loadFile(fileName);
+      await saveFile();
+    }
+  }
+
+  // Handle Enter key on password
+  document.getElementById('passwordInput').addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') {
+      login();
+    }
+  });
+
+  // Prevent accidental exit
+  window.addEventListener('beforeunload', (e) => {
+    if (Object.keys(unsavedChanges).length > 0) {
+      e.preventDefault();
+      e.returnValue = '';
+    }
+  });
+
+  // Check session on load
+  checkSession();
+</script>
+
+</body>
+</html>
