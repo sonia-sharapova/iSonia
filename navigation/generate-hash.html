@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Password Hash Generator</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Courier New', monospace;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+    
+    .container {
+      background: white;
+      padding: 40px;
+      border-radius: 8px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+      max-width: 500px;
+      width: 100%;
+    }
+    
+    h1 {
+      margin: 0 0 20px 0;
+      color: #414141;
+      font-size: 24px;
+      font-weight: normal;
+    }
+    
+    .instructions {
+      background: #f5f5f5;
+      padding: 15px;
+      border-radius: 4px;
+      margin-bottom: 20px;
+      font-size: 13px;
+      line-height: 1.6;
+      color: #666;
+    }
+    
+    .instructions ol {
+      margin: 10px 0 0 0;
+      padding-left: 20px;
+    }
+    
+    .instructions li {
+      margin: 5px 0;
+    }
+    
+    label {
+      display: block;
+      margin-bottom: 8px;
+      color: #414141;
+      font-size: 14px;
+    }
+    
+    input[type="password"],
+    input[type="text"] {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 20px;
+      border: 1px solid #d5d5d5;
+      border-radius: 4px;
+      font-family: 'Courier New', monospace;
+      font-size: 14px;
+    }
+    
+    button {
+      width: 100%;
+      padding: 12px;
+      background: #45a049;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      font-family: 'Courier New', monospace;
+      font-size: 14px;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+    
+    button:hover {
+      background: #388e3c;
+    }
+    
+    .output {
+      margin-top: 20px;
+      padding: 15px;
+      background: #f5f5f5;
+      border-radius: 4px;
+      display: none;
+    }
+    
+    .output.show {
+      display: block;
+    }
+    
+    .hash-display {
+      background: white;
+      padding: 10px;
+      border: 1px solid #d5d5d5;
+      border-radius: 4px;
+      word-break: break-all;
+      font-size: 12px;
+      color: #414141;
+      margin: 10px 0;
+    }
+    
+    .copy-btn {
+      background: #666;
+      margin-top: 10px;
+    }
+    
+    .copy-btn:hover {
+      background: #555;
+    }
+    
+    .warning {
+      background: #fff3cd;
+      border: 1px solid #ffc107;
+      color: #856404;
+      padding: 15px;
+      border-radius: 4px;
+      margin-top: 20px;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+    
+    .warning strong {
+      display: block;
+      margin-bottom: 5px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h1>🔐 Password Hash Generator</h1>
+  
+  <div class="instructions">
+    <strong>Setup Instructions:</strong>
+    <ol>
+      <li>Enter your desired password below</li>
+      <li>Click "Generate Hash"</li>
+      <li>Copy the hash value</li>
+      <li>Replace <code>YOUR_PASSWORD_HASH_HERE</code> in both <code>editor.html</code> and <code>save.php</code></li>
+      <li><strong>Delete this file from your server!</strong></li>
+    </ol>
+  </div>
+  
+  <label for="password">Enter Password:</label>
+  <input type="password" id="password" placeholder="Your secure password">
+  
+  <button onclick="generateHash()">Generate Hash</button>
+  
+  <div id="output" class="output">
+    <label>Your Password Hash:</label>
+    <div class="hash-display" id="hashDisplay"></div>
+    <button class="copy-btn" onclick="copyHash()">Copy Hash</button>
+  </div>
+  
+  <div class="warning">
+    <strong>⚠️ Security Warning:</strong>
+    After you've copied the hash and updated your files, DELETE this hash generator file from your server. Anyone with access to this page could generate the password hash.
+  </div>
+</div>
+
+<script>
+  async function generateHash() {
+    const password = document.getElementById('password').value;
+    
+    if (!password) {
+      alert('Please enter a password');
+      return;
+    }
+    
+    if (password.length < 8) {
+      alert('Password should be at least 8 characters long');
+      return;
+    }
+    
+    // Generate SHA-256 hash
+    const encoder = new TextEncoder();
+    const data = encoder.encode(password);
+    const hash = await crypto.subtle.digest('SHA-256', data);
+    const hashArray = Array.from(new Uint8Array(hash));
+    const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    
+    // Display hash
+    document.getElementById('hashDisplay').textContent = hashHex;
+    document.getElementById('output').classList.add('show');
+  }
+  
+  function copyHash() {
+    const hash = document.getElementById('hashDisplay').textContent;
+    navigator.clipboard.writeText(hash).then(() => {
+      alert('Hash copied to clipboard!');
+    });
+  }
+  
+  // Allow Enter key
+  document.getElementById('password').addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') {
+      generateHash();
+    }
+  });
+</script>
+
+</body>
+</html>
