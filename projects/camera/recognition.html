@@ -10,21 +10,67 @@
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd"></script>
     <script src="camera.js" defer></script>
     <style>
-        .right-panel {
-            display: none !important;
-        }
-        @media (max-width: 1200px) {
-            #canvas {
-                width: 80%;
-            }
-            .right-panel {
-                display: none !important;
-            }
-            .left-panel {
-                display: none !important;
-            }
+        .right-panel { display: none !important; }
 
+        button, select { border: 1px solid #bbb !important; white-space: nowrap; }
+        button:hover   { border-color: #888 !important; filter: brightness(0.95); }
+        #startCamera   { background-color: rgba(183,232,183,0.82); }
+        #stopCamera    { background-color: #ff2c2c; }
+        .camControl { max-width: 800px !important; }
+        .btn-icon { width: 15px; vertical-align: middle; margin-right: 5px; }
+
+        #cameraPlaceholder {
+            position: absolute; inset: 0; background: #000;
+            display: flex; align-items: center; justify-content: center; z-index: 2;
         }
+        #cameraPlaceholder span {
+            color: #fff; font-family: 'IBM Plex Mono', monospace;
+            font-size: 14px; text-align: center;
+        }
+
+        .gallery-header { display: flex; align-items: baseline; gap: 8px; margin-bottom: 6px; }
+        .gallery-header h2 { margin: 0; }
+        .see-all-link {
+            font-size: 12px; color: #881010; cursor: pointer;
+            text-decoration: underline; white-space: nowrap;
+        }
+        .gallery-grid {
+            display: grid; grid-template-columns: repeat(2,1fr); gap: 5px; width: 100%;
+        }
+        .gallery-grid img {
+            width: 100%; aspect-ratio: 1; object-fit: cover;
+            border-radius: 3px; border: 1px solid #ccc; cursor: pointer; transition: opacity 0.15s;
+        }
+        .gallery-grid img:hover { opacity: 0.8; }
+
+        #gallery-modal {
+            display: none; position: fixed; inset: 0;
+            background: rgba(0,0,0,0.65); z-index: 1000;
+            align-items: center; justify-content: center;
+        }
+        #gallery-modal.open { display: flex; }
+        .modal-box {
+            background: #fff; border-radius: 6px; padding: 24px;
+            max-width: 680px; width: 90%; max-height: 80vh;
+            overflow-y: auto; position: relative;
+        }
+        .modal-box h2 { margin-top: 0; }
+        .modal-close {
+            position: absolute; top: 12px; right: 16px;
+            font-size: 22px; cursor: pointer; background: none;
+            border: none !important; color: #333; line-height: 1;
+        }
+        .modal-mosaic { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; }
+        .modal-mosaic img {
+            width: 100%; aspect-ratio: 1; object-fit: contain;
+            background: #f5f5f5; border-radius: 4px; border: 1px solid #ccc;
+        }
+
+        @media (max-width: 1200px) {
+            .left-panel { display: none !important; }
+            #canvas { width: 80%; }
+        }
+        @media (max-width: 768px) { .modal-mosaic { grid-template-columns: repeat(2,1fr); } }
     </style>
 </head>
 <body>
@@ -48,41 +94,83 @@
     <hr>
     <a href="../../creations/projects.html" style="text-decoration: none; font-size: 18px; color: #881010">← BACK TO ALL PROJECTS</a>
 </div>
+
 <div class="container" style="width: 80%;">
+
+    <!-- Left panel -->
     <div class="left-panel">
         <div class="info-section">
             <h2 style="margin-bottom: 0; margin-top: 0;">Live Camera Recognition</h2><hr>
             <p style="text-align: left">
                 See how this program identifies items in your surroundings :3
             </p>
-            -----
+            <hr>
             <p style="text-align: left">
-                Note: Pretty rudementary, will be updated ASAP
+                Note: Pretty rudimentary, will be updated ASAP
             </p>
         </div>
+
+        <div class="gallery-header" style="margin-top: 16px;">
+            <h2>Gallery</h2>
+            <span class="see-all-link" id="seeAllBtn">see all</span>
+        </div>
+        <div class="gallery-grid">
+            <img src="../../images/projects/preview/obj1.png"   alt="Object 1" onclick="openModal()">
+            <img src="../../images/projects/preview/obj2.png"   alt="Object 2" onclick="openModal()">
+            <img src="../../images/projects/preview/person.png" alt="Person"   onclick="openModal()">
+            <img src="../../images/projects/preview/cat.png"    alt="Cat"      onclick="openModal()">
+        </div>
     </div>
+
+    <!-- Canvas -->
     <div class="canvas-container">
-        <canvas id="canvas" style="margin-top: 20px; max-width: 1000px; ">
+        <div class="video-container">
+            <div id="cameraPlaceholder">
+                <span>Click 'Start Camera' to begin</span>
+            </div>
             <video id="video" playsinline style="display: none;"></video>
-        </canvas>
+            <canvas id="canvas" style="max-width: 1000px;"></canvas>
+        </div>
         <div class="camControl">
             <select id="cameraSelect" class="camera-select">
                 <option value="">Loading cameras...</option>
             </select>
-            <button id="startCamera"  style="font-size: 12px;">Start Camera</button>
-            <button id="stopCamera"  style="font-size: 12px;">Stop Camera</button>
-            <button id="flipButton">Flip Camera (<span id="cameraMode">front</span>)</button>
-            <button id="takePhotoButton" class="photo-button"  style="font-size: 12px;">
-                <span class="camera-icon">📸</span> Take Photo
-            </button>
-            <button id="saveButton" class="photo-button"  style="font-size: 12px;">
-                Save Photo
-            </button>
+            <button id="startCamera"><img class="btn-icon" src="../../images/icons/capture.svg" alt="">Start Camera</button>
+            <button id="stopCamera"><img class="btn-icon" src="../../images/icons/camera_noflash_alt.svg" alt="">Stop Camera</button>
+            <button id="flipButton"><img class="btn-icon" src="../../images/icons/flip-camera.svg" alt="">Flip (<span id="cameraMode">front</span>)</button>
+            <button id="takePhotoButton" class="photo-button"><img class="btn-icon" src="../../images/icons/camera.svg" alt="">Take Photo</button>
+            <button id="saveButton" class="photo-button"><img class="btn-icon" src="../../images/icons/download-minimalistic.svg" alt="">Save Photo</button>
         </div>
-        <!-- Add this to the controls div, next to saveButton -->
-
     </div>
 </div>
+
+<!-- Gallery modal -->
+<div id="gallery-modal">
+    <div class="modal-box">
+        <button class="modal-close" id="modalClose">&#x2715;</button>
+        <h2>Gallery</h2>
+        <div class="modal-mosaic">
+            <img src="../../images/projects/preview/obj1.png"   alt="Object 1">
+            <img src="../../images/projects/preview/obj2.png"   alt="Object 2">
+            <img src="../../images/projects/preview/obj3.png"   alt="Object 3">
+            <img src="../../images/projects/preview/person.png" alt="Person">
+            <img src="../../images/projects/preview/phone.png"  alt="Phone">
+            <img src="../../images/projects/preview/car.png"    alt="Car">
+            <img src="../../images/projects/preview/cat.png"    alt="Cat">
+        </div>
+    </div>
+</div>
+
+<script>
+    function openModal() { document.getElementById('gallery-modal').classList.add('open'); }
+    document.getElementById('seeAllBtn').addEventListener('click', openModal);
+    document.getElementById('modalClose').addEventListener('click', () => {
+        document.getElementById('gallery-modal').classList.remove('open');
+    });
+    document.getElementById('gallery-modal').addEventListener('click', function(e) {
+        if (e.target === this) this.classList.remove('open');
+    });
+</script>
 
 <footer>
     <div class="socials">

@@ -49,16 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let isFrontCamera = true;
     let isRunning = false;
 
-    // Initialize canvas
     const ctx = canvas.getContext('2d');
-    if (ctx) {
-        ctx.fillStyle = asciiConfig.backgroundColor;
-        ctx.fillRect(0, 0, canvas.width || 300, canvas.height || 150);
-        ctx.fillStyle = 'white';
-        ctx.font = '16px monospace';
-        ctx.textAlign = 'center';
-        ctx.fillText('Click "Start Camera" to begin', (canvas.width || 300) / 2, (canvas.height || 150) / 2);
-    }
 
     // Get available cameras
     async function getCameras() {
@@ -294,6 +285,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     console.log('Video playing, starting ASCII conversion');
                     isRunning = true;
                     captureAndProcess();
+
+                    // Hide placeholder
+                    const placeholder = document.getElementById('cameraPlaceholder');
+                    if (placeholder) placeholder.style.display = 'none';
 
                     // Update UI
                     startButton.disabled = true;

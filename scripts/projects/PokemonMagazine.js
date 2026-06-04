@@ -303,25 +303,18 @@ const PokemonMagazine = () => {
     }
 
     const renderPage = (card) => {
-        if (!card) return React.createElement('div', {
-            className: "flex items-center justify-center bg-gray-50 p-4",
-            style: { width: '400px', height: '550px' }
-        });
+        const pageStyle = {
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            background: '#fff', border: '1px solid #e5e7eb', borderRadius: '6px',
+            width: 'min(38vw, 340px)', height: 'min(52vw, 470px)', padding: '8px'
+        };
+        if (!card) return React.createElement('div', { style: pageStyle });
 
-        return React.createElement('div', {
-                className: "flex items-center justify-center bg-gray-50 p-4",
-                style: { width: '400px', height: '550px' }
-            },
+        return React.createElement('div', { style: pageStyle },
             React.createElement('img', {
                 src: card,
                 alt: "Pokemon Card",
-                style: {
-                    maxWidth: '350px',
-                    maxHeight: '450px',
-                    width: '100%',
-                    height: '100%',
-                    objectFit: 'contain'
-                }
+                style: { width: '100%', height: '100%', objectFit: 'contain' }
             })
         );
     };
@@ -372,30 +365,28 @@ const PokemonMagazine = () => {
     };
 
     const renderFlipView = () => {
-        return React.createElement('div', { className: "relative flex items-center justify-center p-8 w-full" },
+        return React.createElement('div', {
+                style: { display: 'flex', alignItems: 'center', justifyContent: 'center',
+                         gap: '16px', padding: '24px 16px', width: '100%', boxSizing: 'border-box' }
+            },
             React.createElement('button', {
                 onClick: handlePrevSpread,
                 disabled: currentSpread === 0,
-                className: `absolute p-2 rounded bg-gray-200 hover:bg-gray-300 ${
-                    currentSpread === 0 ? 'opacity-50 cursor-not-allowed' : ''
-                }`,
-                style: { left: '120px' }
+                className: `p-2 rounded bg-gray-200 hover:bg-gray-300 ${currentSpread === 0 ? 'opacity-50 cursor-not-allowed' : ''}`
             }, React.createElement(ChevronLeft)),
 
-            React.createElement('div', { className: "flex gap-4 bg-white p-6 rounded shadow-xl" },
-                // Left Page
+            React.createElement('div', {
+                style: { display: 'flex', gap: '8px', background: '#f3f4f6',
+                         padding: '16px', borderRadius: '8px', boxShadow: '0 4px 16px rgba(0,0,0,0.12)' }
+            },
                 renderPage(currentCards[currentSpread * 2]),
-                // Right Page
                 renderPage(currentCards[currentSpread * 2 + 1])
             ),
 
             React.createElement('button', {
                 onClick: handleNextSpread,
                 disabled: currentSpread === totalSpreads - 1,
-                className: `absolute p-2 rounded bg-gray-200 hover:bg-gray-300 ${
-                    currentSpread === totalSpreads - 1 ? 'opacity-50 cursor-not-allowed' : ''
-                }`,
-                style: { right: '120px' }
+                className: `p-2 rounded bg-gray-200 hover:bg-gray-300 ${currentSpread === totalSpreads - 1 ? 'opacity-50 cursor-not-allowed' : ''}`
             }, React.createElement(ChevronRight))
         );
     };
@@ -460,4 +451,4 @@ if (binderGridElement) {
 }
 
 
-export default PokemonMagazine;
+// export default PokemonMagazine;
