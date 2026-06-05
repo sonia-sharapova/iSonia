@@ -249,10 +249,14 @@
             .photo-album { grid-template-columns: repeat(2, 1fr); }
             .project-grid { grid-template-columns: 1fr; }
 
-            /* Flipbook: shrink buttons, let pages fill width */
-            .flipbook { gap: 2px; }
+            /* Stack order: content first, sidebar below */
+            .viewer-content { order: 1; }
+            .sidebar { order: 2; }
+
+            /* Flipbook: shrink buttons, center spread */
+            .flipbook { gap: 2px; justify-content: center; }
             .nav-btn { padding: 8px 10px; font-size: 16px; }
-            .spread-pages { gap: 4px; }
+            .spread-pages { gap: 4px; justify-content: center; }
             .page-img {
                 max-width: none;
                 min-width: 0;
@@ -366,7 +370,7 @@
             <div class="spread-counter" id="col-counter"></div>
         </div>
         <div class="sidebar" id="col-sidebar">
-            <h3>Cards on this spread</h3>
+            <h3>Who do we have here?</h3>
             <div class="sidebar-pokemon" id="sidebar-content">
                 <span class="sidebar-empty">Select a spread to see Pokémon info</span>
             </div>
