@@ -44,8 +44,8 @@
     .description {
       flex: 5;
       display: flex;
-      flex-direction: column; /* Stacks items vertically */
-      height: 25vh; /* Takes up full viewport height */
+      flex-direction: column;
+      min-height: 25vh;
     }
 
     .description h1 {
@@ -55,6 +55,9 @@
 
     #note {
       color: #47649a;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     /* Message button - hidden by default, shown on mobile */
@@ -71,7 +74,7 @@
     }
 
     .nav-message-btn:hover {
-      background: #c2e2e7;
+      background: #c2e2e787;
     }
 
 
@@ -82,8 +85,9 @@
     }
 
     .right-column {
-      width: 20%;
-      padding-left: 20px;
+      width: 15%;
+      min-width: 160px;
+      padding-left: 25px;
       flex-direction: column;
     }
 
@@ -112,32 +116,29 @@
     }
 
     @media only screen and (max-width: 1200px) {
-
-      .content {
-        width: 90%;
-      }
-
-      .description h1 {
-        font-size: 30px;
-      }
-      .description p {
-        font-size: 16px;
-      }
-      img#chip {
-        display: none;
-      }
+      .content { width: 90%; }
+      .description h1 { font-size: 30px; }
+      .description p { font-size: 16px; }
+      img#chip { display: none; }
     }
+
     @media only screen and (max-width: 1000px) {
-      .nav-message-btn {
-        margin-top: 30px;
-      }
-  
+      .content { width: 95%; gap: 0; }
+      .preview-image { width: 200px; height: 200px; }
+      .description h1 { font-size: 22px; }
+      /* remove vertical separator */
+      .content > hr { display: none; }
+      /* tighter profile spacing */
+      .description { gap: 4px; }
+      .description h1 { margin-bottom: 2px; }
+      .description p  { margin-top: 2px; margin-bottom: 4px; }
+      /* narrower message button */
+      .msg-btn-sidebar { width: auto; padding: 10px 14px; }
     }
 
       @media only screen and (max-width: 768px) {
-      .content {
-        width: 100%;
-      }
+      .content { width: 100%; }
+      .description { min-height: 0; height: auto; }
       .description {
         margin-left: 5px;
       }
@@ -227,8 +228,7 @@
         </p>
         <div class="msg-btn-col">
           <button class="msg-btn msg-btn-inline" onclick="document.getElementById('contactModal').classList.add('active')">
-            <img src="images/icons/paper_plane.svg" alt="" style="width:15px;opacity:0.7;">
-            send me a msg :)
+            Send me a msg <img src="images/icons/paper_plane.svg" alt="" style="width:15px;opacity:0.7;">
           </button>
         </div>
       </div>
@@ -243,7 +243,10 @@
         <a href="creations/tutorials.html" class="nav-column-item">Guides</a>
         <a href="navigation/resources.html" class="nav-column-item">Links</a>
         <a href="creations/games.html" class="nav-column-item">Games</a>
-        <a href="creations/art.html" class="nav-column-item">Art</a>
+        <a href="creations/art.html" class="nav-column-item nav-item-before-btn">Art</a>
+        <button class="nav-column-item nav-msg-item" onclick="document.getElementById('contactModal').classList.add('active')">
+          send me a msg <img src="images/icons/mail.svg" alt="" style="width:14px;opacity:0.6;vertical-align:middle;margin-left:7px;">
+        </button>
       </div>
 
 
@@ -310,12 +313,6 @@
         </div>
       </div>
 
-      <div class="contact-form-container" style="margin-top: 45px;">
-        <button id="open-contact-modal" class="msg-btn msg-btn-sidebar">
-          <img src="images/icons/paper_plane.svg" alt="" style="width:15px;opacity:0.7;">
-          send me a msg :)
-        </button>
-      </div>
 
 
 
@@ -347,7 +344,7 @@
     <button class="modal-close" id="closeContactModal" style="color: #666;">✕</button>
     <div style="padding: 30px 30px 24px;">
       <h2 style="text-align: center; margin: 0 0 4px; font-size: 22px; font-weight: normal; color: #666;">
-        <img src="images/icons/paper_plane.svg" alt="" style="width: 18px; vertical-align: middle; margin-right: 7px; opacity: 0.6;">send me a msg :)
+        Send me a msg <img src="images/icons/paper_plane.svg" alt="" style="width: 18px; vertical-align: middle; margin-right: 7px; opacity: 0.6;"> 
       </h2>
       <hr style="border: none; border-top: 1px solid #ddd; margin: 12px 0 20px;">
 
@@ -392,7 +389,8 @@
     document.getElementById('contactModal').classList.add('active');
   }
 
-  document.getElementById('open-contact-modal').addEventListener('click', openContactModal);
+  const openModalBtn = document.getElementById('open-contact-modal');
+  if (openModalBtn) openModalBtn.addEventListener('click', openContactModal);
 
   // Close contact modal
   document.getElementById('closeContactModal').addEventListener('click', function() {
