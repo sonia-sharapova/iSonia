@@ -241,12 +241,33 @@
         }
 
         @media (max-width: 768px) {
-            .cards-nav { width: 100%; }
-            .cards-section { width: 96%; }
+            .cards-nav { width: 100%; overflow-x: auto; }
+            .cards-section { width: 96%; padding: 16px 0 30px; }
             .viewer-layout { flex-direction: column; }
-            .sidebar { width: 100%; }
+            .viewer-content { padding: 10px; gap: 8px; }
+            .sidebar { width: 100%; box-sizing: border-box; }
             .photo-album { grid-template-columns: repeat(2, 1fr); }
             .project-grid { grid-template-columns: 1fr; }
+
+            /* Flipbook: shrink buttons, let pages fill width */
+            .flipbook { gap: 2px; }
+            .nav-btn { padding: 8px 10px; font-size: 16px; }
+            .spread-pages { gap: 4px; }
+            .page-img {
+                max-width: none;
+                min-width: 0;
+                flex: 1;
+            }
+
+            /* Search */
+            .search-row { flex-wrap: wrap; }
+            .search-row input { min-width: 0; font-size: 13px; }
+        }
+
+        @media (max-width: 480px) {
+            /* On very small screens show one page at a time */
+            #col-right, #tr-right { display: none; }
+            .page-img { max-width: 100%; }
         }
     </style>
 </head>
