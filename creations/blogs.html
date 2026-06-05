@@ -89,8 +89,108 @@
     </div>
 </div>
 
+<!-- Admin: New Post Modal -->
+<div id="new-post-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:1000;overflow:auto;">
+  <div style="background:white;margin:40px auto;max-width:700px;width:95%;padding:30px;box-sizing:border-box;font-family:'Courier New',monospace;">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+      <h2 style="margin:0;font-size:16px;font-weight:normal;text-transform:uppercase;letter-spacing:2px;">New Post</h2>
+      <button onclick="closeNewPost()" style="background:none;border:none;font-size:20px;cursor:pointer;color:#888;">✕</button>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;">
+      <div>
+        <label style="font-size:11px;text-transform:uppercase;letter-spacing:1px;color:#666;">Title</label>
+        <input id="np-title" type="text" placeholder="My New Post" style="width:100%;padding:8px;border:1px solid #d5d5d5;font-family:'Courier New',monospace;font-size:13px;box-sizing:border-box;margin-top:4px;">
+      </div>
+      <div>
+        <label style="font-size:11px;text-transform:uppercase;letter-spacing:1px;color:#666;">Slug (url name)</label>
+        <input id="np-slug" type="text" placeholder="my-new-post" style="width:100%;padding:8px;border:1px solid #d5d5d5;font-family:'Courier New',monospace;font-size:13px;box-sizing:border-box;margin-top:4px;">
+      </div>
+      <div>
+        <label style="font-size:11px;text-transform:uppercase;letter-spacing:1px;color:#666;">Date</label>
+        <input id="np-date" type="text" placeholder="June 2026" style="width:100%;padding:8px;border:1px solid #d5d5d5;font-family:'Courier New',monospace;font-size:13px;box-sizing:border-box;margin-top:4px;">
+      </div>
+      <div>
+        <label style="font-size:11px;text-transform:uppercase;letter-spacing:1px;color:#666;">Read Time</label>
+        <input id="np-readtime" type="text" placeholder="5 min read" style="width:100%;padding:8px;border:1px solid #d5d5d5;font-family:'Courier New',monospace;font-size:13px;box-sizing:border-box;margin-top:4px;">
+      </div>
+    </div>
+
+    <label style="font-size:11px;text-transform:uppercase;letter-spacing:1px;color:#666;">Content (Markdown)</label>
+    <textarea id="np-content" placeholder="Write your post here..." style="width:100%;height:300px;padding:12px;border:1px solid #d5d5d5;font-family:'Courier New',monospace;font-size:13px;line-height:1.6;box-sizing:border-box;margin-top:4px;resize:vertical;"></textarea>
+
+    <div style="display:flex;gap:10px;margin-top:16px;align-items:center;">
+      <button onclick="createPost()" style="padding:9px 20px;background:#414141;color:white;border:none;font-family:'Courier New',monospace;font-size:12px;text-transform:uppercase;letter-spacing:1px;cursor:pointer;">Create</button>
+      <button onclick="closeNewPost()" style="padding:9px 20px;background:white;color:#414141;border:1px solid #d5d5d5;font-family:'Courier New',monospace;font-size:12px;text-transform:uppercase;letter-spacing:1px;cursor:pointer;">Cancel</button>
+      <span id="np-status" style="font-size:12px;color:#888;margin-left:auto;"></span>
+    </div>
+  </div>
+</div>
+
 <script>
     animate();
+
+    fetch('../admin/check-session.php')
+        .then(r => r.json())
+        .then(data => {
+            if (data.admin) {
+                const btn = document.createElement('button');
+                btn.textContent = '+ New Post';
+                btn.onclick = () => document.getElementById('new-post-modal').style.display = 'block';
+                btn.style.cssText = 'position:fixed;bottom:30px;right:30px;padding:10px 18px;background:#414141;color:white;border:none;font-family:"Courier New",monospace;font-size:12px;text-transform:uppercase;letter-spacing:1px;cursor:pointer;z-index:500;';
+                document.body.appendChild(btn);
+            }
+        })
+        .catch(() => {});
+
+    // Auto-generate slug from title
+    document.getElementById('np-title').addEventListener('input', function() {
+        const slug = this.value.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+        document.getElementById('np-slug').value = slug;
+    });
+
+    function closeNewPost() {
+        document.getElementById('new-post-modal').style.display = 'none';
+    }
+
+    async function createPost() {
+        const title = document.getElementById('np-title').value.trim();
+        const slug = document.getElementById('np-slug').value.trim().replace(/[^a-z0-9\-]/g, '');
+        const date = document.getElementById('np-date').value.trim();
+        const readTime = document.getElementById('np-readtime').value.trim() || '5 min read';
+        const body = document.getElementById('np-content').value;
+        const statusEl = document.getElementById('np-status');
+
+        if (!title || !slug) { statusEl.textContent = 'Title and slug are required.'; return; }
+
+        const fullMarkdown = `---\ntitle: ${title}\ndate: ${date}\nreadTime: ${readTime}\n---\n${body}`;
+        statusEl.textContent = 'Saving…';
+
+        try {
+            const res = await fetch('../admin/save-blog.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    action: 'save',
+                    slug,
+                    content: fullMarkdown
+                })
+            });
+            const json = await res.json();
+            if (json.success) {
+                statusEl.textContent = 'Created!';
+                setTimeout(() => window.location.href = `blogs/entry.html?post=${slug}`, 700);
+            } else {
+                statusEl.textContent = 'Error: ' + (json.error || 'unknown');
+            }
+        } catch(e) {
+            statusEl.textContent = 'Error: ' + e.message;
+        }
+    }
+
+    document.getElementById('new-post-modal').addEventListener('click', function(e) {
+        if (e.target === this) closeNewPost();
+    });
 </script>
 
 <footer>

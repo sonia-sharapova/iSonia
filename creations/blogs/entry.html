@@ -54,6 +54,7 @@
         <div class="blog-header">
             <h1 class="blog-title" id="blog-title">Loading...</h1>
             <div class="blog-post-meta" id="blog-meta"></div>
+            <button id="edit-btn" onclick="openEditor()" style="display:none;margin-top:12px;padding:6px 14px;background:#414141;color:white;border:none;font-family:'Courier New',monospace;font-size:12px;text-transform:uppercase;letter-spacing:1px;cursor:pointer;">✎ Edit Post</button>
         </div>
 
         <div id="blog-body" class="blog-body">
@@ -62,18 +63,41 @@
     </div>
 </div>
 
+<!-- Admin Edit Modal -->
+<div id="edit-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:1000;overflow:auto;">
+  <div style="background:white;margin:40px auto;max-width:860px;width:95%;padding:30px;box-sizing:border-box;font-family:'Courier New',monospace;">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+      <h2 style="margin:0;font-size:16px;font-weight:normal;text-transform:uppercase;letter-spacing:2px;">Edit Post</h2>
+      <button onclick="closeEditor()" style="background:none;border:none;font-size:20px;cursor:pointer;color:#888;">✕</button>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;">
+      <div>
+        <label style="font-size:11px;text-transform:uppercase;letter-spacing:1px;color:#666;">Title</label>
+        <input id="edit-title" type="text" style="width:100%;padding:8px;border:1px solid #d5d5d5;font-family:'Courier New',monospace;font-size:13px;box-sizing:border-box;margin-top:4px;">
+      </div>
+      <div>
+        <label style="font-size:11px;text-transform:uppercase;letter-spacing:1px;color:#666;">Date</label>
+        <input id="edit-date" type="text" style="width:100%;padding:8px;border:1px solid #d5d5d5;font-family:'Courier New',monospace;font-size:13px;box-sizing:border-box;margin-top:4px;">
+      </div>
+      <div>
+        <label style="font-size:11px;text-transform:uppercase;letter-spacing:1px;color:#666;">Read Time</label>
+        <input id="edit-readtime" type="text" style="width:100%;padding:8px;border:1px solid #d5d5d5;font-family:'Courier New',monospace;font-size:13px;box-sizing:border-box;margin-top:4px;">
+      </div>
+    </div>
+
+    <label style="font-size:11px;text-transform:uppercase;letter-spacing:1px;color:#666;">Content (Markdown)</label>
+    <textarea id="edit-content" style="width:100%;height:400px;padding:12px;border:1px solid #d5d5d5;font-family:'Courier New',monospace;font-size:13px;line-height:1.6;box-sizing:border-box;margin-top:4px;resize:vertical;"></textarea>
+
+    <div style="display:flex;gap:10px;margin-top:16px;align-items:center;">
+      <button onclick="savePost()" style="padding:9px 20px;background:#414141;color:white;border:none;font-family:'Courier New',monospace;font-size:12px;text-transform:uppercase;letter-spacing:1px;cursor:pointer;">Save</button>
+      <button onclick="closeEditor()" style="padding:9px 20px;background:white;color:#414141;border:1px solid #d5d5d5;font-family:'Courier New',monospace;font-size:12px;text-transform:uppercase;letter-spacing:1px;cursor:pointer;">Cancel</button>
+      <span id="save-status" style="font-size:12px;color:#888;margin-left:auto;"></span>
+    </div>
+  </div>
+</div>
+
 <script>
-    // Wait for animate function to be available
-    function waitForAnimate() {
-        if (typeof animate === 'function') {
-            animate();
-        } else {
-            setTimeout(waitForAnimate, 100);
-        }
-    }
-
-    waitForAnimate();
-
     // Get the post parameter from URL
     const urlParams = new URLSearchParams(window.location.search);
     const postId = urlParams.get('post');
@@ -156,12 +180,94 @@
         return { frontmatter, content };
     }
 
-    // Load the post when DOM is ready
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', () => loadPost(postId));
-    } else {
-        loadPost(postId);
+    // --- Admin ---
+    let currentMarkdown = '';
+    let _isAdmin = false;
+
+    async function checkAdmin() {
+        try {
+            const res = await fetch('../../admin/check-session.php');
+            const data = await res.json();
+            _isAdmin = data.admin === true;
+        } catch(e) {
+            _isAdmin = false;
+        }
+        if (_isAdmin && postId) {
+            document.getElementById('edit-btn').style.display = 'inline-block';
+        }
     }
+
+    checkAdmin();
+
+    // Store raw markdown after loading so editor can populate it
+    const _origLoadPost = loadPost;
+    async function loadPost(id) {
+        await _origLoadPost(id);
+        if (_isAdmin) {
+            try {
+                const r = await fetch(`${id}.md`);
+                currentMarkdown = await r.text();
+            } catch(e) {}
+        }
+    }
+
+    function openEditor() {
+        const { frontmatter, content } = parseFrontmatter(currentMarkdown);
+        document.getElementById('edit-title').value = frontmatter.title || '';
+        document.getElementById('edit-date').value = frontmatter.date || '';
+        document.getElementById('edit-readtime').value = frontmatter.readTime || '';
+        document.getElementById('edit-content').value = content;
+        document.getElementById('save-status').textContent = '';
+        document.getElementById('edit-modal').style.display = 'block';
+    }
+
+    function closeEditor() {
+        document.getElementById('edit-modal').style.display = 'none';
+    }
+
+    async function savePost() {
+        const title = document.getElementById('edit-title').value.trim();
+        const date = document.getElementById('edit-date').value.trim();
+        const readTime = document.getElementById('edit-readtime').value.trim();
+        const body = document.getElementById('edit-content').value;
+
+        const fullMarkdown = `---\ntitle: ${title}\ndate: ${date}\nreadTime: ${readTime}\n---\n${body}`;
+        const statusEl = document.getElementById('save-status');
+        statusEl.textContent = 'Saving…';
+
+        try {
+            const res = await fetch('../../admin/save-blog.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    action: 'save',
+                    slug: postId,
+                    content: fullMarkdown
+                })
+            });
+            const json = await res.json();
+            if (json.success) {
+                currentMarkdown = fullMarkdown;
+                statusEl.textContent = 'Saved!';
+                // Refresh displayed post
+                const { frontmatter, content } = parseFrontmatter(fullMarkdown);
+                document.getElementById('blog-title').textContent = frontmatter.title;
+                document.getElementById('blog-meta').textContent = `${frontmatter.date} • ${frontmatter.readTime || '5 min read'}`;
+                document.getElementById('blog-body').innerHTML = marked.parse(content);
+                setTimeout(() => closeEditor(), 800);
+            } else {
+                statusEl.textContent = 'Error: ' + (json.error || 'unknown');
+            }
+        } catch(e) {
+            statusEl.textContent = 'Error: ' + e.message;
+        }
+    }
+
+    // Close modal on backdrop click
+    document.getElementById('edit-modal').addEventListener('click', function(e) {
+        if (e.target === this) closeEditor();
+    });
+
 </script>
 
 <footer>

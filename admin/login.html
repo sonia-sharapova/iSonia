@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Login</title>
+  <link rel="icon" href="/images/icons/heart3.png" />
+  <link rel="stylesheet" href="../styles/stylesheet.css">
+  <style>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #f5f5f5;
+      font-family: 'Courier New', monospace;
+    }
+
+    .login-box {
+      background: white;
+      border: 1px solid #d5d5d5;
+      padding: 50px 40px;
+      width: 100%;
+      max-width: 360px;
+    }
+
+    .login-box h2 {
+      margin: 0 0 8px 0;
+      font-size: 18px;
+      font-weight: normal;
+      color: #414141;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    .login-box p {
+      margin: 0 0 30px 0;
+      font-size: 12px;
+      color: #888;
+    }
+
+    .login-box input {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid #d5d5d5;
+      font-family: 'Courier New', monospace;
+      font-size: 14px;
+      box-sizing: border-box;
+      outline: none;
+    }
+
+    .login-box input:focus { border-color: #414141; }
+
+    .login-box button {
+      width: 100%;
+      margin-top: 12px;
+      padding: 10px;
+      background: #414141;
+      color: white;
+      border: none;
+      font-family: 'Courier New', monospace;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      cursor: pointer;
+    }
+
+    .login-box button:hover { background: #222; }
+    .login-box button:disabled { background: #aaa; cursor: default; }
+
+    .error {
+      color: #c0392b;
+      font-size: 12px;
+      margin-top: 10px;
+      min-height: 18px;
+    }
+
+    .back-link {
+      display: block;
+      margin-top: 20px;
+      text-align: center;
+      font-size: 12px;
+      color: #888;
+      text-decoration: none;
+    }
+
+    .back-link:hover { color: #414141; }
+  </style>
+</head>
+<body>
+
+<div class="login-box">
+  <h2>Admin</h2>
+  <p>Enter password to edit site content</p>
+  <input type="password" id="pw" placeholder="password" autocomplete="current-password">
+  <button id="btn" onclick="login()">Enter</button>
+  <div class="error" id="err"></div>
+  <a href="../index.html" class="back-link">← back to site</a>
+</div>
+
+<script>
+  async function login() {
+    const pw = document.getElementById('pw').value;
+    if (!pw) return;
+
+    const btn = document.getElementById('btn');
+    btn.disabled = true;
+    btn.textContent = '…';
+
+    try {
+      const res = await fetch('login.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password: pw })
+      });
+      const data = await res.json();
+
+      if (data.success) {
+        const dest = new URLSearchParams(window.location.search).get('redirect') || '../index.html';
+        window.location.href = dest;
+      } else {
+        document.getElementById('err').textContent = data.error || 'Incorrect password.';
+        btn.disabled = false;
+        btn.textContent = 'Enter';
+      }
+    } catch (e) {
+      document.getElementById('err').textContent = 'Could not reach server.';
+      btn.disabled = false;
+      btn.textContent = 'Enter';
+    }
+  }
+
+  document.getElementById('pw').addEventListener('keydown', e => {
+    if (e.key === 'Enter') login();
+  });
+</script>
+
+</body>
+</html>
