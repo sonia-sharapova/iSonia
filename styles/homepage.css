@@ -137,7 +137,11 @@
 @media (max-width: 1000px) {
     .msg-btn-col   { display: block; }
     .msg-btn-sidebar { display: none; }
-    .msg-btn { color: #1d60c0; border-color: rgba(29,96,192,0.3); }
+    .msg-btn { color: #1d60c0; border-color: rgba(29,96,192,0.3); width: 100%; float: left; }
+}
+
+@media (max-width: 768px) {
+    .msg-btn { width: 100%; margin-top: 48px; }
 }
 
 /* Navigation Column Styles */
