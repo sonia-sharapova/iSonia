@@ -182,33 +182,21 @@
 
     // --- Admin ---
     let currentMarkdown = '';
-    let _isAdmin = false;
 
-    async function checkAdmin() {
-        try {
-            const res = await fetch('../../admin/check-session.php');
-            const data = await res.json();
-            _isAdmin = data.admin === true;
-        } catch(e) {
-            _isAdmin = false;
-        }
-        if (_isAdmin && postId) {
-            document.getElementById('edit-btn').style.display = 'inline-block';
-        }
-    }
-
-    checkAdmin();
-
-    // Store raw markdown after loading so editor can populate it
-    const _origLoadPost = loadPost;
-    async function loadPost(id) {
-        await _origLoadPost(id);
-        if (_isAdmin) {
-            try {
-                const r = await fetch(`${id}.md`);
-                currentMarkdown = await r.text();
-            } catch(e) {}
-        }
+    if (postId) {
+        fetch('../../admin/check-session.php')
+            .then(r => r.json())
+            .then(data => {
+                if (data.admin) {
+                    document.getElementById('edit-btn').style.display = 'inline-block';
+                    // Store raw markdown for the editor
+                    fetch(`${postId}.md`)
+                        .then(r => r.text())
+                        .then(md => { currentMarkdown = md; })
+                        .catch(() => {});
+                }
+            })
+            .catch(() => {});
     }
 
     function openEditor() {
