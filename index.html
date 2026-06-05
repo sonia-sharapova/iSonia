@@ -252,44 +252,7 @@
 
       <div class="blog-section">
         <h2 class="blog-title">Recent Thoughts</h2>
-
-        <!-- Blog Post 1 -->
-        <a href="creations/blogs/entry.html?post=archive" style="text-decoration:none">
-          <div class="blog-entry" id="post-1">
-            <div class="blog-entry-header">
-              <h2 class="blog-entry-title">Digital Hoarding</h2>
-              <span class="blog-entry-date">October 14, 2025</span>
-            </div>
-            <p class="blog-entry-excerpt">
-              At which point does archival bleed into hoarding? And is there a difference at all..
-            </p>
-          </div>
-        </a>
-
-        <a href="creations/blogs/entry.html?post=loss" style="text-decoration: none;">
-          <div class="blog-entry" id="post-2">
-            <div class="blog-entry-header">
-              <h2 class="blog-entry-title">Letting Go</h2>
-              <span class="blog-entry-date">October 2025</span>
-            </div>
-            <p class="blog-entry-excerpt">
-              My grief over a computer as a programmer.
-            </p>
-          </div>
-        </a>
-
-        <a href="creations/blogs/entry.html?post=notes" style="text-decoration: none;">
-          <div class="blog-entry" id="post-3">
-            <div class="blog-entry-header">
-              <h2 class="blog-entry-title">Excerpts from my Notes App</h2>
-              <span class="blog-entry-date">2023 - 2025</span>
-            </div>
-            <p class="blog-entry-excerpt">
-              A collection of some of my entries in my Notes App over the years.
-            </p>
-          </div>
-        </a>
-
+        <div id="recent-posts"></div>
         <a href="creations/blogs.html" class="see-all-link">SEE ALL</a>
       </div>
     </div>
@@ -462,6 +425,26 @@
     2026
   </div>
 </footer>
+
+<script>
+  fetch('admin/list-posts.php')
+    .then(r => r.json())
+    .then(posts => {
+      const container = document.getElementById('recent-posts');
+      if (!posts.length) return;
+      container.innerHTML = posts.slice(0, 3).map(p => `
+        <a href="creations/blogs/entry.html?post=${p.slug}" style="text-decoration:none">
+          <div class="blog-entry">
+            <div class="blog-entry-header">
+              <h2 class="blog-entry-title">${p.title}</h2>
+              <span class="blog-entry-date">${p.date}</span>
+            </div>
+            ${p.excerpt ? `<p class="blog-entry-excerpt">${p.excerpt}</p>` : ''}
+          </div>
+        </a>`).join('');
+    })
+    .catch(() => {});
+</script>
 
 </body>
 </html>s

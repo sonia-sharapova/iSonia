@@ -45,46 +45,8 @@
 
     <!-- Main Blog Content -->
     <div class="blog-main">
-        <div class="blog-list">
-
-            <!-- Blog Post 1 -->
-            <a href="blogs/entry.html?post=archive" style="text-decoration:none">
-                <div class="blog-entry" id="post-1">
-                    <div class="blog-entry-header">
-                        <h2 class="blog-entry-title">Digital Hoarding</h2>
-                        <span class="blog-entry-date">October 14, 2025</span>
-                    </div>
-                    <p class="blog-entry-excerpt">
-                        At which point does archival bleed into hoarding? And is there a difference at all..
-                    </p>
-                </div>
-            </a>
-
-            <!-- Blog Post 2 -->
-            <a href="blogs/entry.html?post=loss" style="text-decoration:none">
-                <div class="blog-entry" id="post-2">
-                    <div class="blog-entry-header">
-                        <h2 class="blog-entry-title">Letting Go</h2>
-                        <span class="blog-entry-date">October 2025</span>
-                    </div>
-                    <p class="blog-entry-excerpt">
-                        My grief over a computer as a programmer.
-                    </p>
-                </div>
-            </a>
-
-            <!-- Blog Post 3 -->
-            <a href="blogs/entry.html?post=notes" style="text-decoration:none">
-                <div class="blog-entry" id="post-3">
-                    <div class="blog-entry-header">
-                        <h2 class="blog-entry-title">Excerpts from my Notes App</h2>
-                        <span class="blog-entry-date">2023 - 2025</span>
-                    </div>
-                    <p class="blog-entry-excerpt">
-                        A collection of some of my entries in my Notes App over the years.
-                    </p>
-                </div>
-            </a>
+        <div class="blog-list" id="blog-list">
+            <p style="color:#888;font-family:'Courier New',monospace;font-size:13px;">Loading posts…</p>
         </div>
     </div>
 </div>
@@ -129,6 +91,27 @@
 
 <script>
     animate();
+
+    // Load all posts dynamically
+    fetch('../admin/list-posts.php')
+        .then(r => r.json())
+        .then(posts => {
+            const list = document.getElementById('blog-list');
+            if (!posts.length) { list.innerHTML = '<p style="color:#888;font-family:\'Courier New\',monospace;font-size:13px;">No posts yet.</p>'; return; }
+            list.innerHTML = posts.map(p => `
+                <a href="blogs/entry.html?post=${p.slug}" style="text-decoration:none">
+                    <div class="blog-entry">
+                        <div class="blog-entry-header">
+                            <h2 class="blog-entry-title">${p.title}</h2>
+                            <span class="blog-entry-date">${p.date}</span>
+                        </div>
+                        ${p.excerpt ? `<p class="blog-entry-excerpt">${p.excerpt}</p>` : ''}
+                    </div>
+                </a>`).join('');
+        })
+        .catch(() => {
+            document.getElementById('blog-list').innerHTML = '<p style="color:#888;">Could not load posts.</p>';
+        });
 
     fetch('../admin/check-session.php')
         .then(r => r.json())
