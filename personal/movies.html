@@ -6,7 +6,6 @@
     <link rel="icon" href="/images/icons/heart3.png" />
     <link rel="stylesheet" href="../styles/stylesheet.css">
     <style>
-
         .content {
             display: grid;
             grid-template-columns: 2fr 1fr;
@@ -27,6 +26,7 @@
             aspect-ratio: 2/3;
             cursor: pointer;
             transition: opacity 0.3s;
+            position: relative;
         }
 
         .thumbnail img {
@@ -36,16 +36,34 @@
             border: 1px solid #666666;
         }
 
-        .thumbnail:hover {
-            opacity: 0.7;
+        .thumbnail:hover { opacity: 0.7; }
+
+        /* Admin edit overlay */
+        .thumb-edit-btn {
+            display: none;
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            border: none;
+            font-size: 12px;
+            padding: 3px 6px;
+            cursor: pointer;
+            z-index: 10;
+            line-height: 1;
         }
+
+        body.admin-mode .thumbnail:hover .thumb-edit-btn { display: block; }
+        body.admin-mode .thumbnail:hover { opacity: 1; }
+        body.admin-mode .thumbnail:hover img { opacity: 0.7; }
 
         .preview-section {
             position: sticky;
             top: 120px;
             background: #f5f5f5;
             padding: 20px;
-            height: calc(100vh - 200px); /* Set fixed height for container */
+            height: calc(100vh - 200px);
             border: 1px solid #666666;
             display: flex;
             flex-direction: column;
@@ -55,13 +73,13 @@
             min-width: 200px;
             width: 100%;
             border: 1px solid #666666;
-            flex-shrink: 0; /* Prevent image from shrinking */
+            flex-shrink: 0;
         }
 
         .movie-info {
             margin-top: 20px;
-            overflow-y: auto; /* Enable vertical scrolling */
-            flex-grow: 1; /* Allow text container to grow */
+            overflow-y: auto;
+            flex-grow: 1;
         }
 
         .movie-title {
@@ -74,26 +92,111 @@
             font-size: 10px;
             line-height: 1.5;
             color: #666;
-            padding-right: 10px; /* Add space for scrollbar */
+            padding-right: 10px;
         }
+
         @media (max-width: 1000px) {
-            .gallery {
-                grid-template-columns: repeat(4, 1fr);
-                gap: 10px;
-            }
-            .content {
-                gap: 20px;
-                margin: 20px auto;
-            }
+            .gallery { grid-template-columns: repeat(4, 1fr); gap: 10px; }
+            .content { gap: 20px; margin: 20px auto; }
         }
         @media (max-width: 760px) {
-            .gallery {
-                width: 100%;
-                grid-template-columns: repeat(2, 1fr);
-            }
+            .gallery { width: 100%; grid-template-columns: repeat(2, 1fr); }
         }
 
+        /* Modal */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.6);
+            z-index: 1000;
+            overflow: auto;
+        }
 
+        .modal-box {
+            background: white;
+            margin: 60px auto;
+            max-width: 460px;
+            width: 95%;
+            padding: 30px;
+            box-sizing: border-box;
+            font-family: 'Courier New', monospace;
+        }
+
+        .modal-box h2 {
+            margin: 0 0 20px;
+            font-size: 15px;
+            font-weight: normal;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .modal-box label {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #666;
+            display: block;
+            margin-bottom: 4px;
+            margin-top: 12px;
+        }
+
+        .modal-box input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #d5d5d5;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            box-sizing: border-box;
+        }
+
+        .modal-box input:focus { outline: none; border-color: #414141; }
+
+        .modal-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            align-items: center;
+        }
+
+        .btn-primary {
+            padding: 9px 18px;
+            background: #414141;
+            color: white;
+            border: none;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+        }
+
+        .btn-secondary {
+            padding: 9px 18px;
+            background: white;
+            color: #414141;
+            border: 1px solid #d5d5d5;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+        }
+
+        .btn-danger {
+            padding: 9px 18px;
+            background: white;
+            color: #c0392b;
+            border: 1px solid #c0392b;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            margin-left: auto;
+        }
+
+        .modal-status { font-size: 12px; color: #888; }
     </style>
 </head>
 <body>
@@ -114,214 +217,50 @@
         <a href="../personal/cards.html" class="sub-nav-item">cards</a>
     </div>
     <h1 class="page-title">FILMS</h1>
-
 </div>
 
 <div class="content">
-    <div class="gallery">
-        <div class="thumbnail">
-            <img src="../images/movies/aeon.jpeg"
-                 alt="Aeon Flux"
-                 data-title="Aeon Flux"
-                 data-description="love love love.">
-        </div>
-        <div class="thumbnail">
-            <img src="../images/movies/battle.jpg"
-                 alt="Battle Royale"
-                 data-title="Battle Royale"
-                 data-description="One of my favourite childhood films. I loved Gogo Yubari in kill bill.">
-        </div>
-        <div class="thumbnail">
-            <img src="../images/movies/lilya.png"
-                 alt="Lilya 4-Ever"
-                 data-title="Lilya 4-Ever"
-                 data-description=":'(">
-        </div>
-        <div class="thumbnail">
-            <img src="../images/movies/alice.jpg"
-                 alt="Alice in the Cities"
-                 data-title="Alice in the Cities 1974"
-                 data-description="The actress in this film looks and acts identical to my childhood best friend. I love Wim Wenders.">
-        </div>
-        <div class="thumbnail">
-            <img src="../images/movies/lilyChouChou.png"
-                 alt="All About Lily Chou Chou"
-                 data-title="All About Lily Chou Chou"
-                 data-description="Perfect original sountrack">
-        </div>
-        <div class="thumbnail">
-            <img src="../images/movies/AaronSwartz.jpg"
-                 alt="Aaron Swartz"
-                 data-title="The Internet’s Own Boy: The Story of Aaron Swartz 2014"
-                 data-description="Haven't had any media leave such an impact on me and my outlook towards my profession as this.
-                                    I find it silly that I’m crying over the death of someone 10 years after their passing, but more so surprised that now is my first time coming across Aaron Swartz and the whirlwind of internet politics at the start of this century. Crazy how relatively recent this was, I wish I was old enough to comprehend it at the time.
-                                    Forever an inspiration, taken far too soon."></div>
-        <div class="thumbnail">
-            <img src="../images/movies/coffeeCig.jpg"
-                 alt="Coffee and Cigarettes"
-                 data-title="Coffee and Cigarettes"
-                 data-description="Craziest casting I've seen to this day, all my favourites in one place!"></div>
-        <div class="thumbnail">
-            <img src="../images/movies/belladonna.jpeg" alt="Belladonna of Sadness" data-title="Belladonna of Sadness"
-                 data-description=""></div>
-        <div class="thumbnail">
-            <img src="../images/movies/loveNpop.jpg"
-                 alt="Love & Pop"
-                 data-title="Love & Pop"
-                 data-description="Tugs at the heart strings the same way as Lilya 4-ever.">
-        </div>
-        <div class="thumbnail">
-            <img src="../images/movies/Haine.jpg"
-                 alt="La Haine"
-                 data-title="La Haine"
-                 data-description="So cool.">
-        </div>
-        <div class="thumbnail">
-            <img src="../images/movies/naked.jpg"
-                 alt="Naked"
-                 data-title="Naked"
-                 data-description="">
-        </div>
-        <div class="thumbnail">
-            <img src="../images/movies/mood.jpg"
-                 alt="In the Mood for Love"
-                 data-title="In the Mood for Love"
-                 data-description="">
-        </div>
-
-        <div class="thumbnail">
-            <img src="../images/movies/100yen.png" alt="100 Yen Love" data-title="100 Yen Love"
-                 data-description="Amazing character arc and better than any manosphere motivation you can get.">
-        </div>
-        <div class="thumbnail">
-            <img src="../images/movies/buffalo66.jpg" alt="Buffalo66" data-title="Buffalo 66"
-                 data-description="Greatest romance movie <3 just kidding I just love Vincent">
-        </div>
-        <div class="thumbnail">
-            <img src="../images/movies/videodrome.jpg" alt="videodrome" data-title="videodrome"
-                 data-description="My only points of reference towards James Woods is this and family guy...">
-        </div>
-        <div class="thumbnail">
-            <img src="../images/movies/superbad.png"
-                 alt="superbad"
-                 data-title="superbad"
-                 data-description="I think of at least one quote from this movie every day for the past 12 years.">
-        </div>
-        <div class="thumbnail">
-            <img src="../images/movies/haru.jpg"
-                 alt="Haru"
-                 data-title="Haru"
-                 data-description="">
-        </div>
-        <div class="thumbnail">
-            <img src="../images/movies/ghostWorld.jpg"
-                 alt="Ghost World"
-                 data-title="Ghost World"
-                 data-description="Basically a live action Daria. In high school I thought it was so me.">
-        </div>
-        <div class="thumbnail">
-            <img src="../images/movies/piecesOfApril.jpg" alt="Pieces Of April" data-title="Pieces Of April"
-                 data-description="I love anything and all Magnetic Fields">
-        </div>
-        <div class="thumbnail">
-            <img src="../images/movies/night.jpg" alt="Night on Earth" data-title="Night on Earth"
-                 data-description="Jim Jarmusch gives me exactly everything I ever need from a movie.">
-        </div>
-        <div class="thumbnail">
-            <img src="../images/movies/landscape.jpg" alt="Landscape Suicide 1986" data-title="Landscape Suicide 1986"
-                 data-description="Benning's films feel like he stole my memories to use as footage.
-                                    It is touching to see the places where I grew up be portrayed in such an purposeful way.
-                                    Deeply nostalgic, almost to the point of discomfort.
-                                    My nose started bleeding 40 minutes in, which only happens to movies that strongly affect me.">
-        </div>
-        <div class="thumbnail">
-            <img src="../images/movies/brakhage.jpg"
-                 alt="Brakhage"
-                 data-title="Brakhage"
-                 data-description="">
-        </div>
-
-        <div class="thumbnail">
-            <img src="../images/movies/spun.jpg" alt="Spun" data-title="Spun"
-                 data-description="I don't usually like dark comedy but this one is so over the top I love it.">
-        </div>
-        <div class="thumbnail">
-            <img src="../images/movies/analife.jpg" alt="Analife" data-title="Analife"
-                 data-description="Such amazing and unique way of showing the story. I have never seen anything like it.">
-        </div>
-        <div class="thumbnail">
-            <img src="../images/movies/kronos.jpg"
-                 alt="Kronos Quartet"
-                 data-title="Kronos Quartet"
-                 data-description="">
-        </div>
-        <div class="thumbnail">
-            <img src="../images/movies/anima.jpg" alt="Anima Mundi" data-title="Anima Mundi"
-                 data-description="My mom would always put this on as kids. I always cried when the flower ate the bee </3.">
-        </div>
-        <div class="thumbnail">
-            <img src="../images/movies/kayonoquatzi.jpg"
-                 alt="Koyaanisqatsi"
-                 data-title="Koyaanisqatsi"
-                 data-description="">
-        </div>
-        <div class="thumbnail">
-            <img src="../images/movies/animatrix.jpg"
-                 alt="Animatrix"
-                 data-title="Animatrix"
-                 data-description="">
-        </div>
-        <div class="thumbnail">
-            <img src="../images/movies/beavers.jpg" alt="Hundreds of Beavers" data-title="Hundreds of Beavers"
-                 data-description="Absolutely genius. Haven't seen my dad chuckle this hard in a while.">
-        </div>
-        <div class="thumbnail">
-            <img src="../images/movies/irony.jpg" alt="The Irony of Fate" data-title="The Irony of Fate"
-                 data-description="New Years classic have to watch every year.">
-        </div>
-        <div class="thumbnail">
-            <img src="../images/movies/theLastAngel.png" alt="The Last Angel of History" data-title="The Last Angel of History"
-                 data-description="Astounded by the inner-workings of Sun Ra's brain.">
-        </div>
-        <div class="thumbnail">
-            <img src="../images/movies/tiemeup.jpeg" alt="Tie Me Up, Tie Me Down" data-title="¡Átame! (Tie Me Up! Tie Me Down!)"
-                 data-description="Yes Almodóvar! Yes Antonio!"></div>
-        <div class="thumbnail">
-            <img src="../images/movies/bridge.jpg" alt="Lovers on a Bridge" data-title="Lovers on a Bridge"
-                 data-description="Went to Paris the summer I watched this. They had a Lars Von Trier marathon at the cinema
-                 and I got to experience being loved on the bridge."></div>
-        <div class="thumbnail">
-            <img src="../images/movies/lainShow.jpg"
-                 alt="Serial Experiments Lain" data-title="Serial Experiments Lain"
-                 data-description="Me!"></div>
-        <div class="thumbnail">
-            <img src="../images/movies/angelsEgg.jpg" alt="Angels Egg" data-title="Angels Egg"
-                 data-description="A masterpiece."></div>
-        <div class="thumbnail">
-            <img src="../images/movies/pingPong.png"
-                 alt="Ping Pong the Animation"
-                 data-title="Ping Pong the Animation"
-                 data-description="">
-        </div>
-        <div class="thumbnail">
-            <img src="../images/movies/paranoiaAgent.jpg" alt="Paranoia Agent" data-title="Paranoia Agent"
-                 data-description=""></div>
-    <div class="thumbnail">
-        <img src="../images/movies/GTO.jpeg" alt="Greatest Teacher Onizuka" data-title="Greatest Teacher Onizuka"
-             data-description="He is good and pure!! Just misunderstood.. He cares when no one else does.."></div>
-
-    <div class="thumbnail">
-            <img src="../images/movies/neonGen.jpeg" alt="Neon Genesis Evangelion" data-title="Neon Genesis Evangelion"
-                 data-description=""></div>
-
-
+    <div class="gallery" id="gallery">
+        <p style="color:#888;font-family:'Courier New',monospace;font-size:13px;">Loading…</p>
     </div>
 
     <div class="preview-section">
-        <img id="preview-img" src="../images/movies/aeon.jpeg" alt="Preview" class="preview-img">
+        <img id="preview-img" src="" alt="Preview" class="preview-img">
         <div class="movie-info">
-            <div class="movie-title" id="movie-title">Aeon Flux</div>
-            <div class="movie-description" id="movie-description">love love love.</div>
+            <div class="movie-title" id="movie-title"></div>
+            <div class="movie-description" id="movie-description"></div>
+        </div>
+    </div>
+</div>
+
+<!-- Edit / Add Movie Modal -->
+<div class="modal-overlay" id="movie-modal">
+    <div class="modal-box">
+        <h2 id="modal-heading">Edit Film</h2>
+
+        <label>Title</label>
+        <input type="text" id="edit-title" placeholder="Film title">
+
+        <label>Director (optional)</label>
+        <input type="text" id="edit-director" placeholder="Director name">
+
+        <label>Description (optional)</label>
+        <textarea id="edit-description" placeholder="A note about this film…" style="width:100%;padding:8px;border:1px solid #d5d5d5;font-family:'Courier New',monospace;font-size:13px;box-sizing:border-box;resize:vertical;height:80px;"></textarea>
+
+        <label>Cover Image</label>
+        <div style="display:flex;gap:8px;align-items:center;margin-bottom:4px;">
+            <input type="file" id="edit-image-file" accept="image/*" style="font-family:'Courier New',monospace;font-size:12px;flex:1;">
+        </div>
+        <input type="text" id="edit-image" placeholder="/images/movies/filename.jpg" style="margin-top:4px;">
+        <div style="margin-top:6px;">
+            <img id="image-preview" src="" alt="" style="display:none;max-height:80px;border:1px solid #d5d5d5;">
+        </div>
+
+        <div class="modal-actions">
+            <button class="btn-primary" onclick="saveMovie()">Save</button>
+            <button class="btn-secondary" onclick="closeModal()">Cancel</button>
+            <span class="modal-status" id="modal-status"></span>
+            <button class="btn-danger" id="delete-btn" onclick="deleteMovie()">Delete</button>
         </div>
     </div>
 </div>
@@ -332,26 +271,207 @@
         <a href="https://www.linkedin.com/in/sonia-sharapova/">LinkedIn</a>|
         <a href="https://www.instagram.com/sonia.s.ru/">Instagram</a>
     </div>
-
-    <div>
-        Contact Links<br>
-        2026
-    </div>
+    <div>Contact Links<br>2026</div>
 </footer>
+
 <script>
-    const thumbnails = document.querySelectorAll('.thumbnail');
+    let movies = [];
+    let editingIndex = -1;
+
     const previewImg = document.getElementById('preview-img');
     const movieTitle = document.getElementById('movie-title');
     const movieDescription = document.getElementById('movie-description');
 
-    thumbnails.forEach(thumb => {
-        thumb.addEventListener('click', () => {
-            const img = thumb.querySelector('img');
-            previewImg.src = img.src;
-            movieTitle.textContent = img.dataset.title;
-            movieDescription.textContent = img.dataset.description;
+    fetch('../data/movies.json')
+        .then(r => r.json())
+        .then(data => {
+            movies = data;
+            renderGallery();
+            if (movies.length) showPreview(0);
+        })
+        .catch(() => {
+            document.getElementById('gallery').innerHTML = '<p style="color:#888;">Could not load films.</p>';
         });
+
+    function renderGallery() {
+        const gallery = document.getElementById('gallery');
+        gallery.innerHTML = movies.map((m, i) => `
+            <div class="thumbnail" onclick="showPreview(${i})">
+                <img src="${m.image}" alt="${escHtml(m.title)}" loading="lazy">
+                <button class="thumb-edit-btn" onclick="event.stopPropagation(); openEdit(${i})">✎</button>
+            </div>`).join('');
+
+        if (document.body.classList.contains('admin-mode')) appendAddButton();
+    }
+
+    function showPreview(i) {
+        const m = movies[i];
+        previewImg.src = m.image;
+        previewImg.alt = m.title;
+        movieTitle.textContent = m.title;
+        movieDescription.innerHTML = (m.director ? `<em>${escHtml(m.director)}</em><br><br>` : '')
+            + (m.description ? escHtml(m.description) : '');
+    }
+
+    // --- Admin ---
+    fetch('../admin/check-session.php')
+        .then(r => r.json())
+        .then(data => {
+            if (data.admin) {
+                document.body.classList.add('admin-mode');
+                appendAddButton();
+            }
+        })
+        .catch(() => {});
+
+    function appendAddButton() {
+        if (document.getElementById('add-movie-btn')) return;
+        const btn = document.createElement('button');
+        btn.id = 'add-movie-btn';
+        btn.textContent = '+ Add Film';
+        btn.onclick = openAdd;
+        btn.style.cssText = 'position:fixed;bottom:30px;right:30px;padding:10px 18px;background:#414141;color:white;border:none;font-family:"Courier New",monospace;font-size:12px;text-transform:uppercase;letter-spacing:1px;cursor:pointer;z-index:500;';
+        document.body.appendChild(btn);
+    }
+
+    function openEdit(i) {
+        editingIndex = i;
+        const m = movies[i];
+        document.getElementById('modal-heading').textContent = 'Edit Film';
+        document.getElementById('edit-title').value = m.title;
+        document.getElementById('edit-director').value = m.director || '';
+        document.getElementById('edit-description').value = m.description || '';
+        document.getElementById('edit-image').value = m.image;
+        document.getElementById('edit-image-file').value = '';
+        setImagePreview(m.image);
+        document.getElementById('modal-status').textContent = '';
+        document.getElementById('delete-btn').style.display = 'inline-block';
+        document.getElementById('movie-modal').style.display = 'block';
+    }
+
+    function openAdd() {
+        editingIndex = -1;
+        document.getElementById('modal-heading').textContent = 'Add Film';
+        document.getElementById('edit-title').value = '';
+        document.getElementById('edit-director').value = '';
+        document.getElementById('edit-description').value = '';
+        document.getElementById('edit-image').value = '';
+        document.getElementById('edit-image-file').value = '';
+        setImagePreview('');
+        document.getElementById('modal-status').textContent = '';
+        document.getElementById('delete-btn').style.display = 'none';
+        document.getElementById('movie-modal').style.display = 'block';
+    }
+
+    function closeModal() {
+        document.getElementById('movie-modal').style.display = 'none';
+    }
+
+    function setImagePreview(src) {
+        const preview = document.getElementById('image-preview');
+        if (src) { preview.src = src; preview.style.display = 'block'; }
+        else { preview.src = ''; preview.style.display = 'none'; }
+    }
+
+    document.getElementById('edit-image-file').addEventListener('change', function() {
+        if (this.files[0]) {
+            setImagePreview(URL.createObjectURL(this.files[0]));
+            document.getElementById('edit-image').value = '';
+        }
     });
+
+    document.getElementById('edit-image').addEventListener('input', function() {
+        if (this.value.trim()) {
+            setImagePreview(this.value.trim());
+            document.getElementById('edit-image-file').value = '';
+        }
+    });
+
+    async function saveMovie() {
+        const title = document.getElementById('edit-title').value.trim();
+        const director = document.getElementById('edit-director').value.trim();
+        const description = document.getElementById('edit-description').value.trim();
+        const imagePathInput = document.getElementById('edit-image').value.trim();
+        const fileInput = document.getElementById('edit-image-file');
+        const status = document.getElementById('modal-status');
+
+        if (!title) { status.textContent = 'Title is required.'; return; }
+
+        status.textContent = 'Saving…';
+
+        let imagePath = imagePathInput;
+        if (fileInput.files[0]) {
+            imagePath = await uploadImage(fileInput.files[0]);
+            if (!imagePath) return;
+        }
+
+        if (!imagePath) { status.textContent = 'Please provide an image.'; return; }
+
+        if (editingIndex >= 0) {
+            movies[editingIndex] = { title, director, image: imagePath, description };
+        } else {
+            movies.push({ title, director, image: imagePath, description });
+        }
+
+        const ok = await persistMovies();
+        if (ok) {
+            renderGallery();
+            showPreview(editingIndex >= 0 ? editingIndex : movies.length - 1);
+            setTimeout(closeModal, 500);
+        }
+    }
+
+    async function deleteMovie() {
+        if (editingIndex < 0 || !confirm(`Remove "${movies[editingIndex].title}"?`)) return;
+        movies.splice(editingIndex, 1);
+        const ok = await persistMovies();
+        if (ok) {
+            renderGallery();
+            if (movies.length) showPreview(0);
+            closeModal();
+        }
+    }
+
+    async function uploadImage(file) {
+        const status = document.getElementById('modal-status');
+        const formData = new FormData();
+        formData.append('image', file);
+        formData.append('type', 'movies');
+        try {
+            const res = await fetch('../admin/upload-image.php', { method: 'POST', body: formData });
+            const data = await res.json();
+            if (data.success) return data.path;
+            status.textContent = 'Upload error: ' + (data.error || 'unknown');
+        } catch(e) {
+            status.textContent = 'Upload failed: ' + e.message;
+        }
+        return null;
+    }
+
+    async function persistMovies() {
+        const status = document.getElementById('modal-status');
+        try {
+            const res = await fetch('../admin/save-movies.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(movies)
+            });
+            const data = await res.json();
+            if (data.success) { status.textContent = 'Saved!'; return true; }
+            status.textContent = 'Error: ' + (data.error || 'unknown');
+        } catch(e) {
+            status.textContent = 'Error: ' + e.message;
+        }
+        return false;
+    }
+
+    document.getElementById('movie-modal').addEventListener('click', function(e) {
+        if (e.target === this) closeModal();
+    });
+
+    function escHtml(s) {
+        return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
 </script>
 </body>
 </html>
