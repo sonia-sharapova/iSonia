@@ -8,6 +8,7 @@ if (empty($_SESSION['admin'])) {
 }
 
 define('BLOGS_PATH', __DIR__ . '/../creations/blogs/');
+define('POSTS_JSON', __DIR__ . '/../data/posts.json');
 
 $input = json_decode(file_get_contents('php://input'), true);
 $action = $input['action'] ?? '';
@@ -29,28 +30,54 @@ if ($action === 'save') {
     }
 
     if (file_put_contents($path, $content) !== false) {
+        rebuildPostsJson();
         echo json_encode(['success' => true]);
     } else {
         echo json_encode(['success' => false, 'error' => 'Could not write file']);
     }
 
-} elseif ($action === 'list') {
+} else {
+    echo json_encode(['success' => false, 'error' => 'Unknown action']);
+}
+
+function rebuildPostsJson() {
     $files = glob(BLOGS_PATH . '*.md');
     $posts = [];
     foreach ($files as $file) {
         $raw = file_get_contents($file);
         $slug = basename($file, '.md');
         $fm = [];
-        if (preg_match('/^---\n(.*?)\n---/s', $raw, $m)) {
+        $body = $raw;
+
+        if (preg_match('/^---\n(.*?)\n---\n?([\s\S]*)/s', $raw, $m)) {
             foreach (explode("\n", $m[1]) as $line) {
                 [$k, $v] = array_pad(explode(':', $line, 2), 2, '');
                 if (trim($k)) $fm[trim($k)] = trim($v);
             }
+            $body = trim($m[2]);
         }
-        $posts[] = ['slug' => $slug, 'title' => $fm['title'] ?? $slug, 'date' => $fm['date'] ?? ''];
-    }
-    echo json_encode(['success' => true, 'posts' => $posts]);
 
-} else {
-    echo json_encode(['success' => false, 'error' => 'Unknown action']);
+        $excerpt = '';
+        foreach (explode("\n", $body) as $line) {
+            $line = trim($line);
+            if ($line && $line[0] !== '#' && $line[0] !== '>') {
+                $excerpt = $line;
+                break;
+            }
+        }
+        $excerpt = preg_replace('/\[([^\]]+)\]\([^\)]+\)/', '$1', $excerpt);
+        $excerpt = preg_replace('/[*_]{1,2}([^*_]+)[*_]{1,2}/', '$1', $excerpt);
+        if (strlen($excerpt) > 140) $excerpt = substr($excerpt, 0, 137) . '…';
+
+        $posts[] = [
+            'slug'     => $slug,
+            'title'    => $fm['title'] ?? $slug,
+            'date'     => $fm['date'] ?? '',
+            'readTime' => $fm['readTime'] ?? '',
+            'excerpt'  => $excerpt,
+        ];
+    }
+
+    usort($posts, fn($a, $b) => strcmp($b['date'], $a['date']));
+    file_put_contents(POSTS_JSON, json_encode($posts, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
 }

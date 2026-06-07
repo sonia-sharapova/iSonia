@@ -427,7 +427,7 @@
 </footer>
 
 <script>
-  fetch('admin/list-posts.php')
+  fetch('data/posts.json')
     .then(r => r.json())
     .then(posts => {
       const container = document.getElementById('recent-posts');

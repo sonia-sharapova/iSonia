@@ -1,2 +1,7 @@
 .DS_Store
 .claude/worktrees/
+
+# Local dev only — never commit
+admin/config.local.php
+data/backups/
+creations/blogs/backups/

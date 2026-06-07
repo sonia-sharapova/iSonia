@@ -91,7 +91,7 @@
 
 <script>
     // Load all posts dynamically
-    fetch('../admin/list-posts.php')
+    fetch('../data/posts.json')
         .then(r => r.json())
         .then(posts => {
             const list = document.getElementById('blog-list');

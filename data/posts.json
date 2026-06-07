@@ -1,0 +1,30 @@
+[
+  {
+    "slug": "creative-coding",
+    "title": "On Creative Coding",
+    "date": "October 12, 2025",
+    "readTime": "5 min read",
+    "excerpt": "Creative coding sits at a fascinating intersection—where artistic expression meets computational thinking, where constraints breed innovation."
+  },
+  {
+    "slug": "archive",
+    "title": "Digital Hoarding",
+    "date": "October 2025",
+    "readTime": "Observation",
+    "excerpt": "I recently came across a recurring problem: the tabs on my Safari app maxed out.. at 500 tabs."
+  },
+  {
+    "slug": "loss",
+    "title": "Letting Go",
+    "date": "October 2025",
+    "readTime": "Personal",
+    "excerpt": "Sunday, September 15th, 2024. A beautiful day in my new neighborhood, and a beautiful new farmers market for my roomie and me to explore."
+  },
+  {
+    "slug": "notes",
+    "title": "Excerpts from my Notes App",
+    "date": "2023-2025",
+    "readTime": "Archival",
+    "excerpt": "A collection of entries from my Notes App over the years."
+  }
+]

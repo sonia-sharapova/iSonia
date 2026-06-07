@@ -1,6 +1,10 @@
 <?php
 session_start();
-require __DIR__ . '/config.php';
+if (file_exists(__DIR__ . '/config.local.php')) {
+    require __DIR__ . '/config.local.php';
+} else {
+    require __DIR__ . '/config.php';
+}
 
 header('Content-Type: application/json');
 
