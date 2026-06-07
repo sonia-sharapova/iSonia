@@ -58,6 +58,85 @@
       color: #881010
     }
 
+    .contact-section {
+      margin-top: 40px;
+    }
+
+    .project-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      justify-content: center;
+      width: 100%;
+      margin: 0 auto 20px;
+    }
+
+    .project-item {
+      flex: 1;
+      text-align: center;
+      min-width: 180px;
+      padding: 10px;
+      border: 1px solid rgba(154, 152, 152, 0.47);
+      border-radius: 5px;
+      transition: transform 0.2s, box-shadow 0.2s;
+      background-color: white;
+    }
+
+    .project-item:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 5px 15px rgb(210, 245, 250);
+    }
+
+    .project-number {
+      font-size: 18px;
+      color: #666;
+      margin-bottom: 10px;
+    }
+
+    .project-thumb {
+      display: flex;
+      width: 90px;
+      height: 90px;
+      margin: 15px auto;
+      align-items: center;
+      justify-content: center;
+      background: #f8f8f8;
+      border-radius: 50%;
+      padding: 10px;
+    }
+
+    .project-thumb img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+    }
+
+    .project-info {
+      text-align: center;
+    }
+
+    .project-info h3 {
+      margin: 0;
+      font-size: 24px;
+      font-weight: 500;
+    }
+
+    .project-info p {
+      color: #666;
+      font-size: 18px;
+      margin: 10px 0;
+    }
+
+    .project-info a {
+      text-decoration: none;
+      color: inherit;
+      display: block;
+    }
+
+    .project-text {
+      display: contents;
+    }
+
     @media only screen and (max-width: 768px) {
       .content {
         padding: 0 10px;
@@ -90,6 +169,65 @@
       #info {
         line-height: 20px;
       }
+
+      .project-list {
+        flex-direction: column;
+        gap: 5px;
+        max-width: 500px;
+      }
+
+      .project-item {
+        width: 100%;
+        height: auto;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        text-align: left;
+        padding: 5px;
+        margin: 0;
+      }
+
+      .project-number {
+        display: none;
+      }
+
+      .project-info {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        gap: 15px;
+        margin: 0 10px 0 15px;
+        text-align: left;
+      }
+
+      .project-text {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        gap: 5px;
+      }
+
+      .project-info h3 {
+        font-size: 20px;
+        margin: 0;
+      }
+
+      .project-info p {
+        font-size: 18px;
+        margin: 0;
+        color: #888;
+      }
+
+      .project-info a {
+        flex-shrink: 0;
+      }
+
+      .project-thumb {
+        width: 60px;
+        height: 60px;
+        margin: 0;
+      }
     }
 
   </style>
@@ -97,10 +235,10 @@
 <body>
 <nav class="navigation">
   <a href="../index.html" class="nav-item">HOME</a>
-  <a href="../navigation/resources.html" class="nav-item">RESOURCES</a>
+  <a href="../creations/projects.html" class="nav-item">PROJECTS</a>
   <a href="../navigation/portfolio.html" class="nav-item">PORTFOLIO</a>
+  <a href="../navigation/resources.html" class="nav-item">RESOURCES</a>
   <a href="../navigation/about.html" class="nav-item">ABOUT</a>
-  <a href="../navigation/contact.html" class="nav-item">CONTACT</a>
 </nav>
 
 <div class="title-container">
@@ -162,9 +300,87 @@
       B.S. Computer Science and Biology, McGill University.
     </p>
   </div>
-  <p>
 
-  </p>
+  <div class="contact-section" id="contact">
+    <hr>
+    <h2 style="font-family: 'IBM Plex Mono', monospace; font-weight: normal; font-size: 25px; margin-bottom: 20px;">Contact</h2>
+    <div class="project-list">
+      <div class="project-item">
+        <div class="project-number">~~~</div>
+        <div class="project-info">
+          <div class="project-text">
+            <h3>GitHub</h3>
+            <p>sonia-sharapova</p>
+          </div>
+          <a href="https://github.com/sonia-sharapova" target="_blank" rel="noopener noreferrer">
+            <div class="project-thumb">
+              <img src="../images/icons/git.png" alt="GitHub">
+            </div>
+          </a>
+        </div>
+      </div>
+      <div class="project-item">
+        <div class="project-number">~~~</div>
+        <div class="project-info">
+          <div class="project-text">
+            <h3>LinkedIn</h3>
+            <p>sonia-sharapova</p>
+          </div>
+          <a href="https://www.linkedin.com/in/sonia-sharapova/" target="_blank" rel="noopener noreferrer">
+            <div class="project-thumb">
+              <img src="../images/icons/linkme.png" alt="LinkedIn">
+            </div>
+          </a>
+        </div>
+      </div>
+      <div class="project-item">
+        <div class="project-number">~~~</div>
+        <div class="project-info">
+          <div class="project-text">
+            <h3>Email</h3>
+            <p>sonia@soniapolis.com</p>
+          </div>
+          <a href="mailto:sonia@soniapolis.com">
+            <div class="project-thumb">
+              <img src="../images/icons/email.png" alt="Email">
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <h2 style="font-family: 'IBM Plex Mono', monospace; font-weight: normal; font-size: 20px; text-align: center; margin-bottom: 15px;">Socials</h2>
+    <div class="project-list">
+      <div class="project-item">
+        <div class="project-number">~~~</div>
+        <div class="project-info">
+          <div class="project-text">
+            <h3>Instagram</h3>
+            <p>sonia.s.ru</p>
+          </div>
+          <a href="https://www.instagram.com/sonia.s.ru/" target="_blank" rel="noopener noreferrer">
+            <div class="project-thumb">
+              <img src="../images/icons/insta.png" alt="Instagram">
+            </div>
+          </a>
+        </div>
+      </div>
+      <div class="project-item">
+        <div class="project-number">~~~</div>
+        <div class="project-info">
+          <div class="project-text">
+            <h3>Letterboxd</h3>
+            <p>soniasharapova</p>
+          </div>
+          <a href="https://letterboxd.com/soniasharapova/" target="_blank" rel="noopener noreferrer">
+            <div class="project-thumb">
+              <img src="../images/icons/git.png" alt="Letterboxd">
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <script>

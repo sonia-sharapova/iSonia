@@ -7,19 +7,23 @@ if (empty($_SESSION['admin'])) {
     exit;
 }
 
-$type = $_POST['type'] ?? 'books'; // 'books' or 'movies' etc.
-$allowedTypes = ['books', 'movies', 'music'];
+$type = $_POST['type'] ?? 'books';
+$allowedTypes = ['books', 'movies', 'music', 'albums'];
 if (!in_array($type, $allowedTypes)) {
     echo json_encode(['success' => false, 'error' => 'Invalid type']);
     exit;
 }
 
-if (empty($_FILES['image'])) {
+// Accept field name 'image' (books/movies/music) or 'file' (photos)
+$file = null;
+if (!empty($_FILES['image'])) {
+    $file = $_FILES['image'];
+} elseif (!empty($_FILES['file'])) {
+    $file = $_FILES['file'];
+} else {
     echo json_encode(['success' => false, 'error' => 'No file uploaded']);
     exit;
 }
-
-$file = $_FILES['image'];
 
 if ($file['error'] !== UPLOAD_ERR_OK) {
     echo json_encode(['success' => false, 'error' => 'Upload error ' . $file['error']]);

@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sonia's Photos</title>
+  <link rel="icon" href="/images/icons/heart3.png" />
+  <link rel="stylesheet" href="styles/stylesheet.css">
+  <style>
+    body { padding-top: 80px; }
+
+    .page-wrap {
+      width: 82%;
+      margin: 0 auto;
+      padding: 30px 0 80px;
+    }
+
+    /* ── Page header ── */
+    .page-header {
+      margin-bottom: 36px;
+      border-bottom: 1px solid #ddd;
+      padding-bottom: 14px;
+      display: flex;
+      align-items: baseline;
+      gap: 14px;
+    }
+    .page-header h1 {
+      font-size: 28px;
+      font-weight: 200;
+      color: #555;
+      margin: 0;
+      letter-spacing: 0.04em;
+    }
+    .page-header span {
+      font-size: 13px;
+      color: #aaa;
+      letter-spacing: 0.06em;
+    }
+
+    /* ── Admin toolbar ── */
+    .admin-toolbar {
+      display: none;
+      gap: 10px;
+      margin-bottom: 22px;
+      align-items: center;
+    }
+    body.admin-mode .admin-toolbar { display: flex; }
+
+    .admin-btn {
+      background: rgba(210,245,250,0.4);
+      border: 1px solid rgba(143,97,77,0.3);
+      color: #1d60c0;
+      font-family: 'Optima', arial, sans-serif;
+      font-size: 13px;
+      padding: 7px 14px;
+      cursor: pointer;
+      border-radius: 2px;
+      transition: background 0.2s;
+    }
+    .admin-btn:hover { background: #c2e2e787; }
+    .admin-hint {
+      font-size: 12px;
+      color: #bbb;
+      font-style: italic;
+    }
+
+    /* ── Album list ── */
+    .album-block { margin-bottom: 48px; }
+
+    .album-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+    .album-title-link {
+      font-size: 19px;
+      font-weight: 300;
+      color: #444;
+      letter-spacing: 0.03em;
+      cursor: pointer;
+      font-family: 'Optima', arial, sans-serif;
+      text-decoration: none;
+    }
+    .album-title-link:hover { text-decoration: underline; }
+    .album-count { font-size: 12px; color: #bbb; }
+
+    .album-admin-btns { display: none; gap: 6px; margin-left: 4px; }
+    body.admin-mode .album-admin-btns { display: flex; }
+    .album-edit-btn {
+      font-size: 11px;
+      background: rgba(0,80,200,0.12);
+      color: #1d60c0;
+      border: 1px solid rgba(0,80,200,0.25);
+      padding: 3px 8px;
+      cursor: pointer;
+      border-radius: 2px;
+    }
+    .album-edit-btn:hover { background: rgba(0,80,200,0.2); }
+    .album-del-btn {
+      font-size: 11px;
+      background: rgba(200,0,0,0.08);
+      color: #c00;
+      border: 1px solid rgba(200,0,0,0.2);
+      padding: 3px 8px;
+      cursor: pointer;
+      border-radius: 2px;
+    }
+    .album-del-btn:hover { background: rgba(200,0,0,0.18); }
+
+    /* Album preview strip */
+    .album-strip {
+      display: grid;
+      grid-template-columns: repeat(8, 1fr);
+      gap: 3px;
+      cursor: pointer;
+    }
+    .album-strip:hover .album-strip-img img { opacity: 0.84; }
+    .album-strip-img {
+      aspect-ratio: 1;
+      overflow: hidden;
+      background: #eee;
+    }
+    .album-strip-img img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+      animation: none;
+      transition: opacity 0.2s;
+    }
+    .album-desc { font-size: 13px; color: #aaa; margin: 0 0 8px; }
+    .album-see-all {
+      display: inline-block;
+      margin-top: 8px;
+      font-size: 12px;
+      color: #999;
+      letter-spacing: 0.05em;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    .album-see-all:hover { color: #444; }
+
+    /* ── Single album view ── */
+    #album-view { display: none; }
+
+    .album-view-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 22px;
+    }
+    .back-btn {
+      background: none;
+      border: none;
+      font-size: 12px;
+      color: #999;
+      cursor: pointer;
+      padding: 0;
+      letter-spacing: 0.07em;
+      font-family: 'Optima', arial, sans-serif;
+    }
+    .back-btn:hover { color: #333; }
+    .album-view-title {
+      font-size: 21px;
+      font-weight: 200;
+      color: #444;
+      letter-spacing: 0.04em;
+    }
+
+    /* Photo grid */
+    .photo-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 3px;
+    }
+    .photo-cell {
+      position: relative;
+      background: #f0f0f0;
+      cursor: pointer;
+    }
+    .photo-cell img {
+      width: 100%;
+      aspect-ratio: 1;
+      object-fit: cover;
+      display: block;
+      animation: none;
+      transition: opacity 0.2s;
+    }
+    .photo-cell:hover img { opacity: 0.88; }
+
+    /* admin drag state */
+    body.admin-mode .photo-cell { cursor: grab; }
+    body.admin-mode .photo-cell:active { cursor: grabbing; }
+    .photo-cell.drag-over { outline: 2px solid #1d60c0; opacity: 0.7; }
+
+    .photo-meta {
+      padding: 6px 5px 9px;
+      background: #fff;
+    }
+    .photo-meta-title {
+      font-size: 12px;
+      color: #444;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin-bottom: 1px;
+    }
+    .photo-meta-sub { font-size: 11px; color: #aaa; }
+
+    /* admin hover overlay buttons */
+    .photo-admin-btns {
+      display: none;
+      position: absolute;
+      top: 5px; right: 5px;
+      gap: 4px;
+      z-index: 10;
+    }
+    body.admin-mode .photo-cell:hover .photo-admin-btns { display: flex; }
+    .photo-edit-btn {
+      background: rgba(0,0,0,0.6);
+      color: #fff;
+      border: none;
+      font-size: 12px;
+      padding: 4px 7px;
+      cursor: pointer;
+    }
+    .photo-del-btn {
+      background: rgba(180,0,0,0.75);
+      color: #fff;
+      border: none;
+      font-size: 12px;
+      padding: 4px 7px;
+      cursor: pointer;
+    }
+    .photo-edit-btn:hover { background: rgba(0,0,0,0.85); }
+    .photo-del-btn:hover  { background: rgba(180,0,0,1); }
+
+    /* ── Lightbox ── */
+    #lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.9);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+    }
+    #lightbox.active { display: flex; }
+    #lightbox-img {
+      max-width: 88vw;
+      max-height: 86vh;
+      object-fit: contain;
+      animation: none;
+      display: block;
+    }
+    #lightbox-close {
+      position: fixed;
+      top: 20px; right: 26px;
+      color: rgba(255,255,255,0.65);
+      font-size: 26px;
+      cursor: pointer;
+      background: none;
+      border: none;
+    }
+    #lightbox-close:hover { color: #fff; }
+    #lightbox-caption {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: rgba(255,255,255,0.55);
+      font-size: 13px;
+      letter-spacing: 0.05em;
+      text-align: center;
+      white-space: nowrap;
+    }
+    #lightbox-prev, #lightbox-next {
+      position: fixed;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: rgba(255,255,255,0.45);
+      font-size: 36px;
+      cursor: pointer;
+      padding: 16px 20px;
+      transition: color 0.15s;
+    }
+    #lightbox-prev:hover, #lightbox-next:hover { color: #fff; }
+    #lightbox-prev { left: 0; }
+    #lightbox-next { right: 0; }
+    #lightbox-counter {
+      position: fixed;
+      top: 22px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: rgba(255,255,255,0.4);
+      font-size: 12px;
+      letter-spacing: 0.08em;
+    }
+
+    /* ── Modals ── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.4);
+      z-index: 600;
+      align-items: center;
+      justify-content: center;
+    }
+    .modal-overlay.active { display: flex; }
+    .modal-box {
+      background: #fff;
+      padding: 28px 34px 32px;
+      width: 400px;
+      max-width: 94vw;
+      max-height: 90vh;
+      overflow-y: auto;
+      border: 1px solid #ddd;
+    }
+    .modal-box h3 {
+      font-weight: 300;
+      font-size: 20px;
+      margin: 0 0 18px;
+      color: #444;
+    }
+    .modal-box label {
+      display: block;
+      font-size: 13px;
+      color: #777;
+      margin: 14px 0 4px;
+    }
+    .modal-box input[type=text],
+    .modal-box textarea {
+      width: 100%;
+      box-sizing: border-box;
+      border: 1px solid #ddd;
+      padding: 8px 10px;
+      font-family: 'Optima', arial, sans-serif;
+      font-size: 14px;
+      color: #444;
+      background: #fafafa;
+      outline: none;
+    }
+    .modal-box input[type=text]:focus,
+    .modal-box textarea:focus { border-color: #aac; }
+    .modal-box textarea { resize: vertical; min-height: 58px; }
+    .modal-box input[type=file] { margin-top: 4px; font-size: 13px; }
+    .modal-img-preview {
+      max-height: 100px;
+      max-width: 100%;
+      margin-top: 8px;
+      object-fit: contain;
+      display: none;
+      border: 1px solid #eee;
+    }
+    .modal-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+    }
+    .modal-save-btn {
+      background: rgba(210,245,250,0.5);
+      border: 1px solid rgba(143,97,77,0.35);
+      color: #1d60c0;
+      font-family: 'Optima', arial, sans-serif;
+      font-size: 14px;
+      padding: 9px 22px;
+      cursor: pointer;
+    }
+    .modal-save-btn:hover { background: #c2e2e787; }
+    .modal-cancel-btn {
+      background: none;
+      border: 1px solid #ddd;
+      color: #999;
+      font-family: 'Optima', arial, sans-serif;
+      font-size: 14px;
+      padding: 9px 18px;
+      cursor: pointer;
+    }
+    .modal-cancel-btn:hover { border-color: #aaa; color: #555; }
+    .modal-saving { opacity: 0.6; pointer-events: none; }
+
+    /* ── Responsive ── */
+    @media (max-width: 960px) {
+      .page-wrap { width: 94%; }
+      .album-strip { grid-template-columns: repeat(6, 1fr); }
+      .album-strip-img:nth-child(n+7) { display: none; }
+      .photo-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+    @media (max-width: 640px) {
+      .album-strip { grid-template-columns: repeat(4, 1fr); }
+      .album-strip-img:nth-child(n+5) { display: none; }
+      .photo-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="navigation">
+  <a href="/index.html" class="nav-item">HOME</a>
+  <a href="/creations/projects.html" class="nav-item">PROJECTS</a>
+  <a href="/navigation/portfolio.html" class="nav-item">PORTFOLIO</a>
+  <a href="/navigation/resources.html" class="nav-item">RESOURCES</a>
+  <a href="/navigation/about.html" class="nav-item">ABOUT</a>
+</nav>
+
+<div class="page-wrap">
+
+  <div class="page-header">
+    <h1>Photos</h1>
+    <span id="header-sub"></span>
+  </div>
+
+  <!-- Album list -->
+  <div id="album-list">
+    <div class="admin-toolbar">
+      <button class="admin-btn" id="add-album-btn">+ New Album</button>
+      <span class="admin-hint">drag photos to reorder inside albums</span>
+    </div>
+    <div id="albums-container"></div>
+  </div>
+
+  <!-- Single album view -->
+  <div id="album-view">
+    <div class="album-view-header">
+      <button class="back-btn" id="back-btn">← ALL ALBUMS</button>
+      <span style="color:#ddd;font-size:13px;">|</span>
+      <span class="album-view-title" id="album-view-title"></span>
+      <div class="album-admin-btns" id="album-view-edit-btns" style="margin-left:10px;">
+        <button class="album-edit-btn" id="album-view-edit-btn">✎ edit album</button>
+      </div>
+    </div>
+    <div class="admin-toolbar">
+      <button class="admin-btn" id="add-photo-btn">+ Add Photos</button>
+      <span class="admin-hint">drag to reorder</span>
+    </div>
+    <div class="photo-grid" id="photo-grid"></div>
+  </div>
+
+</div>
+
+<!-- Lightbox -->
+<div id="lightbox">
+  <button id="lightbox-close">✕</button>
+  <button id="lightbox-prev">‹</button>
+  <img id="lightbox-img" src="" alt="">
+  <button id="lightbox-next">›</button>
+  <div id="lightbox-caption"></div>
+  <div id="lightbox-counter"></div>
+</div>
+
+<!-- Album Modal -->
+<div class="modal-overlay" id="album-modal">
+  <div class="modal-box">
+    <h3 id="album-modal-title">New Album</h3>
+    <label>Album name *</label>
+    <input type="text" id="album-name-input" placeholder="e.g. Summer 2024">
+    <label>Description <span style="color:#ccc">(optional)</span></label>
+    <textarea id="album-desc-input" placeholder="A short note about this album…"></textarea>
+    <label>Cover image <span style="color:#ccc">(optional)</span></label>
+    <input type="file" id="album-cover-input" accept="image/*">
+    <img class="modal-img-preview" id="album-cover-preview">
+    <div class="modal-actions">
+      <button class="modal-save-btn" id="album-modal-save">Save</button>
+      <button class="modal-cancel-btn" id="album-modal-cancel">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- Photo Modal -->
+<div class="modal-overlay" id="photo-modal">
+  <div class="modal-box">
+    <h3 id="photo-modal-title">Add Photos</h3>
+    <label id="photo-file-label">Image files <span style="color:#ccc">(select one or many)</span></label>
+    <input type="file" id="photo-file-input" accept="image/*" multiple>
+    <img class="modal-img-preview" id="photo-file-preview">
+    <label>Caption <span style="color:#ccc">(optional)</span></label>
+    <input type="text" id="photo-caption-input" placeholder="e.g. Sunset over the water">
+    <label>Date <span style="color:#ccc">(optional)</span></label>
+    <input type="text" id="photo-date-input" placeholder="e.g. June 2024">
+    <div class="modal-actions">
+      <button class="modal-save-btn" id="photo-modal-save">Save</button>
+      <button class="modal-cancel-btn" id="photo-modal-cancel">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── Config ──────────────────────────────────────────────────────
+const DATA_URL   = 'data/albums.json';
+const SAVE_URL   = 'admin/save-albums.php';
+const UPLOAD_URL = 'admin/upload-image.php';
+
+let albums = [];
+let currentAlbumId = null;
+let lightboxPhotos = [];
+let lightboxIdx = 0;
+let isAdmin = false;
+
+// drag state
+let dragSrc = null;
+
+// ── Init ────────────────────────────────────────────────────────
+async function init() {
+  try {
+    const s = await fetch('admin/check-session.php').then(r => r.json());
+    if (s.admin) { isAdmin = true; document.body.classList.add('admin-mode'); }
+  } catch(e) {}
+
+  try {
+    const r = await fetch(DATA_URL + '?t=' + Date.now());
+    albums = r.ok ? (await r.json()) : [];
+    if (!Array.isArray(albums)) albums = [];
+  } catch(e) { albums = []; }
+
+  renderAlbumList();
+}
+
+// ── Album list ──────────────────────────────────────────────────
+function renderAlbumList() {
+  currentAlbumId = null;
+  document.getElementById('album-list').style.display = 'block';
+  document.getElementById('album-view').style.display  = 'none';
+  document.getElementById('header-sub').textContent =
+    albums.length + ' album' + (albums.length !== 1 ? 's' : '');
+
+  const container = document.getElementById('albums-container');
+  if (!albums.length) {
+    container.innerHTML = '<p style="color:#ccc;font-size:14px;margin-top:28px;">No albums yet' +
+      (isAdmin ? ' — click <strong>+ New Album</strong> to start.' : '.') + '</p>';
+    return;
+  }
+
+  container.innerHTML = albums.map(album => {
+    const photos = album.photos || [];
+    const strip  = photos.slice(0, 8)
+      .map(p => `<div class="album-strip-img"><img src="${p.src}" alt="${esc(p.caption||'')}"></div>`)
+      .join('') ||
+      `<div class="album-strip-img" style="grid-column:1/-1;aspect-ratio:unset;height:110px;
+        display:flex;align-items:center;justify-content:center;color:#ccc;font-size:13px;">
+        No photos yet</div>`;
+
+    return `
+    <div class="album-block" data-id="${album.id}">
+      <div class="album-header">
+        <span class="album-title-link" onclick="openAlbum('${album.id}')">${esc(album.name)}</span>
+        <span class="album-count">${photos.length} photo${photos.length !== 1 ? 's' : ''}</span>
+        <div class="album-admin-btns">
+          <button class="album-edit-btn" onclick="openAlbumModal('${album.id}')">✎ edit</button>
+          <button class="album-del-btn"  onclick="deleteAlbum('${album.id}')">✕ delete</button>
+        </div>
+      </div>
+      ${album.desc ? `<p class="album-desc">${esc(album.desc)}</p>` : ''}
+      <div class="album-strip" onclick="openAlbum('${album.id}')">${strip}</div>
+      ${photos.length > 8 ? `<a class="album-see-all" onclick="openAlbum('${album.id}')">see all ${photos.length} →</a>` : ''}
+    </div>`;
+  }).join('');
+}
+
+// ── Single album ────────────────────────────────────────────────
+function openAlbum(id) {
+  const album = albums.find(a => a.id === id);
+  if (!album) return;
+  currentAlbumId = id;
+
+  document.getElementById('album-list').style.display = 'none';
+  document.getElementById('album-view').style.display  = 'block';
+  document.getElementById('album-view-title').textContent = album.name;
+
+  renderPhotoGrid(album);
+}
+
+function renderPhotoGrid(album) {
+  const photos = album.photos || [];
+  lightboxPhotos = photos.slice(); // live copy for lightbox
+  document.getElementById('header-sub').textContent =
+    photos.length + ' photo' + (photos.length !== 1 ? 's' : '');
+
+  const grid = document.getElementById('photo-grid');
+  if (!photos.length) {
+    grid.innerHTML = '<p style="color:#ccc;font-size:14px;grid-column:1/-1;margin-top:20px;">' +
+      'No photos yet' + (isAdmin ? ' — click <strong>+ Add Photos</strong>.' : '.') + '</p>';
+    return;
+  }
+
+  grid.innerHTML = photos.map((p, idx) => `
+    <div class="photo-cell" data-idx="${idx}" data-id="${p.id}"
+         onclick="cellClick(event,${idx})">
+      <img src="${p.src}" alt="${esc(p.caption||'')}">
+      <div class="photo-admin-btns">
+        <button class="photo-edit-btn" onclick="event.stopPropagation();openPhotoModal('${p.id}')">✎</button>
+        <button class="photo-del-btn"  onclick="event.stopPropagation();deletePhoto('${p.id}')">✕</button>
+      </div>
+      ${p.caption || p.date ? `<div class="photo-meta">
+        ${p.caption ? `<div class="photo-meta-title">${esc(p.caption)}</div>` : ''}
+        ${p.date    ? `<div class="photo-meta-sub">${esc(p.date)}</div>` : ''}
+      </div>` : ''}
+    </div>`).join('');
+
+  if (isAdmin) addPhotoDragHandlers();
+}
+
+// click: in admin mode drag handles it; normal mode opens lightbox
+function cellClick(e, idx) {
+  if (isAdmin) return; // admin uses drag — clicks are edit/del buttons only
+  openLightbox(idx);
+}
+
+// ── Drag to reorder photos ──────────────────────────────────────
+function addPhotoDragHandlers() {
+  document.querySelectorAll('#photo-grid .photo-cell').forEach(el => {
+    el.draggable = true;
+    el.addEventListener('dragstart', function(e) {
+      dragSrc = parseInt(this.dataset.idx);
+      e.dataTransfer.effectAllowed = 'move';
+    });
+    el.addEventListener('dragover', function(e) {
+      e.preventDefault();
+      e.dataTransfer.dropEffect = 'move';
+      document.querySelectorAll('#photo-grid .photo-cell').forEach(c => c.classList.remove('drag-over'));
+      this.classList.add('drag-over');
+    });
+    el.addEventListener('dragleave', function() { this.classList.remove('drag-over'); });
+    el.addEventListener('drop', function(e) {
+      e.preventDefault();
+      this.classList.remove('drag-over');
+      const dropIdx = parseInt(this.dataset.idx);
+      if (dragSrc === null || dragSrc === dropIdx) return;
+      const album = albums.find(a => a.id === currentAlbumId);
+      const moved = album.photos.splice(dragSrc, 1)[0];
+      album.photos.splice(dropIdx, 0, moved);
+      renderPhotoGrid(album);
+      persist(true); // silent save
+    });
+    el.addEventListener('dragend', function() {
+      document.querySelectorAll('#photo-grid .photo-cell').forEach(c => c.classList.remove('drag-over'));
+    });
+    // in admin mode, tap opens lightbox (not drag)
+    el.addEventListener('click', function(e) {
+      if (isAdmin && !e.target.closest('.photo-admin-btns')) {
+        openLightbox(parseInt(this.dataset.idx));
+      }
+    });
+  });
+}
+
+// ── Lightbox ────────────────────────────────────────────────────
+function openLightbox(idx) {
+  lightboxIdx = idx;
+  updateLightbox();
+  document.getElementById('lightbox').classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+function updateLightbox() {
+  const p = lightboxPhotos[lightboxIdx];
+  document.getElementById('lightbox-img').src = p.src;
+  const parts = [p.caption, p.date].filter(Boolean);
+  document.getElementById('lightbox-caption').textContent = parts.join('  ·  ');
+  document.getElementById('lightbox-counter').textContent =
+    (lightboxIdx + 1) + ' / ' + lightboxPhotos.length;
+}
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('active');
+  document.body.style.overflow = '';
+}
+document.getElementById('lightbox-close').onclick = closeLightbox;
+document.getElementById('lightbox').addEventListener('click', e => { if (e.target === e.currentTarget) closeLightbox(); });
+document.getElementById('lightbox-prev').onclick = e => {
+  e.stopPropagation();
+  lightboxIdx = (lightboxIdx - 1 + lightboxPhotos.length) % lightboxPhotos.length;
+  updateLightbox();
+};
+document.getElementById('lightbox-next').onclick = e => {
+  e.stopPropagation();
+  lightboxIdx = (lightboxIdx + 1) % lightboxPhotos.length;
+  updateLightbox();
+};
+document.addEventListener('keydown', e => {
+  if (!document.getElementById('lightbox').classList.contains('active')) return;
+  if (e.key === 'Escape')      closeLightbox();
+  if (e.key === 'ArrowLeft')  { lightboxIdx = (lightboxIdx - 1 + lightboxPhotos.length) % lightboxPhotos.length; updateLightbox(); }
+  if (e.key === 'ArrowRight') { lightboxIdx = (lightboxIdx + 1) % lightboxPhotos.length; updateLightbox(); }
+});
+
+// ── Back ────────────────────────────────────────────────────────
+document.getElementById('back-btn').onclick = renderAlbumList;
+document.getElementById('album-view-edit-btn').onclick = () => openAlbumModal(currentAlbumId);
+
+// ── Album modal ─────────────────────────────────────────────────
+let editingAlbumId = null;
+
+document.getElementById('add-album-btn').onclick    = () => openAlbumModal(null);
+document.getElementById('album-modal-cancel').onclick = closeAlbumModal;
+document.getElementById('album-cover-input').addEventListener('change', function() {
+  previewFile(this, 'album-cover-preview');
+});
+
+function openAlbumModal(id) {
+  editingAlbumId = id;
+  const album = id ? albums.find(a => a.id === id) : null;
+  document.getElementById('album-modal-title').textContent = id ? 'Edit Album' : 'New Album';
+  document.getElementById('album-name-input').value = album ? album.name  : '';
+  document.getElementById('album-desc-input').value = album ? (album.desc||'') : '';
+  document.getElementById('album-cover-input').value = '';
+  const prev = document.getElementById('album-cover-preview');
+  if (album && album.cover) { prev.src = album.cover; prev.style.display = 'block'; }
+  else { prev.src = ''; prev.style.display = 'none'; }
+  document.getElementById('album-modal').classList.add('active');
+  setTimeout(() => document.getElementById('album-name-input').focus(), 60);
+}
+function closeAlbumModal() { document.getElementById('album-modal').classList.remove('active'); }
+
+document.getElementById('album-modal-save').onclick = async () => {
+  const name = document.getElementById('album-name-input').value.trim();
+  if (!name) { alert('Album name is required.'); return; }
+
+  const btn = document.getElementById('album-modal-save');
+  btn.textContent = 'Saving…'; btn.classList.add('modal-saving');
+
+  let coverSrc = editingAlbumId ? ((albums.find(a=>a.id===editingAlbumId)||{}).cover||'') : '';
+  const file = document.getElementById('album-cover-input').files[0];
+  if (file) {
+    const fd = new FormData();
+    fd.append('file', file);
+    fd.append('type', 'albums');
+    const up = await fetch(UPLOAD_URL, { method:'POST', body:fd }).then(r=>r.json()).catch(()=>({}));
+    if (up.success) coverSrc = up.path;
+    else if (up.error) { alert('Upload error: ' + up.error); btn.textContent='Save'; btn.classList.remove('modal-saving'); return; }
+  }
+
+  if (editingAlbumId) {
+    const a = albums.find(a=>a.id===editingAlbumId);
+    a.name = name;
+    a.desc = document.getElementById('album-desc-input').value.trim();
+    if (coverSrc) a.cover = coverSrc;
+  } else {
+    albums.push({ id: uid(), name, desc: document.getElementById('album-desc-input').value.trim(), cover: coverSrc, photos: [] });
+  }
+
+  await persist();
+  btn.textContent='Save'; btn.classList.remove('modal-saving');
+  closeAlbumModal();
+
+  if (editingAlbumId && currentAlbumId === editingAlbumId) {
+    document.getElementById('album-view-title').textContent = name;
+  } else {
+    renderAlbumList();
+  }
+};
+
+async function deleteAlbum(id) {
+  const album = albums.find(a=>a.id===id);
+  if (!confirm(`Delete album "${album.name}" and all its photos?\nThis cannot be undone.`)) return;
+  albums = albums.filter(a=>a.id!==id);
+  await persist();
+  renderAlbumList();
+}
+
+// ── Photo modal ─────────────────────────────────────────────────
+let editingPhotoId = null;
+
+document.getElementById('add-photo-btn').onclick     = () => openPhotoModal(null);
+document.getElementById('photo-modal-cancel').onclick = closePhotoModal;
+document.getElementById('photo-file-input').addEventListener('change', function() {
+  // multi-file: preview first file
+  if (this.files[0]) previewFile(this, 'photo-file-preview', true);
+});
+
+function openPhotoModal(id) {
+  editingPhotoId = id;
+  const album = albums.find(a=>a.id===currentAlbumId);
+  const photo = id ? (album.photos||[]).find(p=>p.id===id) : null;
+
+  document.getElementById('photo-modal-title').textContent = id ? 'Edit Photo' : 'Add Photos';
+  document.getElementById('photo-file-label').innerHTML = id
+    ? 'Replace image <span style="color:#ccc">(optional)</span>'
+    : 'Image files <span style="color:#ccc">(select one or many)</span>';
+  document.getElementById('photo-file-input').multiple = !id;
+  document.getElementById('photo-file-input').value = '';
+  document.getElementById('photo-caption-input').value = photo ? (photo.caption||'') : '';
+  document.getElementById('photo-date-input').value    = photo ? (photo.date||'') : '';
+
+  const prev = document.getElementById('photo-file-preview');
+  if (photo) { prev.src = photo.src; prev.style.display = 'block'; }
+  else { prev.src = ''; prev.style.display = 'none'; }
+
+  document.getElementById('photo-modal').classList.add('active');
+  setTimeout(() => document.getElementById('photo-caption-input').focus(), 60);
+}
+function closePhotoModal() { document.getElementById('photo-modal').classList.remove('active'); }
+
+document.getElementById('photo-modal-save').onclick = async () => {
+  const album = albums.find(a=>a.id===currentAlbumId);
+  if (!album) return;
+
+  const files   = document.getElementById('photo-file-input').files;
+  const caption = document.getElementById('photo-caption-input').value.trim();
+  const date    = document.getElementById('photo-date-input').value.trim();
+
+  if (!editingPhotoId && !files.length) { alert('Please select at least one image.'); return; }
+
+  const btn = document.getElementById('photo-modal-save');
+  btn.textContent = 'Saving…'; btn.classList.add('modal-saving');
+
+  if (editingPhotoId) {
+    const photo = album.photos.find(p=>p.id===editingPhotoId);
+    photo.caption = caption;
+    photo.date    = date;
+    if (files[0]) {
+      const fd = new FormData(); fd.append('file', files[0]); fd.append('type', 'albums');
+      const up = await fetch(UPLOAD_URL, {method:'POST',body:fd}).then(r=>r.json()).catch(()=>({}));
+      if (up.success) photo.src = up.path;
+      else if (up.error) { alert('Upload error: ' + up.error); btn.textContent='Save'; btn.classList.remove('modal-saving'); return; }
+    }
+  } else {
+    for (const file of files) {
+      const fd = new FormData(); fd.append('file', file); fd.append('type', 'albums');
+      const up = await fetch(UPLOAD_URL, {method:'POST',body:fd}).then(r=>r.json()).catch(()=>({}));
+      if (!up.success) { alert('Upload error: ' + (up.error||'unknown error')); continue; }
+      album.photos.push({ id: uid(), src: up.path, caption, date });
+    }
+  }
+
+  await persist();
+  btn.textContent = 'Save'; btn.classList.remove('modal-saving');
+  closePhotoModal();
+  renderPhotoGrid(album);
+};
+
+async function deletePhoto(id) {
+  if (!confirm('Remove this photo?')) return;
+  const album = albums.find(a=>a.id===currentAlbumId);
+  album.photos = album.photos.filter(p=>p.id!==id);
+  await persist();
+  renderPhotoGrid(album);
+}
+
+// ── Persist ─────────────────────────────────────────────────────
+async function persist(silent = false) {
+  try {
+    const res = await fetch(SAVE_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(albums)
+    }).then(r=>r.json());
+    if (!res.success && !silent) alert('Save error: ' + (res.error||'unknown'));
+  } catch(e) {
+    if (!silent) alert('Network error — changes not saved.');
+  }
+}
+
+// ── Helpers ──────────────────────────────────────────────────────
+function uid() { return Math.random().toString(36).slice(2,9) + Date.now().toString(36); }
+function esc(s) {
+  return String(s)
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+function previewFile(input, previewId, multi = false) {
+  const prev = document.getElementById(previewId);
+  const file = multi ? input.files[0] : input.files[0];
+  if (!file) { prev.style.display='none'; return; }
+  const reader = new FileReader();
+  reader.onload = e => { prev.src = e.target.result; prev.style.display = 'block'; };
+  reader.readAsDataURL(file);
+}
+
+init();
+</script>
+</body>
+</html>

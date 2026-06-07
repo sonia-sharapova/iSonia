@@ -7,6 +7,8 @@ admin/config.local.php
 # Generated / live-edited on server — don't overwrite on pull
 data/backups/
 creations/blogs/backups/
+# data/albums.json is live-edited on server — run after deploy:
+# git update-index --assume-unchanged data/albums.json
 
 # Binary assets — managed on server directly, not via git
 images/
