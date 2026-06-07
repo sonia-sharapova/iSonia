@@ -56,6 +56,8 @@
     body.admin-mode .thumbnail:hover .thumb-edit-btn { display: block; }
     body.admin-mode .thumbnail:hover { opacity: 1; }
     body.admin-mode .thumbnail:hover img { opacity: 0.7; }
+    body.admin-mode .thumbnail { cursor: grab; }
+    .thumbnail.drag-over { outline: 2px solid #414141; opacity: 0.6; }
 
     .preview-section {
       position: sticky;
@@ -251,7 +253,7 @@
     </div>
     <input type="text" id="edit-image" placeholder="/images/books/filename.jpg" style="margin-top:4px;">
     <div style="margin-top:6px;">
-      <img id="image-preview" src="" alt="" style="display:none;max-height:80px;border:1px solid #d5d5d5;">
+      <img id="image-preview" src="" alt="" style="display:none;max-height:100px;max-width:70px;object-fit:contain;border:1px solid #d5d5d5;">
     </div>
 
     <div class="modal-actions">
@@ -275,6 +277,7 @@
 <script>
   let books = [];
   let editingIndex = -1;
+  let dragSrc = null;
 
   const previewImg = document.getElementById('preview-img');
   const movieTitle = document.getElementById('movie-title');
@@ -295,15 +298,44 @@
   function renderGallery() {
     const gallery = document.getElementById('gallery');
     gallery.innerHTML = books.map((b, i) => `
-      <div class="thumbnail" onclick="showPreview(${i})">
+      <div class="thumbnail" data-index="${i}" onclick="showPreview(${i})">
         <img src="${b.image}" alt="${escHtml(b.title)}" loading="lazy">
         <button class="thumb-edit-btn" onclick="event.stopPropagation(); openEdit(${i})">✎</button>
       </div>`).join('');
 
-    // Add Book button (admin only, appended after render)
     if (document.body.classList.contains('admin-mode')) {
+      addDragHandlers();
       appendAddButton();
     }
+  }
+
+  function addDragHandlers() {
+    document.querySelectorAll('#gallery .thumbnail').forEach(el => {
+      el.draggable = true;
+      el.addEventListener('dragstart', function(e) {
+        dragSrc = parseInt(this.dataset.index);
+        e.dataTransfer.effectAllowed = 'move';
+        setTimeout(() => this.style.opacity = '0.4', 0);
+      });
+      el.addEventListener('dragend', function() {
+        this.style.opacity = '';
+        document.querySelectorAll('#gallery .thumbnail').forEach(t => t.classList.remove('drag-over'));
+      });
+      el.addEventListener('dragover', function(e) {
+        e.preventDefault();
+        document.querySelectorAll('#gallery .thumbnail').forEach(t => t.classList.remove('drag-over'));
+        this.classList.add('drag-over');
+      });
+      el.addEventListener('drop', function(e) {
+        e.preventDefault();
+        const dropTarget = parseInt(this.dataset.index);
+        if (dragSrc === null || dragSrc === dropTarget) return;
+        const item = books.splice(dragSrc, 1)[0];
+        books.splice(dropTarget, 0, item);
+        renderGallery();
+        persistBooks(true);
+      });
+    });
   }
 
   function showPreview(i) {
@@ -453,7 +485,7 @@
     }
   }
 
-  async function persistBooks() {
+  async function persistBooks(silent = false) {
     const status = document.getElementById('modal-status');
     try {
       const res = await fetch('../admin/save-books.php', {
@@ -462,10 +494,10 @@
         body: JSON.stringify(books)
       });
       const data = await res.json();
-      if (data.success) { status.textContent = 'Saved!'; return true; }
-      status.textContent = 'Error: ' + (data.error || 'unknown');
+      if (data.success) { if (!silent) status.textContent = 'Saved!'; return true; }
+      if (!silent) status.textContent = 'Error: ' + (data.error || 'unknown');
     } catch (e) {
-      status.textContent = 'Error: ' + e.message;
+      if (!silent) status.textContent = 'Error: ' + e.message;
     }
     return false;
   }
