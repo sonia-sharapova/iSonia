@@ -21,6 +21,7 @@
             cursor: pointer;
             position: relative;
             transition: transform 0.3s;
+            overflow: visible;
         }
 
         .item:hover { transform: scale(1.05); }
@@ -30,33 +31,31 @@
             height: 100%;
             object-fit: cover;
             border: 1px solid #666666;
+            display: block;
+            animation: none;
         }
 
-        /* Admin overlay */
-        /* Prevent the global img fadeIn animation from creating a stacking
-           context that buries the absolutely-positioned edit button */
-        .item img { animation: none; position: relative; z-index: 0; }
-
+        /* Edit button — shown via JS mouseenter/mouseleave in admin mode */
         .item-edit-btn {
             display: none;
             position: absolute;
-            top: 3px;
-            right: 3px;
-            background: rgba(0,0,0,0.75);
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.38);
             color: white;
             border: none;
-            font-size: 12px;
-            padding: 3px 7px;
+            font-size: 18px;
             cursor: pointer;
-            z-index: 20;
+            z-index: 99;
+            width: 100%;
+            height: 100%;
             line-height: 1;
-            border-radius: 2px;
         }
+        .item-edit-btn:hover { background: rgba(0,0,0,0.52); }
 
-        body.admin-mode .item:hover .item-edit-btn { display: block; }
-        body.admin-mode .item:hover { transform: none; }
-        body.admin-mode .item:hover img { opacity: 0.7; }
-        body.admin-mode .item { cursor: grab; }
+        body.admin-mode .item { cursor: pointer; transform: none !important; }
         .item.drag-over { outline: 2px solid #414141; opacity: 0.6; }
 
         /* Popup description */
@@ -242,21 +241,29 @@
     });
 
     function renderGrid() {
+        const admin = document.body.classList.contains('admin-mode');
         const grid = document.getElementById('grid');
         grid.innerHTML = albums.map((a, i) => `
             <div class="item" data-index="${i}">
                 <img src="${a.image}" alt="${escHtml(a.title)}" loading="lazy">
-                <button class="item-edit-btn" onclick="event.stopPropagation(); openEdit(${i})">✎</button>
+                ${admin ? `<button class="item-edit-btn" onclick="event.stopPropagation(); openEdit(${i})">✎</button>` : ''}
             </div>`).join('');
 
-        // Popup click listeners
-        grid.querySelectorAll('.item').forEach((el, i) => {
-            el.addEventListener('click', () => showPopup(i));
-        });
-
-        if (document.body.classList.contains('admin-mode')) {
+        if (admin) {
+            // Show/hide the overlay button on mouseenter/mouseleave
+            grid.querySelectorAll('.item').forEach((el, i) => {
+                const btn = el.querySelector('.item-edit-btn');
+                el.addEventListener('mouseenter', () => { if (btn) btn.style.display = 'block'; });
+                el.addEventListener('mouseleave', () => { if (btn) btn.style.display = 'none'; });
+                el.addEventListener('click', () => openEdit(i));
+            });
             addDragHandlers();
             appendAddButton();
+        } else {
+            // Normal mode: click opens popup
+            grid.querySelectorAll('.item').forEach((el, i) => {
+                el.addEventListener('click', () => showPopup(i));
+            });
         }
     }
 
