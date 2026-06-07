@@ -242,8 +242,17 @@
     <label>Author</label>
     <input type="text" id="edit-author" placeholder="Author name">
 
-    <label>Image path or URL</label>
-    <input type="text" id="edit-image" placeholder="/images/books/filename.jpg">
+    <label>Description (optional)</label>
+    <textarea id="edit-description" placeholder="A note about this book…" style="width:100%;padding:8px;border:1px solid #d5d5d5;font-family:'Courier New',monospace;font-size:13px;box-sizing:border-box;resize:vertical;height:70px;"></textarea>
+
+    <label>Cover Image</label>
+    <div style="display:flex;gap:8px;align-items:center;margin-bottom:4px;">
+      <input type="file" id="edit-image-file" accept="image/*" style="font-family:'Courier New',monospace;font-size:12px;flex:1;">
+    </div>
+    <input type="text" id="edit-image" placeholder="/images/books/filename.jpg" style="margin-top:4px;">
+    <div style="margin-top:6px;">
+      <img id="image-preview" src="" alt="" style="display:none;max-height:80px;border:1px solid #d5d5d5;">
+    </div>
 
     <div class="modal-actions">
       <button class="btn-primary" onclick="saveBook()">Save</button>
@@ -302,7 +311,7 @@
     previewImg.src = b.image;
     previewImg.alt = b.title;
     movieTitle.textContent = b.title;
-    movieDescription.textContent = b.author;
+    movieDescription.innerHTML = b.author + (b.description ? `<br><br>${escHtml(b.description)}` : '');
   }
 
   // --- Admin ---
@@ -332,7 +341,10 @@
     document.getElementById('modal-heading').textContent = 'Edit Book';
     document.getElementById('edit-title').value = b.title;
     document.getElementById('edit-author').value = b.author;
+    document.getElementById('edit-description').value = b.description || '';
     document.getElementById('edit-image').value = b.image;
+    document.getElementById('edit-image-file').value = '';
+    setImagePreview(b.image);
     document.getElementById('modal-status').textContent = '';
     document.getElementById('delete-btn').style.display = 'inline-block';
     document.getElementById('book-modal').style.display = 'block';
@@ -343,7 +355,10 @@
     document.getElementById('modal-heading').textContent = 'Add Book';
     document.getElementById('edit-title').value = '';
     document.getElementById('edit-author').value = '';
+    document.getElementById('edit-description').value = '';
     document.getElementById('edit-image').value = '';
+    document.getElementById('edit-image-file').value = '';
+    setImagePreview('');
     document.getElementById('modal-status').textContent = '';
     document.getElementById('delete-btn').style.display = 'none';
     document.getElementById('book-modal').style.display = 'block';
@@ -353,27 +368,78 @@
     document.getElementById('book-modal').style.display = 'none';
   }
 
+  function setImagePreview(src) {
+    const preview = document.getElementById('image-preview');
+    if (src) { preview.src = src; preview.style.display = 'block'; }
+    else { preview.src = ''; preview.style.display = 'none'; }
+  }
+
+  // Live preview when file chosen
+  document.getElementById('edit-image-file').addEventListener('change', function() {
+    if (this.files[0]) {
+      const url = URL.createObjectURL(this.files[0]);
+      setImagePreview(url);
+      document.getElementById('edit-image').value = '';
+    }
+  });
+
+  // Live preview when path typed
+  document.getElementById('edit-image').addEventListener('input', function() {
+    if (this.value.trim()) {
+      setImagePreview(this.value.trim());
+      document.getElementById('edit-image-file').value = '';
+    }
+  });
+
   async function saveBook() {
     const title = document.getElementById('edit-title').value.trim();
     const author = document.getElementById('edit-author').value.trim();
-    const image = document.getElementById('edit-image').value.trim();
+    const description = document.getElementById('edit-description').value.trim();
+    const imagePathInput = document.getElementById('edit-image').value.trim();
+    const fileInput = document.getElementById('edit-image-file');
     const status = document.getElementById('modal-status');
 
-    if (!title || !image) { status.textContent = 'Title and image are required.'; return; }
-
-    if (editingIndex >= 0) {
-      books[editingIndex] = { title, author, image };
-    } else {
-      books.push({ title, author, image });
-    }
+    if (!title) { status.textContent = 'Title is required.'; return; }
 
     status.textContent = 'Saving…';
+
+    // Upload file if one was chosen
+    let imagePath = imagePathInput;
+    if (fileInput.files[0]) {
+      imagePath = await uploadImage(fileInput.files[0]);
+      if (!imagePath) return; // error already shown
+    }
+
+    if (!imagePath) { status.textContent = 'Please provide an image.'; return; }
+
+    if (editingIndex >= 0) {
+      books[editingIndex] = { title, author, image: imagePath, description };
+    } else {
+      books.push({ title, author, image: imagePath, description });
+    }
+
     const ok = await persistBooks();
     if (ok) {
       renderGallery();
       showPreview(editingIndex >= 0 ? editingIndex : books.length - 1);
       setTimeout(closeModal, 500);
     }
+  }
+
+  async function uploadImage(file) {
+    const status = document.getElementById('modal-status');
+    const formData = new FormData();
+    formData.append('image', file);
+    formData.append('type', 'books');
+    try {
+      const res = await fetch('../admin/upload-image.php', { method: 'POST', body: formData });
+      const data = await res.json();
+      if (data.success) return data.path;
+      status.textContent = 'Upload error: ' + (data.error || 'unknown');
+    } catch(e) {
+      status.textContent = 'Upload failed: ' + e.message;
+    }
+    return null;
   }
 
   async function deleteBook() {
