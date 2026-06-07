@@ -3,5 +3,10 @@
 
 # Local dev only — never commit
 admin/config.local.php
+
+# Generated / live-edited on server — don't overwrite on pull
 data/backups/
 creations/blogs/backups/
+
+# Delete from server after running once
+admin/setup.php
