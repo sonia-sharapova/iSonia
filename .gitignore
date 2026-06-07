@@ -8,5 +8,8 @@ admin/config.local.php
 data/backups/
 creations/blogs/backups/
 
+# Binary assets — managed on server directly, not via git
+images/
+
 # Delete from server after running once
 admin/setup.php
