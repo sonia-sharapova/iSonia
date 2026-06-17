@@ -1,0 +1,38 @@
+[
+  {
+    "id": "res1",
+    "title": "Resources",
+    "type": "cards",
+    "intro": "",
+    "items": [
+      { "id": "r1a", "href": "./resources/general.html", "title": "GENERAL", "desc": "Search engines, guides, tools, archives" },
+      { "id": "r1b", "href": "./resources/web.html", "title": "WEB", "desc": "Web Design, WebDev, and Graphic Design" },
+      { "id": "r1c", "href": "./resources/opensource.html", "title": "OPEN SOURCE", "desc": "Free software, privacy tools, torrents" },
+      { "id": "r1d", "href": "./resources/technology.html", "title": "TECHNOLOGY", "desc": "Programming, engineering, career resources" }
+    ]
+  },
+  {
+    "id": "res2",
+    "title": "Favourite Media",
+    "type": "cards",
+    "intro": "Links to movies, people, and anything else I like or find interesting.",
+    "items": [
+      { "id": "r2a", "href": "./resources/media.html", "title": "MEDIA", "desc": "Movies, videos, influential people" },
+      { "id": "r2b", "href": "./resources/music.html", "title": "MUSIC", "desc": "Archives, tutorials, community" }
+    ]
+  },
+  {
+    "id": "res3",
+    "title": "Quick Links",
+    "type": "links",
+    "intro": "",
+    "items": [
+      { "id": "r3a", "href": "https://archive.org/web/", "title": "Wayback Machine", "desc": "Web archive" },
+      { "id": "r3b", "href": "https://lainchan.org/", "title": "Lainchan", "desc": "Technology Board" },
+      { "id": "r3c", "href": "https://wiby.me/", "title": "Wiby", "desc": "Search through / find old websites" },
+      { "id": "r3d", "href": "https://www.lookmovie2.to/", "title": "LookMovie", "desc": "Movie Streaming" },
+      { "id": "r3e", "href": "https://landchad.net/", "title": "Land Chad", "desc": "Guides on setting up websites and servers" },
+      { "id": "r3f", "href": "https://humanclock.com/", "title": "Human Clock", "desc": "So cute!" }
+    ]
+  }
+]

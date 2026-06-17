@@ -6,23 +6,85 @@
   <link rel="icon" href="/images/icons/heart3.png" />
   <link rel="stylesheet" href="../styles/stylesheet.css">
   <link rel="stylesheet" href="../styles/categories.css">
-
+  <script src="../scripts/siteStyle/bck.js"></script>
   <style>
-    #background-canvas {
-      position: fixed;
-      top: 30%;
-      left: 0;
-      z-index: -1;
+    #background-canvas { position: fixed; top: 30%; left: 0; z-index: -1; }
+
+    .content { width: 80%; margin: 0 auto 5%; padding: 0 20px; }
+
+    /* ── Admin controls ── */
+    .admin-only { display: none; }
+    body.admin-mode .admin-only { display: inline-flex; }
+
+    .adm-btn {
+      background: none; border: none; cursor: pointer;
+      font-size: 13px; padding: 2px 6px; border-radius: 2px;
+      font-family: 'Optima', arial, sans-serif;
+      min-height: unset !important; min-width: unset !important;
     }
+    .adm-add  { color: #1d60c0; border: 1px solid rgba(0,80,200,0.25); background: rgba(0,80,200,0.06); }
+    .adm-add:hover  { background: rgba(0,80,200,0.14); }
+    .adm-del  { color: #c00; border: 1px solid rgba(200,0,0,0.2); background: rgba(200,0,0,0.05); }
+    .adm-del:hover  { background: rgba(200,0,0,0.14); }
+    .adm-edit { color: #666; border: 1px solid #ddd; }
+    .adm-edit:hover { background: #f0f0f0; }
 
-    .content {
-      width: 80%;
-      margin: 0 auto;
-      margin-bottom: 5%;
-      padding: 0 20px;
+    .section-header-row {
+      display: flex; align-items: center; gap: 10px; margin-bottom: 10px;
     }
+    .section-header-row .section-header { margin-bottom: 0; }
 
+    .item-admin-btns {
+      display: none; gap: 4px; position: absolute; top: 6px; right: 6px;
+    }
+    body.admin-mode .category-card:hover .item-admin-btns,
+    body.admin-mode .subcategory-item:hover .item-admin-btns { display: flex; }
+    .category-card { position: relative; }
+    .subcategory-item { position: relative; }
 
+    .add-section-row {
+      display: none; margin-top: 30px; padding-top: 20px;
+      border-top: 1px dashed #ddd;
+    }
+    body.admin-mode .add-section-row { display: flex; gap: 10px; align-items: center; }
+
+    /* ── Modal ── */
+    .res-modal {
+      display: none; position: fixed; inset: 0;
+      background: rgba(0,0,0,0.4); z-index: 600;
+      align-items: center; justify-content: center;
+    }
+    .res-modal.active { display: flex; }
+    .res-modal-box {
+      background: #fff; padding: 28px 32px 30px;
+      width: 420px; max-width: 94vw;
+      border: 1px solid #ddd;
+    }
+    .res-modal-box h3 { font-weight: 300; font-size: 19px; margin: 0 0 18px; color: #444; }
+    .res-modal-box label { display: block; font-size: 12px; color: #999; margin: 12px 0 3px; }
+    .res-modal-box input, .res-modal-box select, .res-modal-box textarea {
+      width: 100%; box-sizing: border-box;
+      border: 1px solid #ddd; padding: 7px 9px;
+      font-family: 'Optima', arial, sans-serif; font-size: 14px;
+      color: #444; background: #fafafa; outline: none;
+      min-height: unset !important;
+    }
+    .res-modal-box textarea { resize: vertical; min-height: 50px; }
+    .res-modal-actions { display: flex; gap: 10px; margin-top: 18px; }
+    .res-modal-save {
+      background: rgba(210,245,250,0.5); border: 1px solid rgba(143,97,77,0.35);
+      color: #1d60c0; font-family: 'Optima', arial, sans-serif;
+      font-size: 14px; padding: 8px 20px; cursor: pointer;
+      min-height: unset !important;
+    }
+    .res-modal-save:hover { background: #c2e2e787; }
+    .res-modal-cancel {
+      background: none; border: 1px solid #ddd; color: #999;
+      font-family: 'Optima', arial, sans-serif;
+      font-size: 14px; padding: 8px 16px; cursor: pointer;
+      min-height: unset !important;
+    }
+    .res-modal-cancel:hover { border-color: #aaa; color: #555; }
   </style>
 </head>
 <body>
@@ -46,108 +108,232 @@
   <hr>
 </div>
 
-
 <div class="content">
-
-
   <div class="resources-intro">
     <p>
-      My internet library!!  Here are my webpages, guides, and everything else I have collected over the years ^_^ <br><br>
-      Everything from educational resources to hacking tutorials, with fun
-      collections and useful tools to explore.
+      My internet library!! Here are my webpages, guides, and everything else I have collected over the years ^_^<br><br>
+      Everything from educational resources to hacking tutorials, with fun collections and useful tools to explore.
     </p>
-    <!-- <p style="margin-top: 15px;">To contribute feel free to add a link to the community board:</p> -->
   </div>
 
-  <div class="section-header">Resources</div>
-  <div class="category-grid">
-    <a href="./resources/general.html" class="category-card">
-      <div class="category-title">GENERAL</div>
-      <div class="category-count">Search engines, guides, tools, archives</div>
-    </a>
+  <div id="resources-body"></div>
 
-    <a href="./resources/web.html" class="category-card">
-      <div class="category-title">WEB</div>
-      <div class="category-count">Web Design, WebDev, and Graphic Design</div>
-    </a>
-
-    <a href="./resources/opensource.html" class="category-card">
-      <div class="category-title">OPEN SOURCE</div>
-      <div class="category-count">Free software, privacy tools, torrents</div>
-    </a>
-
-    <a href="./resources/technology.html" class="category-card">
-      <div class="category-title">TECHNOLOGY</div>
-      <div class="category-count">Programming, engineering, career resources</div>
-    </a>
-
-
+  <div class="add-section-row">
+    <button class="adm-btn adm-add" onclick="openSectionModal(null)">+ Add Section</button>
   </div>
-
-  <div class="section-header">Favourite Media</div>
-  <div class="resources-intro">
-    <p>
-      Links to movies, people, and anything else I like or find interesting.
-    </p>
-
-  </div>
-  <div class="category-grid">
-
-  <a href="./resources/media.html" class="category-card">
-    <div class="category-title">MEDIA</div>
-    <div class="category-count">Movies, videos, influential people</div>
-  </a>
-
-    <a href="./resources/music.html" class="category-card">
-      <div class="category-title">MUSIC</div>
-      <div class="category-count">Archives, tutorials, community</div>
-    </a>
-  </div>
-
-  <div class="section-header">Quick Links</div>
-
-  <ul class="subcategory-list">
-    <li class="subcategory-item">
-      <a href="https://archive.org/web/" class="subcategory-link">
-        <span><span style="font-weight: bold">Wayback Machine:</span>  Web archive<hr></span>
-      </a>
-    </li>
-    <li class="subcategory-item">
-      <a href="https://lainchan.org/" class="subcategory-link">
-        <span><span style="font-weight: bold">Lainchan:</span>  Technology Board<hr></span>
-      </a>
-    </li>
-    <li class="subcategory-item">
-      <a href="https://wiby.me/" class="subcategory-link">
-        <span><span style="font-weight: bold">Wiby:</span> Search through / find old websites<hr></span>
-      </a>
-    </li>
-    <li class="subcategory-item">
-      <a href="https://www.lookmovie2.to/" class="subcategory-link">
-        <span><span style="font-weight: bold">LookMovie:</span> Movie Streaming<hr></span>
-      </a>
-    </li>
-    <li class="subcategory-item">
-      <a href="https://landchad.net/" class="subcategory-link">
-        <span><span style="font-weight: bold">Land Chad:</span> Guides on setting up websites and servers<hr></span>
-      </a>
-    </li>
-
-    <li class="subcategory-item">
-      <a href="https://humanclock.com/" class="subcategory-link">
-        <span><span style="font-weight: bold">Human Clock:</span> So cute!<hr></span>
-      </a>
-    </li>
-  </ul>
 </div>
 
-<script src="../scripts/siteStyle/bck.js"></script>
+<!-- Item Modal -->
+<div class="res-modal" id="item-modal">
+  <div class="res-modal-box">
+    <h3 id="item-modal-title">Add Item</h3>
+    <label>Title *</label>
+    <input type="text" id="item-title" placeholder="e.g. GitHub">
+    <label>URL *</label>
+    <input type="text" id="item-href" placeholder="https://...">
+    <label>Description</label>
+    <input type="text" id="item-desc" placeholder="Short description">
+    <div class="res-modal-actions">
+      <button class="res-modal-save" id="item-save">Save</button>
+      <button class="res-modal-cancel" onclick="closeItemModal()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- Section Modal -->
+<div class="res-modal" id="section-modal">
+  <div class="res-modal-box">
+    <h3 id="section-modal-title">Add Section</h3>
+    <label>Section Title *</label>
+    <input type="text" id="section-title" placeholder="e.g. Tools">
+    <label>Type</label>
+    <select id="section-type">
+      <option value="cards">Cards (grid)</option>
+      <option value="links">Links (list)</option>
+    </select>
+    <label>Intro text (optional)</label>
+    <textarea id="section-intro" placeholder="Optional description…"></textarea>
+    <div class="res-modal-actions">
+      <button class="res-modal-save" id="section-save">Save</button>
+      <button class="res-modal-cancel" onclick="closeSectionModal()">Cancel</button>
+    </div>
+  </div>
+</div>
+
 <script>
-  // Call animate after bck.js loads and DOM is ready
-  if (typeof animate === 'function') {
-    animate();
+const SAVE_URL = '../admin/save-resources.php';
+const DATA_URL = '../data/resources.json';
+
+let sections = [];
+let isAdmin = false;
+
+// current modal state
+let modalSectionId = null;
+let modalItemId = null;
+
+async function init() {
+  try {
+    const s = await fetch('../admin/check-session.php').then(r => r.json());
+    if (s.admin) { isAdmin = true; document.body.classList.add('admin-mode'); }
+  } catch(e) {}
+
+  try {
+    const r = await fetch(DATA_URL + '?t=' + Date.now());
+    sections = r.ok ? await r.json() : [];
+    if (!Array.isArray(sections)) sections = [];
+  } catch(e) { sections = []; }
+
+  render();
+}
+
+function uid() { return Math.random().toString(36).slice(2,9) + Date.now().toString(36); }
+function esc(s) {
+  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ── Render ───────────────────────────────────────────────────────
+function render() {
+  const body = document.getElementById('resources-body');
+  body.innerHTML = sections.map(sec => renderSection(sec)).join('');
+}
+
+function renderSection(sec) {
+  const items = sec.type === 'cards' ? renderCards(sec) : renderLinks(sec);
+  return `
+    <div class="section-block" data-id="${sec.id}">
+      <div class="section-header-row">
+        <div class="section-header">${esc(sec.title)}</div>
+        <span class="admin-only" style="gap:6px;">
+          <button class="adm-btn adm-add" onclick="openItemModal('${sec.id}',null)">+ Row</button>
+          <button class="adm-btn adm-del" onclick="deleteSection('${sec.id}')">✕ Section</button>
+        </span>
+      </div>
+      ${sec.intro ? `<div class="resources-intro"><p>${esc(sec.intro)}</p></div>` : ''}
+      ${items}
+    </div>`;
+}
+
+function renderCards(sec) {
+  return `<div class="category-grid">` +
+    (sec.items||[]).map(item => `
+      <a href="${esc(item.href)}" class="category-card">
+        <div class="category-title">${esc(item.title)}</div>
+        <div class="category-count">${esc(item.desc)}</div>
+        <span class="item-admin-btns admin-only">
+          <button class="adm-btn adm-edit" onclick="event.preventDefault();openItemModal('${sec.id}','${item.id}')">✎</button>
+          <button class="adm-btn adm-del"  onclick="event.preventDefault();deleteItem('${sec.id}','${item.id}')">✕</button>
+        </span>
+      </a>`).join('') +
+    `</div>`;
+}
+
+function renderLinks(sec) {
+  return `<ul class="subcategory-list">` +
+    (sec.items||[]).map(item => `
+      <li class="subcategory-item">
+        <a href="${esc(item.href)}" class="subcategory-link">
+          <span><span style="font-weight:bold">${esc(item.title)}:</span> ${esc(item.desc)}<hr></span>
+        </a>
+        <span class="item-admin-btns admin-only" style="top:8px;">
+          <button class="adm-btn adm-edit" onclick="openItemModal('${sec.id}','${item.id}')">✎</button>
+          <button class="adm-btn adm-del"  onclick="deleteItem('${sec.id}','${item.id}')">✕</button>
+        </span>
+      </li>`).join('') +
+    `</ul>`;
+}
+
+// ── Delete ───────────────────────────────────────────────────────
+async function deleteSection(id) {
+  if (!confirm('Delete this entire section?')) return;
+  sections = sections.filter(s => s.id !== id);
+  await persist();
+  render();
+}
+
+async function deleteItem(secId, itemId) {
+  if (!confirm('Remove this item?')) return;
+  const sec = sections.find(s => s.id === secId);
+  sec.items = sec.items.filter(i => i.id !== itemId);
+  await persist();
+  render();
+}
+
+// ── Item modal ───────────────────────────────────────────────────
+function openItemModal(secId, itemId) {
+  modalSectionId = secId;
+  modalItemId = itemId;
+  const sec = sections.find(s => s.id === secId);
+  const item = itemId ? sec.items.find(i => i.id === itemId) : null;
+  document.getElementById('item-modal-title').textContent = itemId ? 'Edit Item' : 'Add Item';
+  document.getElementById('item-title').value = item ? item.title : '';
+  document.getElementById('item-href').value  = item ? item.href  : '';
+  document.getElementById('item-desc').value  = item ? item.desc  : '';
+  document.getElementById('item-modal').classList.add('active');
+  setTimeout(() => document.getElementById('item-title').focus(), 60);
+}
+function closeItemModal() { document.getElementById('item-modal').classList.remove('active'); }
+
+document.getElementById('item-save').onclick = async () => {
+  const title = document.getElementById('item-title').value.trim();
+  const href  = document.getElementById('item-href').value.trim();
+  const desc  = document.getElementById('item-desc').value.trim();
+  if (!title || !href) { alert('Title and URL are required.'); return; }
+
+  const sec = sections.find(s => s.id === modalSectionId);
+  if (modalItemId) {
+    const item = sec.items.find(i => i.id === modalItemId);
+    item.title = title; item.href = href; item.desc = desc;
+  } else {
+    sec.items.push({ id: uid(), title, href, desc });
   }
+  await persist();
+  closeItemModal();
+  render();
+};
+
+document.getElementById('item-modal').addEventListener('click', e => { if (e.target === e.currentTarget) closeItemModal(); });
+
+// ── Section modal ─────────────────────────────────────────────────
+function openSectionModal(id) {
+  const sec = id ? sections.find(s => s.id === id) : null;
+  document.getElementById('section-modal-title').textContent = id ? 'Edit Section' : 'Add Section';
+  document.getElementById('section-title').value = sec ? sec.title : '';
+  document.getElementById('section-type').value  = sec ? sec.type  : 'cards';
+  document.getElementById('section-intro').value = sec ? (sec.intro||'') : '';
+  document.getElementById('section-modal').classList.add('active');
+  setTimeout(() => document.getElementById('section-title').focus(), 60);
+}
+function closeSectionModal() { document.getElementById('section-modal').classList.remove('active'); }
+
+document.getElementById('section-save').onclick = async () => {
+  const title = document.getElementById('section-title').value.trim();
+  const type  = document.getElementById('section-type').value;
+  const intro = document.getElementById('section-intro').value.trim();
+  if (!title) { alert('Title is required.'); return; }
+  sections.push({ id: uid(), title, type, intro, items: [] });
+  await persist();
+  closeSectionModal();
+  render();
+};
+
+document.getElementById('section-modal').addEventListener('click', e => { if (e.target === e.currentTarget) closeSectionModal(); });
+
+// ── Persist ───────────────────────────────────────────────────────
+async function persist() {
+  try {
+    const res = await fetch(SAVE_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(sections)
+    }).then(r => r.json());
+    if (!res.success) alert('Save error: ' + (res.error||'unknown'));
+  } catch(e) { alert('Network error — changes not saved.'); }
+}
+
+init();
 </script>
+
+<script>animate();</script>
 
 <footer>
   <div class="socials">
@@ -155,12 +341,7 @@
     <a href="https://www.linkedin.com/in/sonia-sharapova/">LinkedIn</a>|
     <a href="https://www.instagram.com/sonia.s.ru/">Instagram</a>
   </div>
-
-  <div>
-    Contact Links<br>
-    2026
-  </div>
+  <div>Contact Links<br>2026</div>
 </footer>
-
 </body>
 </html>
