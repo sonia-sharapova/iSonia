@@ -18,6 +18,12 @@
   <style>
     #open-contact-modal:hover { filter: brightness(0.9); }
     #mobile-contact-form button[type="submit"]:hover { filter: brightness(0.9); }
+    #admin-link-area a:hover, #admin-link-mobile a:hover { color: #45a049 !important; font-style: italic; }
+    #admin-link-mobile { display: none; }
+    @media (max-width: 1000px) {
+      #admin-link-area { display: none !important; }
+      #admin-link-mobile { display: block !important; }
+    }
 
     #background-canvas {
       position: fixed;
@@ -239,11 +245,11 @@
       </div>
 
       <div class="description" >
-        <h1 style="margin-top: 0">SONIA SHARAPOVA</h1>
-        <p id="note">
+        <h1 style="margin-top: 16px; margin-bottom: 4px;">SONIA SHARAPOVA</h1>
+        <p id="note" style="margin-top: 2px; margin-bottom: 4px;">
           I sent you my http://localhost:3000 please respond<br>
         </p>
-        <p style="margin-bottom: 15px;">
+        <p style="margin-top: 2px; margin-bottom: 15px;">
           My digital archive and space.
           <br>
         </p>
@@ -271,11 +277,16 @@
 
 
       <div class="blog-section">
-        <h2 class="blog-title">Recent Thoughts</h2>
+        <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px;">
+          <h2 class="blog-title" style="margin:0;">Recent Thoughts</h2>
+          <a href="creations/blogs.html" class="see-all-link" style="font-size:12px;margin:0;">SEE ALL</a>
+        </div>
         <div id="recent-posts"></div>
         <a href="creations/blogs.html" class="see-all-link">SEE ALL</a>
       </div>
     </div>
+
+    <div id="admin-link-mobile" style="display:none;margin-top:16px;"></div>
 
   </div>
 
@@ -284,7 +295,8 @@
 
   <div class="right-column">
     <div class="widgets-container">
-      <div id="admin-link-area" style="margin-bottom:24px;text-align:center;"></div>
+      <div id="admin-link-area" style="margin-top:5px;margin-bottom:6px;text-align:center;"></div>
+      <hr style="width:100%;border:none;border-top:1px solid #ddd;margin:0 0 6px;">
       <div class="clock-wrapper">
         <div class="digital-time" id="digitalTime"></div>
         <div class="clock">
@@ -449,15 +461,21 @@
 </footer>
 
 <script>
+  function renderAdminLink(isAdmin) {
+    var text = isAdmin ? 'ADMIN LOGOUT (moi)' : 'ADMIN LOGIN (moi)';
+    var href = isAdmin ? 'admin/logout.php' : 'admin/login.html?redirect=/index.html';
+    var css  = 'font-size:13px;color:#888;text-decoration:none;letter-spacing:0.08em;font-family:Optima,arial,sans-serif;';
+    ['admin-link-area', 'admin-link-mobile'].forEach(function(id) {
+      var area = document.getElementById(id);
+      if (!area) return;
+      var a = document.createElement('a');
+      a.href = href; a.textContent = text; a.style.cssText = css;
+      area.appendChild(a);
+    });
+  }
   fetch('admin/check-session.php').then(r=>r.json()).then(function(d){
-    var area = document.getElementById('admin-link-area');
-    if (!area) return;
-    var a = document.createElement('a');
-    a.href = d.admin ? 'admin/logout.php' : 'admin/login.html?redirect=/index.html';
-    a.textContent = d.admin ? 'ADMIN LOGOUT (moi)' : 'ADMIN LOGIN (moi)';
-    a.style.cssText = 'font-size:11px;color:#ccc;text-decoration:none;letter-spacing:0.08em;font-family:Optima,arial,sans-serif;';
-    area.appendChild(a);
-  }).catch(function(){});
+    renderAdminLink(d.admin);
+  }).catch(function(){ renderAdminLink(false); });
 </script>
 
 <script>

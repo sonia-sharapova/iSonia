@@ -4,6 +4,11 @@
     width: 100%;
 }
 
+/* Homepage blog preview — smaller than the full blog page */
+.blog-section .blog-entry-title  { font-size: 18px !important; }
+.blog-section .blog-entry-excerpt { font-size: 15px !important; }
+.blog-section .blog-entry-date    { font-size: 14px !important; margin-top: -6px !important; }
+
 /* Blog Section Styles */
 .blog-section {
     flex: 1;
@@ -155,7 +160,7 @@
 
 .nav-column-item {
     display: block;
-    padding: 15px 20px;
+    padding: 15px 20px 15px 28px;
     text-decoration: none;
     color: #666666;
     font-size: 18px;
@@ -358,8 +363,8 @@
     }
 
     .nav-column-item:hover {
-        background: #45a049 !important;
-        color: #ffffff !important;
+        background: #fff !important;
+        color: #45a049 !important;
         padding-left: 25px !important;
     }
 
@@ -432,11 +437,9 @@
     }
 
     .see-all-link:hover {
-        background: #45a049;
-        color: #ffffff;
-        padding: 10px 20px;
-        border-radius: 4px;
-        text-decoration: none;
+        background: none;
+        color: #45a049;
+        text-decoration: underline;
     }
 
     /* Contact form container - hide on mobile since modal is used */

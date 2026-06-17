@@ -57,6 +57,10 @@ h2 {
     position: relative;
     padding-bottom: 10px;
     white-space: nowrap;
+    transition: transform 0.2s ease;
+}
+.nav-item:hover {
+    transform: translateY(-3px);
 }
 
 .nav-item::after {
