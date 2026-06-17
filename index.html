@@ -309,6 +309,8 @@
         </div>
       </a>
       -->
+
+      <div id="admin-link-area" style="margin-top:24px;text-align:center;"></div>
     </div>
 
   </div>
@@ -446,7 +448,17 @@
   </div>
 </footer>
 
-<script src="scripts/siteStyle/admin.js"></script>
+<script>
+  fetch('admin/check-session.php').then(r=>r.json()).then(function(d){
+    var area = document.getElementById('admin-link-area');
+    if (!area) return;
+    var a = document.createElement('a');
+    a.href = d.admin ? 'admin/logout.php' : 'admin/login.html?redirect=/index.html';
+    a.textContent = d.admin ? 'ADMIN LOGOUT (moi)' : 'ADMIN LOGIN (moi)';
+    a.style.cssText = 'font-size:11px;color:#ccc;text-decoration:none;letter-spacing:0.08em;font-family:Optima,arial,sans-serif;';
+    area.appendChild(a);
+  }).catch(function(){});
+</script>
 
 <script>
   fetch('data/posts.json')
@@ -469,4 +481,4 @@
 </script>
 
 </body>
-</html>s
+</html>

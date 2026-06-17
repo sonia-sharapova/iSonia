@@ -259,20 +259,6 @@ footer {
     gap: 5px;
 }
 
-#admin-sidebar-btn {
-    position: fixed;
-    bottom: 30px;
-    right: 24px;
-    font-size: 11px;
-    color: #ccc;
-    text-decoration: none;
-    letter-spacing: 0.08em;
-    font-family: 'Optima', arial, sans-serif;
-    writing-mode: vertical-rl;
-    text-orientation: mixed;
-    z-index: 50;
-}
-#admin-sidebar-btn:hover { color: #888; }
 
 footer a {
     color: #666666;
