@@ -29,6 +29,23 @@
     .adm-edit { color: #666; border: 1px solid #ddd; }
     .adm-edit:hover { background: #f0f0f0; }
 
+    /* Inline icon controls */
+    .adm-plus {
+      background: none; border: none; cursor: pointer;
+      color: #4caf50; font-size: 18px; line-height: 1;
+      padding: 0 2px; font-weight: 300;
+      min-height: unset !important; min-width: unset !important;
+    }
+    .adm-plus:hover { color: #2e7d32; }
+    .adm-text-del {
+      background: none; border: none; cursor: pointer;
+      color: #c00; font-size: 11px; letter-spacing: 0.04em;
+      padding: 0; font-family: 'Optima', arial, sans-serif;
+      min-height: unset !important; min-width: unset !important;
+      opacity: 0.7;
+    }
+    .adm-text-del:hover { opacity: 1; text-decoration: underline; }
+
     .section-header-row {
       display: flex; align-items: center; gap: 10px; margin-bottom: 10px;
     }
@@ -203,13 +220,13 @@ function renderSection(sec) {
     <div class="section-block" data-id="${sec.id}">
       <div class="section-header-row">
         <div class="section-header">${esc(sec.title)}</div>
-        <span class="admin-only" style="gap:6px;">
-          <button class="adm-btn adm-add" onclick="openItemModal('${sec.id}',null)">+ Row</button>
-          <button class="adm-btn adm-del" onclick="deleteSection('${sec.id}')">✕ Section</button>
-        </span>
+        <button class="adm-plus admin-only" onclick="openItemModal('${sec.id}',null)" title="Add item">+</button>
       </div>
       ${sec.intro ? `<div class="resources-intro"><p>${esc(sec.intro)}</p></div>` : ''}
       ${items}
+      <div class="admin-only" style="margin-top:6px;">
+        <button class="adm-text-del" onclick="deleteSection('${sec.id}')">delete section</button>
+      </div>
     </div>`;
 }
 

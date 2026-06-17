@@ -97,7 +97,7 @@
       background: rgba(210,245,250,0.3);
       border: 1px solid rgba(143,97,77,0.2);
     }
-    body.select-mode .select-toolbar { display: flex; flex-wrap: wrap; }
+    .select-toolbar.visible { display: flex; flex-wrap: wrap; }
     .select-count { font-size: 13px; color: #666; }
     .select-spacer { flex: 1; }
     .select-album-label { font-size: 12px; color: #999; }
@@ -111,6 +111,46 @@
       outline: none;
       cursor: pointer;
     }
+
+    /* ── Sidebar album admin icons ── */
+    .sidebar-album-row {
+      display: flex;
+      align-items: center;
+      gap: 0;
+    }
+    .sidebar-album-row .sidebar-link { flex: 1; }
+    .sidebar-icon-btn {
+      display: none;
+      background: none; border: none; cursor: pointer;
+      color: #bbb; font-size: 13px; padding: 4px 3px;
+      min-height: unset !important; min-width: unset !important;
+      line-height: 1;
+    }
+    body.admin-mode .sidebar-album-row:hover .sidebar-icon-btn { display: inline; }
+    .sidebar-icon-btn:hover { color: #555; }
+    .sidebar-icon-del:hover { color: #c00; }
+    .sidebar-new-album {
+      display: none;
+      background: none; border: none; cursor: pointer;
+      color: #4caf50; font-size: 13px; padding: 6px 0 6px 10px;
+      font-family: 'Optima', arial, sans-serif;
+      letter-spacing: 0.03em;
+      min-height: unset !important; min-width: unset !important;
+    }
+    body.admin-mode .sidebar-new-album { display: block; }
+    .sidebar-new-album:hover { color: #2e7d32; }
+
+    /* ── Inline text action buttons ── */
+    .text-action {
+      background: none; border: none; cursor: pointer;
+      font-family: 'Optima', arial, sans-serif;
+      font-size: 13px; padding: 0;
+      min-height: unset !important; min-width: unset !important;
+    }
+    .text-action-green { color: #4caf50; }
+    .text-action-green:hover { color: #2e7d32; }
+    .text-action-del { color: #c00; opacity: 0.7; font-size: 12px; }
+    .text-action-del:hover { opacity: 1; }
 
     /* ── Album list ── */
     .album-block { margin-bottom: 48px; }
@@ -214,46 +254,45 @@
       height: 100%;
       flex: none;
       overflow: hidden;
-      background: #eee;
+      background: #f5f5f5;
       position: relative;
+      max-width: 300px;
     }
     .row-img img {
       height: 100%;
       width: auto;
+      max-width: 100%;
       display: block;
-      object-fit: cover;
+      object-fit: contain;
       animation: none;
       transition: opacity 0.2s;
       min-height: unset !important;
       pointer-events: none;
     }
 
-    /* select overlay */
+    /* select checkbox overlay — shows on hover or when selected */
     .row-img .select-check {
       display: none;
       position: absolute;
-      top: 5px; left: 5px;
-      width: 18px; height: 18px;
-      border: 2px solid rgba(255,255,255,0.85);
-      background: rgba(0,0,0,0.25);
+      top: 6px; left: 6px;
+      width: 16px; height: 16px;
+      border: 1.5px solid rgba(255,255,255,0.9);
+      background: rgba(0,0,0,0.22);
       border-radius: 2px;
       z-index: 5;
       align-items: center;
       justify-content: center;
-      font-size: 11px;
+      font-size: 10px;
       color: transparent;
+      cursor: pointer;
     }
-    body.select-mode .row-img .select-check { display: flex; cursor: pointer; }
-    .row-img.selected .select-check {
-      background: #1d60c0;
-      border-color: #1d60c0;
-      color: #fff;
-    }
+    body.admin-mode .row-img:hover .select-check { display: flex; }
+    body.admin-mode .row-img.selected .select-check { display: flex; background: #1d60c0; border-color: #1d60c0; color: #fff; }
     .row-img.selected::after {
       content: '';
       position: absolute;
       inset: 0;
-      background: rgba(29,96,192,0.18);
+      background: rgba(29,96,192,0.15);
       pointer-events: none;
     }
 
@@ -447,6 +486,7 @@
     <div class="sidebar-section">
       <h3 class="sidebar-title">Albums</h3>
       <div id="sidebar-albums"></div>
+      <button class="sidebar-new-album" onclick="openAlbumModal(null)">+ New</button>
     </div>
   </div>
 
@@ -455,9 +495,6 @@
 
     <!-- Album list -->
     <div id="album-list">
-      <div class="admin-toolbar">
-        <button class="admin-btn" id="add-album-btn">+ New Album</button>
-      </div>
       <div id="albums-container"></div>
     </div>
 
@@ -467,31 +504,28 @@
         <button class="back-btn" id="back-btn">← All Albums</button>
         <span style="color:#ddd;font-size:13px;">|</span>
         <span class="album-view-title" id="album-view-title"></span>
-        <div class="album-admin-btns" id="album-view-edit-btns" style="margin-left:10px;">
-          <button class="album-edit-btn" id="album-view-edit-btn">✎ edit album</button>
-        </div>
+        <button class="sidebar-icon-btn" id="album-view-edit-btn" style="display:none;color:#aaa;font-size:15px;" title="Edit album">✎</button>
       </div>
 
-      <!-- Admin toolbar (hidden in select mode) -->
+      <!-- Admin toolbar -->
       <div class="admin-toolbar">
-        <button class="admin-btn" id="add-photo-btn">+ Add Photos</button>
-        <button class="admin-btn" id="select-btn" onclick="enterSelectMode()">Select</button>
+        <button class="text-action text-action-green" id="add-photo-btn">+ New</button>
         <span class="admin-hint">drag to reorder</span>
       </div>
 
-      <!-- Select toolbar (shown in select mode) -->
-      <div class="select-toolbar">
+      <!-- Select toolbar (shown when photos are selected) -->
+      <div class="select-toolbar" id="select-toolbar">
         <span class="select-count" id="select-count">0 selected</span>
         <button class="admin-btn" onclick="bulkDelete()" id="bulk-del-btn"
-                style="background:rgba(200,0,0,0.08);border-color:rgba(200,0,0,0.2);color:#c00;"
-                >Delete selected</button>
+                style="background:rgba(200,0,0,0.08);border-color:rgba(200,0,0,0.2);color:#c00;font-size:12px;padding:5px 10px;"
+                >Delete</button>
         <span class="select-album-label">Move to:</span>
         <select class="select-album-dropdown" id="move-album-select">
-          <option value="">— choose album —</option>
+          <option value="">— album —</option>
         </select>
-        <button class="admin-btn" onclick="bulkMove()">Move</button>
+        <button class="admin-btn" onclick="bulkMove()" style="font-size:12px;padding:5px 10px;">Move</button>
         <span class="select-spacer"></span>
-        <button class="modal-cancel-btn" onclick="exitSelectMode()" style="padding:5px 12px;">Cancel</button>
+        <button class="text-action" onclick="exitSelectMode()" style="color:#aaa;font-size:12px;">✕ clear</button>
       </div>
 
       <div class="photo-rows-container" id="photo-rows"></div>
@@ -607,8 +641,12 @@ function renderSidebar(activeId) {
   if (sidebarAll) sidebarAll.className = 'sidebar-link' + (activeId == null ? ' active' : '');
   if (sidebarAlbums) {
     sidebarAlbums.innerHTML = albums.map(a =>
-      `<a class="sidebar-link${a.id === activeId ? ' active' : ''}" href="#"
-          onclick="openAlbum('${a.id}');return false;">• ${esc(a.name)}</a>`
+      `<div class="sidebar-album-row">
+        <a class="sidebar-link${a.id === activeId ? ' active' : ''}" href="#"
+           onclick="openAlbum('${a.id}');return false;">• ${esc(a.name)}</a>
+        <button class="sidebar-icon-btn" onclick="openAlbumModal('${a.id}')" title="Edit">✎</button>
+        <button class="sidebar-icon-btn sidebar-icon-del" onclick="deleteAlbum('${a.id}')" title="Delete">✕</button>
+      </div>`
     ).join('');
   }
 }
@@ -631,16 +669,7 @@ function renderAlbumList() {
   }
 
   // Section: album directory (admin only) + all-photos grid
-  const albumDir = isAdmin ? `<div style="margin-bottom:28px;">
-    ${albums.map(a => `<div class="album-header" style="margin-bottom:8px;">
-      <a class="album-title-link" onclick="openAlbum('${a.id}');return false;" href="#">${esc(a.name)}</a>
-      <span class="album-count">${(a.photos||[]).length}</span>
-      <div class="album-admin-btns">
-        <button class="album-edit-btn" onclick="openAlbumModal('${a.id}')">✎ edit</button>
-        <button class="album-del-btn"  onclick="deleteAlbum('${a.id}')">✕ delete</button>
-      </div>
-    </div>`).join('')}
-  </div><hr style="border:none;border-top:1px solid #eee;margin:0 0 20px;">` : '';
+  const albumDir = '';
 
   // For grouped photos, only show the first photo of each group
   const seenRows = new Set();
@@ -674,6 +703,7 @@ function openAlbum(id) {
   document.getElementById('album-list').style.display = 'none';
   document.getElementById('album-view').style.display  = 'block';
   document.getElementById('album-view-title').textContent = album.name;
+  if (isAdmin) document.getElementById('album-view-edit-btn').style.display = 'inline';
 
   renderPhotoRows(album);
 }
@@ -724,6 +754,8 @@ function renderPhotoRows(album) {
   }
 
   container.innerHTML = rows.map((row, rowIdx) => {
+    const count = row.photos.length;
+    const rowH = count <= 3 ? 160 : count <= 6 ? 130 : count <= 10 ? 100 : 80;
     const imgs = row.photos.map(p => {
       const photoIdx = photos.findIndex(x => x.id === p.id);
       return `<div class="row-img" data-photo-id="${p.id}" data-photo-idx="${photoIdx}"
@@ -737,21 +769,23 @@ function renderPhotoRows(album) {
       </div>`;
     }).join('');
 
-    return `<div class="photo-row" data-row-idx="${rowIdx}"
+    return `<div class="photo-row" data-row-idx="${rowIdx}" style="height:${rowH}px"
                  onclick="rowClick(event,${rowIdx})">${imgs}</div>`;
   });
 
   // Store rows data for modal access
   container._rows = rows;
+  if (isAdmin) addPhotoDragHandlers();
 }
 
 // ── Row / image click logic ───────────────────────────────────────
 function rowImgClick(e, photoId, photoIdx) {
-  if (selectMode) {
+  // Only intercept if clicking the checkbox itself
+  if (e.target.classList.contains('select-check')) {
     e.stopPropagation();
     toggleSelect(photoId, e.currentTarget);
   }
-  // Otherwise let the event bubble up to rowClick
+  // Otherwise bubble up to rowClick (opens modal)
 }
 
 function rowClick(e, rowIdx) {
@@ -788,18 +822,10 @@ document.getElementById('row-modal').addEventListener('click', closeRowModal);
 
 
 // ── Multi-select ──────────────────────────────────────────────────
-function enterSelectMode() {
-  selectMode = true;
-  selectedPhotos.clear();
-  document.body.classList.add('select-mode');
-  updateSelectCount();
-  populateMoveDropdown();
-}
 function exitSelectMode() {
-  selectMode = false;
   selectedPhotos.clear();
-  document.body.classList.remove('select-mode');
   document.querySelectorAll('.row-img.selected').forEach(el => el.classList.remove('selected'));
+  updateSelectToolbar();
 }
 function toggleSelect(photoId, el) {
   if (selectedPhotos.has(photoId)) {
@@ -808,16 +834,19 @@ function toggleSelect(photoId, el) {
   } else {
     selectedPhotos.add(photoId);
     el.classList.add('selected');
+    if (selectedPhotos.size === 1) populateMoveDropdown();
   }
-  updateSelectCount();
+  updateSelectToolbar();
 }
-function updateSelectCount() {
-  document.getElementById('select-count').textContent =
-    selectedPhotos.size + ' selected';
+function updateSelectToolbar() {
+  const toolbar = document.getElementById('select-toolbar');
+  const count = selectedPhotos.size;
+  document.getElementById('select-count').textContent = count + ' selected';
+  toolbar.classList.toggle('visible', count > 0);
 }
 function populateMoveDropdown() {
   const sel = document.getElementById('move-album-select');
-  sel.innerHTML = '<option value="">— choose album —</option>' +
+  sel.innerHTML = '<option value="">— album —</option>' +
     albums.filter(a => a.id !== currentAlbumId).map(a =>
       `<option value="${a.id}">${esc(a.name)}</option>`
     ).join('');
@@ -932,10 +961,10 @@ document.addEventListener('keydown', e => {
 document.getElementById('back-btn').onclick = renderAlbumList;
 document.getElementById('album-view-edit-btn').onclick = () => openAlbumModal(currentAlbumId);
 
+
 // ── Album modal ───────────────────────────────────────────────────
 let editingAlbumId = null;
 
-document.getElementById('add-album-btn').onclick     = () => openAlbumModal(null);
 document.getElementById('album-modal-cancel').onclick = closeAlbumModal;
 document.getElementById('album-cover-input').addEventListener('change', function() {
   previewFile(this, 'album-cover-preview');
