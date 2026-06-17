@@ -187,6 +187,28 @@
       .nav-message-btn {
         margin-top: 0;
       }
+      .profile-section {
+        flex-direction: column !important;
+        margin-bottom: 10px !important;
+      }
+      .preview-image {
+        width: 100% !important;
+        height: 200px !important;
+        margin-right: 0 !important;
+        margin-bottom: 10px !important;
+        overflow: hidden;
+      }
+      .preview-image img {
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: cover;
+      }
+      .description {
+        margin-left: 0 !important;
+      }
+      .home-cont {
+        margin-top: 0 !important;
+      }
     }
   </style>
 </head>
@@ -213,11 +235,10 @@
   <div class="left-column">
     <div class="profile-section">
       <div class="preview-image">
-        <a href="admin/login.html?redirect=/index.html" title="admin"><img src="images/personal/comp.jpeg" alt="Me" style="width:100%"></a>
+        <img src="images/personal/comp.jpeg" alt="Me" style="width:100%">
       </div>
 
       <div class="description" >
-        <br>
         <h1 style="margin-top: 0">SONIA SHARAPOVA</h1>
         <p id="note">
           I sent you my http://localhost:3000 please respond<br>
@@ -424,6 +445,8 @@
     2026
   </div>
 </footer>
+
+<script src="scripts/siteStyle/admin.js"></script>
 
 <script>
   fetch('data/posts.json')
