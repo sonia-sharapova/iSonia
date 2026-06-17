@@ -17,7 +17,7 @@
       gap: 40px;
     }
     .photos-sidebar {
-      width: 200px;
+      width: 140px;
       flex-shrink: 0;
       margin-top: 20px;
     }
@@ -222,23 +222,28 @@
 
     /* Photo grid */
     .photo-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 3px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      align-items: flex-start;
     }
     .photo-cell {
       position: relative;
       background: #f0f0f0;
       cursor: pointer;
+      height: 160px;
+      flex: none;
     }
     .photo-cell img {
-      width: 100%;
-      aspect-ratio: 1;
-      object-fit: cover;
+      height: 100%;
+      width: auto;
       display: block;
       animation: none;
       transition: opacity 0.2s;
       min-height: unset !important;
+    }
+    @media (max-width: 640px) {
+      .photo-cell { height: 100px; }
     }
     .photo-cell:hover img { opacity: 0.88; }
 
@@ -434,12 +439,10 @@
     @media (max-width: 960px) {
       .album-strip { grid-template-columns: repeat(6, 1fr); }
       .album-strip-img:nth-child(n+7) { display: none; }
-      .photo-grid { grid-template-columns: repeat(3, 1fr); }
     }
     @media (max-width: 640px) {
       .album-strip { grid-template-columns: repeat(4, 1fr); }
       .album-strip-img:nth-child(n+5) { display: none; }
-      .photo-grid { grid-template-columns: repeat(2, 1fr); }
     }
   </style>
 </head>
@@ -465,10 +468,10 @@
   <hr>
 </div>
 
-<div class="content">
+<div class="photos-wrap">
 
   <!-- Album directory sidebar -->
-  <div class="blog-sidebar" id="photo-sidebar">
+  <div class="photos-sidebar" id="photo-sidebar">
     <div class="sidebar-section">
       <a href="#" class="sidebar-link active" id="sidebar-all"
          onclick="renderAlbumList();return false;">All Albums</a>
@@ -480,7 +483,7 @@
   </div>
 
   <!-- Main content -->
-  <div class="blog-main">
+  <div class="photos-main">
 
     <!-- Album list -->
     <div id="album-list">
@@ -510,6 +513,8 @@
 
   </div>
 </div>
+
+<script>animate();</script>
 
 <!-- Lightbox -->
 <div id="lightbox">
@@ -602,49 +607,34 @@ function renderSidebar(activeId) {
   if (sidebarAlbums) {
     sidebarAlbums.innerHTML = albums.map(a =>
       `<a class="sidebar-link${a.id === activeId ? ' active' : ''}" href="#"
-          onclick="openAlbum('${a.id}');return false;">${esc(a.name)}</a>`
+          onclick="openAlbum('${a.id}');return false;">• ${esc(a.name)}</a>`
     ).join('');
   }
 }
 
-// ── Album list ───────────────────────────────────────────────────
+// ── Album list (flat grid of all photos) ─────────────────────────
 function renderAlbumList() {
   currentAlbumId = null;
   renderSidebar(null);
   document.getElementById('album-list').style.display = 'block';
   document.getElementById('album-view').style.display  = 'none';
 
+  const allPhotos = albums.flatMap(a => a.photos || []);
+  lightboxPhotos = allPhotos.slice();
+
   const container = document.getElementById('albums-container');
-  if (!albums.length) {
-    container.innerHTML = '<p style="color:#ccc;font-size:14px;margin-top:28px;">No albums yet' +
+  if (!allPhotos.length) {
+    container.innerHTML = '<p style="color:#ccc;font-size:14px;margin-top:28px;">No photos yet' +
       (isAdmin ? ' — click <strong>+ New Album</strong> to start.' : '.') + '</p>';
     return;
   }
 
-  container.innerHTML = albums.map(album => {
-    const photos = album.photos || [];
-    const strip  = photos.slice(0, 8)
-      .map(p => `<div class="album-strip-img"><img src="${p.src}" alt="${esc(p.caption||'')}"></div>`)
-      .join('') ||
-      `<div class="album-strip-img" style="grid-column:1/-1;aspect-ratio:unset;height:110px;
-        display:flex;align-items:center;justify-content:center;color:#ccc;font-size:13px;">
-        No photos yet</div>`;
-
-    return `
-    <div class="album-block" data-id="${album.id}">
-      <div class="album-header">
-        <span class="album-title-link" onclick="openAlbum('${album.id}')">${esc(album.name)}</span>
-        <span class="album-count">${photos.length} photo${photos.length !== 1 ? 's' : ''}</span>
-        <div class="album-admin-btns">
-          <button class="album-edit-btn" onclick="openAlbumModal('${album.id}')">✎ edit</button>
-          <button class="album-del-btn"  onclick="deleteAlbum('${album.id}')">✕ delete</button>
-        </div>
-      </div>
-      ${album.desc ? `<p class="album-desc">${esc(album.desc)}</p>` : ''}
-      <div class="album-strip" onclick="openAlbum('${album.id}')">${strip}</div>
-      ${photos.length > 8 ? `<a class="album-see-all" onclick="openAlbum('${album.id}')">see all ${photos.length} →</a>` : ''}
-    </div>`;
-  }).join('');
+  container.innerHTML = '<div class="photo-grid">' +
+    allPhotos.map((p, idx) => `
+      <div class="photo-cell" data-idx="${idx}" onclick="openLightbox(${idx})">
+        <img src="${p.src}" alt="${esc(p.caption||'')}">
+      </div>`).join('') +
+    '</div>';
 }
 
 // ── Single album ─────────────────────────────────────────────────
