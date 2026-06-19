@@ -208,47 +208,126 @@
     .back-btn:hover { color: #333; }
     .album-view-title { font-size: 21px; font-weight: 200; color: #444; letter-spacing: 0.04em; }
 
-    /* ── All-photos uniform grid ── */
-    .all-photos-grid {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-    }
+    /* ── All-photos flat grid ── */
+    .all-photos-grid { display: flex; flex-wrap: wrap; gap: 10px; }
     .all-photo-cell {
-      width: 175px;
-      height: 110px;
-      flex: none;
-      overflow: hidden;
-      background: #f0f0f0;
-      cursor: pointer;
-      position: relative;
+      width: 175px; height: 110px; flex: none;
+      overflow: hidden; background: #f0f0f0; cursor: pointer;
     }
     .all-photo-cell img {
+      width: 100%; height: 100%; object-fit: cover; display: block;
+      animation: none; transition: opacity 0.2s; min-height: unset !important;
+    }
+    .all-photo-cell:hover img { opacity: 0.86; }
+    @media (max-width: 640px) { .all-photo-cell { width: 150px; height: 95px; } }
+
+    /* ── Catalog layout (album index) ── */
+    .catalog-layout {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .catalog-row {
+      display: flex;
+      align-items: center;
+      gap: 22px;
+      padding: 7px 0;
+      cursor: pointer;
+      border-bottom: 1px solid #f2f2f2;
+    }
+    .catalog-row:hover .catalog-label { color: #222; }
+    .catalog-row:hover .catalog-cover img { opacity: 0.85; }
+
+    .catalog-cover {
+      width: 92px;
+      height: 92px;
+      flex-shrink: 0;
+      border: 2px solid #ddd;
+      overflow: hidden;
+      background: #f9f9f9;
+      position: relative;
+    }
+    .catalog-cover img {
       width: 100%; height: 100%;
       object-fit: cover;
       display: block;
       animation: none;
-      transition: opacity 0.2s;
+      transition: opacity 0.15s;
       min-height: unset !important;
     }
-    .all-photo-cell:hover img { opacity: 0.86; }
-    @media (max-width: 640px) {
-      .all-photo-cell { width: 150px; height: 95px; }
+
+    .catalog-label {
+      width: 110px;
+      flex-shrink: 0;
+      font-size: 11px;
+      color: #aaa;
+      letter-spacing: 0.05em;
+      font-family: 'Courier New', monospace;
+      transition: color 0.15s;
+      line-height: 1.4;
+    }
+    .catalog-count {
+      display: block;
+      font-size: 10px;
+      color: #ccc;
+      letter-spacing: 0;
+      margin-top: 2px;
+      font-family: 'Optima', arial, sans-serif;
     }
 
-    /* ── Photo rows layout ── */
+    .catalog-thumbs {
+      display: flex;
+      gap: 3px;
+      flex-wrap: nowrap;
+      overflow: hidden;
+      flex: 1;
+      align-items: center;
+    }
+    .catalog-thumb {
+      width: 74px;
+      height: 74px;
+      flex-shrink: 0;
+      overflow: hidden;
+      background: #f5f5f5;
+      border: 1px solid #ececec;
+      position: relative;
+    }
+    .catalog-thumb img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+      animation: none;
+      min-height: unset !important;
+    }
+
+    /* admin new-album row */
+    .catalog-new-row {
+      display: none;
+      padding: 10px 0 2px;
+    }
+    body.admin-mode .catalog-new-row { display: block; }
+
+    @media (max-width: 640px) {
+      .catalog-cover { width: 50px; height: 50px; }
+      .catalog-label { width: 90px; font-size: 10px; }
+      .catalog-thumb { width: 44px; height: 44px; }
+    }
+
+    /* ── Photo rows container ── */
     .photo-rows-container { display: flex; flex-direction: column; gap: 6px; }
 
     .photo-row {
       display: flex;
       gap: 3px;
-      height: 160px;
+      height: 170px;
       align-items: flex-start;
       cursor: pointer;
-      position: relative;
+      overflow-x: auto;
+      overflow-y: hidden;
     }
+    .photo-row::-webkit-scrollbar { height: 3px; }
+    .photo-row::-webkit-scrollbar-thumb { background: #ddd; }
     .photo-row:hover .row-img img { opacity: 0.86; }
-    body.select-mode .photo-row { cursor: default; }
 
     .row-img {
       height: 100%;
@@ -256,12 +335,10 @@
       overflow: hidden;
       background: #f5f5f5;
       position: relative;
-      max-width: 300px;
     }
     .row-img img {
       height: 100%;
       width: auto;
-      max-width: 100%;
       display: block;
       object-fit: contain;
       animation: none;
@@ -269,54 +346,92 @@
       min-height: unset !important;
       pointer-events: none;
     }
+    /* First photo in each row: square cover */
+    .row-img-cover {
+      width: 170px;
+      flex-shrink: 0;
+    }
+    .row-img-cover img {
+      width: 100%;
+      object-fit: cover;
+    }
+    .row-img.drag-over { outline: 2px solid #1d60c0; opacity: 0.7; }
 
-    /* select checkbox overlay — shows on hover or when selected */
+    /* Select overlay on row-imgs */
     .row-img .select-check {
       display: none;
       position: absolute;
-      top: 6px; left: 6px;
-      width: 16px; height: 16px;
+      top: 4px; left: 4px;
+      width: 14px; height: 14px;
       border: 1.5px solid rgba(255,255,255,0.9);
       background: rgba(0,0,0,0.22);
       border-radius: 2px;
       z-index: 5;
       align-items: center;
       justify-content: center;
-      font-size: 10px;
+      font-size: 9px;
       color: transparent;
       cursor: pointer;
     }
     body.admin-mode .row-img:hover .select-check { display: flex; }
     body.admin-mode .row-img.selected .select-check { display: flex; background: #1d60c0; border-color: #1d60c0; color: #fff; }
     .row-img.selected::after {
+      content: ''; position: absolute; inset: 0;
+      background: rgba(29,96,192,0.15); pointer-events: none; z-index: 4;
+    }
+    .row-img .photo-admin-btns {
+      display: none; position: absolute; top: 3px; right: 3px; gap: 3px; z-index: 10;
+    }
+    body.admin-mode .row-img:hover .photo-admin-btns { display: flex; }
+
+    /* Shared photo cell overlays (used in catalog-cover & catalog-thumb within album view) */
+    .photo-cell-wrap { position: relative; cursor: pointer; }
+    .photo-cell-wrap .select-check {
+      display: none;
+      position: absolute;
+      top: 4px; left: 4px;
+      width: 14px; height: 14px;
+      border: 1.5px solid rgba(255,255,255,0.9);
+      background: rgba(0,0,0,0.22);
+      border-radius: 2px;
+      z-index: 5;
+      align-items: center;
+      justify-content: center;
+      font-size: 9px;
+      color: transparent;
+      cursor: pointer;
+    }
+    body.admin-mode .photo-cell-wrap:hover .select-check { display: flex; }
+    body.admin-mode .photo-cell-wrap.selected .select-check { display: flex; background: #1d60c0; border-color: #1d60c0; color: #fff; }
+    .photo-cell-wrap.selected::after {
       content: '';
       position: absolute;
       inset: 0;
       background: rgba(29,96,192,0.15);
       pointer-events: none;
+      z-index: 4;
     }
-
-    /* admin per-photo buttons (inside row) */
-    .row-img .photo-admin-btns {
+    .photo-cell-wrap .photo-admin-btns {
       display: none;
       position: absolute;
-      top: 5px; right: 5px;
-      gap: 4px;
+      top: 3px; right: 3px;
+      gap: 3px;
       z-index: 10;
     }
-    body.admin-mode:not(.select-mode) .row-img:hover .photo-admin-btns { display: flex; }
+    body.admin-mode .photo-cell-wrap:hover .photo-admin-btns { display: flex; }
     .photo-edit-btn {
-      background: rgba(0,0,0,0.6); color: #fff; border: none;
-      font-size: 12px; padding: 4px 7px; cursor: pointer;
+      background: rgba(0,0,0,0.55); color: #fff; border: none;
+      font-size: 10px; padding: 3px 5px; cursor: pointer;
       min-height: unset !important; min-width: unset !important;
     }
     .photo-del-btn {
-      background: rgba(180,0,0,0.75); color: #fff; border: none;
-      font-size: 12px; padding: 4px 7px; cursor: pointer;
+      background: rgba(180,0,0,0.7); color: #fff; border: none;
+      font-size: 10px; padding: 3px 5px; cursor: pointer;
       min-height: unset !important; min-width: unset !important;
     }
     .photo-edit-btn:hover { background: rgba(0,0,0,0.85); }
     .photo-del-btn:hover  { background: rgba(180,0,0,1); }
+    .photo-cell-wrap.drag-over { outline: 2px solid #1d60c0; opacity: 0.7; }
 
     /* ── Row modal ── */
     #row-modal .modal-box {
@@ -651,7 +766,9 @@ function renderSidebar(activeId) {
   }
 }
 
-// ── Album list (all photos flat grid) ────────────────────────────
+const BORDER_COLORS = ['#8bc34a','#ffc107','#ef9a9a','#90caf9','#ce93d8','#80cbc4','#ffcc80','#a5d6a7'];
+
+// ── Album index — flat photo grid ────────────────────────────────
 function renderAlbumList() {
   currentAlbumId = null;
   renderSidebar(null);
@@ -664,32 +781,16 @@ function renderAlbumList() {
   const container = document.getElementById('albums-container');
   if (!allPhotos.length) {
     container.innerHTML = '<p style="color:#ccc;font-size:14px;margin-top:28px;">No photos yet' +
-      (isAdmin ? ' — click <strong>+ New Album</strong> to start.' : '.') + '</p>';
+      (isAdmin ? ' — add one with <strong>+ New</strong> in the sidebar.' : '.') + '</p>';
     return;
   }
 
-  // Section: album directory (admin only) + all-photos grid
-  const albumDir = '';
-
-  // For grouped photos, only show the first photo of each group
-  const seenRows = new Set();
-  const displayPhotos = [];
-  allPhotos.forEach((p, idx) => {
-    if (p.rowId) {
-      if (!seenRows.has(p.rowId)) { seenRows.add(p.rowId); displayPhotos.push({ p, idx }); }
-    } else {
-      displayPhotos.push({ p, idx });
-    }
-  });
-
-  const grid = `<div class="all-photos-grid">` +
-    displayPhotos.map(({ p, idx }) => `
+  container.innerHTML = `<div class="all-photos-grid">` +
+    allPhotos.map((p, idx) => `
       <div class="all-photo-cell" onclick="openLightbox(${idx})">
         <img src="${p.src}" alt="${esc(p.caption||'')}">
       </div>`).join('') +
     `</div>`;
-
-  container.innerHTML = albumDir + grid;
 }
 
 // ── Single album ──────────────────────────────────────────────────
@@ -738,42 +839,51 @@ function groupPhotosIntoRows(photos) {
   return rowOrder.map(rid => ({ rowId: rid, photos: rowMap.get(rid) }));
 }
 
-// ── Render photo rows ─────────────────────────────────────────────
+// ── Render individual album — catalog layout ──────────────────────
 function renderPhotoRows(album) {
   const photos = album.photos || [];
   const rows = groupPhotosIntoRows(photos);
-
-  // Build flat photo list for lightbox
   lightboxPhotos = photos.slice();
 
   const container = document.getElementById('photo-rows');
   if (!photos.length) {
     container.innerHTML = '<p style="color:#ccc;font-size:14px;margin-top:20px;">' +
-      'No photos yet' + (isAdmin ? ' — click <strong>+ Add Photos</strong>.' : '.') + '</p>';
+      'No photos yet' + (isAdmin ? ' — click <strong>+ New</strong> to add.' : '.') + '</p>';
     return;
   }
 
-  container.innerHTML = rows.map((row, rowIdx) => {
-    const count = row.photos.length;
-    const rowH = count <= 3 ? 160 : count <= 6 ? 130 : count <= 10 ? 100 : 80;
-    const imgs = row.photos.map(p => {
-      const photoIdx = photos.findIndex(x => x.id === p.id);
-      return `<div class="row-img" data-photo-id="${p.id}" data-photo-idx="${photoIdx}"
-                   onclick="rowImgClick(event,'${p.id}',${photoIdx})">
-        <img src="${p.src}" alt="${esc(p.caption||'')}">
-        <div class="select-check">✓</div>
-        ${isAdmin ? `<div class="photo-admin-btns">
-          <button class="photo-edit-btn" onclick="event.stopPropagation();openPhotoModal('${p.id}')">✎</button>
-          <button class="photo-del-btn"  onclick="event.stopPropagation();deletePhoto('${p.id}')">✕</button>
-        </div>` : ''}
+  function photoCell(p, isCover, pIdx, color) {
+    const cls   = isCover ? 'catalog-cover' : 'catalog-thumb';
+    const style = isCover ? ` style="border-color:${color}"` : '';
+    return `<div class="${cls} photo-cell-wrap" data-photo-id="${p.id}" data-photo-idx="${pIdx}"${style}
+                 onclick="rowImgClick(event,'${p.id}',${pIdx})">
+      <img src="${p.src}" alt="${esc(p.caption||'')}">
+      <div class="select-check">✓</div>
+      ${isAdmin ? `<div class="photo-admin-btns">
+        <button class="photo-edit-btn" onclick="event.stopPropagation();openPhotoModal('${p.id}')">✎</button>
+        <button class="photo-del-btn"  onclick="event.stopPropagation();deletePhoto('${p.id}')">✕</button>
+      </div>` : ''}
+    </div>`;
+  }
+
+  container.innerHTML = `<div class="catalog-layout">` +
+    rows.map((row, rowIdx) => {
+      const cover    = row.photos[0];
+      const rest     = row.photos.slice(1);
+      const coverIdx = photos.findIndex(x => x.id === cover.id);
+      const color    = BORDER_COLORS[rowIdx % BORDER_COLORS.length];
+      const label    = cover.rowLabel || '';
+      const thumbs   = rest.map(p => photoCell(p, false, photos.findIndex(x => x.id === p.id), '')).join('');
+      return `<div class="catalog-row" data-row-idx="${rowIdx}" onclick="rowClick(event,${rowIdx})">
+        ${photoCell(cover, true, coverIdx, color)}
+        <div class="catalog-label">${label ? `::${esc(label)}::` : ''}
+          ${row.photos.length > 1 ? `<span class="catalog-count">${row.photos.length} photos</span>` : ''}
+        </div>
+        <div class="catalog-thumbs">${thumbs}</div>
       </div>`;
-    }).join('');
+    }).join('') +
+    `</div>`;
 
-    return `<div class="photo-row" data-row-idx="${rowIdx}" style="height:${rowH}px"
-                 onclick="rowClick(event,${rowIdx})">${imgs}</div>`;
-  });
-
-  // Store rows data for modal access
   container._rows = rows;
   if (isAdmin) addPhotoDragHandlers();
 }
@@ -824,7 +934,7 @@ document.getElementById('row-modal').addEventListener('click', closeRowModal);
 // ── Multi-select ──────────────────────────────────────────────────
 function exitSelectMode() {
   selectedPhotos.clear();
-  document.querySelectorAll('.row-img.selected').forEach(el => el.classList.remove('selected'));
+  document.querySelectorAll('.row-img.selected, .photo-cell-wrap.selected').forEach(el => el.classList.remove('selected'));
   updateSelectToolbar();
 }
 function toggleSelect(photoId, el) {
@@ -881,7 +991,8 @@ async function bulkMove() {
 
 // ── Drag to reorder ───────────────────────────────────────────────
 function addPhotoDragHandlers() {
-  document.querySelectorAll('#photo-rows .row-img').forEach(el => {
+  const cells = document.querySelectorAll('#photo-rows .photo-cell-wrap');
+  cells.forEach(el => {
     el.draggable = true;
     el.addEventListener('dragstart', function(e) {
       dragSrc = this.dataset.photoIdx;
@@ -890,7 +1001,7 @@ function addPhotoDragHandlers() {
     el.addEventListener('dragover', function(e) {
       e.preventDefault(); e.stopPropagation();
       e.dataTransfer.dropEffect = 'move';
-      document.querySelectorAll('#photo-rows .row-img').forEach(c => c.classList.remove('drag-over'));
+      cells.forEach(c => c.classList.remove('drag-over'));
       this.classList.add('drag-over');
     });
     el.addEventListener('dragleave', function() { this.classList.remove('drag-over'); });
@@ -907,7 +1018,7 @@ function addPhotoDragHandlers() {
       persist(true);
     });
     el.addEventListener('dragend', function() {
-      document.querySelectorAll('#photo-rows .row-img').forEach(c => c.classList.remove('drag-over'));
+      cells.forEach(c => c.classList.remove('drag-over'));
     });
   });
 }
