@@ -43,8 +43,11 @@
       font-size: 18px;
       transition: all 0.3s ease;
       border-left: 2px solid transparent;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
-    .sidebar-link:hover { color: #45a049; border-left-color: #45a049; padding-left: 18px; }
+    .sidebar-link:hover { color: #45a049; border-left-color: #45a049; padding-left: 13px; }
     .sidebar-link.active { color: #45a049; border-left-color: #45a049; font-weight: 500; }
 
     @media (max-width: 960px) { .photos-wrap { width: 94%; } }
@@ -118,7 +121,7 @@
       align-items: center;
       gap: 0;
     }
-    .sidebar-album-row .sidebar-link { flex: 1; }
+    .sidebar-album-row .sidebar-link { flex: 1; min-width: 0; }
     .sidebar-icon-btn {
       display: none;
       background: none; border: none; cursor: pointer;
@@ -208,18 +211,43 @@
     .back-btn:hover { color: #333; }
     .album-view-title { font-size: 21px; font-weight: 200; color: #444; letter-spacing: 0.04em; }
 
-    /* ── All-photos flat grid ── */
-    .all-photos-grid { display: flex; flex-wrap: wrap; gap: 10px; }
-    .all-photo-cell {
-      width: 175px; height: 110px; flex: none;
-      overflow: hidden; background: #f0f0f0; cursor: pointer;
+    /* ── All-photos filter bar ── */
+    .photo-filter-bar { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 16px; }
+    .photo-filter-select {
+      font-family: 'Optima', arial, sans-serif;
+      font-size: 12px;
+      color: #666;
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 3px;
+      padding: 5px 8px;
+      cursor: pointer;
     }
-    .all-photo-cell img {
-      width: 100%; height: 100%; object-fit: cover; display: block;
+    .photo-filter-select:hover { border-color: #bbb; }
+
+    /* ── All-photos flat grid ── */
+    /* Index of group covers — original proportions kept, all scaled to the
+       same height (no cropping), like a justified gallery. */
+    .covers-flow { display: flex; flex-wrap: wrap; gap: 10px; align-items: flex-start; }
+    .cover-flow-cell {
+      height: 170px; flex: 0 0 auto;
+      overflow: hidden; background: #f0f0f0; cursor: pointer;
+      position: relative;
+    }
+    .cover-flow-cell img {
+      height: 100%; width: auto; object-fit: contain; display: block;
       animation: none; transition: opacity 0.2s; min-height: unset !important;
     }
-    .all-photo-cell:hover img { opacity: 0.86; }
-    @media (max-width: 640px) { .all-photo-cell { width: 150px; height: 95px; } }
+    .cover-flow-cell:hover img { opacity: 0.86; }
+    .cover-flow-label {
+      position: absolute; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.5); color: #fff;
+      font-size: 11px; padding: 4px 8px;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+      opacity: 0; transition: opacity 0.15s ease;
+    }
+    .cover-flow-cell:hover .cover-flow-label { opacity: 1; }
+    @media (max-width: 640px) { .cover-flow-cell { height: 110px; } }
 
     /* ── Catalog layout (album index) ── */
     .catalog-layout {
@@ -228,19 +256,66 @@
       gap: 0;
     }
     .catalog-row {
+      --cover-h: clamp(64px, 13vw, 105px);
+      --thumb-h: clamp(54px, 11vw, 90px);
       display: flex;
       align-items: center;
-      gap: 22px;
-      padding: 7px 0;
+      gap: 12px;
+      padding: 7px;
+      margin: 0 -7px;
       cursor: pointer;
       border-bottom: 1px solid #f2f2f2;
+      position: relative;
+      transition: transform 0.15s ease;
     }
+    .catalog-row:hover { transform: translateY(-2px); }
     .catalog-row:hover .catalog-label { color: #222; }
     .catalog-row:hover .catalog-cover img { opacity: 0.85; }
+    /* Sized via JS to end at the last visible photo, not the full flex row —
+       .catalog-thumbs uses flex:1 for its own scroll/fade math, which doesn't
+       reflect its actual content width. Left inset matches the row's own
+       vertical padding, so the cover gets equal white space on every side. */
+    .catalog-row-bg {
+      position: absolute; left: -7px; top: 0; bottom: 0;
+      border-radius: 3px;
+      background: transparent;
+      box-shadow: none;
+      z-index: 0;
+      pointer-events: none;
+      transition: background 0.25s ease, box-shadow 0.25s ease;
+    }
+    .catalog-row:hover .catalog-row-bg { background: #fff; box-shadow: 0 2px 8px rgb(210, 245, 250); }
+    .catalog-cover, .catalog-label, .catalog-thumbs, .row-edit-icon, .row-color-input { position: relative; z-index: 1; }
+
+    .row-edit-icon {
+      display: none;
+      position: absolute; right: 8px; top: 50%; transform: translateY(-50%);
+      width: 26px; height: 26px;
+      background: rgba(255,255,255,0.95); border: 1px solid #ddd; border-radius: 3px;
+      font-size: 12px; color: #999; cursor: pointer;
+      align-items: center; justify-content: center;
+      min-height: unset !important; min-width: unset !important;
+    }
+    .row-edit-icon:hover { color: #444; border-color: #bbb; }
+    body.admin-mode .catalog-row:hover .row-edit-icon { display: flex; }
+
+    .row-color-input {
+      display: none;
+      position: absolute; right: 42px; top: 50%; transform: translateY(-50%);
+      width: 22px; height: 22px;
+      padding: 0; border: 1px solid #ddd; border-radius: 50%;
+      cursor: pointer; background: none; overflow: hidden;
+      -webkit-appearance: none; appearance: none;
+      min-height: unset !important; min-width: unset !important;
+    }
+    .row-color-input::-webkit-color-swatch-wrapper { padding: 0; }
+    .row-color-input::-webkit-color-swatch { border: none; border-radius: 50%; }
+    .row-color-input::-moz-color-swatch { border: none; border-radius: 50%; }
+    body.admin-mode .catalog-row:hover .row-color-input { display: block; }
 
     .catalog-cover {
-      width: 92px;
-      height: 92px;
+      height: var(--cover-h);
+      width: var(--cover-h);
       flex-shrink: 0;
       border: 2px solid #ddd;
       overflow: hidden;
@@ -259,19 +334,26 @@
     .catalog-label {
       width: 110px;
       flex-shrink: 0;
-      font-size: 11px;
-      color: #aaa;
+      overflow: hidden;
+      color: #888;
       letter-spacing: 0.05em;
       font-family: 'Courier New', monospace;
       transition: color 0.15s;
       line-height: 1.4;
     }
+    .catalog-label-text {
+      display: inline-block;
+      white-space: nowrap;
+      transform-origin: left center;
+      font-size: 14px;
+    }
     .catalog-count {
       display: block;
-      font-size: 10px;
-      color: #ccc;
+      font-size: 14px;
+      color: #888;
       letter-spacing: 0;
-      margin-top: 2px;
+      margin-top: 3px;
+      white-space: nowrap;
       font-family: 'Optima', arial, sans-serif;
     }
 
@@ -279,13 +361,22 @@
       display: flex;
       gap: 3px;
       flex-wrap: nowrap;
-      overflow: hidden;
+      overflow-x: auto;
+      overflow-y: hidden;
       flex: 1;
       align-items: center;
+      scrollbar-width: thin;
+    }
+    .catalog-thumbs::-webkit-scrollbar { height: 4px; }
+    .catalog-thumbs::-webkit-scrollbar-thumb { background: #ddd; }
+    /* Only show the scroll cue when the row actually overflows its container */
+    .catalog-thumbs.overflowing {
+      -webkit-mask-image: linear-gradient(to right, black calc(100% - 24px), transparent 100%);
+              mask-image: linear-gradient(to right, black calc(100% - 24px), transparent 100%);
     }
     .catalog-thumb {
-      width: 74px;
-      height: 74px;
+      height: var(--thumb-h);
+      width: auto;
       flex-shrink: 0;
       overflow: hidden;
       background: #f5f5f5;
@@ -293,12 +384,16 @@
       position: relative;
     }
     .catalog-thumb img {
-      width: 100%; height: 100%;
-      object-fit: cover;
+      height: 100%; width: auto;
+      object-fit: contain;
       display: block;
       animation: none;
       min-height: unset !important;
     }
+    /* Opt-in per-photo: crop to a square (matching the cover) instead of
+       scaling to the row height with no crop. */
+    .catalog-thumb.is-crop-square { width: var(--thumb-h); }
+    .catalog-thumb.is-crop-square img { width: 100%; object-fit: cover; }
 
     /* admin new-album row */
     .catalog-new-row {
@@ -308,9 +403,8 @@
     body.admin-mode .catalog-new-row { display: block; }
 
     @media (max-width: 640px) {
-      .catalog-cover { width: 50px; height: 50px; }
-      .catalog-label { width: 90px; font-size: 10px; }
-      .catalog-thumb { width: 44px; height: 44px; }
+      .catalog-label { width: 90px; }
+      .catalog-label-text { font-size: 12px; }
     }
 
     /* ── Photo rows container ── */
@@ -432,6 +526,7 @@
     .photo-edit-btn:hover { background: rgba(0,0,0,0.85); }
     .photo-del-btn:hover  { background: rgba(180,0,0,1); }
     .photo-cell-wrap.drag-over { outline: 2px solid #1d60c0; opacity: 0.7; }
+    .catalog-row.drag-over .catalog-row-bg { background: rgba(29,96,192,0.06); box-shadow: none; outline: 2px dashed #1d60c0; }
 
     /* ── Row modal ── */
     #row-modal .modal-box {
@@ -440,34 +535,139 @@
       overflow-y: auto;
       padding: 30px 30px 26px;
     }
-    .row-modal-inner {
-      display: flex;
-      gap: 20px;
-      overflow-x: auto;
-      padding-bottom: 6px;
-      align-items: flex-start;
+    .row-modal-header {
+      font-size: 13px; color: #aaa; letter-spacing: 0.05em;
+      margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid #eee;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
     }
-    .row-modal-item { flex: none; text-align: left; max-width: 200px; }
-    .row-modal-item img {
-      max-height: 260px;
-      max-width: 200px;
-      width: auto;
-      height: auto;
+    /* Rows of at most 5 tiles, each row a fixed height. Tiles split the row
+       width evenly (guaranteeing the 5-per-row cap) while images inside use
+       object-fit:contain so nothing is ever cropped. */
+    .detail-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+      grid-auto-rows: 110px;
+      gap: 6px;
+    }
+    .detail-tile {
+      position: relative;
+      height: 100%;
+      cursor: pointer;
+      border-radius: 3px;
+      background: transparent;
+      transition: background 0.15s ease, transform 0.15s ease;
+    }
+    .detail-tile:hover { background: rgba(29,96,192,0.06); transform: translateY(-2px); }
+    .detail-tile-imgwrap {
+      width: 100%; height: 100%;
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden;
+      position: relative;
+    }
+    .detail-tile img {
+      max-width: 100%; max-height: 100%;
+      width: auto; height: auto;
       display: block;
       object-fit: contain;
       animation: none;
       min-height: unset !important;
-      border: 1px solid #eee;
+      transition: filter 0.15s ease;
     }
-    .row-modal-id { font-size: 10px; color: #bbb; margin-top: 6px; letter-spacing: 0.05em; }
-    .row-modal-caption { font-size: 12px; color: #555; margin-top: 3px; line-height: 1.4; }
-    .row-modal-date { font-size: 11px; color: #aaa; margin-top: 2px; }
+    .detail-tile:hover img { filter: brightness(0.7); }
+    .detail-tile-overlay {
+      position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      text-align: center; padding: 8px;
+      color: #fff; font-size: 12px; line-height: 1.35;
+      background: rgba(0,0,0,0.18);
+      backdrop-filter: blur(3px);
+      -webkit-backdrop-filter: blur(3px);
+      opacity: 0;
+      transition: opacity 0.15s ease;
+      pointer-events: none;
+    }
+    .detail-tile:hover .detail-tile-overlay { opacity: 1; }
+    .detail-tile-del {
+      position: absolute; top: 4px; right: 4px;
+      display: none;
+      width: 22px; height: 22px;
+      background: rgba(0,0,0,0.6); color: #fff; border: none; border-radius: 2px;
+      font-size: 12px; cursor: pointer; z-index: 2;
+      min-height: unset !important; min-width: unset !important;
+    }
+    body.admin-mode .detail-tile:hover .detail-tile-del { display: block; }
+    .detail-tile.drag-over { outline: 2px solid #1d60c0; }
+    .detail-add-tile {
+      height: 100%;
+      border: 1px dashed #ccc; background: none;
+      color: #bbb; font-size: 26px; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      min-height: unset !important;
+    }
+    .detail-add-tile:hover { border-color: #999; color: #888; }
     .row-modal-close {
       float: right; background: none; border: none; font-size: 18px; color: #aaa;
       cursor: pointer; margin: -8px -8px 12px 0;
       min-height: unset !important; min-width: unset !important;
     }
     .row-modal-close:hover { color: #333; }
+
+    /* ── Photo detail popup ── */
+    .photo-detail-box {
+      width: min(92vw, 720px);
+      max-height: 88vh;
+      overflow-y: auto;
+      padding: 26px 28px 28px;
+    }
+    .photo-detail-layout {
+      display: flex;
+      gap: 24px;
+      align-items: flex-start;
+    }
+    .photo-detail-img {
+      width: 220px; height: 220px;
+      flex-shrink: 0;
+      object-fit: cover;
+      display: block;
+      background: #f5f5f5;
+      border: 1px solid #eee;
+      animation: none;
+      min-height: unset !important;
+    }
+    .photo-detail-side { flex: 1; min-width: 0; }
+    @media (max-width: 560px) {
+      .photo-detail-layout { flex-direction: column; }
+      .photo-detail-img { width: 100%; height: auto; aspect-ratio: 1; }
+    }
+    .photo-detail-row {
+      display: flex;
+      gap: 14px;
+      padding: 7px 0;
+      border-bottom: 1px solid #f2f2f2;
+      font-size: 13px;
+    }
+    .photo-detail-row:last-child { border-bottom: none; }
+    .photo-detail-key {
+      width: 70px; flex-shrink: 0;
+      color: #aaa; letter-spacing: 0.05em;
+      font-family: 'Courier New', monospace; font-size: 11px;
+      text-transform: uppercase;
+      padding-top: 2px;
+    }
+    .photo-detail-val { color: #444; line-height: 1.5; white-space: pre-wrap; }
+    .photo-detail-tag {
+      display: inline-block;
+      background: #f2f2f2; color: #777;
+      border-radius: 10px;
+      padding: 2px 10px;
+      font-size: 12px;
+      margin: 0 6px 6px 0;
+    }
+    .photo-detail-actions {
+      display: flex; gap: 10px; margin-top: 16px;
+      padding-top: 14px; border-top: 1px solid #f2f2f2;
+    }
+    .photo-detail-actions button { font-size: 12px; padding: 7px 14px; }
 
     /* ── Lightbox ── */
     #lightbox {
@@ -540,6 +740,40 @@
       object-fit: contain; display: none; border: 1px solid #eee;
       min-height: unset !important;
     }
+    .crop-editor { margin-top: 6px; }
+    .crop-ratio-row { display: flex; align-items: center; gap: 6px; margin-top: 6px; flex-wrap: wrap; }
+    .crop-ratio-preset {
+      font-size: 12px; padding: 5px 10px;
+      border: 1px solid #ddd; background: #f9f9f9; color: #888;
+      cursor: pointer; border-radius: 3px;
+    }
+    .crop-ratio-preset:hover { border-color: #1d60c0; color: #1d60c0; }
+    .crop-ratio-custom { display: inline-flex; align-items: center; gap: 3px; font-size: 12px; color: #888; }
+    .crop-ratio-custom input {
+      width: 42px; font-size: 12px; padding: 4px 5px;
+      border: 1px solid #ddd; border-radius: 3px; text-align: center;
+    }
+    .crop-stage {
+      width: 220px; max-height: 300px;
+      overflow: hidden;
+      border: 1px solid #ddd;
+      background: #eee;
+      position: relative;
+      cursor: grab;
+      touch-action: none;
+      margin-top: 8px;
+    }
+    .crop-stage.dragging { cursor: grabbing; }
+    .crop-stage img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+      animation: none;
+      min-height: unset !important;
+      pointer-events: none;
+      user-select: none;
+    }
+    .crop-zoom-slider { width: 220px; display: block; margin-top: 8px; }
     .modal-actions { display: flex; gap: 10px; margin-top: 20px; }
     .modal-save-btn {
       background: rgba(210,245,250,0.5); border: 1px solid rgba(143,97,77,0.35);
@@ -596,12 +830,15 @@
   <div class="photos-sidebar" id="photo-sidebar">
     <div class="sidebar-section">
       <a href="#" class="sidebar-link active" id="sidebar-all"
-         onclick="renderAlbumList();return false;">All Albums</a>
+         onclick="renderAlbumList();return false;">All Photos</a>
     </div>
     <div class="sidebar-section">
       <h3 class="sidebar-title">Albums</h3>
       <div id="sidebar-albums"></div>
       <button class="sidebar-new-album" onclick="openAlbumModal(null)">+ New</button>
+    </div>
+    <div class="sidebar-section">
+      <button class="sidebar-new-album" id="sidebar-sync-btn" onclick="syncIncomingPhotos()">↻ Sync incoming photos</button>
     </div>
   </div>
 
@@ -616,7 +853,7 @@
     <!-- Single album view -->
     <div id="album-view">
       <div class="album-view-header">
-        <button class="back-btn" id="back-btn">← All Albums</button>
+        <button class="back-btn" id="back-btn">← All Photos</button>
         <span style="color:#ddd;font-size:13px;">|</span>
         <span class="album-view-title" id="album-view-title"></span>
         <button class="sidebar-icon-btn" id="album-view-edit-btn" style="display:none;color:#aaa;font-size:15px;" title="Edit album">✎</button>
@@ -669,6 +906,21 @@
   </div>
 </div>
 
+<!-- Photo detail popup -->
+<div class="modal-overlay" id="photo-detail-modal">
+  <div class="modal-box photo-detail-box">
+    <button class="row-modal-close" id="photo-detail-close">✕</button>
+    <div class="photo-detail-layout">
+      <img class="photo-detail-img" id="photo-detail-img" src="" alt="">
+      <div class="photo-detail-side">
+        <div class="photo-detail-meta" id="photo-detail-meta"></div>
+        <div class="photo-detail-actions" id="photo-detail-actions"></div>
+      </div>
+    </div>
+    <input type="file" id="photo-detail-replace-input" accept="image/*" style="display:none">
+  </div>
+</div>
+
 <!-- Album Modal -->
 <div class="modal-overlay" id="album-modal">
   <div class="modal-box">
@@ -694,10 +946,33 @@
     <label id="photo-file-label">Image files <span style="color:#ccc">(select one or many)</span></label>
     <input type="file" id="photo-file-input" accept="image/*" multiple>
     <img class="modal-img-preview" id="photo-file-preview">
+    <div class="crop-editor" id="photo-crop-editor" style="display:none">
+      <label>Framing <span style="color:#ccc">(drag to reposition, slider to zoom, or leave untouched to keep the image as-is)</span></label>
+      <div class="crop-ratio-row">
+        <button type="button" class="crop-ratio-preset" onclick="setCropRatio(1,1)">Square</button>
+        <button type="button" class="crop-ratio-preset" onclick="setCropRatio(4,3)">4:3</button>
+        <button type="button" class="crop-ratio-preset" onclick="setCropRatio(3,2)">3:2</button>
+        <button type="button" class="crop-ratio-preset" onclick="setCropRatio(16,9)">16:9</button>
+        <span class="crop-ratio-custom">
+          <input type="number" id="crop-ratio-w" min="1" value="1" onchange="onCropRatioInput()">:
+          <input type="number" id="crop-ratio-h" min="1" value="1" onchange="onCropRatioInput()">
+        </span>
+      </div>
+      <div class="crop-stage" id="crop-stage">
+        <img id="crop-stage-img" draggable="false" alt="">
+      </div>
+      <input type="range" class="crop-zoom-slider" id="crop-zoom-slider" min="1" max="3" step="0.01" value="1">
+    </div>
     <label>Caption <span style="color:#ccc">(optional)</span></label>
     <input type="text" id="photo-caption-input" placeholder="e.g. Sunset over the water">
     <label>Date <span style="color:#ccc">(optional)</span></label>
     <input type="text" id="photo-date-input" placeholder="e.g. June 2024">
+    <label>City <span style="color:#ccc">(optional)</span></label>
+    <input type="text" id="photo-city-input" placeholder="e.g. Chicago">
+    <label>Tags <span style="color:#ccc">(comma-separated, optional)</span></label>
+    <input type="text" id="photo-tags-input" placeholder="e.g. sunset, lake, family">
+    <label>Notes <span style="color:#ccc">(optional)</span></label>
+    <textarea id="photo-notes-input" placeholder="Any extra notes about this photo"></textarea>
     <label id="photo-group-label">Group name <span style="color:#ccc">(optional — groups photos into a row together)</span></label>
     <input type="text" id="photo-group-input" placeholder="e.g. Nature Day 1">
     <label id="photo-row-label" style="display:none">Assign to existing row</label>
@@ -735,9 +1010,9 @@ let selectMode = false;
 
 async function init() {
   try {
-    const s = await fetch('admin/check-session.php').then(r => r.json());
+    const s = await fetch('admin/check-session.php', { cache: 'no-store' }).then(r => r.json());
     if (s.admin) { isAdmin = true; document.body.classList.add('admin-mode'); }
-  } catch(e) {}
+  } catch(e) { console.error('check-session failed — admin mode will stay off:', e); }
 
   try {
     const r = await fetch(DATA_URL + '?t=' + Date.now());
@@ -769,28 +1044,87 @@ function renderSidebar(activeId) {
 const BORDER_COLORS = ['#8bc34a','#ffc107','#ef9a9a','#90caf9','#ce93d8','#80cbc4','#ffcc80','#a5d6a7'];
 
 // ── Album index — flat photo grid ────────────────────────────────
+const photoFilters = { added: '', year: '', city: '' };
+
+function photoYear(p) {
+  const m = (p.date || '').match(/\d{4}/);
+  return m ? m[0] : '';
+}
+
+function passesPhotoFilters(p) {
+  return (!photoFilters.added || p.added === photoFilters.added)
+      && (!photoFilters.year  || photoYear(p) === photoFilters.year)
+      && (!photoFilters.city  || (p.city || '') === photoFilters.city);
+}
+
+// One entry per group (row) across every album — its cover photo stands in
+// for the whole group on the "All Photos" index.
+function getGroupCovers() {
+  const covers = [];
+  albums.forEach(album => {
+    groupPhotosIntoRows(album.photos || []).forEach(row => {
+      const cover = row.photos[0];
+      if (cover) covers.push({ photo: cover, albumId: album.id, rowId: row.rowId, rowLabel: cover.rowLabel || '' });
+    });
+  });
+  return covers;
+}
+
 function renderAlbumList() {
   currentAlbumId = null;
   renderSidebar(null);
   document.getElementById('album-list').style.display = 'block';
   document.getElementById('album-view').style.display  = 'none';
 
-  const allPhotos = albums.flatMap(a => a.photos || []);
-  lightboxPhotos = allPhotos.slice();
+  const covers = getGroupCovers();
+  photoFilters.added = ''; photoFilters.year = ''; photoFilters.city = '';
 
   const container = document.getElementById('albums-container');
-  if (!allPhotos.length) {
+  if (!covers.length) {
     container.innerHTML = '<p style="color:#ccc;font-size:14px;margin-top:28px;">No photos yet' +
       (isAdmin ? ' — add one with <strong>+ New</strong> in the sidebar.' : '.') + '</p>';
     return;
   }
 
-  container.innerHTML = `<div class="all-photos-grid">` +
-    allPhotos.map((p, idx) => `
-      <div class="all-photo-cell" onclick="openLightbox(${idx})">
-        <img src="${p.src}" alt="${esc(p.caption||'')}">
-      </div>`).join('') +
-    `</div>`;
+  const coverPhotos   = covers.map(c => c.photo);
+  const addedOptions = [...new Set(coverPhotos.map(p => p.added).filter(Boolean))].sort().reverse();
+  const yearOptions   = [...new Set(coverPhotos.map(photoYear).filter(Boolean))].sort().reverse();
+  const cityOptions   = [...new Set(coverPhotos.map(p => p.city).filter(Boolean))].sort();
+
+  const filterSelect = (id, label, options) => options.length ? `
+    <select class="photo-filter-select" id="${id}" onchange="onPhotoFilterChange()">
+      <option value="">${label}: All</option>
+      ${options.map(o => `<option value="${esc(o)}">${esc(o)}</option>`).join('')}
+    </select>` : '';
+
+  container.innerHTML = `
+    <div class="photo-filter-bar">
+      ${filterSelect('filter-added', 'Added', addedOptions)}
+      ${filterSelect('filter-year',  'Year',  yearOptions)}
+      ${filterSelect('filter-city',  'City',  cityOptions)}
+    </div>
+    <div class="covers-flow" id="all-photos-grid"></div>`;
+
+  renderFilteredPhotoGrid(covers);
+}
+
+function onPhotoFilterChange() {
+  photoFilters.added = document.getElementById('filter-added')?.value || '';
+  photoFilters.year  = document.getElementById('filter-year')?.value  || '';
+  photoFilters.city  = document.getElementById('filter-city')?.value  || '';
+  renderFilteredPhotoGrid(getGroupCovers());
+}
+
+function renderFilteredPhotoGrid(covers) {
+  const visible = covers.filter(c => passesPhotoFilters(c.photo));
+
+  const grid = document.getElementById('all-photos-grid');
+  grid.innerHTML = visible.length ? visible.map(c => `
+      <div class="cover-flow-cell" onclick="openGroupFromAllPhotos('${c.albumId}','${c.rowId}')">
+        <img src="${c.photo.thumb || c.photo.src}" alt="${esc(c.photo.caption||'')}" loading="lazy" decoding="async">
+        ${c.rowLabel ? `<div class="cover-flow-label">${esc(c.rowLabel)}</div>` : ''}
+      </div>`).join('')
+    : '<p style="color:#ccc;font-size:14px;">No photos match these filters.</p>';
 }
 
 // ── Single album ──────────────────────────────────────────────────
@@ -853,11 +1187,14 @@ function renderPhotoRows(album) {
   }
 
   function photoCell(p, isCover, pIdx, color) {
-    const cls   = isCover ? 'catalog-cover' : 'catalog-thumb';
-    const style = isCover ? ` style="border-color:${color}"` : '';
-    return `<div class="${cls} photo-cell-wrap" data-photo-id="${p.id}" data-photo-idx="${pIdx}"${style}
+    // The cover always crops to a square (object-fit:cover). Group photos
+    // scale to the row height with no cropping — if a photo needs to look
+    // square there too, that's baked into the file itself via the crop
+    // editor, so it's naturally square already and needs no special CSS.
+    const cls = isCover ? 'catalog-cover' : 'catalog-thumb';
+    return `<div class="${cls} photo-cell-wrap" data-photo-id="${p.id}" data-photo-idx="${pIdx}" style="border-color:${color}"
                  onclick="rowImgClick(event,'${p.id}',${pIdx})">
-      <img src="${p.src}" alt="${esc(p.caption||'')}">
+      <img src="${p.thumb || p.src}" alt="${esc(p.caption||'')}" loading="lazy" decoding="async" onload="markOverflowingRows();fitRowHighlights()">
       <div class="select-check">✓</div>
       ${isAdmin ? `<div class="photo-admin-btns">
         <button class="photo-edit-btn" onclick="event.stopPropagation();openPhotoModal('${p.id}')">✎</button>
@@ -871,22 +1208,76 @@ function renderPhotoRows(album) {
       const cover    = row.photos[0];
       const rest     = row.photos.slice(1);
       const coverIdx = photos.findIndex(x => x.id === cover.id);
-      const color    = BORDER_COLORS[rowIdx % BORDER_COLORS.length];
+      const color    = cover.rowColor || BORDER_COLORS[rowIdx % BORDER_COLORS.length];
       const label    = cover.rowLabel || '';
-      const thumbs   = rest.map(p => photoCell(p, false, photos.findIndex(x => x.id === p.id), '')).join('');
-      return `<div class="catalog-row" data-row-idx="${rowIdx}" onclick="rowClick(event,${rowIdx})">
+      const thumbs   = rest.map(p => photoCell(p, false, photos.findIndex(x => x.id === p.id), color)).join('');
+      return `<div class="catalog-row" data-row-idx="${rowIdx}" data-row-id="${row.rowId}" onclick="rowClick(event,${rowIdx})">
+        <div class="catalog-row-bg"></div>
         ${photoCell(cover, true, coverIdx, color)}
-        <div class="catalog-label">${label ? `::${esc(label)}::` : ''}
+        <div class="catalog-label">${label ? `<span class="catalog-label-text">::${esc(label)}::</span>` : ''}
           ${row.photos.length > 1 ? `<span class="catalog-count">${row.photos.length} photos</span>` : ''}
         </div>
         <div class="catalog-thumbs">${thumbs}</div>
+        ${isAdmin ? `
+          <input type="color" class="row-color-input" value="${color}" title="Group colour"
+                 onclick="event.stopPropagation()" onchange="event.stopPropagation();setRowColor('${row.rowId}', this.value)">
+          <button class="row-edit-icon" onclick="event.stopPropagation();renameRowGroup('${row.rowId}')" title="Rename group">✎</button>
+        ` : ''}
       </div>`;
     }).join('') +
     `</div>`;
 
   container._rows = rows;
-  if (isAdmin) addPhotoDragHandlers();
+  if (isAdmin) { addPhotoDragHandlers(); addRowDragHandlers(); }
+  markOverflowingRows();
+  scaleOverflowingLabels();
+  fitRowHighlights();
 }
+
+// Only fade+scroll a row's thumbs strip when it actually overflows its container.
+function markOverflowingRows() {
+  document.querySelectorAll('.catalog-thumbs').forEach(el => {
+    el.classList.toggle('overflowing', el.scrollWidth > el.clientWidth + 1);
+  });
+}
+// Group names never wrap — if one is too long for its column, shrink it
+// horizontally to fit instead of wrapping or clipping.
+function scaleOverflowingLabels() {
+  document.querySelectorAll('.catalog-label-text').forEach(el => {
+    el.style.transform = '';
+    const available = el.parentElement.clientWidth;
+    if (el.scrollWidth > available && available > 0) {
+      el.style.transform = `scaleX(${available / el.scrollWidth})`;
+    }
+  });
+}
+// Size each row's hover highlight to end at the last visible photo instead
+// of the full flex-stretched row width.
+function fitRowHighlights() {
+  document.querySelectorAll('.catalog-row').forEach(row => {
+    const cover  = row.querySelector('.catalog-cover');
+    const label  = row.querySelector('.catalog-label');
+    const thumbs = row.querySelector('.catalog-thumbs');
+    const bg     = row.querySelector('.catalog-row-bg');
+    if (!cover || !label || !thumbs || !bg) return;
+    const gap = parseFloat(getComputedStyle(row).gap) || 0;
+    // thumbs.scrollWidth is never less than its clientWidth (that's how the
+    // DOM defines it) — it can't tell us the *actual* content width when the
+    // flex:1 track is wider than the photos it holds. Sum the children instead.
+    const thumbGap = parseFloat(getComputedStyle(thumbs).gap) || 0;
+    const kids = Array.from(thumbs.children);
+    const naturalW = kids.reduce((sum, el) => sum + el.offsetWidth, 0) + Math.max(0, kids.length - 1) * thumbGap;
+    const thumbsContentW = Math.min(naturalW, thumbs.clientWidth);
+    // bg starts 7px left of the cover and extends 7px past the last thumb —
+    // matching .catalog-row's own padding on every side.
+    bg.style.width = (7 + cover.offsetWidth + gap + label.offsetWidth + gap + thumbsContentW + 7) + 'px';
+  });
+}
+let _overflowResizeTimer = null;
+window.addEventListener('resize', () => {
+  clearTimeout(_overflowResizeTimer);
+  _overflowResizeTimer = setTimeout(() => { markOverflowingRows(); scaleOverflowingLabels(); fitRowHighlights(); }, 150);
+});
 
 // ── Row / image click logic ───────────────────────────────────────
 function rowImgClick(e, photoId, photoIdx) {
@@ -903,32 +1294,274 @@ function rowClick(e, rowIdx) {
   const container = document.getElementById('photo-rows');
   const rows = container._rows;
   if (!rows || !rows[rowIdx]) return;
-  openRowModal(rows[rowIdx].photos);
+  returnToAllPhotos = false;
+  document.getElementById('row-modal-close').textContent = '✕';
+  openRowModal(rows[rowIdx].rowId);
 }
 
-// ── Row modal ─────────────────────────────────────────────────────
-function openRowModal(photos) {
+// Entry point from the "All Photos" cover index — the row-modal doubles as
+// the "group view", closing it returns to the covers index it was opened from.
+let returnToAllPhotos = false;
+function openGroupFromAllPhotos(albumId, rowId) {
+  currentAlbumId = albumId;
+  returnToAllPhotos = true;
+  document.getElementById('row-modal-close').textContent = '← Back';
+  openRowModal(rowId);
+}
+
+// ── Row modal (group grid view) ────────────────────────────────────
+let currentRowId = null;
+let detailDragId = null;
+
+function openRowModal(rowId) {
+  const album = albums.find(a => a.id === currentAlbumId);
+  const rows = groupPhotosIntoRows(album ? (album.photos || []) : []);
+  const row = rows.find(r => r.rowId === rowId);
+  if (!row) { closeRowModal(); return; }
+
+  currentRowId = rowId;
+  const isRealGroup = !rowId.startsWith('__auto_');
+  const label = row.photos[0] && row.photos[0].rowLabel;
+
+  const tile = (p) => `
+    <div class="detail-tile" data-photo-id="${p.id}"
+         ${isAdmin ? `draggable="true" ondragstart="detailDragId='${p.id}'"
+           ondragover="event.preventDefault();this.classList.add('drag-over')"
+           ondragleave="this.classList.remove('drag-over')"
+           ondrop="event.preventDefault();this.classList.remove('drag-over');dropOnDetailTile('${p.id}')"` : ''}
+         onclick="event.stopPropagation();openPhotoDetail('${p.id}')">
+      <div class="detail-tile-imgwrap">
+        <img src="${p.thumb || p.src}" alt="${esc(p.caption||'')}" loading="lazy" decoding="async">
+        ${p.caption ? `<div class="detail-tile-overlay">${esc(p.caption)}</div>` : ''}
+      </div>
+      ${isAdmin ? `<button class="detail-tile-del" onclick="event.stopPropagation();deletePhotoFromGrid('${p.id}')">✕</button>` : ''}
+    </div>`;
+
+  const addTile = (isAdmin && isRealGroup)
+    ? `<button class="detail-add-tile" onclick="event.stopPropagation();addToRow('${rowId}', ${JSON.stringify(label || '')})">+</button>`
+    : '';
+
   const inner = document.getElementById('row-modal-inner');
-  const label = photos[0] && photos[0].rowLabel;
-  inner.innerHTML = (label ? `<div style="width:100%;font-size:13px;color:#aaa;letter-spacing:0.05em;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid #eee;">${esc(label)}</div>` : '') +
-    photos.map((p) => `
-    <div class="row-modal-item">
-      <img src="${p.src}" alt="${esc(p.caption||'')}">
-      ${p.caption || p.date ? `
-        <div class="row-modal-caption">${p.caption ? esc(p.caption) : ''}</div>
-        ${p.date ? `<div class="row-modal-date">${esc(p.date)}</div>` : ''}
-      ` : ''}
-    </div>`).join('');
+  inner.innerHTML = (label ? `<div class="row-modal-header">${esc(label)}</div>` : '') +
+    `<div class="detail-grid">${row.photos.map(tile).join('')}${addTile}</div>`;
 
   document.getElementById('row-modal').classList.add('active');
   document.body.style.overflow = 'hidden';
 }
+function refreshRowModal() {
+  if (document.getElementById('row-modal').classList.contains('active') && currentRowId) {
+    openRowModal(currentRowId);
+  }
+}
 function closeRowModal() {
   document.getElementById('row-modal').classList.remove('active');
   document.body.style.overflow = '';
+  currentRowId = null;
+  if (returnToAllPhotos) {
+    returnToAllPhotos = false;
+    currentAlbumId = null;
+    renderAlbumList();
+  }
 }
 document.getElementById('row-modal-close').onclick = closeRowModal;
-document.getElementById('row-modal').addEventListener('click', closeRowModal);
+document.getElementById('row-modal').addEventListener('click', e => {
+  if (e.target.id === 'row-modal') closeRowModal();
+});
+
+async function deletePhotoFromGrid(id) {
+  if (!confirm('Remove this photo?')) return;
+  const album = albums.find(a => a.id === currentAlbumId);
+  album.photos = album.photos.filter(p => p.id !== id);
+  await persist();
+  renderPhotoRows(album);
+  refreshRowModal();
+}
+
+async function dropOnDetailTile(targetId) {
+  if (!detailDragId || detailDragId === targetId || !currentRowId) { detailDragId = null; return; }
+  const album = albums.find(a => a.id === currentAlbumId);
+  const rows = groupPhotosIntoRows(album.photos || []);
+  const row = rows.find(r => r.rowId === currentRowId);
+  if (!row) { detailDragId = null; return; }
+
+  const ids = row.photos.map(p => p.id);
+  const fromIdx = ids.indexOf(detailDragId), toIdx = ids.indexOf(targetId);
+  detailDragId = null;
+  if (fromIdx < 0 || toIdx < 0) return;
+  const [moved] = ids.splice(fromIdx, 1);
+  ids.splice(toIdx, 0, moved);
+
+  // Write the row's new order back into the same index positions its photos
+  // already occupied in album.photos, leaving every other photo untouched.
+  const positions = [];
+  album.photos.forEach((p, i) => { if (row.photos.some(rp => rp.id === p.id)) positions.push(i); });
+  const reordered = ids.map(id => row.photos.find(p => p.id === id));
+  positions.forEach((pos, i) => { album.photos[pos] = reordered[i]; });
+
+  await persist();
+  renderPhotoRows(album);
+  refreshRowModal();
+}
+
+function addToRow(rowId, rowLabel) {
+  // Not a real "close" — we're immediately opening the add-photo modal for
+  // the same album, so skip closeRowModal()'s return-to-All-Photos handling
+  // (which would null out currentAlbumId before openPhotoModal needs it).
+  document.getElementById('row-modal').classList.remove('active');
+  document.body.style.overflow = '';
+  currentRowId = null;
+  openPhotoModal(null, { rowId, rowLabel });
+}
+
+function renameRowGroup(rowId) {
+  if (rowId.startsWith('__auto_')) {
+    alert('This is an automatic row — give its photos a Group name (via Edit Photo) to make it renameable.');
+    return;
+  }
+  const album = albums.find(a => a.id === currentAlbumId);
+  const current = ((album.photos || []).find(p => p.rowId === rowId) || {}).rowLabel || '';
+  const next = prompt('Rename this group:', current);
+  if (next === null) return;
+  album.photos.forEach(p => { if (p.rowId === rowId) p.rowLabel = next; });
+  persist().then(() => renderPhotoRows(album));
+}
+
+function setRowColor(rowId, color) {
+  if (rowId.startsWith('__auto_')) {
+    alert('This is an automatic row — give its photos a Group name (via Edit Photo) to make its colour customizable.');
+    return;
+  }
+  const album = albums.find(a => a.id === currentAlbumId);
+  album.photos.forEach(p => { if (p.rowId === rowId) p.rowColor = color; });
+  persist().then(() => renderPhotoRows(album));
+}
+
+// ── Rearranging whole groups (rows) ─────────────────────────────────
+let dragRowId = null;
+function addRowDragHandlers() {
+  const rowEls = document.querySelectorAll('#photo-rows .catalog-row');
+  rowEls.forEach(el => {
+    el.draggable = true;
+    el.addEventListener('dragstart', function(e) {
+      dragRowId = this.dataset.rowId;
+      e.dataTransfer.effectAllowed = 'move';
+    });
+    el.addEventListener('dragover', function(e) {
+      e.preventDefault();
+      e.dataTransfer.dropEffect = 'move';
+      rowEls.forEach(r => r.classList.remove('drag-over'));
+      this.classList.add('drag-over');
+    });
+    el.addEventListener('dragleave', function() { this.classList.remove('drag-over'); });
+    el.addEventListener('drop', function(e) {
+      e.preventDefault();
+      this.classList.remove('drag-over');
+      const targetRowId = this.dataset.rowId;
+      if (!dragRowId || dragRowId === targetRowId) { dragRowId = null; return; }
+      reorderGroupRows(dragRowId, targetRowId);
+      dragRowId = null;
+    });
+    el.addEventListener('dragend', function() {
+      rowEls.forEach(r => r.classList.remove('drag-over'));
+    });
+  });
+}
+function reorderGroupRows(fromRowId, toRowId) {
+  const album = albums.find(a => a.id === currentAlbumId);
+  const rows = groupPhotosIntoRows(album.photos || []);
+  const order = rows.map(r => r.rowId);
+  const fromIdx = order.indexOf(fromRowId), toIdx = order.indexOf(toRowId);
+  if (fromIdx < 0 || toIdx < 0) return;
+  const [moved] = order.splice(fromIdx, 1);
+  order.splice(toIdx, 0, moved);
+
+  // Rebuild album.photos by concatenating each row's own photo objects, in the
+  // new row order — every photo keeps its original rowId/rowLabel untouched,
+  // so a group's name can never drift out of sync with its photos here.
+  const rowMap = new Map(rows.map(r => [r.rowId, r.photos]));
+  album.photos = order.flatMap(rid => rowMap.get(rid));
+
+  persist().then(() => renderPhotoRows(album));
+}
+
+// ── Photo detail popup ───────────────────────────────────────────
+let currentDetailPhotoId = null;
+
+function openPhotoDetail(id) {
+  const album = albums.find(a => a.id === currentAlbumId) || albums.find(a => (a.photos||[]).some(p => p.id === id));
+  const photo = album && (album.photos || []).find(p => p.id === id);
+  if (!photo) return;
+
+  currentDetailPhotoId = id;
+  const img = document.getElementById('photo-detail-img');
+  img.src = photo.thumb || photo.src;
+  img.style.cssText = cropStyleFor(photo);
+
+  const year = photoYear(photo);
+  const tags = (photo.tags || '').split(',').map(t => t.trim()).filter(Boolean);
+  const rows = [
+    photo.caption && ['Caption', esc(photo.caption)],
+    photo.date    && ['Date', esc(photo.date)],
+    year          && ['Year', esc(year)],
+    photo.city    && ['City', esc(photo.city)],
+    tags.length   && ['Tags', tags.map(t => `<span class="photo-detail-tag">${esc(t)}</span>`).join('')],
+    photo.notes   && ['Notes', esc(photo.notes)],
+  ].filter(Boolean);
+
+  document.getElementById('photo-detail-meta').innerHTML = rows.length
+    ? rows.map(([k, v]) => `<div class="photo-detail-row"><span class="photo-detail-key">${k}</span><span class="photo-detail-val">${v}</span></div>`).join('')
+    : '<p style="color:#ccc;font-size:13px;">No details yet.</p>';
+
+  document.getElementById('photo-detail-actions').innerHTML = isAdmin ? `
+    <button class="modal-save-btn" onclick="closePhotoDetail();openPhotoModal('${photo.id}')">Edit details</button>
+    <button class="modal-cancel-btn" onclick="document.getElementById('photo-detail-replace-input').click()">Replace image</button>
+    <button class="modal-cancel-btn" style="color:#c00;" onclick="deletePhotoFromDetail('${photo.id}')">Delete photo</button>
+  ` : '';
+
+  document.getElementById('photo-detail-modal').classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+function closePhotoDetail() {
+  document.getElementById('photo-detail-modal').classList.remove('active');
+  document.body.style.overflow = '';
+  currentDetailPhotoId = null;
+}
+async function deletePhotoFromDetail(id) {
+  if (!confirm('Remove this photo?')) return;
+  const album = albums.find(a => a.id === currentAlbumId);
+  album.photos = album.photos.filter(p => p.id !== id);
+  await persist();
+  renderPhotoRows(album);
+  closePhotoDetail();
+  refreshRowModal();
+}
+document.getElementById('photo-detail-close').onclick = closePhotoDetail;
+document.getElementById('photo-detail-modal').addEventListener('click', e => {
+  if (e.target.id === 'photo-detail-modal') closePhotoDetail();
+});
+document.getElementById('photo-detail-replace-input').addEventListener('change', async function() {
+  const file = this.files[0];
+  this.value = '';
+  if (!file || !currentDetailPhotoId) return;
+  const album = albums.find(a => a.id === currentAlbumId);
+  const photo = album && album.photos.find(p => p.id === currentDetailPhotoId);
+  if (!photo) return;
+
+  const fd = new FormData(); fd.append('file', file); fd.append('type', 'albums');
+  const up = await fetch(UPLOAD_URL, { method: 'POST', body: fd }).then(r => r.json()).catch(() => ({}));
+  if (!up.success) { alert('Upload error: ' + (up.error || 'unknown error')); return; }
+
+  photo.src = up.path;
+  if (up.thumb) photo.thumb = up.thumb; else delete photo.thumb;
+  if (up.display) photo.display = up.display; else delete photo.display;
+  if (up.width && up.height) { photo.width = up.width; photo.height = up.height; }
+  else { delete photo.width; delete photo.height; }
+
+  await persist();
+  renderPhotoRows(album);
+  refreshRowModal();
+  openPhotoDetail(photo.id);
+});
 
 
 // ── Multi-select ──────────────────────────────────────────────────
@@ -1032,7 +1665,7 @@ function openLightbox(idx) {
 }
 function updateLightbox() {
   const p = lightboxPhotos[lightboxIdx];
-  document.getElementById('lightbox-img').src = p.src;
+  document.getElementById('lightbox-img').src = p.display || p.src;
   const parts = [p.caption, p.date].filter(Boolean);
   document.getElementById('lightbox-caption').textContent = parts.join('  ·  ');
   document.getElementById('lightbox-counter').textContent =
@@ -1063,6 +1696,10 @@ document.addEventListener('keydown', e => {
     if (e.key === 'ArrowRight') { lightboxIdx = (lightboxIdx + 1) % lightboxPhotos.length; updateLightbox(); }
     return;
   }
+  if (document.getElementById('photo-detail-modal').classList.contains('active') && e.key === 'Escape') {
+    closePhotoDetail();
+    return;
+  }
   if (document.getElementById('row-modal').classList.contains('active') && e.key === 'Escape') {
     closeRowModal();
   }
@@ -1072,6 +1709,35 @@ document.addEventListener('keydown', e => {
 document.getElementById('back-btn').onclick = renderAlbumList;
 document.getElementById('album-view-edit-btn').onclick = () => openAlbumModal(currentAlbumId);
 
+
+// ── Sync incoming photos (bulk server-side drops) ──────────────────
+async function syncIncomingPhotos() {
+  const btn = document.getElementById('sidebar-sync-btn');
+  const original = btn.textContent;
+  btn.textContent = 'Syncing…'; btn.disabled = true;
+  try {
+    const res = await fetch('admin/sync-incoming-photos.php').then(r => r.json()).catch(() => ({}));
+    if (!res.success) {
+      alert('Sync error: ' + (res.error || 'unknown error'));
+    } else if (res.message) {
+      alert(res.message);
+    } else {
+      const lines = [
+        `Synced ${res.photos_synced} photo(s).`,
+        res.albums_created.length ? `New albums: ${res.albums_created.join(', ')}` : '',
+        res.groups_used.length ? `Groups: ${res.groups_used.join(', ')}` : '',
+        res.already_synced_skipped ? `${res.already_synced_skipped} already synced (skipped)` : '',
+        res.failed.length ? `Failed: ${res.failed.join(', ')}` : '',
+      ].filter(Boolean);
+      alert(lines.join('\n'));
+      const r = await fetch(DATA_URL + '?t=' + Date.now());
+      albums = r.ok ? (await r.json()) : albums;
+      renderAlbumList();
+    }
+  } finally {
+    btn.textContent = original; btn.disabled = false;
+  }
+}
 
 // ── Album modal ───────────────────────────────────────────────────
 let editingAlbumId = null;
@@ -1147,8 +1813,112 @@ let editingPhotoId = null;
 document.getElementById('add-photo-btn').onclick     = () => openPhotoModal(null);
 document.getElementById('photo-modal-cancel').onclick = closePhotoModal;
 document.getElementById('photo-file-input').addEventListener('change', function() {
-  if (this.files[0]) previewFile(this, 'photo-file-preview');
+  if (this.files.length === 1) {
+    document.getElementById('photo-file-preview').style.display = 'none';
+    initCropEditor(URL.createObjectURL(this.files[0]));
+  } else {
+    hideCropEditor();
+    if (this.files[0]) previewFile(this, 'photo-file-preview');
+  }
 });
+
+// ── Crop / framing editor ────────────────────────────────────────
+// The stage preview uses object-position + transform:scale purely for live
+// visual feedback. On save, if the user actually touched anything, the same
+// framing is converted to a pixel crop rectangle and baked into a real new
+// image file server-side (admin/crop-image.php) — this never just stores a
+// CSS overlay, it replaces the photo's actual src.
+let cropState = { x: 50, y: 50, zoom: 1, ratioW: 1, ratioH: 1, touched: false };
+
+function applyCropStagePreview() {
+  const img = document.getElementById('crop-stage-img');
+  img.style.objectPosition = cropState.x + '% ' + cropState.y + '%';
+  img.style.transform = 'scale(' + cropState.zoom + ')';
+  img.style.transformOrigin = cropState.x + '% ' + cropState.y + '%';
+  document.getElementById('crop-stage').style.aspectRatio = cropState.ratioW + ' / ' + cropState.ratioH;
+}
+function setCropRatio(w, h) {
+  cropState.ratioW = w; cropState.ratioH = h; cropState.touched = true;
+  document.getElementById('crop-ratio-w').value = w;
+  document.getElementById('crop-ratio-h').value = h;
+  applyCropStagePreview();
+}
+function onCropRatioInput() {
+  const w = Math.max(1, parseFloat(document.getElementById('crop-ratio-w').value) || 1);
+  const h = Math.max(1, parseFloat(document.getElementById('crop-ratio-h').value) || 1);
+  setCropRatio(w, h);
+}
+// Converts the current drag/zoom/ratio framing into a crop rectangle
+// expressed as percentages of the source image's own width/height.
+function currentCropRectPct() {
+  const img = document.getElementById('crop-stage-img');
+  const imgAspect = img.naturalWidth / img.naturalHeight;
+  const targetAspect = cropState.ratioW / cropState.ratioH;
+  let baseW, baseH;
+  if (imgAspect > targetAspect) { baseH = 100; baseW = 100 * (targetAspect / imgAspect); }
+  else                          { baseW = 100; baseH = 100 * (imgAspect / targetAspect); }
+  const w = baseW / cropState.zoom, h = baseH / cropState.zoom;
+  const x = Math.min(100 - w, Math.max(0, cropState.x - w / 2));
+  const y = Math.min(100 - h, Math.max(0, cropState.y - h / 2));
+  return { x, y, w, h };
+}
+function initCropEditor(srcUrl) {
+  cropState = { x: 50, y: 50, zoom: 1, ratioW: 1, ratioH: 1, touched: false };
+  document.getElementById('crop-stage-img').src = srcUrl;
+  document.getElementById('crop-zoom-slider').value = 1;
+  document.getElementById('crop-ratio-w').value = 1;
+  document.getElementById('crop-ratio-h').value = 1;
+  document.getElementById('photo-crop-editor').style.display = 'block';
+  applyCropStagePreview();
+}
+function hideCropEditor() {
+  document.getElementById('photo-crop-editor').style.display = 'none';
+  cropState = { x: 50, y: 50, zoom: 1, ratioW: 1, ratioH: 1, touched: false };
+}
+// Sends the current crop to the server and applies the result (new src/
+// thumb/display/width/height) onto photoObj. Returns true on success.
+async function bakeCropInto(photoObj) {
+  const rect = currentCropRectPct();
+  const res = await fetch('admin/crop-image.php', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ src: photoObj.src, x: rect.x, y: rect.y, w: rect.w, h: rect.h })
+  }).then(r => r.json()).catch(() => ({}));
+  if (!res.success) { alert('Crop error: ' + (res.error || 'unknown error')); return false; }
+  photoObj.src = res.src;
+  if (res.thumb) photoObj.thumb = res.thumb; else delete photoObj.thumb;
+  if (res.display) photoObj.display = res.display; else delete photoObj.display;
+  if (res.width && res.height) { photoObj.width = res.width; photoObj.height = res.height; }
+  return true;
+}
+(function setupCropDrag() {
+  const stage = document.getElementById('crop-stage');
+  let dragging = false, lastX = 0, lastY = 0;
+  stage.addEventListener('pointerdown', e => {
+    dragging = true; lastX = e.clientX; lastY = e.clientY;
+    stage.classList.add('dragging');
+    stage.setPointerCapture(e.pointerId);
+  });
+  stage.addEventListener('pointermove', e => {
+    if (!dragging) return;
+    const rect = stage.getBoundingClientRect();
+    const dxPct = (e.clientX - lastX) / rect.width * 100;
+    const dyPct = (e.clientY - lastY) / rect.height * 100;
+    lastX = e.clientX; lastY = e.clientY;
+    cropState.x = Math.min(100, Math.max(0, cropState.x - dxPct));
+    cropState.y = Math.min(100, Math.max(0, cropState.y - dyPct));
+    cropState.touched = true;
+    applyCropStagePreview();
+  });
+  ['pointerup', 'pointercancel', 'pointerleave'].forEach(evt =>
+    stage.addEventListener(evt, () => { dragging = false; stage.classList.remove('dragging'); })
+  );
+  document.getElementById('crop-zoom-slider').addEventListener('input', function() {
+    cropState.zoom = parseFloat(this.value);
+    cropState.touched = true;
+    applyCropStagePreview();
+  });
+})();
 
 function getExistingRowGroups() {
   const album = albums.find(a => a.id === currentAlbumId);
@@ -1160,12 +1930,15 @@ function getExistingRowGroups() {
   return [...seen.entries()].map(([rowId, label]) => ({ rowId, label }));
 }
 
-function openPhotoModal(id) {
+let presetRow = null;
+
+function openPhotoModal(id, preset) {
   editingPhotoId = id;
+  presetRow = preset || null;
   const album = albums.find(a=>a.id===currentAlbumId);
   const photo = id ? (album.photos||[]).find(p=>p.id===id) : null;
 
-  document.getElementById('photo-modal-title').textContent = id ? 'Edit Photo' : 'Add Photos';
+  document.getElementById('photo-modal-title').textContent = id ? 'Edit Photo' : (preset ? `Add to "${preset.rowLabel || 'group'}"` : 'Add Photos');
   document.getElementById('photo-file-label').innerHTML = id
     ? 'Replace image <span style="color:#ccc">(optional)</span>'
     : 'Image files <span style="color:#ccc">(select one or many)</span>';
@@ -1173,7 +1946,12 @@ function openPhotoModal(id) {
   document.getElementById('photo-file-input').value = '';
   document.getElementById('photo-caption-input').value = photo ? (photo.caption||'') : '';
   document.getElementById('photo-date-input').value    = photo ? (photo.date||'') : '';
-  document.getElementById('photo-group-input').value   = photo ? (photo.rowLabel||'') : '';
+  document.getElementById('photo-city-input').value    = photo ? (photo.city||'') : '';
+  document.getElementById('photo-tags-input').value    = photo ? (photo.tags||'') : '';
+  document.getElementById('photo-notes-input').value   = photo ? (photo.notes||'') : '';
+  const groupInputEl = document.getElementById('photo-group-input');
+  groupInputEl.value = photo ? (photo.rowLabel||'') : (preset ? (preset.rowLabel||'') : '');
+  groupInputEl.disabled = !!preset;
 
   // Row assignment dropdown (only when editing an existing photo)
   const rowLabel = document.getElementById('photo-row-label');
@@ -1191,13 +1969,18 @@ function openPhotoModal(id) {
   }
 
   const prev = document.getElementById('photo-file-preview');
-  if (photo) { prev.src = photo.src; prev.style.display = 'block'; }
-  else { prev.src = ''; prev.style.display = 'none'; }
+  prev.src = ''; prev.style.display = 'none';
+  if (photo) initCropEditor(photo.src);
+  else hideCropEditor();
 
   document.getElementById('photo-modal').classList.add('active');
   setTimeout(() => document.getElementById('photo-caption-input').focus(), 60);
 }
-function closePhotoModal() { document.getElementById('photo-modal').classList.remove('active'); }
+function closePhotoModal() {
+  document.getElementById('photo-modal').classList.remove('active');
+  presetRow = null;
+  document.getElementById('photo-group-input').disabled = false;
+}
 
 document.getElementById('photo-modal-save').onclick = async () => {
   const album = albums.find(a=>a.id===currentAlbumId);
@@ -1206,6 +1989,9 @@ document.getElementById('photo-modal-save').onclick = async () => {
   const files      = document.getElementById('photo-file-input').files;
   const caption    = document.getElementById('photo-caption-input').value.trim();
   const date       = document.getElementById('photo-date-input').value.trim();
+  const city       = document.getElementById('photo-city-input').value.trim();
+  const tags       = document.getElementById('photo-tags-input').value.trim();
+  const notes      = document.getElementById('photo-notes-input').value.trim();
   const groupInput = document.getElementById('photo-group-input').value.trim();
 
   if (!editingPhotoId && !files.length) { alert('Please select at least one image.'); return; }
@@ -1217,6 +2003,12 @@ document.getElementById('photo-modal-save').onclick = async () => {
     const photo = album.photos.find(p=>p.id===editingPhotoId);
     photo.caption = caption;
     photo.date    = date;
+    if (city)  photo.city  = city;  else delete photo.city;
+    if (tags)  photo.tags  = tags;  else delete photo.tags;
+    if (notes) photo.notes = notes; else delete photo.notes;
+    // Legacy CSS-only crop fields from an earlier version — framing is now
+    // baked into the actual image file instead, so these no longer apply.
+    delete photo.cropX; delete photo.cropY; delete photo.cropZoom; delete photo.cropMode;
 
     const rowVal = document.getElementById('photo-row-select').value;
     if (rowVal === '__new__') {
@@ -1233,20 +2025,42 @@ document.getElementById('photo-modal-save').onclick = async () => {
     if (files[0]) {
       const fd = new FormData(); fd.append('file', files[0]); fd.append('type', 'albums');
       const up = await fetch(UPLOAD_URL, {method:'POST',body:fd}).then(r=>r.json()).catch(()=>({}));
-      if (up.success) photo.src = up.path;
+      if (up.success) {
+        photo.src = up.path;
+        if (up.thumb) photo.thumb = up.thumb; else delete photo.thumb;
+        if (up.display) photo.display = up.display; else delete photo.display;
+        if (up.width && up.height) { photo.width = up.width; photo.height = up.height; }
+        else { delete photo.width; delete photo.height; }
+      }
       else if (up.error) { alert('Upload error: ' + up.error); btn.textContent='Save'; btn.classList.remove('modal-saving'); return; }
     }
+
+    if (cropState.touched) {
+      const ok = await bakeCropInto(photo);
+      if (!ok) { btn.textContent = 'Save'; btn.classList.remove('modal-saving'); return; }
+    }
   } else {
-    // All files in this batch share the same rowId; group name labels the row
-    const batchRowId = groupInput
-      ? groupInput.toLowerCase().replace(/\s+/g, '-') + '-' + uid().slice(0,4)
+    // All files in this batch share the same rowId; group name labels the row.
+    // If we came from "+ Add" inside an existing group's grid, join that exact
+    // row instead of minting a new one.
+    const batchRowId = presetRow ? presetRow.rowId
+      : groupInput ? groupInput.toLowerCase().replace(/\s+/g, '-') + '-' + uid().slice(0,4)
       : uid();
-    const batchLabel = groupInput || '';
+    const batchLabel = presetRow ? (presetRow.rowLabel || '') : (groupInput || '');
+    // The crop editor only appears for a single selected file, so only that
+    // case carries a deliberate crop — a batch of several stays uncropped.
     for (const file of files) {
       const fd = new FormData(); fd.append('file', file); fd.append('type', 'albums');
       const up = await fetch(UPLOAD_URL, {method:'POST',body:fd}).then(r=>r.json()).catch(()=>({}));
       if (!up.success) { alert('Upload error: ' + (up.error||'unknown error')); continue; }
-      album.photos.push({ id: uid(), src: up.path, caption, date, rowId: batchRowId, rowLabel: batchLabel });
+      const newPhoto = {
+        id: uid(), src: up.path, thumb: up.thumb || undefined, display: up.display || undefined,
+        width: up.width || undefined, height: up.height || undefined,
+        caption, date, city: city || undefined, tags: tags || undefined, notes: notes || undefined,
+        added: todayISO(), rowId: batchRowId, rowLabel: batchLabel
+      };
+      if (files.length === 1 && cropState.touched) await bakeCropInto(newPhoto);
+      album.photos.push(newPhoto);
     }
   }
 
@@ -1280,6 +2094,19 @@ async function persist(silent = false) {
 
 // ── Helpers ───────────────────────────────────────────────────────
 function uid() { return Math.random().toString(36).slice(2,9) + Date.now().toString(36); }
+function todayISO() { return new Date().toISOString().slice(0, 10); }
+
+// Reproduces the crop/zoom framing chosen in the admin editor wherever a
+// photo is shown cropped (object-fit:cover). No-op for photos without one.
+function cropStyleFor(p) {
+  if (!p) return '';
+  const hasCrop = p.cropX != null || p.cropY != null || (p.cropZoom != null && p.cropZoom !== 1);
+  if (!hasCrop) return '';
+  const x = p.cropX != null ? p.cropX : 50;
+  const y = p.cropY != null ? p.cropY : 50;
+  const z = p.cropZoom != null ? p.cropZoom : 1;
+  return `object-position:${x}% ${y}%;transform:scale(${z});transform-origin:${x}% ${y}%;`;
+}
 function esc(s) {
   return String(s)
     .replace(/&/g,'&amp;').replace(/</g,'&lt;')
