@@ -537,23 +537,25 @@
     }
     /* Flow layout, like the album-view row and All Photos: fixed height,
        each tile's width follows its own photo's aspect ratio (as uploaded),
-       nothing cropped. Wraps into new rows once it runs out of width. */
+       nothing cropped. Wraps into new rows once it runs out of width.
+       No wrapper div around the img — a plain block element with width:auto
+       fills its container instead of shrinking to the image's natural size,
+       which is what previously made every tile render at a uniform width
+       regardless of the photo's real proportions. flex:0 0 auto (matching
+       .cover-flow-cell, which never had this bug) guarantees the tile only
+       ever sizes to its content. */
     .detail-grid { display: flex; flex-wrap: wrap; gap: 6px; }
     .detail-tile {
       position: relative;
       height: 130px;
+      flex: 0 0 auto;
+      overflow: hidden;
       cursor: pointer;
       border-radius: 3px;
       background: transparent;
       transition: background 0.15s ease, transform 0.15s ease;
     }
     .detail-tile:hover { background: rgba(29,96,192,0.06); transform: translateY(-2px); }
-    .detail-tile-imgwrap {
-      height: 100%; width: auto;
-      display: block;
-      overflow: hidden;
-      position: relative;
-    }
     .detail-tile img {
       height: 100%; width: auto;
       display: block;
@@ -1325,10 +1327,8 @@ function openRowModal(rowId) {
            ondragleave="this.classList.remove('drag-over')"
            ondrop="event.preventDefault();this.classList.remove('drag-over');dropOnDetailTile('${p.id}')"` : ''}
          onclick="event.stopPropagation();openPhotoDetail('${p.id}')">
-      <div class="detail-tile-imgwrap">
-        <img src="${p.thumb || p.src}" alt="${esc(p.caption||'')}" loading="lazy" decoding="async">
-        ${p.caption ? `<div class="detail-tile-overlay">${esc(p.caption)}</div>` : ''}
-      </div>
+      <img src="${p.thumb || p.src}" alt="${esc(p.caption||'')}" loading="lazy" decoding="async">
+      ${p.caption ? `<div class="detail-tile-overlay">${esc(p.caption)}</div>` : ''}
       ${isAdmin ? `<button class="detail-tile-del" onclick="event.stopPropagation();deletePhotoFromGrid('${p.id}')">✕</button>` : ''}
     </div>`;
 
