@@ -101,6 +101,18 @@ h2 {
     color: #45a049;
 }
 
+/* Pre-expand the category links (not the "SEE:" label) and shrink them
+   slightly on hover, so the switch to uppercase doesn't widen the word
+   and shift the layout. */
+.nav-links .sub-nav-item:not(:first-child) {
+    letter-spacing: 2.2px;
+}
+
+.nav-links .sub-nav-item:not(:first-child):hover {
+    letter-spacing: 0;
+    font-size: 16px;
+}
+
 .title-container {
     width: 80%;
     margin: 0 auto;
