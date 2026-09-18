@@ -390,11 +390,6 @@
       animation: none;
       min-height: unset !important;
     }
-    /* Opt-in per-photo: crop to a square (matching the cover) instead of
-       scaling to the row height with no crop. */
-    .catalog-thumb.is-crop-square { width: var(--thumb-h); }
-    .catalog-thumb.is-crop-square img { width: 100%; object-fit: cover; }
-
     /* admin new-album row */
     .catalog-new-row {
       display: none;
@@ -1495,7 +1490,6 @@ function openPhotoDetail(id) {
   currentDetailPhotoId = id;
   const img = document.getElementById('photo-detail-img');
   img.src = photo.thumb || photo.src;
-  img.style.cssText = cropStyleFor(photo);
 
   const year = photoYear(photo);
   const tags = (photo.tags || '').split(',').map(t => t.trim()).filter(Boolean);
@@ -2096,17 +2090,6 @@ async function persist(silent = false) {
 function uid() { return Math.random().toString(36).slice(2,9) + Date.now().toString(36); }
 function todayISO() { return new Date().toISOString().slice(0, 10); }
 
-// Reproduces the crop/zoom framing chosen in the admin editor wherever a
-// photo is shown cropped (object-fit:cover). No-op for photos without one.
-function cropStyleFor(p) {
-  if (!p) return '';
-  const hasCrop = p.cropX != null || p.cropY != null || (p.cropZoom != null && p.cropZoom !== 1);
-  if (!hasCrop) return '';
-  const x = p.cropX != null ? p.cropX : 50;
-  const y = p.cropY != null ? p.cropY : 50;
-  const z = p.cropZoom != null ? p.cropZoom : 1;
-  return `object-position:${x}% ${y}%;transform:scale(${z});transform-origin:${x}% ${y}%;`;
-}
 function esc(s) {
   return String(s)
     .replace(/&/g,'&amp;').replace(/</g,'&lt;')

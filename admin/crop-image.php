@@ -29,15 +29,19 @@ $yPct = floatval($input['y'] ?? 0);
 $wPct = floatval($input['w'] ?? 100);
 $hPct = floatval($input['h'] ?? 100);
 
-// Only ever crop files we ourselves manage under images/albums/ — never an
-// arbitrary path handed in by the client.
-if (!preg_match('#^/images/albums/[a-zA-Z0-9_\-.]+$#', $src)) {
+// Only ever crop files under images/ (covers both new uploads in
+// images/albums/ and the site's existing photo library in images/photos/**)
+// — never an arbitrary path handed in by the client. realpath() resolves
+// any ../ traversal before the containment check, so this can't escape
+// the images/ directory no matter what path shape is sent.
+if (!preg_match('#^/images/[a-zA-Z0-9_\-./ ]+\.(jpe?g|png|gif|webp)$#i', $src)) {
     echo json_encode(['success' => false, 'error' => 'Invalid image path']);
     exit;
 }
 
-$srcPath = __DIR__ . '/..' . $src;
-if (!is_file($srcPath)) {
+$imagesRoot = realpath(__DIR__ . '/../images');
+$srcPath = realpath(__DIR__ . '/..' . $src);
+if (!$srcPath || !$imagesRoot || strpos($srcPath, $imagesRoot . DIRECTORY_SEPARATOR) !== 0 || !is_file($srcPath)) {
     echo json_encode(['success' => false, 'error' => 'Source image not found']);
     exit;
 }
