@@ -50,9 +50,9 @@ if (!in_array($mime, $allowed)) {
     exit;
 }
 
-// Max 5MB
-if ($file['size'] > 5 * 1024 * 1024) {
-    echo json_encode(['success' => false, 'error' => 'File too large (max 5MB)']);
+// Max 20MB — matches the server's nginx/php-fpm upload limits
+if ($file['size'] > 20 * 1024 * 1024) {
+    echo json_encode(['success' => false, 'error' => 'File too large (max 20MB)']);
     exit;
 }
 
