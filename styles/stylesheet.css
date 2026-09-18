@@ -40,12 +40,12 @@ h2 {
     left: 0;
     right: 0;
     border-bottom: 2px solid #ddd;
-    transition: all 0.3s;
+    transition: opacity 0.3s, visibility 0.3s;
     z-index: 2;
 }
 
 .navigation.dimmed {
-    transition: all 0.3s;
+    transition: opacity 0.3s, visibility 0.3s;
     visibility: hidden;
     opacity: 0;
 }

@@ -2,6 +2,18 @@
 session_start();
 header('Content-Type: application/json');
 
+// Never let a PHP warning/notice leak into the response body — that breaks
+// JSON.parse() on the client and shows up there as an opaque "unknown error".
+// Errors still go to the server's error log (log_errors is untouched).
+ini_set('display_errors', '0');
+register_shutdown_function(function () {
+    $e = error_get_last();
+    if ($e && in_array($e['type'], [E_ERROR, E_PARSE, E_CORE_ERROR, E_COMPILE_ERROR], true)) {
+        if (!headers_sent()) header('Content-Type: application/json');
+        echo json_encode(['success' => false, 'error' => 'Server error: ' . $e['message']]);
+    }
+});
+
 if (empty($_SESSION['admin'])) {
     echo json_encode(['success' => false, 'error' => 'Unauthorized']);
     exit;
@@ -50,11 +62,29 @@ $filename = $slug . '_' . time() . '.' . $ext;
 $destDir = __DIR__ . '/../images/' . $type . '/';
 $destPath = $destDir . $filename;
 
-if (!is_dir($destDir)) mkdir($destDir, 0755, true);
-
-if (!move_uploaded_file($file['tmp_name'], $destPath)) {
-    echo json_encode(['success' => false, 'error' => 'Could not save file']);
+if (!is_dir($destDir) && !mkdir($destDir, 0755, true) && !is_dir($destDir)) {
+    echo json_encode(['success' => false, 'error' => "Could not create images/$type/ — check its parent directory is writable by the web server user"]);
     exit;
 }
 
-echo json_encode(['success' => true, 'path' => '/images/' . $type . '/' . $filename]);
+if (!is_writable($destDir)) {
+    echo json_encode(['success' => false, 'error' => "images/$type/ is not writable by the web server user (likely owned by a different user, e.g. from an SSH/rsync upload) — fix its permissions on the server"]);
+    exit;
+}
+
+if (!move_uploaded_file($file['tmp_name'], $destPath)) {
+    echo json_encode(['success' => false, 'error' => 'Could not save file (move_uploaded_file failed after the writability check passed — check server disk space and error log)']);
+    exit;
+}
+
+require __DIR__ . '/lib/image-derivatives.php';
+$deriv = generateDerivatives($destPath, $destDir, $slug, '/images/' . $type . '/');
+
+echo json_encode([
+    'success' => true,
+    'path'    => '/images/' . $type . '/' . $filename,
+    'thumb'   => $deriv['thumb'],
+    'display' => $deriv['display'],
+    'width'   => $deriv['width'],
+    'height'  => $deriv['height'],
+]);

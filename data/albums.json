@@ -91,13 +91,19 @@
                 "id": "54js1vz",
                 "src": "\/images\/photos\/Family\/6ADA98B0-C67B-4586-A363-1D8085A2900D.jpeg",
                 "caption": "",
-                "date": ""
+                "date": "",
+                "cropX": 0,
+                "cropY": 47.182925112612615,
+                "cropZoom": 1
             },
             {
                 "id": "u7r9006",
                 "src": "\/images\/photos\/Family\/CF1F34C3-1A58-4DE6-99AE-72FE57399B0F.JPG",
                 "caption": "",
-                "date": ""
+                "date": "",
+                "cropX": 12.350436373873881,
+                "cropY": 47.85156250000001,
+                "cropZoom": 1.23
             },
             {
                 "id": "qa8yx29",
@@ -264,158 +270,6 @@
             {
                 "id": "7il2cn8",
                 "src": "\/images\/photos\/Family\/ScanHD_jan160010 copy 4.jpeg",
-                "caption": "",
-                "date": ""
-            }
-        ]
-    },
-    {
-        "id": "9um4zug",
-        "name": "Friends",
-        "desc": "",
-        "cover": "\/images\/albums\/p1040767_1781691918.jpeg",
-        "photos": [
-            {
-                "id": "jumx7xlmqhy5zoo",
-                "src": "\/images\/albums\/img8363_1781693262.jpeg",
-                "caption": "",
-                "date": ""
-            },
-            {
-                "id": "dgszujbmqhy5zqo",
-                "src": "\/images\/albums\/img8362_1781693262.jpeg",
-                "caption": "",
-                "date": ""
-            },
-            {
-                "id": "ndjhmjkmqhy5znh",
-                "src": "\/images\/albums\/img8365_1781693262.jpeg",
-                "caption": "",
-                "date": ""
-            },
-            {
-                "id": "0cmvi16mqhy5zpl",
-                "src": "\/images\/albums\/img8364_1781693262.jpeg",
-                "caption": "",
-                "date": ""
-            },
-            {
-                "id": "5449vtdmqhy5zmf",
-                "src": "\/images\/albums\/img8366_1781693262.jpeg",
-                "caption": "",
-                "date": ""
-            },
-            {
-                "id": "qwf81kk",
-                "src": "\/images\/photos\/Friends\/IMG_1048.jpeg",
-                "caption": "",
-                "date": ""
-            },
-            {
-                "id": "5yis7z3",
-                "src": "\/images\/photos\/Friends\/IMG_6333.jpeg",
-                "caption": "",
-                "date": ""
-            },
-            {
-                "id": "6vcuswu",
-                "src": "\/images\/photos\/Friends\/P1050571.JPG",
-                "caption": "",
-                "date": ""
-            },
-            {
-                "id": "2vzk6r3",
-                "src": "\/images\/photos\/Friends\/P1050593.JPG",
-                "caption": "",
-                "date": ""
-            },
-            {
-                "id": "gv54apzmqhy5zrt",
-                "src": "\/images\/albums\/img8357_1781693262.jpeg",
-                "caption": "",
-                "date": ""
-            },
-            {
-                "id": "79mnw9amqhy5zsu",
-                "src": "\/images\/albums\/img8356_1781693262.jpeg",
-                "caption": "",
-                "date": ""
-            },
-            {
-                "id": "d9a2kg4mqhy5zuq",
-                "src": "\/images\/albums\/img8355_1781693262.jpeg",
-                "caption": "",
-                "date": ""
-            },
-            {
-                "id": "qynuop6mqhy5zxo",
-                "src": "\/images\/albums\/img8354_1781693262.jpeg",
-                "caption": "",
-                "date": ""
-            },
-            {
-                "id": "bcnfkrvmqhy5zyy",
-                "src": "\/images\/albums\/img8350_1781693262.jpeg",
-                "caption": "",
-                "date": ""
-            },
-            {
-                "id": "ullklulmqhy600a",
-                "src": "\/images\/albums\/img8349_1781693262.jpeg",
-                "caption": "",
-                "date": ""
-            },
-            {
-                "id": "pi1uj6hmqhy601e",
-                "src": "\/images\/albums\/img8341_1781693262.jpeg",
-                "caption": "",
-                "date": ""
-            },
-            {
-                "id": "xycb2fjmqhy602u",
-                "src": "\/images\/albums\/img8345_1781693262.jpeg",
-                "caption": "",
-                "date": ""
-            },
-            {
-                "id": "5fsteiqmqhy6042",
-                "src": "\/images\/albums\/img8342_1781693262.jpeg",
-                "caption": "",
-                "date": ""
-            },
-            {
-                "id": "w4fheq4mqhy605b",
-                "src": "\/images\/albums\/img8340_1781693262.jpeg",
-                "caption": "",
-                "date": ""
-            },
-            {
-                "id": "rgxkjkzmqhy606p",
-                "src": "\/images\/albums\/img8334_1781693262.jpeg",
-                "caption": "",
-                "date": ""
-            },
-            {
-                "id": "q16n86nmqhy6084",
-                "src": "\/images\/albums\/img8333_1781693263.jpeg",
-                "caption": "",
-                "date": ""
-            },
-            {
-                "id": "xf1pgojmqhy609e",
-                "src": "\/images\/albums\/img8330_1781693263.jpeg",
-                "caption": "",
-                "date": ""
-            },
-            {
-                "id": "czbb0ormqhy60ah",
-                "src": "\/images\/albums\/img8325_1781693263.jpeg",
-                "caption": "",
-                "date": ""
-            },
-            {
-                "id": "q0mkqklmqhy60bi",
-                "src": "\/images\/albums\/img8324_1781693263.jpeg",
                 "caption": "",
                 "date": ""
             }
