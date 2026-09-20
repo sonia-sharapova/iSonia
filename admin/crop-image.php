@@ -46,6 +46,12 @@ if (!$srcPath || !$imagesRoot || strpos($srcPath, $imagesRoot . DIRECTORY_SEPARA
     exit;
 }
 
+// The crop rectangle (x/y/w/h %) was computed by the browser against the
+// EXIF-auto-rotated preview it displayed — normalize the source file's own
+// pixels to match *before* reading its dimensions, or an unrotated source
+// would have the rectangle applied to the wrong (raw sensor) orientation.
+normalizeOrientationInPlace($srcPath);
+
 $info = @getimagesize($srcPath);
 if (!$info) { echo json_encode(['success' => false, 'error' => 'Could not read image']); exit; }
 [$origW, $origH, $imgType] = $info;

@@ -50,6 +50,11 @@ if (!function_exists('imagerotate')) {
     exit;
 }
 
+// Normalize any pending EXIF orientation into the actual pixels first, so
+// the +/-90 the admin asked for applies on top of what they're actually
+// seeing rather than compounding with an uncorrected raw orientation.
+normalizeOrientationInPlace($srcPath);
+
 $info = @getimagesize($srcPath);
 if (!$info) { echo json_encode(['success' => false, 'error' => 'Could not read image']); exit; }
 [, , $imgType] = $info;
