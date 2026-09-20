@@ -30,12 +30,15 @@
       margin-top: 30px;
     }
 
+    /* Justified-gallery flow instead of a fixed grid: every thumb shares the
+       same height, but its width follows the source image's own aspect
+       ratio (no cropping) — roughly 4 land per row at this column's width,
+       exactly like this. */
     .projects-rows {
       grid-column: span 3;
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      column-gap: 32px;
-      row-gap: 48px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
       min-width: 0;
     }
 
@@ -46,6 +49,7 @@
     .proj-card {
       display: flex;
       flex-direction: column;
+      flex: 0 0 auto;
       text-decoration: none;
       color: inherit;
       border: 1px solid transparent;
@@ -62,9 +66,13 @@
       z-index: 2;
     }
 
+    /* Fixed height, width left to size itself from the image's own
+       intrinsic aspect ratio (align-self: flex-start opts out of the
+       column flex's default stretch-to-card-width behavior) — this keeps
+       every thumb the same height without cropping any of them. */
     .proj-thumb {
-      width: 100%;
-      aspect-ratio: 280 / 192;
+      height: 132px;
+      align-self: flex-start;
       border-radius: 1px;
       overflow: hidden;
       background: #eee;
@@ -72,9 +80,10 @@
     }
 
     .proj-thumb img {
-      width: 100%;
       height: 100%;
-      object-fit: cover;
+      width: auto;
+      display: block;
+      object-fit: contain;
     }
 
     .proj-text {
@@ -84,6 +93,13 @@
       text-align: right;
       gap: 4px;
       margin-top: 10px;
+      /* width:0 + min-width:100% keeps the title's own text length from
+         contributing to the card's shrink-to-fit width calc (which should
+         come from the thumb alone) — it still stretches to match whatever
+         width the thumb ends up at, wrapping onto a second line if needed. */
+      width: 0;
+      min-width: 100%;
+      box-sizing: border-box;
     }
 
     .proj-title {
@@ -171,13 +187,12 @@
     }
 
     @media (max-width: 700px) {
-      .projects-rows {
-        grid-template-columns: repeat(2, 1fr);
-        column-gap: 20px;
-        row-gap: 32px;
+      .proj-thumb {
+        height: 100px;
       }
     }
   </style>
+  <script src="https://mcp.figma.com/mcp/html-to-design/capture.js" async></script>
 </head>
 <body class="m2">
 <nav class="navigation">
@@ -212,20 +227,6 @@
     </div>
     <div class="projects-body">
       <div class="projects-rows">
-        <a href="../projects/design/poster.html" class="proj-card" target="_blank">
-          <div class="proj-thumb"><img src="../images/projects/preview/poster.png" alt="Poster Design"></div>
-          <div class="proj-text">
-            <h2 class="proj-title">Poster Design</h2>
-            <span class="proj-category">Tools</span>
-          </div>
-        </a>
-        <a href="../projects/bezier.html" class="proj-card" target="_blank">
-          <div class="proj-thumb"><img src="../images/projects/preview/curve.png" alt="Plotting Bezier Curves"></div>
-          <div class="proj-text">
-            <h2 class="proj-title">Plotting Bezier Curves</h2>
-            <span class="proj-category">Tools</span>
-          </div>
-        </a>
         <a href="../projects/camera/ghostLines.html" class="proj-card">
           <div class="proj-thumb"><img src="../images/projects/preview/motion5.png" alt="Ghost Lines"></div>
           <div class="proj-text">
@@ -266,6 +267,20 @@
           <div class="proj-text">
             <h2 class="proj-title">Draw ASCII Art</h2>
             <span class="proj-category">Creative</span>
+          </div>
+        </a>
+        <a href="../projects/design/poster.html" class="proj-card" target="_blank">
+          <div class="proj-thumb"><img src="../images/projects/preview/poster.png" alt="Poster Design"></div>
+          <div class="proj-text">
+            <h2 class="proj-title">Poster Design</h2>
+            <span class="proj-category">Tools</span>
+          </div>
+        </a>
+        <a href="../projects/bezier.html" class="proj-card" target="_blank">
+          <div class="proj-thumb"><img src="../images/projects/preview/curve.png" alt="Plotting Bezier Curves"></div>
+          <div class="proj-text">
+            <h2 class="proj-title">Plotting Bezier Curves</h2>
+            <span class="proj-category">Tools</span>
           </div>
         </a>
         <a href="../game/riverPass/riverPass.html" class="proj-card">
