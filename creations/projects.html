@@ -15,24 +15,27 @@
     .projects {
       width: 100%;
       max-width: 100%;
-      padding: 0 64px;
+      padding: 0 48px;
       box-sizing: border-box;
     }
 
-    /* Three-per-row project grid, titles floating right under each image */
+    /* 4 equal-width columns across the whole content area: 3 for the
+       project grid, 1 for the sidebar — so the sidebar is sized exactly
+       like one project column instead of a fixed px width. */
     .projects-body {
-      display: flex;
-      gap: 40px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 32px;
       width: 100%;
       margin-top: 30px;
     }
 
     .projects-rows {
+      grid-column: span 3;
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       column-gap: 32px;
       row-gap: 48px;
-      flex: 1;
       min-width: 0;
     }
 
@@ -105,9 +108,9 @@
     }
 
     .projects-sidebar {
+      grid-column: span 1;
       position: relative;
-      width: 240px;
-      flex-shrink: 0;
+      min-width: 0;
       border-left: 1px solid #ddd;
       padding-left: 24px;
     }
@@ -147,10 +150,14 @@
     /* mobile */
     @media (max-width: 900px) {
       .projects-body {
-        flex-direction: column;
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+      .projects-rows {
+        grid-column: 1;
       }
       .projects-sidebar {
-        width: 100%;
+        grid-column: 1;
         border-left: none;
         border-top: 1px solid #ddd;
         padding-left: 0;
@@ -171,7 +178,6 @@
       }
     }
   </style>
-  <script src="https://mcp.figma.com/mcp/html-to-design/capture.js" async></script>
 </head>
 <body class="m2">
 <nav class="navigation">
