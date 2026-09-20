@@ -1,170 +1,183 @@
+/* Resource category pages — three-column tree:
+   categories → this category's sections → the section's links.
+   The two left columns follow the sidebars on the Photos and Blog pages. */
 
 .content {
+    /* same width as the page title's rule above, so the tree lines up with it */
+    box-sizing: border-box;
+    width: 80%;
     max-width: 1200px;
     margin: 0 auto;
     margin-bottom: 5%;
-    padding: 0 20px;
+    padding: 0;
 }
 
-.back-link {
-    display: inline-block;
-    margin: 20px 0;
-    padding: 10px 20px;
-    background: #f9f9f9;
-    border: 1px solid #d5d5d5;
-    text-decoration: none;
-    color: #414141;
-    border-radius: 4px;
-    transition: all 0.2s ease;
+.res-tree {
+    display: grid;
+    grid-template-columns: 200px 240px minmax(0, 1fr);
+    align-items: start;
+    margin-top: 24px;
 }
 
-.back-link:hover {
-    background: #fff;
-    color: #45a049;
+.res-col { min-width: 0; }
+
+/* each column sits to the right of its parent, with a hairline between */
+.res-col + .res-col {
+    margin-left: 32px;
+    padding-left: 32px;
+    border-left: 1px solid #ececec;
 }
 
-/* Folder Navigation */
-.folder-navigation {
-    background: #f9f9f9;
-    border: 1px solid #d5d5d5;
-    border-radius: 4px;
-    margin-bottom: 30px;
-    font-family: 'Courier New', monospace;
+/* ── Column heading: title + a one-line description ── */
+.res-head {
+    margin-bottom: 14px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #ddd;
 }
 
-.folder-item {
-    border-bottom: 1px solid #e5e5e5;
+.res-title {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 500;
+    color: #666666;
 }
 
-.folder-item:last-child {
-    border-bottom: none;
-}
-
-.folder-header {
-    padding: 15px 20px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    transition: all 0.2s ease;
-    user-select: none;
-}
-
-.folder-header:hover {
-    background: #fff;
-}
-
-.folder-icon {
-    font-size: 16px;
-    width: 20px;
-    transition: transform 0.2s ease;
-}
-
-.folder-item.open .folder-icon {
-    transform: rotate(90deg);
-}
-
-.folder-name {
-    font-size: 16px;
-    color: #414141;
-    font-weight: normal;
-}
-
-.folder-count {
-    margin-left: auto;
-    font-size: 12px;
+.res-sub {
+    margin: 6px 0 0;
+    font-size: 13px;
+    font-style: italic;
+    line-height: 1.4;
     color: #888f8d;
 }
 
-.folder-content {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.3s ease;
+.res-sub::before {
+    content: "└";
+    margin-right: 6px;
+    font-style: normal;
+    color: #c4c4c4;
 }
 
-.folder-item.open .folder-content {
-    max-height: 5000px;
+/* ── Category and section lists ── */
+.res-list { display: flex; flex-direction: column; }
+.res-row { position: relative; }
+
+.res-link {
+    display: block;
+    padding: 8px 0 8px 10px;
+    color: #888f8d;
+    text-decoration: none;
+    font-size: 18px;
+    line-height: 1.3;
+    border-left: 2px solid transparent;
+    transition: all 0.3s ease;
 }
 
-/* Resource Table */
-.resource-table {
-    width: 100%;
-    background: white;
-    border-collapse: collapse;
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 14px;
+.res-col-sections .res-link { font-size: 16px; }
+
+.res-link:hover {
+    color: #45a049;
+    border-left-color: #45a049;
+    padding-left: 18px;
 }
 
-.resource-table thead {
-    background: #f5f5f5;
-    border-bottom: 2px solid #d5d5d5;
+.res-link.active {
+    color: #45a049;
+    border-left-color: #45a049;
+    font-weight: 500;
 }
 
-.resource-table th {
-    padding: 12px 15px;
-    text-align: left;
-    font-weight: normal;
-    color: #414141;
-    border-right: 1px solid #e5e5e5;
+.res-back {
+    display: inline-block;
+    margin-top: 22px;
+    font-size: 13px;
+    color: #888f8d;
+    text-decoration: none;
 }
 
-.resource-table th:last-child {
-    border-right: none;
-}
+.res-back:hover { color: #45a049; }
 
-.resource-table td {
-    padding: 10px 15px;
-    border-bottom: 1px solid #f0f0f0;
-    border-right: 1px solid #f5f5f5;
-    vertical-align: top;
-}
-
-.resource-table td:last-child {
-    border-right: none;
-}
-
-.resource-table tbody tr:hover {
-    background: #fafafa;
-}
-
-.resource-table tbody tr:last-child td {
+/* ── The section: title, description, then the links ── */
+.res-col-links .res-head {
+    padding-bottom: 0;
+    margin-bottom: 18px;
     border-bottom: none;
 }
 
-.resource-name {
-    font-weight: normal;
-    color: #414141;
+.res-section-title {
+    margin: 0;
+    font-size: 28px;
+    font-weight: 300;
+    letter-spacing: 0.02em;
+    color: #444444;
 }
 
-.resource-description {
-    color: #666666;
-    line-height: 1.5;
+.res-col-links .res-sub { font-size: 15px; }
+
+/* long lists flow into extra columns rather than one very tall strip */
+.res-links {
+    list-style: none;
+    margin: 0 0 6px;
+    padding: 0;
+    column-width: 230px;
+    column-gap: 40px;
 }
 
-.resource-link {
+.res-links li {
+    break-inside: avoid;
+    padding: 6px 0;
+    font-size: 17px;
+    line-height: 1.35;
     color: #666666;
+}
+
+.res-links a {
+    color: #47649a;
     text-decoration: none;
-    word-break: break-all;
-    font-size: 12px;
+    border-bottom: 1px solid transparent;
+    transition: color 0.2s ease, border-color 0.2s ease;
 }
 
-.resource-link:hover {
+.res-links a:hover {
     color: #45a049;
-    text-decoration: underline;
+    border-bottom-color: currentColor;
 }
 
-/* Column widths */
-.col-name {
-    width: 25%;
+/* Sub-sections: a header that breaks the list */
+.res-subgroup { margin-top: 30px; }
+
+.res-subhead-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+    padding-bottom: 7px;
+    border-bottom: 1px solid #e4e4e4;
 }
 
-.col-description {
-    width: 45%;
+.res-subhead {
+    margin: 0;
+    font-size: 13px;
+    font-weight: normal;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #666666;
 }
 
-.col-link {
-    width: 30%;
+.res-subgroup .res-sub { margin: -4px 0 10px; }
+
+.res-empty {
+    margin: 4px 0;
+    font-size: 14px;
+    color: #aaa;
 }
+
+/* ── Admin controls (only present when logged in) ── */
+.res-adm { display: none; gap: 4px; }
+.res-row .res-adm { position: absolute; right: 0; top: 50%; transform: translateY(-50%); }
+.res-row:hover .res-adm,
+.res-links li:hover .res-adm { display: inline-flex; }
+.res-links .res-adm { margin-left: 8px; vertical-align: middle; }
+.res-adm-show { display: inline-flex; }
 
 .loading {
     text-align: center;
@@ -173,57 +186,21 @@
     font-family: 'Courier New', monospace;
 }
 
+/* Narrower desktop windows */
+@media (max-width: 1000px) {
+    .res-tree { grid-template-columns: 160px 200px minmax(0, 1fr); }
+    .res-col + .res-col { margin-left: 22px; padding-left: 22px; }
+    .res-link { font-size: 16px; }
+    .res-col-sections .res-link { font-size: 15px; }
+}
+
+/* Phones: the columns stack (styles/mobile.css turns the two lists into chips) */
 @media (max-width: 768px) {
-    .content {
-        padding: 0 10px;
-    }
-
-    .resource-table {
-        font-size: 12px;
-    }
-
-    .resource-table th,
-    .resource-table td {
-        padding: 8px 10px;
-    }
-
-    .folder-header {
-        padding: 12px 15px;
-    }
-
-    .folder-name {
-        font-size: 14px;
-    }
-
-    /* Stack table on mobile */
-    .resource-table,
-    .resource-table tbody,
-    .resource-table tr,
-    .resource-table td {
-        display: block;
-        width: 100%;
-    }
-
-    .resource-table thead {
-        display: none;
-    }
-
-    .resource-table td {
-        border: none;
-        padding: 8px 15px;
-    }
-
-    .resource-table td:before {
-        content: attr(data-label);
-        font-weight: bold;
-        display: block;
-        margin-bottom: 5px;
-        color: #414141;
-    }
-
-    .resource-table tbody tr {
-        border: 1px solid #e5e5e5;
-        margin-bottom: 10px;
-        border-radius: 4px;
+    .content { width: auto; padding: 0 10px; }
+    .res-tree { display: block; }
+    .res-col + .res-col {
+        margin: 22px 0 0;
+        padding-left: 0;
+        border-left: none;
     }
 }

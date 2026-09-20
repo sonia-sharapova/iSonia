@@ -898,53 +898,112 @@ body.m2 .page-title { text-transform: uppercase; }
     mask: url(icons/chevron-right.svg) center / contain no-repeat;
   }
 
-  /* ---------- Resource category pages (link tables) ---------- */
+  /* ---------- Resource category pages (three-column tree) ---------- */
+  /* On a phone the tree collapses: categories and sections become two rows of
+     scrolling chips, and the section's title, description and links sit below. */
 
-  body.m2.p-rescat .content,
-  body.m2.p-rescat .container {
+  body.m2.p-rescat .content {
     box-sizing: border-box;
     width: auto !important;
     margin: 0 !important;
     padding: 0 20px !important;
   }
 
-  body.m2 .resource-table,
-  body.m2 .resource-table tbody { display: block; width: 100%; }
-  body.m2 .resource-table thead { display: none; }
+  body.m2 .res-tree { display: flex; flex-direction: column; align-items: stretch; gap: 14px; margin-top: 0; }
 
-  body.m2 .resource-table tr {
-    display: block;
-    padding: 14px 0;
-    border-bottom: 1px solid #ddd;
+  body.m2 .res-col + .res-col { margin: 0; padding: 0; border: none; }
+
+  /* !important on .res-back: every <a> is display:flex !important on phones */
+  body.m2 .res-col-cats .res-head,
+  body.m2 .res-col-sections .res-head { display: none; }
+  body.m2 .res-back { display: none !important; }
+
+  body.m2 .res-col-cats .res-list,
+  body.m2 .res-col-sections .res-list {
+    flex-direction: row;
+    gap: 8px;
+    overflow-x: auto;
+    padding-bottom: 2px;
+    scrollbar-width: none;
   }
 
-  body.m2 .resource-table td {
-    display: block;
-    padding: 0;
-    border: none;
+  body.m2 .res-col-cats .res-list::-webkit-scrollbar,
+  body.m2 .res-col-sections .res-list::-webkit-scrollbar { display: none; }
+
+  body.m2 .res-row { flex: none; }
+
+  body.m2 .res-link,
+  body.m2 .res-col-sections .res-link {
+    display: block !important;
+    flex: none;
+    min-width: 0 !important;
+    min-height: 0 !important;
+    padding: 5px 12px !important;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-left-width: 1px;
+    border-radius: 2px;
+    font: 400 15px/24px 'Mulish', arial, sans-serif;
+    color: #333;
+    white-space: nowrap;
   }
 
-  body.m2 .resource-name,
-  body.m2 .resource-name a {
-    font: 400 18px/24px 'Optima', 'Belleza', arial, sans-serif;
+  body.m2 .res-link:hover { padding-left: 12px !important; color: #333; border-color: #ddd; }
+
+  /* categories: filled when current (same as the Projects filter) */
+  body.m2 .res-col-cats .res-link.active {
+    background: #333;
+    border-color: #333;
+    color: #f5f5f5;
+    font-weight: 400;
+  }
+
+  /* sections: a lighter, green-outlined chip */
+  body.m2 .res-col-sections .res-link { font-size: 14px; color: #666; }
+  body.m2 .res-col-sections .res-link.active {
+    background: #fff;
+    border-color: #45a049;
+    color: #45a049;
+    font-weight: 600;
+  }
+
+  body.m2 .res-col-links { padding-top: 6px; border-top: 2px solid #333; }
+
+  body.m2 .res-col-links .res-head { margin-bottom: 10px; }
+
+  body.m2 .res-section-title {
+    font: 400 24px/30px 'Optima', 'Belleza', arial, sans-serif;
     color: #333;
   }
 
-  body.m2 .resource-description {
-    margin-top: 2px;
-    font: 400 13px/20px 'Mulish', arial, sans-serif;
+  body.m2 .res-sub {
+    font: italic 400 13px/20px 'Mulish', arial, sans-serif;
     color: #888f8d;
   }
 
-  body.m2 .resource-link,
-  body.m2 .resource-link a {
-    min-height: 0 !important;
-    justify-content: flex-start !important;
-    margin-top: 4px;
-    font: 400 11px/16px 'IBM Plex Mono', 'Courier New', monospace;
-    color: #47649a;
-    word-break: break-all;
+  /* one plain column — 'columns: auto' so the list isn't a multicol container at all */
+  body.m2 .res-links { columns: auto; }
+
+  body.m2 .res-links li {
+    padding: 12px 0;
+    border-bottom: 1px solid #ddd;
+    font: 400 15px/24px 'Mulish', arial, sans-serif;
   }
+
+  body.m2 .res-links a {
+    display: inline !important;
+    min-height: 0 !important;
+    min-width: 0 !important;
+    color: #47649a;
+    border-bottom: none;
+  }
+
+  body.m2 .res-subhead {
+    font: 400 12px/16px 'Optima', 'Belleza', arial, sans-serif;
+    color: #333;
+  }
+
+  body.m2 .res-subhead-row { border-bottom: 2px solid #333; }
 
   /* ---------- About ---------- */
 

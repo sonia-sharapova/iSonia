@@ -41,48 +41,10 @@
 </div>
 
 <div class="content">
-  <a href="../resources.html" class="back-link">← Back to All Resources</a>
-
-  <div id="folder-navigation" class="folder-navigation">
+  <div id="res-tree" class="res-tree">
     <div class="loading">Loading resources...</div>
   </div>
 </div>
-
-<script>
-  // Load and parse markdown
-  function loadMarkdown() {
-    const mdPath = './markdown/opensource.md';
-    console.log('Attempting to fetch:', mdPath);
-
-    fetch(mdPath)
-            .then(response => {
-              console.log('Fetch response:', response.status, response.ok);
-              if (!response.ok) {
-                throw new Error('Failed to load resource file: ' + response.status);
-              }
-              return response.text();
-            })
-            .then(markdown => {
-              console.log('Markdown loaded, length:', markdown.length);
-              const folders = parseMarkdownToFolders(markdown);
-              console.log('Parsed folders:', folders.length);
-              const html = renderFolders(folders);
-              document.getElementById('folder-navigation').innerHTML = html;
-            })
-            .catch(error => {
-              console.error('Error loading markdown:', error);
-              document.getElementById('folder-navigation').innerHTML =
-                      '<div class="loading">Failed to load resources: ' + error.message + '</div>';
-            });
-  }
-
-  // Load markdown after page is ready
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => setTimeout(loadMarkdown, 100));
-  } else {
-    setTimeout(loadMarkdown, 100);
-  }
-</script>
 
 <script src="../../scripts/siteStyle/bck.js"></script>
 <script>

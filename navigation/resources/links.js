@@ -1,69 +1,69 @@
-let foldersData = [];
+// Resource category pages — a three-column tree, like the Photos / Blog sidebars:
+//
+//   Categories (from the hub, resources.html)  →  this category's sections  →  the section's links
+//
+// Content comes from markdown/<page>.md:
+//   ## Section                 (next line, optional:  > one-line description)
+//   ### Sub-section            (next line, optional:  > description) — shown as a header that breaks up the links
+//   - **Link name**: notes     (the notes stay in the file for you, but aren't shown on the page)
+//     - https://example.com
+const PAGE = window.location.pathname.split('/').pop().replace('.html', '');
+// technology.html has always read tech.md, the README says technology.md — accept either
+const MD_NAMES = { technology: ['technology', 'tech'] };
+const HUB_DATA_URL = '../../data/resources.json';
+const FALLBACK_CATEGORIES = ['general', 'media', 'music', 'opensource', 'technology', 'web'];
+
+let mdFile = PAGE;          // the markdown file that actually loaded (where saves go)
+let foldersData = [];       // [{ name, description, items, subfolders: [{ name, description, items }] }]
+let categories = [];        // [{ title, desc, href }]
+let curSection = 0;
 let isAdmin = false;
-// derive page name from URL: general.html → 'general'
-const mdPageName = window.location.pathname.split('/').pop().replace('.html', '');
+let loadError = '';
 
 // ── Parse markdown ───────────────────────────────────────────────
 function parseMarkdownToFolders(markdown) {
-    const lines = markdown.split('\n');
     const folders = [];
-    let currentFolder = null;
-    let currentSubfolder = null;
-    let currentItems = [];
+    let folder = null, sub = null, last = null;
 
-    lines.forEach(line => {
+    markdown.split('\n').forEach(raw => {
+        const line = raw.replace(/\r$/, '');
+        const t = line.trim();
         if (line.startsWith('## ')) {
-            if (currentFolder) {
-                if (currentSubfolder) {
-                    currentFolder.subfolders.push({ name: currentSubfolder, items: currentItems });
-                } else if (currentItems.length) {
-                    currentFolder.items = currentItems;
-                }
-            }
-            currentFolder = { name: line.replace('## ', '').trim(), subfolders: [], items: [] };
-            currentSubfolder = null;
-            currentItems = [];
-            folders.push(currentFolder);
+            folder = { name: line.slice(3).trim(), description: '', subfolders: [], items: [] };
+            folders.push(folder);
+            sub = null; last = null;
         } else if (line.startsWith('### ')) {
-            if (currentSubfolder && currentItems.length) {
-                currentFolder.subfolders.push({ name: currentSubfolder, items: currentItems });
-                currentItems = [];
+            if (!folder) return;
+            sub = { name: line.slice(4).trim(), description: '', items: [] };
+            folder.subfolders.push(sub);
+            last = null;
+        } else if (t.startsWith('- **')) {
+            const m = t.match(/^- \*\*(.+?)\*\*:?\s*(.*)/);
+            if (m && folder) {
+                last = { name: m[1], description: m[2], link: '' };
+                (sub ? sub.items : folder.items).push(last);
             }
-            currentSubfolder = line.replace('### ', '').trim();
-        } else if (line.trim().startsWith('- **')) {
-            const match = line.match(/- \*\*(.+?)\*\*:?\s*(.*)/);
-            if (match) currentItems.push({ name: match[1], description: match[2], link: '' });
-        } else if (line.trim().startsWith('- http')) {
-            const link = line.trim().replace('- ', '');
-            if (currentItems.length) currentItems[currentItems.length - 1].link = link;
+        } else if (/^- https?:/i.test(t)) {
+            if (last) last.link = t.slice(2).trim();
+        } else if (t.startsWith('>') && folder) {
+            const target = sub || folder;
+            const d = t.replace(/^>\s?/, '');
+            target.description = target.description ? target.description + ' ' + d : d;
         }
     });
-
-    if (currentFolder) {
-        if (currentSubfolder) {
-            currentFolder.subfolders.push({ name: currentSubfolder, items: currentItems });
-        } else if (currentItems.length) {
-            currentFolder.items = currentItems;
-        }
-    }
     return folders;
 }
 
 // ── Serialize back to markdown ───────────────────────────────────
 function serializeToMarkdown(folders) {
+    const itemMd = it => `- **${it.name}**: ${it.description}\n` + (it.link ? `  - ${it.link}\n` : '');
     let md = '';
-    folders.forEach(folder => {
-        md += `## ${folder.name}\n\n`;
-        folder.items.forEach(item => {
-            md += `- **${item.name}**: ${item.description}\n`;
-            if (item.link) md += `  - ${item.link}\n`;
-        });
-        folder.subfolders.forEach(sf => {
-            md += `\n### ${sf.name}\n\n`;
-            sf.items.forEach(item => {
-                md += `- **${item.name}**: ${item.description}\n`;
-                if (item.link) md += `  - ${item.link}\n`;
-            });
+    folders.forEach(f => {
+        md += `## ${f.name}\n` + (f.description ? `> ${f.description}\n` : '') + '\n';
+        f.items.forEach(it => { md += itemMd(it); });
+        f.subfolders.forEach(sf => {
+            md += `\n### ${sf.name}\n` + (sf.description ? `> ${sf.description}\n` : '') + '\n';
+            sf.items.forEach(it => { md += itemMd(it); });
         });
         md += '\n';
     });
@@ -76,183 +76,253 @@ async function saveMd() {
         const res = await fetch('../../admin/save-resource-md.php', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ file: mdPageName, content: serializeToMarkdown(foldersData) })
+            body: JSON.stringify({ file: mdFile, content: serializeToMarkdown(foldersData) })
         }).then(r => r.json());
         if (!res.success) alert('Save error: ' + (res.error || 'unknown'));
-    } catch(e) { alert('Network error — changes not saved.'); }
+    } catch (e) { alert('Network error — changes not saved.'); }
+}
+
+// ── Helpers ───────────────────────────────────────────────────────
+function esc(s) {
+    return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+function slug(s) {
+    return String(s || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+}
+function pageOf(href) {
+    return new URL(href, location.href).pathname.split('/').pop().replace('.html', '');
+}
+function isCurrent(cat) { return pageOf(cat.href) === PAGE; }
+function pageTitle() {
+    const h = document.querySelector('.page-title');
+    return h ? h.textContent.trim() : 'Resources';
+}
+function currentCategory() {
+    return categories.find(isCurrent) || { title: pageTitle(), desc: '', href: location.href };
+}
+
+// ── Categories: the hub's cards, in the hub's order ───────────────
+async function loadCategories() {
+    // "Guides" sits at the top of the hub as a fixed section (it isn't in resources.json)
+    const list = [{ title: 'Guides & Tutorials', desc: "Step-by-step write-ups and how-tos I've put together.", href: '../../creations/tutorials.html' }];
+    let fromHub = 0;
+    try {
+        const r = await fetch(HUB_DATA_URL + '?t=' + Date.now());
+        const data = r.ok ? await r.json() : [];
+        (Array.isArray(data) ? data : []).filter(s => s.type === 'cards').forEach(s => {
+            (s.items || []).forEach(it => {
+                list.push({ title: it.title, desc: it.desc || '', href: new URL(it.href, new URL('../resources.html', location.href)).href });
+                fromHub++;
+            });
+        });
+    } catch (e) { /* hub data unavailable — fall through to the fallback */ }
+
+    // Hub unreachable, or it doesn't list this page: keep the tree usable anyway
+    if (!fromHub) {
+        FALLBACK_CATEGORIES.forEach(n => list.push({
+            title: n === 'opensource' ? 'Open Source' : n.charAt(0).toUpperCase() + n.slice(1),
+            desc: '', href: n + '.html'
+        }));
+    }
+    if (!list.some(isCurrent)) list.push({ title: pageTitle(), desc: '', href: location.href });
+    return list;
 }
 
 // ── Render ───────────────────────────────────────────────────────
-function createTable(items, folderIdx, subIdx) {
-    if (!items || !items.length) return isAdmin
-        ? `<div style="padding:8px 4px;font-size:13px;color:#bbb;">No items yet.</div>`
-        : '';
-
-    let html = '<table class="resource-table"><thead><tr>';
-    html += '<th class="col-name">NAME</th>';
-    html += '<th class="col-description">DESCRIPTION</th>';
-    html += '<th class="col-link">LINK</th>';
-    if (isAdmin) html += '<th style="width:30px;"></th>';
-    html += '</tr></thead><tbody>';
-
-    items.forEach((item, itemIdx) => {
-        html += '<tr>';
-        html += `<td class="col-name" data-label="Name"><span class="resource-name">${esc(item.name)}</span></td>`;
-        html += `<td class="col-description" data-label="Description"><span class="resource-description">${esc(item.description)}</span></td>`;
-        html += `<td class="col-link" data-label="Link"><a href="${esc(item.link)}" class="resource-link" target="_blank" rel="noopener">${esc(item.link)}</a></td>`;
-        if (isAdmin) {
-            const sf = subIdx !== null ? subIdx : 'null';
-            html += `<td style="text-align:center;white-space:nowrap;">
-              <button class="lnk-adm-btn lnk-edit" onclick="openRowModal(${folderIdx},${sf},${itemIdx})">✎</button>
-              <button class="lnk-adm-btn lnk-del"  onclick="deleteRow(${folderIdx},${sf},${itemIdx})">✕</button>
-            </td>`;
-        }
-        html += '</tr>';
-    });
-    html += '</tbody></table>';
-
-    if (isAdmin) {
-        const sf = subIdx !== null ? subIdx : 'null';
-        html += `<button class="lnk-adm-add-row" onclick="openRowModal(${folderIdx},${sf},null)">+ Add Row</button>`;
-    }
-    return html;
+function admRowBtns(fi, si, ii) {
+    if (!isAdmin) return '';
+    const s = si === null ? 'null' : si;
+    return `<span class="res-adm">
+        <button class="lnk-adm-btn lnk-edit" onclick="openRowModal(${fi},${s},${ii})" title="Edit link">✎</button>
+        <button class="lnk-adm-btn lnk-del"  onclick="deleteRow(${fi},${s},${ii})" title="Remove link">✕</button>
+      </span>`;
 }
 
-function renderFolders(folders) {
-    let html = '';
-    folders.forEach((folder, fi) => {
-        const totalItems = folder.items.length + folder.subfolders.reduce((s, sf) => s + sf.items.length, 0);
-        html += `<div class="folder-item" data-folder="${fi}">`;
-        html += `<div class="folder-header" onclick="toggleFolder(${fi})">`;
-        html += `<span class="folder-icon">▶</span>`;
-        html += `<span class="folder-name">${esc(folder.name)}</span>`;
-        html += `<span class="folder-count">(${totalItems} items)</span>`;
-        if (isAdmin) {
-            html += `<span onclick="event.stopPropagation();" style="margin-left:10px;display:inline-flex;gap:5px;">
-              <button class="lnk-adm-btn lnk-edit" onclick="openFolderModal(${fi})">✎ rename</button>
-              <button class="lnk-adm-btn lnk-del"  onclick="deleteFolder(${fi})">✕ section</button>
-            </span>`;
-        }
-        html += `</div><div class="folder-content">`;
-        if (folder.items.length > 0 || isAdmin) html += createTable(folder.items, fi, null);
-        folder.subfolders.forEach((sf, si) => {
-            html += `<div style="margin:20px;background:#fafafa;border-radius:4px;padding:15px;">`;
-            html += `<h3 style="margin:0 0 15px;font-size:16px;color:#414141;font-weight:normal;">${esc(sf.name)}</h3>`;
-            html += createTable(sf.items, fi, si);
-            html += `</div>`;
-        });
-        if (isAdmin) {
-            html += `<button class="lnk-adm-add-row" style="margin:8px 0 12px;" onclick="openSubfolderModal(${fi})">+ Add Sub-section</button>`;
-        }
-        html += `</div></div>`;
-    });
-
-    if (isAdmin) {
-        html += `<div style="margin-top:20px;padding-top:16px;border-top:1px dashed #ddd;">
-          <button class="lnk-adm-add-row" onclick="openFolderModal(null)">+ Add Section</button>
-        </div>`;
-    }
-    return html;
+function linkList(items, fi, si) {
+    if (!items.length) return isAdmin ? '<p class="res-empty">No links yet.</p>' : '';
+    return '<ul class="res-links">' + items.map((it, ii) => {
+        const tip = isAdmin && it.description ? ` title="${esc(it.description)}"` : '';
+        const name = it.link
+            ? `<a href="${esc(it.link)}" target="_blank" rel="noopener"${tip}>${esc(it.name)}</a>`
+            : `<span${tip}>${esc(it.name)}</span>`;
+        return `<li>${name}${admRowBtns(fi, si, ii)}</li>`;
+    }).join('') + '</ul>';
 }
+
+function categoriesCol() {
+    return `<div class="res-col res-col-cats">
+        <div class="res-head"><h2 class="res-title">Categories</h2><p class="res-sub">Browse the archive.</p></div>
+        <nav class="res-list">${categories.map(c =>
+            `<a class="res-link${isCurrent(c) ? ' active' : ''}" href="${esc(c.href)}">${esc(c.title)}</a>`).join('')}</nav>
+        <a class="res-back" href="../resources.html">← All resources</a>
+      </div>`;
+}
+
+function sectionsCol() {
+    const cat = currentCategory();
+    const rows = foldersData.map((f, i) => `<div class="res-row">
+        <a class="res-link${i === curSection ? ' active' : ''}" href="#${slug(f.name)}" data-i="${i}">${esc(f.name)}</a>
+        ${isAdmin ? `<span class="res-adm">
+          <button class="lnk-adm-btn lnk-edit" onclick="openFolderModal(${i})" title="Rename / describe">✎</button>
+          <button class="lnk-adm-btn lnk-del"  onclick="deleteFolder(${i})" title="Delete section">✕</button>
+        </span>` : ''}
+      </div>`).join('');
+    return `<div class="res-col res-col-sections">
+        <div class="res-head"><h2 class="res-title">${esc(cat.title)}</h2>${cat.desc ? `<p class="res-sub">${esc(cat.desc)}</p>` : ''}</div>
+        <nav class="res-list">${rows}</nav>
+        ${isAdmin ? '<button class="lnk-adm-add-row" onclick="openFolderModal(null)">+ Add section</button>' : ''}
+      </div>`;
+}
+
+function linksCol() {
+    const f = foldersData[curSection];
+    if (!f) {
+        return `<div class="res-col res-col-links"><p class="res-empty">${esc(loadError || 'Nothing here yet.')}</p></div>`;
+    }
+    let html = `<div class="res-head"><h2 class="res-section-title">${esc(f.name)}</h2>${f.description ? `<p class="res-sub">${esc(f.description)}</p>` : ''}</div>`;
+    html += linkList(f.items, curSection, null);
+    if (isAdmin) html += `<button class="lnk-adm-add-row" onclick="openRowModal(${curSection},null,null)">+ Add link</button>`;
+
+    // sub-sections break the links with a header of their own
+    f.subfolders.forEach((sf, si) => {
+        html += `<div class="res-subgroup">
+            <div class="res-subhead-row"><h3 class="res-subhead">${esc(sf.name)}</h3>${isAdmin ? `<span class="res-adm res-adm-show">
+              <button class="lnk-adm-btn lnk-edit" onclick="openSubfolderModal(${curSection},${si})" title="Rename / describe">✎</button>
+              <button class="lnk-adm-btn lnk-del"  onclick="deleteSubfolder(${curSection},${si})" title="Delete sub-section">✕</button></span>` : ''}</div>
+            ${sf.description ? `<p class="res-sub">${esc(sf.description)}</p>` : ''}
+            ${linkList(sf.items, curSection, si)}
+            ${isAdmin ? `<button class="lnk-adm-add-row" onclick="openRowModal(${curSection},${si},null)">+ Add link</button>` : ''}
+          </div>`;
+    });
+    if (isAdmin) html += `<div style="margin-top:18px;"><button class="lnk-adm-add-row" onclick="openSubfolderModal(${curSection},null)">+ Add sub-section</button></div>`;
+    return `<div class="res-col res-col-links">${html}</div>`;
+}
+
+function rerender() {
+    if (curSection >= foldersData.length) curSection = Math.max(0, foldersData.length - 1);
+    document.getElementById('res-tree').innerHTML = categoriesCol() + sectionsCol() + linksCol();
+    // on a phone the two lists are scrolling chip rows — bring the current chip into view
+    document.querySelectorAll('.res-list').forEach(list => {
+        const a = list.querySelector('.res-link.active');
+        if (a && list.scrollWidth > list.clientWidth) {
+            list.scrollLeft = a.getBoundingClientRect().left - list.getBoundingClientRect().left + list.scrollLeft
+                              - (list.clientWidth - a.offsetWidth) / 2;
+        }
+    });
+}
+
+function selectSection(i) {
+    curSection = i;
+    history.replaceState(null, '', '#' + slug(foldersData[i].name));
+    rerender();
+}
+
+// picking a section is client-side; category links are ordinary page links
+document.addEventListener('click', e => {
+    const a = e.target.closest && e.target.closest('a.res-link[data-i]');
+    if (!a) return;
+    e.preventDefault();
+    selectSection(parseInt(a.dataset.i, 10));
+});
+
+function sectionFromHash() {
+    const h = location.hash.slice(1);
+    const i = foldersData.findIndex(f => slug(f.name) === h);
+    return i >= 0 ? i : 0;
+}
+window.addEventListener('hashchange', () => { curSection = sectionFromHash(); rerender(); });
 
 // ── Admin actions ─────────────────────────────────────────────────
 function deleteRow(fi, si, ii) {
-    if (!confirm('Remove this row?')) return;
-    if (si === null) foldersData[fi].items.splice(ii, 1);
-    else foldersData[fi].subfolders[si].items.splice(ii, 1);
+    if (!confirm('Remove this link?')) return;
+    (si === null ? foldersData[fi].items : foldersData[fi].subfolders[si].items).splice(ii, 1);
     saveMd().then(rerender);
 }
 
 function deleteFolder(fi) {
-    if (!confirm(`Delete section "${foldersData[fi].name}" and all its rows?`)) return;
+    if (!confirm(`Delete section "${foldersData[fi].name}" and all its links?`)) return;
     foldersData.splice(fi, 1);
     saveMd().then(rerender);
 }
 
+function deleteSubfolder(fi, si) {
+    if (!confirm(`Delete sub-section "${foldersData[fi].subfolders[si].name}" and its links?`)) return;
+    foldersData[fi].subfolders.splice(si, 1);
+    saveMd().then(rerender);
+}
+
 // ── Modals ────────────────────────────────────────────────────────
-let _modalFi = null, _modalSi = null, _modalIi = null;
+let _row = { fi: null, si: null, ii: null };
+let _fm = { fi: null, si: null, sub: false };
 
 function openRowModal(fi, si, ii) {
-    _modalFi = fi; _modalSi = si; _modalIi = ii;
+    _row = { fi, si, ii };
     const items = si === null ? foldersData[fi].items : foldersData[fi].subfolders[si].items;
-    const item  = ii !== null ? items[ii] : null;
-    document.getElementById('lnk-modal-title').textContent = ii !== null ? 'Edit Row' : 'Add Row';
-    document.getElementById('lnk-row-name').value = item ? item.name        : '';
+    const item = ii !== null ? items[ii] : null;
+    document.getElementById('lnk-modal-title').textContent = ii !== null ? 'Edit Link' : 'Add Link';
+    document.getElementById('lnk-row-name').value = item ? item.name : '';
     document.getElementById('lnk-row-desc').value = item ? item.description : '';
-    document.getElementById('lnk-row-url').value  = item ? item.link        : '';
+    document.getElementById('lnk-row-url').value = item ? item.link : '';
     document.getElementById('lnk-folder-modal').style.display = 'none';
-    document.getElementById('lnk-row-modal').style.display    = 'flex';
+    document.getElementById('lnk-row-modal').style.display = 'flex';
     setTimeout(() => document.getElementById('lnk-row-name').focus(), 50);
 }
 
 function saveRow() {
     const name = document.getElementById('lnk-row-name').value.trim();
     const desc = document.getElementById('lnk-row-desc').value.trim();
-    const url  = document.getElementById('lnk-row-url').value.trim();
+    const url = document.getElementById('lnk-row-url').value.trim();
     if (!name) { alert('Name is required.'); return; }
-    const items = _modalSi === null ? foldersData[_modalFi].items : foldersData[_modalFi].subfolders[_modalSi].items;
-    if (_modalIi !== null) {
-        items[_modalIi] = { name, description: desc, link: url };
-    } else {
-        items.push({ name, description: desc, link: url });
-    }
+    const { fi, si, ii } = _row;
+    const items = si === null ? foldersData[fi].items : foldersData[fi].subfolders[si].items;
+    const entry = { name, description: desc, link: url };
+    if (ii !== null) items[ii] = entry; else items.push(entry);
     saveMd().then(() => { closeModals(); rerender(); });
 }
 
-let _folderFi = null;
+// One modal for sections and sub-sections: fi === null → new section; sub → a sub-section (si null → new)
 function openFolderModal(fi) {
-    _folderFi = fi;
-    const folder = fi !== null ? foldersData[fi] : null;
-    document.getElementById('lnk-folder-modal-title').textContent = fi !== null ? 'Rename Section' : 'Add Section';
-    document.getElementById('lnk-folder-name').value = folder ? folder.name : '';
-    document.getElementById('lnk-row-modal').style.display    = 'none';
+    _fm = { fi, si: null, sub: false };
+    const f = fi !== null ? foldersData[fi] : null;
+    showFolderModal(fi !== null ? 'Edit Section' : 'Add Section', f);
+}
+function openSubfolderModal(fi, si) {
+    _fm = { fi, si, sub: true };
+    const sf = si !== null ? foldersData[fi].subfolders[si] : null;
+    showFolderModal(si !== null ? 'Edit Sub-section' : 'Add Sub-section', sf);
+}
+function showFolderModal(title, f) {
+    document.getElementById('lnk-folder-modal-title').textContent = title;
+    document.getElementById('lnk-folder-name').value = f ? f.name : '';
+    document.getElementById('lnk-folder-desc').value = f ? (f.description || '') : '';
+    document.getElementById('lnk-row-modal').style.display = 'none';
     document.getElementById('lnk-folder-modal').style.display = 'flex';
     setTimeout(() => document.getElementById('lnk-folder-name').focus(), 50);
 }
 
 function saveFolder() {
     const name = document.getElementById('lnk-folder-name').value.trim();
+    const description = document.getElementById('lnk-folder-desc').value.trim();
     if (!name) { alert('Name is required.'); return; }
-    if (_folderFi !== null) {
-        foldersData[_folderFi].name = name;
+    const { fi, si, sub } = _fm;
+    if (sub) {
+        if (si !== null) Object.assign(foldersData[fi].subfolders[si], { name, description });
+        else foldersData[fi].subfolders.push({ name, description, items: [] });
+    } else if (fi !== null) {
+        Object.assign(foldersData[fi], { name, description });
     } else {
-        foldersData.push({ name, subfolders: [], items: [] });
-    }
-    saveMd().then(() => { closeModals(); rerender(); });
-}
-
-let _subFi = null;
-function openSubfolderModal(fi) {
-    _subFi = fi;
-    document.getElementById('lnk-folder-modal-title').textContent = 'Add Sub-section';
-    document.getElementById('lnk-folder-name').value = '';
-    document.getElementById('lnk-row-modal').style.display    = 'none';
-    document.getElementById('lnk-folder-modal').style.display = 'flex';
-    document.getElementById('lnk-folder-modal').dataset.mode = 'sub';
-    setTimeout(() => document.getElementById('lnk-folder-name').focus(), 50);
-}
-
-function saveFolder() {
-    const name = document.getElementById('lnk-folder-name').value.trim();
-    if (!name) { alert('Name is required.'); return; }
-    const mode = document.getElementById('lnk-folder-modal').dataset.mode;
-    if (mode === 'sub') {
-        foldersData[_subFi].subfolders.push({ name, items: [] });
-        document.getElementById('lnk-folder-modal').dataset.mode = '';
-    } else if (_folderFi !== null) {
-        foldersData[_folderFi].name = name;
-    } else {
-        foldersData.push({ name, subfolders: [], items: [] });
+        foldersData.push({ name, description, subfolders: [], items: [] });
+        curSection = foldersData.length - 1;
     }
     saveMd().then(() => { closeModals(); rerender(); });
 }
 
 function closeModals() {
-    document.getElementById('lnk-row-modal').style.display    = 'none';
+    document.getElementById('lnk-row-modal').style.display = 'none';
     document.getElementById('lnk-folder-modal').style.display = 'none';
 }
 
-// ── Inject admin UI into DOM ──────────────────────────────────────
+// ── Inject admin UI into DOM (only when logged in) ────────────────
 function injectAdminUI() {
     const style = document.createElement('style');
     style.textContent = `
@@ -267,7 +337,7 @@ function injectAdminUI() {
         .lnk-del  { color: #c00; border-color: rgba(200,0,0,0.2); }
         .lnk-del:hover  { background: rgba(200,0,0,0.08); }
         .lnk-adm-add-row {
-            margin: 8px 4px 4px; font-size: 12px; color: #1d60c0;
+            margin: 8px 0 4px; font-size: 12px; color: #1d60c0;
             background: rgba(0,80,200,0.06); border: 1px solid rgba(0,80,200,0.2);
             padding: 4px 10px; cursor: pointer; border-radius: 2px;
             font-family: 'Optima', arial, sans-serif;
@@ -310,15 +380,14 @@ function injectAdminUI() {
     `;
     document.head.appendChild(style);
 
-    // Row modal
     const rowModal = document.createElement('div');
     rowModal.id = 'lnk-row-modal';
     rowModal.className = 'lnk-modal-overlay';
     rowModal.innerHTML = `
         <div class="lnk-modal-box">
-          <h3 id="lnk-modal-title">Add Row</h3>
+          <h3 id="lnk-modal-title">Add Link</h3>
           <label>Name *</label><input id="lnk-row-name" placeholder="e.g. GitHub">
-          <label>Description</label><input id="lnk-row-desc" placeholder="Short description">
+          <label>Notes (kept in the file, not shown on the page)</label><input id="lnk-row-desc" placeholder="Short description">
           <label>URL</label><input id="lnk-row-url" placeholder="https://...">
           <div class="lnk-modal-actions">
             <button class="lnk-save" onclick="saveRow()">Save</button>
@@ -328,14 +397,14 @@ function injectAdminUI() {
     rowModal.addEventListener('click', e => { if (e.target === rowModal) closeModals(); });
     document.body.appendChild(rowModal);
 
-    // Folder modal
     const folderModal = document.createElement('div');
     folderModal.id = 'lnk-folder-modal';
     folderModal.className = 'lnk-modal-overlay';
     folderModal.innerHTML = `
         <div class="lnk-modal-box">
           <h3 id="lnk-folder-modal-title">Add Section</h3>
-          <label>Name *</label><input id="lnk-folder-name" placeholder="e.g. Tutorials">
+          <label>Name *</label><input id="lnk-folder-name" placeholder="e.g. Search Engines">
+          <label>Description (one line, shown under the title)</label><input id="lnk-folder-desc" placeholder="e.g. Ways to find things">
           <div class="lnk-modal-actions">
             <button class="lnk-save" onclick="saveFolder()">Save</button>
             <button class="lnk-cancel" onclick="closeModals()">Cancel</button>
@@ -345,39 +414,27 @@ function injectAdminUI() {
     document.body.appendChild(folderModal);
 }
 
-// ── Helpers ───────────────────────────────────────────────────────
-function esc(s) {
-    return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-}
-
-function rerender() {
-    document.getElementById('folder-navigation').innerHTML = renderFolders(foldersData);
-}
-
-function toggleFolder(index) {
-    document.querySelector(`[data-folder="${index}"]`).classList.toggle('open');
-}
-
 // ── Load ─────────────────────────────────────────────────────────
 async function loadMarkdown() {
-    const mdPath = `./markdown/${mdPageName}.md`;
-    try {
-        const r = await fetch(mdPath);
-        if (!r.ok) throw new Error('Status ' + r.status);
-        const markdown = await r.text();
-        foldersData = parseMarkdownToFolders(markdown);
-
-        // check admin before rendering
+    const names = MD_NAMES[PAGE] || [PAGE];
+    let markdown = null;
+    for (const n of names) {
         try {
-            const s = await fetch('../../admin/check-session.php').then(r => r.json());
-            if (s.admin) { isAdmin = true; injectAdminUI(); }
-        } catch(e) {}
-
-        rerender();
-    } catch(e) {
-        document.getElementById('folder-navigation').innerHTML =
-            '<div class="loading">Failed to load resources: ' + e.message + '</div>';
+            const r = await fetch(`./markdown/${n}.md`);
+            if (r.ok) { markdown = await r.text(); mdFile = n; break; }
+        } catch (e) { /* try the next name */ }
     }
+    if (markdown === null) loadError = "Couldn't load this category's links.";
+    else foldersData = parseMarkdownToFolders(markdown);
+
+    try {
+        const s = await fetch('../../admin/check-session.php').then(r => r.json());
+        if (s.admin) { isAdmin = true; document.body.classList.add('admin-mode'); injectAdminUI(); }
+    } catch (e) { /* not logged in */ }
+
+    categories = await loadCategories();
+    curSection = sectionFromHash();
+    rerender();
 }
 
 if (document.readyState === 'loading') {

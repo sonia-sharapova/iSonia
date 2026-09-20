@@ -231,8 +231,9 @@
        same height (no cropping), like a justified gallery. */
     .covers-flow { display: flex; flex-wrap: wrap; gap: 10px; align-items: flex-start; }
     .cover-flow-cell {
-      height: 170px; flex: 0 0 auto;
+      height: 140px; flex: 0 0 auto;
       overflow: hidden; background: #f0f0f0; cursor: pointer;
+      border: 1px solid #ddd;
       position: relative;
     }
     .cover-flow-cell img {
@@ -248,7 +249,7 @@
       opacity: 0; transition: opacity 0.15s ease;
     }
     .cover-flow-cell:hover .cover-flow-label { opacity: 1; }
-    @media (max-width: 640px) { .cover-flow-cell { height: 110px; } }
+    @media (max-width: 640px) { .cover-flow-cell { height: 90px; } }
 
     /* ── Catalog layout (album index) ── */
     .catalog-layout {
@@ -259,8 +260,8 @@
       padding-left: clamp(10px, 3.5vw, 52px);
     }
     .catalog-row {
-      --cover-h: clamp(70px, 11vw, 118px);
-      --thumb-h: clamp(60px, 9.5vw, 100px);
+      --cover-h: clamp(58px, 9vw, 98px);
+      --thumb-h: clamp(50px, 8vw, 84px);
       display: flex;
       align-items: center;
       gap: 12px;
@@ -538,13 +539,14 @@
        regardless of the photo's real proportions. flex:0 0 auto (matching
        .cover-flow-cell, which never had this bug) guarantees the tile only
        ever sizes to its content. */
-    .detail-grid { --tile-h: clamp(130px, 11vw, 170px); display: flex; flex-wrap: wrap; gap: 8px; }
+    .detail-grid { --tile-h: clamp(108px, 9vw, 140px); display: flex; flex-wrap: wrap; gap: 8px; }
     .detail-tile {
       position: relative;
       height: var(--tile-h);
       flex: 0 0 auto;
       overflow: hidden;
       cursor: pointer;
+      border: 1px solid #ddd;
       border-radius: 3px;
       background: transparent;
       transition: background 0.15s ease, transform 0.15s ease;
@@ -636,6 +638,8 @@
       max-height: 100%;
       width: auto; height: auto;
       object-fit: contain;
+      border: 1px solid #ddd;
+      box-sizing: border-box;
       animation: none;
       min-height: unset !important;
     }
@@ -778,6 +782,14 @@
       min-height: unset !important;
     }
     .crop-editor { margin-top: 6px; }
+    .crop-rotate-row { display: flex; align-items: center; gap: 6px; margin-bottom: 8px; flex-wrap: wrap; }
+    .crop-rotate-btn {
+      font-size: 12px; padding: 5px 10px;
+      border: 1px solid #ddd; background: #f9f9f9; color: #888;
+      cursor: pointer; border-radius: 3px;
+    }
+    .crop-rotate-btn:hover { border-color: #1d60c0; color: #1d60c0; }
+    .crop-rotate-btn:disabled { opacity: 0.5; cursor: default; border-color: #ddd; color: #888; }
     .crop-ratio-row { display: flex; align-items: center; gap: 6px; margin-top: 6px; flex-wrap: wrap; }
     .crop-ratio-preset {
       font-size: 12px; padding: 5px 10px;
@@ -1003,6 +1015,10 @@
     <input type="file" id="photo-file-input" accept="image/*" multiple>
     <img class="modal-img-preview" id="photo-file-preview">
     <div class="crop-editor" id="photo-crop-editor" style="display:none">
+      <div class="crop-rotate-row" id="crop-rotate-row" style="display:none">
+        <button type="button" class="crop-rotate-btn" onclick="rotatePhoto(-90)" title="Rotate left 90&deg;">&#8634; Rotate left</button>
+        <button type="button" class="crop-rotate-btn" onclick="rotatePhoto(90)" title="Rotate right 90&deg;">&#8635; Rotate right</button>
+      </div>
       <label>Framing <span style="color:#ccc">(drag to reposition, slider to zoom, or leave untouched to keep the image as-is)</span></label>
       <div class="crop-ratio-row">
         <button type="button" class="crop-ratio-preset" onclick="setCropRatio(1,1)">Square</button>
@@ -1902,6 +1918,10 @@ document.getElementById('photo-modal-cancel').onclick = closePhotoModal;
 document.getElementById('photo-file-input').addEventListener('change', function() {
   if (this.files.length === 1) {
     document.getElementById('photo-file-preview').style.display = 'none';
+    // A picked replacement file only exists as a local blob until Save
+    // uploads it — rotate needs a real server path, so hide it until the
+    // photo is reopened after that upload completes.
+    document.getElementById('crop-rotate-row').style.display = 'none';
     initCropEditor(URL.createObjectURL(this.files[0]));
   } else {
     hideCropEditor();
@@ -1980,6 +2000,34 @@ async function bakeCropInto(photoObj) {
   if (res.display) photoObj.display = res.display; else delete photoObj.display;
   if (res.width && res.height) { photoObj.width = res.width; photoObj.height = res.height; }
   return true;
+}
+// Bakes a 90° rotation into the photo's actual file, right away (not
+// deferred to the modal's Save button) — the crop editor's drag/zoom math
+// reads the image's live natural dimensions, so the stage needs to already
+// be showing the rotated file before any further framing is done on it.
+// Persists immediately too: the old file is deleted server-side as part of
+// this, so albums.json must be flushed in the same step or a Cancel here
+// would leave the JSON pointing at a file that no longer exists.
+async function rotatePhoto(degrees) {
+  if (!editingPhotoId) return;
+  const album = albums.find(a => a.id === currentAlbumId);
+  const photo = album && album.photos.find(p => p.id === editingPhotoId);
+  if (!photo) return;
+  const btns = document.querySelectorAll('.crop-rotate-btn');
+  btns.forEach(b => b.disabled = true);
+  const res = await fetch('admin/rotate-image.php', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ src: photo.src, degrees })
+  }).then(r => r.json()).catch(() => ({}));
+  btns.forEach(b => b.disabled = false);
+  if (!res.success) { alert('Rotate error: ' + (res.error || 'unknown error')); return; }
+  photo.src = res.src;
+  if (res.thumb) photo.thumb = res.thumb; else delete photo.thumb;
+  if (res.display) photo.display = res.display; else delete photo.display;
+  if (res.width && res.height) { photo.width = res.width; photo.height = res.height; }
+  await persist(true);
+  initCropEditor(photo.src);
 }
 (function setupCropDrag() {
   const stage = document.getElementById('crop-stage');
@@ -2070,6 +2118,10 @@ function openPhotoModal(id, preset) {
   prev.src = ''; prev.style.display = 'none';
   if (photo) initCropEditor(photo.src);
   else hideCropEditor();
+  // Rotation bakes into the file on the server immediately, so it only
+  // makes sense for a photo that already has one there — a freshly picked
+  // local file has no server path yet.
+  document.getElementById('crop-rotate-row').style.display = photo ? 'flex' : 'none';
 
   document.getElementById('photo-modal').classList.add('active');
   setTimeout(() => document.getElementById('photo-caption-input').focus(), 60);
