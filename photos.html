@@ -520,8 +520,8 @@
 
     /* ── Row modal ── */
     #row-modal .modal-box {
-      width: min(94vw, 1300px);
-      max-height: 90vh;
+      width: min(80vw, 1300px);
+      max-height: 80vh;
       overflow-y: auto;
       padding: 30px 34px 30px;
     }
@@ -1112,17 +1112,21 @@ function renderSidebar(activeId) {
 const BORDER_COLORS = ['#8bc34a','#ffc107','#ef9a9a','#90caf9','#ce93d8','#80cbc4','#ffcc80','#a5d6a7'];
 
 // ── Album index — flat photo grid ────────────────────────────────
-const photoFilters = { added: '', year: '', city: '' };
+const photoFilters = { category: '', year: '', city: '' };
 
 function photoYear(p) {
   const m = (p.date || '').match(/\d{4}/);
   return m ? m[0] : '';
 }
 
+function photoCategories(p) {
+  return (p.tags || '').split(',').map(t => t.trim()).filter(Boolean);
+}
+
 function passesPhotoFilters(p) {
-  return (!photoFilters.added || p.added === photoFilters.added)
-      && (!photoFilters.year  || photoYear(p) === photoFilters.year)
-      && (!photoFilters.city  || (p.city || '') === photoFilters.city);
+  return (!photoFilters.category || photoCategories(p).includes(photoFilters.category))
+      && (!photoFilters.year     || photoYear(p) === photoFilters.year)
+      && (!photoFilters.city     || (p.city || '') === photoFilters.city);
 }
 
 // One entry per group (row) across every album — its cover photo stands in
@@ -1145,7 +1149,7 @@ function renderAlbumList() {
   document.getElementById('album-view').style.display  = 'none';
 
   const covers = getGroupCovers();
-  photoFilters.added = ''; photoFilters.year = ''; photoFilters.city = '';
+  photoFilters.category = ''; photoFilters.year = ''; photoFilters.city = '';
 
   const container = document.getElementById('albums-container');
   if (!covers.length) {
@@ -1154,10 +1158,10 @@ function renderAlbumList() {
     return;
   }
 
-  const coverPhotos   = covers.map(c => c.photo);
-  const addedOptions = [...new Set(coverPhotos.map(p => p.added).filter(Boolean))].sort().reverse();
-  const yearOptions   = [...new Set(coverPhotos.map(photoYear).filter(Boolean))].sort().reverse();
-  const cityOptions   = [...new Set(coverPhotos.map(p => p.city).filter(Boolean))].sort();
+  const coverPhotos    = covers.map(c => c.photo);
+  const categoryOptions = [...new Set(coverPhotos.flatMap(photoCategories))].sort();
+  const yearOptions     = [...new Set(coverPhotos.map(photoYear).filter(Boolean))].sort().reverse();
+  const cityOptions     = [...new Set(coverPhotos.map(p => p.city).filter(Boolean))].sort();
 
   const filterSelect = (id, label, options) => options.length ? `
     <select class="photo-filter-select" id="${id}" onchange="onPhotoFilterChange()">
@@ -1167,9 +1171,9 @@ function renderAlbumList() {
 
   container.innerHTML = `
     <div class="photo-filter-bar">
-      ${filterSelect('filter-added', 'Added', addedOptions)}
-      ${filterSelect('filter-year',  'Year',  yearOptions)}
-      ${filterSelect('filter-city',  'City',  cityOptions)}
+      ${filterSelect('filter-category', 'Category', categoryOptions)}
+      ${filterSelect('filter-year',     'Year',     yearOptions)}
+      ${filterSelect('filter-city',     'City',     cityOptions)}
     </div>
     <div class="covers-flow" id="all-photos-grid"></div>`;
 
@@ -1177,7 +1181,7 @@ function renderAlbumList() {
 }
 
 function onPhotoFilterChange() {
-  photoFilters.added = document.getElementById('filter-added')?.value || '';
+  photoFilters.category = document.getElementById('filter-category')?.value || '';
   photoFilters.year  = document.getElementById('filter-year')?.value  || '';
   photoFilters.city  = document.getElementById('filter-city')?.value  || '';
   renderFilteredPhotoGrid(getGroupCovers());
