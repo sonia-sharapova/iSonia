@@ -38,8 +38,21 @@
       grid-column: span 3;
       display: flex;
       flex-wrap: wrap;
-      gap: 10px;
+      column-gap: 6px;
+      row-gap: 10px;
       min-width: 0;
+    }
+
+    /* Inserted by JS between whichever cards actually end a visual row —
+       row membership is fluid (depends on viewport width and each image's
+       own aspect ratio), so this can't be placed in fixed HTML. flex-basis:
+       100% makes it take the full row width and forces the next card onto
+       a new line, exactly where a row already broke anyway. */
+    .proj-row-divider {
+      flex-basis: 100%;
+      height: 0;
+      margin: 2px 0;
+      border-top: 1px solid #e4e4e4;
     }
 
     /* Border and padding sit on the card itself (transparent until hover)
@@ -89,8 +102,8 @@
     .proj-text {
       display: flex;
       flex-direction: column;
-      align-items: flex-end;
-      text-align: right;
+      align-items: flex-start;
+      text-align: left;
       gap: 4px;
       margin-top: 10px;
       /* width:0 + min-width:100% keeps the title's own text length from
@@ -192,7 +205,6 @@
       }
     }
   </style>
-  <script src="https://mcp.figma.com/mcp/html-to-design/capture.js" async></script>
 </head>
 <body class="m2">
 <nav class="navigation">
@@ -335,6 +347,59 @@
   </script>
 
   <script>
+    // Row membership in the justified-gallery flow is fluid — it depends on
+    // viewport width and each image's own aspect ratio — so dividers can't
+    // live in fixed HTML. Measure actual layout instead: cards sharing an
+    // offsetTop are one visual row, and a .proj-row-divider (flex-basis:
+    // 100%, see CSS) goes right after the last card of every row but the
+    // last.
+    const projectsRows = document.querySelector('.projects-rows');
+
+    function addProjRowDividers() {
+      if (!projectsRows) return;
+      projectsRows.querySelectorAll('.proj-row-divider').forEach(function (d) { d.remove(); });
+      const cards = Array.prototype.filter.call(
+        projectsRows.querySelectorAll('.proj-card'),
+        function (c) { return c.offsetParent !== null; }
+      );
+      if (!cards.length) return;
+      let lastTop = cards[0].offsetTop;
+      const dividerAfter = [];
+      for (let i = 1; i < cards.length; i++) {
+        if (cards[i].offsetTop > lastTop + 1) {
+          dividerAfter.push(cards[i - 1]);
+          lastTop = cards[i].offsetTop;
+        }
+      }
+      dividerAfter.forEach(function (card) {
+        const divider = document.createElement('div');
+        divider.className = 'proj-row-divider';
+        card.insertAdjacentElement('afterend', divider);
+      });
+    }
+
+    let projRowResizeTimer;
+    window.addEventListener('resize', function () {
+      clearTimeout(projRowResizeTimer);
+      projRowResizeTimer = setTimeout(addProjRowDividers, 150);
+    });
+
+    // Thumb width depends on the image's own natural size, so wait for any
+    // still-loading images before measuring — otherwise dividers would land
+    // based on pre-image placeholder widths and jump once images arrive.
+    (function waitForThumbsThenDivide() {
+      if (!projectsRows) return;
+      const imgs = projectsRows.querySelectorAll('.proj-thumb img');
+      let pending = 0;
+      function settle() { pending--; if (pending <= 0) addProjRowDividers(); }
+      imgs.forEach(function (img) {
+        if (!img.complete) { pending++; img.addEventListener('load', settle); img.addEventListener('error', settle); }
+      });
+      addProjRowDividers();
+    })();
+  </script>
+
+  <script>
     // Mobile category filter: hide cards whose category doesn't match the chip
     document.querySelectorAll('.proj-chip').forEach(function (chip) {
       chip.addEventListener('click', function () {
@@ -346,6 +411,7 @@
           const category = card.querySelector('.proj-category').textContent.trim();
           card.classList.toggle('is-filtered', filter !== 'all' && category !== filter);
         });
+        addProjRowDividers();
       });
     });
   </script>
