@@ -259,8 +259,8 @@
       padding-left: clamp(10px, 3.5vw, 52px);
     }
     .catalog-row {
-      --cover-h: clamp(76px, 12vw, 132px);
-      --thumb-h: clamp(64px, 10.5vw, 112px);
+      --cover-h: clamp(70px, 11vw, 118px);
+      --thumb-h: clamp(60px, 9.5vw, 100px);
       display: flex;
       align-items: center;
       gap: 12px;
@@ -538,7 +538,7 @@
        regardless of the photo's real proportions. flex:0 0 auto (matching
        .cover-flow-cell, which never had this bug) guarantees the tile only
        ever sizes to its content. */
-    .detail-grid { --tile-h: clamp(135px, 13vw, 200px); display: flex; flex-wrap: wrap; gap: 8px; }
+    .detail-grid { --tile-h: clamp(130px, 11vw, 170px); display: flex; flex-wrap: wrap; gap: 8px; }
     .detail-tile {
       position: relative;
       height: var(--tile-h);
@@ -601,15 +601,21 @@
     /* compound selector: the generic .modal-box rule further down would otherwise
        win on equal specificity and pin this to 400px */
     .modal-box.photo-detail-box {
-      width: min(95vw, 980px);
+      box-sizing: border-box;
+      width: min(95vw, 900px);
+      height: 50vh;
+      min-height: 320px;
       max-height: 94vh;
       overflow-y: auto;
-      padding: 26px 30px 30px;
+      padding: 22px 26px;
     }
     .photo-detail-layout {
       display: flex;
-      gap: 30px;
+      gap: 28px;
       align-items: flex-start;
+      /* fills the box's content area (50vh minus padding + border) */
+      height: calc(50vh - 46px);
+      min-height: 274px; /* 46 = box padding (44) + border (2) */
     }
     /* The photo sits uncropped in a stage that holds the prev/next arrows */
     .photo-detail-stage {
@@ -620,7 +626,7 @@
       align-items: center;
       justify-content: center;
       /* fixed height so the arrows stay put as photos of different shapes change */
-      height: min(calc(94vh - 130px), 640px);
+      height: 100%;
       background: #f5f5f5;
       border: 1px solid #eee;
     }
@@ -659,11 +665,12 @@
     .photo-detail-prev { left: 14px; }
     .photo-detail-next { right: 14px; }
     .photo-detail-nav[hidden] { display: none !important; }
-    .photo-detail-side { flex: 0 0 clamp(210px, 22vw, 270px); min-width: 0; }
+    .photo-detail-side { flex: 0 0 clamp(200px, 22vw, 250px); min-width: 0; max-height: 100%; overflow-y: auto; }
     @media (max-width: 800px) {
-      .photo-detail-layout { flex-direction: column; gap: 18px; }
-      .photo-detail-stage { flex: none; width: 100%; height: 58vh; }
-      .photo-detail-side { flex: none; width: 100%; }
+      .modal-box.photo-detail-box { height: auto; min-height: 0; }
+      .photo-detail-layout { flex-direction: column; gap: 18px; height: auto; min-height: 0; }
+      .photo-detail-stage { flex: none; width: 100%; height: 40vh; }
+      .photo-detail-side { flex: none; width: 100%; max-height: none; overflow: visible; }
       .photo-detail-nav { width: 52px; height: 52px; }
       .photo-detail-nav svg { width: 26px; height: 26px; }
       .photo-detail-prev { left: 8px; }
