@@ -2,10 +2,12 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Sonia's Games ^_^</title>
   <link rel="icon" href="/images/icons/heart3.png" />
   <link rel="stylesheet" href="../styles/stylesheet.css">
   <link rel="stylesheet" href="display.css">
+  <link rel="stylesheet" href="../styles/mobile.css">
 
   <script src="../scripts/siteStyle/bck.js"></script>
 
@@ -33,16 +35,6 @@
       min-width: 0;
     }
 
-    .proj-row {
-      display: flex;
-      gap: 24px;
-    }
-
-    .proj-row > .proj-card {
-      flex: 1;
-      min-width: 0;
-    }
-
     .proj-row-divider {
       border: none;
       border-top: 1px solid #e4e4e4;
@@ -60,8 +52,8 @@
 
     .proj-thumb {
       flex-shrink: 0;
-      width: 170px;
-      height: 117px;
+      width: 186px;
+      height: 128px;
       border-radius: 1px;
       overflow: hidden;
       background: #eee;
@@ -126,39 +118,52 @@
        stretch makes it match the tall columns' height) */
     .projects-sidebar {
       position: relative;
-      width: 260px;
+      width: 300px;
       flex-shrink: 0;
       border-left: 1px solid #ddd;
       padding-left: 24px;
     }
 
-    /* Sticks to the same spot on screen while the (much taller) project
-       list scrolls past, instead of scrolling away with it */
+    /* Sticks to the same spot on screen (near the bottom of the viewport)
+       while the (much taller) project list scrolls past, instead of
+       scrolling away with it. Uses `top` (not `bottom`) since that's the
+       edge that keeps an element visible during normal downward scroll —
+       the offset is just computed to land near the viewport's bottom.
+       It only leaves that spot (sliding up) once the sidebar's own
+       container — which matches the full project-list height — runs out,
+       i.e. once you actually reach the bottom of the page. */
     .sidebar-sticky {
       position: sticky;
-      top: 24px;
+      top: calc(100vh - 170px);
       display: flex;
       flex-direction: column;
     }
 
     /* Gallery mosaic preview — hidden entirely off a project; only shown
-       in the sidebar's empty upper area on hover over a card that has
-       its own gallery */
+       above the rest of the sidebar text on hover over a card that has
+       its own gallery. Sits in normal flow (floats to the top, pushing
+       the text below it down) instead of overlapping it. `display` can't
+       be transitioned, so the show/hide animation runs on max-height +
+       opacity instead — `display: grid` stays constant and `overflow:
+       hidden` + `max-height: 0` collapse it to zero footprint when off. */
     .sidebar-gallery-preview {
-      display: none;
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 220px;
+      display: grid;
+      width: 250px;
+      margin: 0 auto;
+      max-height: 0;
+      opacity: 0;
+      overflow: hidden;
       grid-template-columns: repeat(2, 1fr);
-      grid-template-rows: repeat(2, 1fr);
-      gap: 6px;
+      grid-template-rows: repeat(2, 122px);
+      gap: 8px;
       pointer-events: none;
+      transition: max-height 0.4s ease, opacity 0.35s ease, margin-bottom 0.4s ease;
     }
 
     .sidebar-gallery-preview.active {
-      display: grid;
+      max-height: 260px;
+      opacity: 1;
+      margin-bottom: 36px;
     }
 
     .sidebar-gallery-preview img {
@@ -180,24 +185,6 @@
     .sidebar-gallery-preview.active img:nth-child(2) { transition-delay: 0.06s; }
     .sidebar-gallery-preview.active img:nth-child(3) { transition-delay: 0.12s; }
     .sidebar-gallery-preview.active img:nth-child(4) { transition-delay: 0.18s; }
-
-    .sidebar-see-all {
-      display: block;
-      font-size: 15px;
-      font-weight: 500;
-      letter-spacing: 0.05em;
-      color: #333333;
-      text-decoration: none;
-      font-family: 'Optima', arial, sans-serif;
-    }
-
-    .sidebar-see-all:hover {
-      color: #45a049;
-    }
-
-    .sidebar-spacer {
-      height: 64px;
-    }
 
     .sidebar-intro {
       font-family: 'Courier New', monospace;
@@ -226,10 +213,6 @@
       .projects-body {
         flex-direction: column;
       }
-      .proj-row {
-        flex-direction: column;
-        gap: 30px;
-      }
       .proj-row-divider {
         width: 100%;
       }
@@ -243,9 +226,6 @@
       }
       .sidebar-sticky {
         position: static;
-      }
-      .sidebar-spacer {
-        height: 20px;
       }
       .sidebar-gallery-preview,
       .sidebar-gallery-preview.active {
@@ -264,15 +244,15 @@
       .proj-thumb {
         width: 100%;
         height: auto;
-        aspect-ratio: 170 / 117;
+        aspect-ratio: 186 / 128;
       }
     }
   </style>
 </head>
-<body>
+<body class="m2">
 <nav class="navigation">
   <a href="../index.html" class="nav-item">HOME</a>
-  <a href="../creations/projects.html" class="nav-item">PROJECTS</a>
+  <a href="../creations/projects.html" class="nav-item" aria-current="page">PROJECTS</a>
   <a href="../navigation/portfolio.html" class="nav-item">PORTFOLIO</a>
   <a href="../navigation/resources.html" class="nav-item">RESOURCES</a>
   <a href="../navigation/about.html" class="nav-item">ABOUT</a>
@@ -285,137 +265,138 @@
       <a href="../photos.html" class="sub-nav-item">photography</a>
       <a href="../creations/art.html" class="sub-nav-item">art</a>
   </div>
-  <h1 class="page-title">INTERACTIVE PROJECTS</h1>
+  <h1 class="page-title" data-eyebrow="Just for fun"><span class="pt-long">Interactive </span>Projects</h1>
 <hr>
 </div>
 
 <div class="content">
   <div class="projects">
+    <!-- Category filter — only shown on mobile (see styles/mobile.css) -->
+    <div class="proj-filters" role="group" aria-label="Filter projects by category">
+      <button type="button" class="proj-chip active" data-filter="all">All</button>
+      <button type="button" class="proj-chip" data-filter="Webcam Fun">Webcam Fun</button>
+      <button type="button" class="proj-chip" data-filter="Games">Games</button>
+      <button type="button" class="proj-chip" data-filter="Tools">Tools</button>
+      <button type="button" class="proj-chip" data-filter="Creative">Creative</button>
+      <button type="button" class="proj-chip" data-filter="Misc.">Misc.</button>
+    </div>
     <div class="projects-body">
       <div class="projects-rows">
-        <div class="proj-row">
-          <a href="../projects/design/poster.html" class="proj-card proj-card--img-left" target="_blank">
-            <div class="proj-thumb"><img src="../images/projects/preview/poster.png" alt="Poster Design"></div>
-            <div class="proj-text">
-              <h2 class="proj-title">Poster Design</h2>
-              <span class="proj-category">Tools</span>
-            </div>
-          </a>
-
-          <a href="../projects/bezier.html" class="proj-card proj-card--img-left" target="_blank">
-            <div class="proj-thumb"><img src="../images/projects/preview/curve.png" alt="Plotting Bezier Curves"></div>
-            <div class="proj-text">
-              <h2 class="proj-title">Plotting Bezier Curves</h2>
-              <span class="proj-category">Tools</span>
-            </div>
-          </a>
-        </div>
+        <a href="../projects/design/poster.html" class="proj-card proj-card--img-left" target="_blank">
+          <div class="proj-thumb"><img src="../images/projects/preview/poster.png" alt="Poster Design"></div>
+          <div class="proj-text">
+            <h2 class="proj-title">Poster Design</h2>
+            <span class="proj-category">Tools</span>
+          </div>
+        </a>
         <hr class="proj-row-divider">
 
-        <div class="proj-row">
-          <a href="../projects/camera/ghostLines.html" class="proj-card proj-card--img-right" data-gallery="ghost-lines">
-            <div class="proj-thumb"><img src="../images/projects/preview/motion5.png" alt="Ghost Lines"></div>
-            <div class="proj-text">
-              <h2 class="proj-title">Ghost Lines</h2>
-              <span class="proj-category">Webcam Fun</span>
-            </div>
-          </a>
-
-          <a href="../projects/camera/ascii_cam.html" class="proj-card proj-card--img-right" data-gallery="ascii-cam">
-            <div class="proj-thumb"><img src="../images/projects/preview/emilioAndrew.png" alt="ASCII Cam"></div>
-            <div class="proj-text">
-              <h2 class="proj-title">ASCII Cam</h2>
-              <span class="proj-category">Webcam Fun</span>
-            </div>
-          </a>
-        </div>
+        <a href="../projects/bezier.html" class="proj-card proj-card--img-right" target="_blank">
+          <div class="proj-thumb"><img src="../images/projects/preview/curve.png" alt="Plotting Bezier Curves"></div>
+          <div class="proj-text">
+            <h2 class="proj-title">Plotting Bezier Curves</h2>
+            <span class="proj-category">Tools</span>
+          </div>
+        </a>
         <hr class="proj-row-divider">
 
-        <div class="proj-row">
-          <a href="../projects/camera/shapePhotos.html" class="proj-card proj-card--img-left">
-            <div class="proj-thumb"><img src="../images/projects/preview/heartShape.jpeg" alt="Web Shape Maker"></div>
-            <div class="proj-text">
-              <h2 class="proj-title">Web Shape Maker</h2>
-              <span class="proj-category">Webcam Fun</span>
-            </div>
-          </a>
-
-          <a href="../projects/camera/recognition.html" class="proj-card proj-card--img-left" data-gallery="identification-camera">
-            <div class="proj-thumb"><img src="../images/projects/preview/person.png" alt="Identification Camera"></div>
-            <div class="proj-text">
-              <h2 class="proj-title">Identification Camera</h2>
-              <span class="proj-category">Webcam Fun</span>
-            </div>
-          </a>
-        </div>
+        <a href="../projects/camera/ghostLines.html" class="proj-card proj-card--img-left" data-gallery="ghost-lines">
+          <div class="proj-thumb"><img src="../images/projects/preview/motion5.png" alt="Ghost Lines"></div>
+          <div class="proj-text">
+            <h2 class="proj-title">Ghost Lines</h2>
+            <span class="proj-category">Webcam Fun</span>
+          </div>
+        </a>
         <hr class="proj-row-divider">
 
-        <div class="proj-row">
-          <a href="../projects/dots/dots.html" class="proj-card proj-card--img-right">
-            <div class="proj-thumb"><img src="../images/projects/preview/dots1.png" alt="Connect the Dots"></div>
-            <div class="proj-text">
-              <h2 class="proj-title">Connect the Dots</h2>
-              <span class="proj-category">Creative</span>
-            </div>
-          </a>
-
-          <a href="../projects/camera/drawASCII.html" class="proj-card proj-card--img-right" data-gallery="draw-ascii-art">
-            <div class="proj-thumb"><img src="../images/projects/preview/prev_star.png" alt="Draw ASCII Art"></div>
-            <div class="proj-text">
-              <h2 class="proj-title">Draw ASCII Art</h2>
-              <span class="proj-category">Creative</span>
-            </div>
-          </a>
-        </div>
+        <a href="../projects/camera/ascii_cam.html" class="proj-card proj-card--img-right" data-gallery="ascii-cam">
+          <div class="proj-thumb"><img src="../images/projects/preview/emilioAndrew.png" alt="ASCII Cam"></div>
+          <div class="proj-text">
+            <h2 class="proj-title">ASCII Cam</h2>
+            <span class="proj-category">Webcam Fun</span>
+          </div>
+        </a>
         <hr class="proj-row-divider">
 
-        <div class="proj-row">
-          <a href="../game/riverPass/riverPass.html" class="proj-card proj-card--img-left">
-            <div class="proj-thumb"><img src="../game/riverPass/images/bckg.png" alt="River Crossing"></div>
-            <div class="proj-text">
-              <h2 class="proj-title">River Crossing</h2>
-              <span class="proj-category">Games</span>
-            </div>
-          </a>
-
-          <a href="../game/shatter/shatter.html" class="proj-card proj-card--img-left">
-            <div class="proj-thumb"><img src="../images/projects/preview/glass_shattered.png" alt="Break Glass"></div>
-            <div class="proj-text">
-              <h2 class="proj-title">Break Glass</h2>
-              <span class="proj-category">Games</span>
-            </div>
-          </a>
-        </div>
+        <a href="../projects/camera/shapePhotos.html" class="proj-card proj-card--img-left">
+          <div class="proj-thumb"><img src="../images/projects/preview/heartShape.jpeg" alt="Web Shape Maker"></div>
+          <div class="proj-text">
+            <h2 class="proj-title">Web Shape Maker</h2>
+            <span class="proj-category">Webcam Fun</span>
+          </div>
+        </a>
         <hr class="proj-row-divider">
 
-        <div class="proj-row">
-          <a href="../projects/synth.html" class="proj-card proj-card--img-right">
-            <div class="proj-thumb"><img src="../images/projects/preview/synth.png" alt="Synthesizer"></div>
-            <div class="proj-text">
-              <h2 class="proj-title">Synthesizer</h2>
-              <span class="proj-category">Games</span>
-            </div>
-          </a>
-
-          <a href="../game/cones.html" class="proj-card proj-card--img-right">
-            <div class="proj-thumb"><img src="../images/projects/preview/cones.png" alt="Cones"></div>
-            <div class="proj-text">
-              <h2 class="proj-title">Cones</h2>
-              <span class="proj-category">Misc.</span>
-            </div>
-          </a>
-        </div>
+        <a href="../projects/camera/recognition.html" class="proj-card proj-card--img-right" data-gallery="identification-camera">
+          <div class="proj-thumb"><img src="../images/projects/preview/person.png" alt="Identification Camera"></div>
+          <div class="proj-text">
+            <h2 class="proj-title">Identification Camera</h2>
+            <span class="proj-category">Webcam Fun</span>
+          </div>
+        </a>
         <hr class="proj-row-divider">
 
-        <div class="proj-row">
-          <a href="../game/object.html" class="proj-card proj-card--img-left">
-            <div class="proj-thumb"><img src="../images/projects/preview/obj2.png" alt="Graphics Playground"></div>
-            <div class="proj-text">
-              <h2 class="proj-title">Graphics Playground</h2>
-              <span class="proj-category">Misc.</span>
-            </div>
-          </a>
-        </div>
+        <a href="../projects/dots/dots.html" class="proj-card proj-card--img-left">
+          <div class="proj-thumb"><img src="../images/projects/preview/dots1.png" alt="Connect the Dots"></div>
+          <div class="proj-text">
+            <h2 class="proj-title">Connect the Dots</h2>
+            <span class="proj-category">Creative</span>
+          </div>
+        </a>
+        <hr class="proj-row-divider">
+
+        <a href="../projects/camera/drawASCII.html" class="proj-card proj-card--img-right" data-gallery="draw-ascii-art">
+          <div class="proj-thumb"><img src="../images/projects/preview/prev_star.png" alt="Draw ASCII Art"></div>
+          <div class="proj-text">
+            <h2 class="proj-title">Draw ASCII Art</h2>
+            <span class="proj-category">Creative</span>
+          </div>
+        </a>
+        <hr class="proj-row-divider">
+
+        <a href="../game/riverPass/riverPass.html" class="proj-card proj-card--img-left">
+          <div class="proj-thumb"><img src="../game/riverPass/images/bckg.png" alt="River Crossing"></div>
+          <div class="proj-text">
+            <h2 class="proj-title">River Crossing</h2>
+            <span class="proj-category">Games</span>
+          </div>
+        </a>
+        <hr class="proj-row-divider">
+
+        <a href="../game/shatter/shatter.html" class="proj-card proj-card--img-right">
+          <div class="proj-thumb"><img src="../images/projects/preview/glass_shattered.png" alt="Break Glass"></div>
+          <div class="proj-text">
+            <h2 class="proj-title">Break Glass</h2>
+            <span class="proj-category">Games</span>
+          </div>
+        </a>
+        <hr class="proj-row-divider">
+
+        <a href="../projects/synth.html" class="proj-card proj-card--img-left">
+          <div class="proj-thumb"><img src="../images/projects/preview/synth.png" alt="Synthesizer"></div>
+          <div class="proj-text">
+            <h2 class="proj-title">Synthesizer</h2>
+            <span class="proj-category">Games</span>
+          </div>
+        </a>
+        <hr class="proj-row-divider">
+
+        <a href="../game/cones.html" class="proj-card proj-card--img-right">
+          <div class="proj-thumb"><img src="../images/projects/preview/cones.png" alt="Cones"></div>
+          <div class="proj-text">
+            <h2 class="proj-title">Cones</h2>
+            <span class="proj-category">Misc.</span>
+          </div>
+        </a>
+        <hr class="proj-row-divider">
+
+        <a href="../game/object.html" class="proj-card proj-card--img-left">
+          <div class="proj-thumb"><img src="../images/projects/preview/obj2.png" alt="Graphics Playground"></div>
+          <div class="proj-text">
+            <h2 class="proj-title">Graphics Playground</h2>
+            <span class="proj-category">Misc.</span>
+          </div>
+        </a>
       </div>
 
       <div class="projects-sidebar">
@@ -426,8 +407,6 @@
             <img alt="">
             <img alt="">
           </div>
-          <a href="../creations/games.html" class="sidebar-see-all">SEE ALL</a>
-          <div class="sidebar-spacer"></div>
           <p class="sidebar-intro">For more<br>professional work</p>
           <a href="../navigation/portfolio.html" class="sidebar-cta">VIEW PORTFOLIO &rarr;</a>
         </div>
@@ -438,6 +417,22 @@
 
   <script>
     animate();
+  </script>
+
+  <script>
+    // Mobile category filter: hide cards whose category doesn't match the chip
+    document.querySelectorAll('.proj-chip').forEach(function (chip) {
+      chip.addEventListener('click', function () {
+        document.querySelectorAll('.proj-chip').forEach(function (c) {
+          c.classList.toggle('active', c === chip);
+        });
+        const filter = chip.dataset.filter;
+        document.querySelectorAll('.proj-card').forEach(function (card) {
+          const category = card.querySelector('.proj-category').textContent.trim();
+          card.classList.toggle('is-filtered', filter !== 'all' && category !== filter);
+        });
+      });
+    });
   </script>
 
   <script>

@@ -1,0 +1,782 @@
+/* Mobile redesign — from the Figma file "iSonia — Mobile Design".
+ *
+ * Opt-in: a page gets this design by (1) having <meta name="viewport"> so phones
+ * actually apply the breakpoint, (2) linking this file after stylesheet.css and
+ * (3) using <body class="m2">. Everything is scoped to body.m2 inside a
+ * max-width: 768px query, so desktop is untouched and other pages are unaffected.
+ *
+ * Type: headings use Optima (native on Apple devices, and the site's existing
+ * face) with Belleza as the web fallback; body is Mulish; meta/labels are
+ * IBM Plex Mono. Colors are the site's existing greys plus a soft blue tint.
+ *
+ * stylesheet.css has blanket !important rules for phones (every <a> is
+ * display:flex with a 44px min size, nav sizes, page-title, footer) — so the
+ * rules below that fight those use !important as well.
+ */
+
+@import url("https://fonts.googleapis.com/css2?family=Belleza&family=IBM+Plex+Mono&family=Mulish:wght@400;600&display=swap") (max-width: 768px);
+
+/* Hidden by default; the mobile block below turns them on. !important because
+   stylesheet.css forces every <a> to display:flex !important on small screens. */
+.about-link { display: none !important; }
+
+/* Page titles are stored in normal case so mobile can show "Projects";
+   desktop keeps its all-caps look. */
+body.m2 .page-title { text-transform: uppercase; }
+.msg-short { display: none; }
+.proj-filters { display: none; }
+
+@media (max-width: 768px) {
+
+  /* ---------- Page shell ---------- */
+
+  html:has(body.m2) { width: 100% !important; }
+
+  body.m2 {
+    width: 100% !important;
+    max-width: 100%;
+    box-sizing: border-box;
+    margin: 0 !important;
+    /* 45px top bar, 84px tab bar (+ home-indicator inset) */
+    padding: 45px 0 calc(84px + env(safe-area-inset-bottom)) !important;
+    background: #f5f5f5;
+    color: #666;
+    font-family: 'Mulish', arial, sans-serif;
+    overflow-x: hidden;
+  }
+
+  /* Top bar: just the wordmark */
+  body.m2::before {
+    content: "Sonia Sharapova";
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 11;
+    box-sizing: border-box;
+    padding: 8px 20px 12px;
+    background: #f5f5f5;
+    border-bottom: 1px solid #ddd;
+    font: 400 18px/24px 'Optima', 'Belleza', arial, sans-serif;
+    color: #333;
+  }
+
+  /* Bottom tab bar (replaces the top nav) */
+  body.m2 .navigation {
+    position: fixed !important;
+    top: auto !important;
+    bottom: 0 !important;
+    left: 0;
+    right: 0;
+    width: 100% !important;
+    margin: 0 !important;
+    box-sizing: border-box;
+    padding: 0 4px calc(20px + env(safe-area-inset-bottom)) !important;
+    display: flex !important;
+    align-items: flex-start;
+    justify-content: stretch;
+    background: #fff;
+    border-top: 1px solid #ddd;
+    border-bottom: none !important;
+    z-index: 12;
+  }
+
+  body.m2 .nav-item {
+    flex: 1 1 0;
+    min-width: 0 !important;
+    min-height: 0 !important;
+    flex-direction: column !important;
+    justify-content: flex-start !important;
+    gap: 4px;
+    padding: 12px 0 0 !important;
+    font: 400 11px/16px 'IBM Plex Mono', 'Courier New', monospace !important;
+    letter-spacing: 0;
+    text-transform: lowercase;
+    color: #888f8d !important;
+    transform: none !important;
+  }
+
+  body.m2 .nav-item:hover { transform: none !important; }
+  body.m2 .nav-item::after { content: none !important; }
+
+  body.m2 .nav-item[aria-current="page"] {
+    padding-top: 10px !important;
+    border-top: 2px solid #45a049;
+    color: #333 !important;
+  }
+
+  body.m2 .nav-item::before {
+    content: "";
+    display: block;
+    width: 22px;
+    height: 22px;
+    background: currentColor;
+    -webkit-mask-position: center;
+    mask-position: center;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-size: contain;
+    mask-size: contain;
+  }
+
+  body.m2 .nav-item[href$="index.html"]::before     { -webkit-mask-image: url(icons/tab-home.svg);      mask-image: url(icons/tab-home.svg); }
+  body.m2 .nav-item[href$="projects.html"]::before  { -webkit-mask-image: url(icons/tab-projects.svg);  mask-image: url(icons/tab-projects.svg); }
+  body.m2 .nav-item[href$="portfolio.html"]::before { -webkit-mask-image: url(icons/tab-portfolio.svg); mask-image: url(icons/tab-portfolio.svg); }
+  body.m2 .nav-item[href$="resources.html"]::before { -webkit-mask-image: url(icons/tab-resources.svg); mask-image: url(icons/tab-resources.svg); }
+  body.m2 .nav-item[href$="about.html"]::before     { -webkit-mask-image: url(icons/tab-about.svg);     mask-image: url(icons/tab-about.svg); }
+
+  /* ---------- Page head: eyebrow / title / rule ---------- */
+
+  body.m2 .title-container {
+    display: flex;
+    flex-direction: column;
+    width: auto !important;
+    margin: 0 !important;
+    padding: 24px 20px 0;
+  }
+
+  body.m2 .title-container > hr { display: none; }
+
+  /* "INTERACTIVE PROJECTS" reads just "Projects" on mobile */
+  body.m2 .pt-long { display: none; }
+
+  body.m2 .page-title {
+    order: -1;
+    margin: 0 0 16px !important;
+    padding: 0 0 10px !important;
+    border-bottom: 2px solid #333;
+    text-align: left !important;
+    text-transform: none;
+    letter-spacing: 0 !important;
+    color: #333 !important;
+    font: 400 34px/40px 'Optima', 'Belleza', arial, sans-serif !important;
+  }
+
+  body.m2 .page-title[data-eyebrow]::before {
+    content: attr(data-eyebrow);
+    display: block;
+    margin-bottom: 10px;
+    font: 400 12px/16px 'Optima', 'Belleza', arial, sans-serif;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #888f8d;
+  }
+
+  /* The "SEE: writing / photography / art" links have no slot in the design,
+     so they're kept as a quiet mono row rather than removed. */
+  body.m2 .nav-links {
+    order: 1;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-start !important;
+    gap: 14px;
+    margin: 0 0 16px;
+    padding: 0 !important;
+    border-bottom: none !important;
+  }
+
+  body.m2 .tags-group { gap: 14px; }
+
+  body.m2 .sub-nav-item {
+    min-width: 0 !important;
+    min-height: 0 !important;
+    padding: 0 !important;
+    font: 400 11px/16px 'IBM Plex Mono', 'Courier New', monospace !important;
+    letter-spacing: 0 !important;
+    color: #47649a !important;
+  }
+
+  body.m2 .nav-links .sub-nav-item:first-child,
+  body.m2 .tags-group .sub-nav-item:first-child { color: #888f8d !important; }
+
+  /* ---------- Footer ---------- */
+
+  body.m2 footer {
+    margin-top: 32px;
+    padding: 24px 20px 28px !important;
+    border-top: 1px solid #ddd;
+    text-align: center;
+    font: 400 11px/16px 'IBM Plex Mono', 'Courier New', monospace;
+    color: #888f8d;
+  }
+
+  /* font-size:0 swallows the literal "|" separators between the links */
+  body.m2 footer .socials {
+    display: block !important;
+    width: auto !important;
+    max-width: none !important;
+    margin: 0;
+    padding: 0 0 10px;
+    font-size: 0;
+  }
+
+  body.m2 footer .socials a {
+    display: inline-flex !important;
+    min-width: 0 !important;
+    min-height: 0 !important;
+    font: 400 15px/24px 'Mulish', arial, sans-serif !important;
+    color: #333 !important;
+  }
+
+  body.m2 footer .socials a + a::before {
+    content: "·";
+    margin: 0 14px;
+    color: #888f8d;
+  }
+
+  /* ---------- Home ---------- */
+
+  /* blogs.css gives .content 20px side padding (content-box), which would
+     double up with the columns' own 20px gutters */
+  body.m2 .content:has(> .left-column) {
+    flex-direction: column;
+    box-sizing: border-box;
+    width: 100% !important;
+    padding: 0 !important;
+    gap: 36px;
+  }
+
+  body.m2 .left-column,
+  body.m2 .right-column {
+    box-sizing: border-box;
+    padding: 0 20px !important;
+  }
+
+  body.m2 .left-column { gap: 36px; flex: none; }
+
+  /* Hero: portrait left, name + eyebrow right, actions underneath */
+  body.m2 .profile-section {
+    display: grid !important;
+    grid-template-columns: 165px 1fr;
+    grid-template-rows: auto 1fr auto;
+    grid-template-areas:
+      "photo name"
+      "photo eyebrow"
+      "actions actions";
+    column-gap: 15px;
+    row-gap: 0;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  body.m2 .preview-image {
+    grid-area: photo;
+    width: 165px !important;
+    height: 153px !important;
+    margin: 0 !important;
+    border: none;
+    border-radius: 2px;
+    background: #e6e6e6;
+    overflow: hidden;
+  }
+
+  body.m2 .preview-image img {
+    display: block;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover;
+  }
+
+  body.m2 .description { display: contents; }
+
+  body.m2 .description h1 {
+    grid-area: name;
+    align-self: start;
+    margin: 0 !important;
+    font: 400 34px/40px 'Optima', 'Belleza', arial, sans-serif;
+    text-transform: none;
+    color: #333;
+  }
+
+  body.m2 .description #note { display: none; }
+
+  body.m2 .description > p:not(#note) {
+    grid-area: eyebrow;
+    margin: 15px 0 0 !important;
+    font: 400 12px/16px 'Optima', 'Belleza', arial, sans-serif;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #888f8d;
+  }
+
+  body.m2 .hero-actions {
+    grid-area: actions;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-top: 9px;
+  }
+
+  body.m2 #chip { display: none; }
+
+  body.m2 .msg-btn-col { margin: 0 !important; }
+
+  body.m2 .msg-btn {
+    width: 160px !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    padding: 12px 18px !important;
+    gap: 8px;
+    background: #e4edf6 !important;
+    border: 1px solid #ddd !important;
+    border-radius: 2px;
+    color: #47649a !important;
+    text-decoration: none !important;
+    font: 600 15px/24px 'Mulish', arial, sans-serif;
+  }
+
+  body.m2 .msg-btn img { width: 16px !important; opacity: 1 !important; }
+  body.m2 .msg-full { display: none; }
+  body.m2 .msg-short { display: inline; }
+
+  body.m2 .about-link {
+    display: inline-flex !important;
+    min-height: 0 !important;
+    min-width: 0 !important;
+    font: 400 15px/24px 'Mulish', arial, sans-serif;
+    color: #333;
+    text-decoration: none;
+  }
+
+  body.m2 .home-cont {
+    display: flex;
+    flex-direction: column;
+    gap: 36px;
+    width: 100%;
+    margin: 0 !important;
+  }
+
+  /* Section heads: small caps label over a 2px rule */
+  body.m2 .blog-title,
+  body.m2 .widget-heading {
+    margin: 0 !important;
+    font: 400 12px/16px 'Optima', 'Belleza', arial, sans-serif !important;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #333 !important;
+    text-align: left !important;
+  }
+
+  body.m2 .navigation-column::before {
+    content: "My archives";
+    display: block;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #333;
+    font: 400 12px/16px 'Optima', 'Belleza', arial, sans-serif;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #333;
+  }
+
+  body.m2 .widget-heading {
+    padding: 0 0 8px !important;
+    border-bottom: 2px solid #333 !important;
+  }
+
+  /* Recent thoughts */
+  body.m2 .blog-section {
+    width: 100% !important;
+    padding: 0 !important;
+    background: none !important;
+    border: none !important;
+    border-radius: 0;
+  }
+
+  body.m2 .blog-section > div:first-child {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0 !important;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #333;
+  }
+
+  body.m2 .blog-section > div:first-child .see-all-link {
+    min-height: 0 !important;
+    min-width: 0 !important;
+    margin: 0 !important;
+    font: 400 11px/16px 'IBM Plex Mono', 'Courier New', monospace !important;
+    text-transform: lowercase;
+    color: #47649a !important;
+  }
+
+  body.m2 .blog-section > div:first-child .see-all-link::after {
+    content: "→";
+    margin-left: 4px;
+  }
+
+  /* the second, bottom "SEE ALL" isn't in the design */
+  body.m2 .blog-section > .see-all-link { display: none !important; }
+
+  body.m2 #recent-posts a {
+    display: block !important;
+    min-height: 0 !important;
+  }
+
+  body.m2 .blog-entry {
+    width: 100%;
+    margin: 0 !important;
+    padding: 16px 0 !important;
+    background: none !important;
+    border: none;
+    border-bottom: 1px solid #ddd;
+    box-shadow: none;
+  }
+
+  body.m2 .blog-entry-header {
+    flex-direction: column-reverse !important;
+    align-items: flex-start !important;
+    gap: 6px;
+    margin: 0;
+  }
+
+  body.m2 .blog-entry-title {
+    margin: 0 !important;
+    font: 400 18px/24px 'Optima', 'Belleza', arial, sans-serif !important;
+    color: #333 !important;
+  }
+
+  body.m2 .blog-entry-date {
+    margin: 0 !important;
+    font: 400 11px/16px 'IBM Plex Mono', 'Courier New', monospace !important;
+    color: #888f8d;
+  }
+
+  body.m2 .blog-entry-excerpt { display: none !important; }
+
+  /* My archives + Extra credit rows */
+  body.m2 .navigation-column {
+    width: 100% !important;
+    margin: 0 !important;
+  }
+
+  body.m2 .nav-column-item,
+  body.m2 .widget-list-item {
+    display: flex !important;
+    align-items: center;
+    justify-content: space-between !important;
+    min-height: 0 !important;
+    min-width: 0 !important;
+    padding: 16px 10px !important;
+    background: none !important;
+    border: none !important;
+    border-bottom: 1px solid #ddd !important;
+    border-radius: 0 !important;
+    text-align: left;
+    color: #333 !important;
+    font: 400 18px/24px 'Optima', 'Belleza', arial, sans-serif !important;
+  }
+
+  body.m2 .nav-column-item:hover,
+  body.m2 .widget-list-item:hover {
+    padding-left: 10px !important;
+    background: none !important;
+    color: #45a049 !important;
+  }
+
+  body.m2 .nav-column-item::after,
+  body.m2 .widget-list-item::after {
+    content: "";
+    flex: none;
+    width: 18px;
+    height: 18px;
+    background: #888f8d;
+    -webkit-mask: url(icons/chevron-right.svg) center / contain no-repeat;
+    mask: url(icons/chevron-right.svg) center / contain no-repeat;
+  }
+
+  /* Extra credit is the right column's last widget; the archives list and
+     the clock aren't shown on mobile (archives already sit under the blog) */
+  body.m2 .right-column {
+    display: block !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: none !important;
+  }
+
+  /* clock.css centres this in a 250px column; let it span the gutters instead */
+  body.m2 .widgets-container {
+    align-items: stretch;
+    width: 100%;
+    max-width: none !important;
+    margin: 0 !important;
+    padding: 0;
+  }
+
+  body.m2 .widgets-container > *:not(.widget-align-right) { display: none !important; }
+  body.m2 .widget-list { gap: 0; }
+
+  body.m2 .widget-list-item {
+    font: 400 15px/24px 'Mulish', arial, sans-serif !important;
+    padding: 14px 10px !important;
+  }
+
+  body.m2 .widget-list-item::after {
+    width: 16px;
+    height: 16px;
+    -webkit-mask-image: url(icons/arrow-up-right.svg);
+    mask-image: url(icons/arrow-up-right.svg);
+  }
+
+  /* ---------- Projects ---------- */
+
+  body.m2 .projects { padding: 0 20px !important; }
+
+  body.m2 .proj-filters {
+    display: flex;
+    gap: 8px;
+    margin-top: 8px;
+    padding-bottom: 2px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  body.m2 .proj-filters::-webkit-scrollbar { display: none; }
+
+  body.m2 .proj-chip {
+    flex: none;
+    min-width: 0 !important;
+    min-height: 0 !important;
+    padding: 5px 10px;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 2px;
+    font: 400 15px/24px 'Mulish', arial, sans-serif;
+    color: #333;
+    cursor: pointer;
+  }
+
+  body.m2 .proj-chip.active {
+    background: #333;
+    border-color: #333;
+    color: #f5f5f5;
+  }
+
+  body.m2 .projects-body { margin-top: 24px; gap: 8px; }
+
+  body.m2 .projects-rows {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px 16px;
+  }
+
+  body.m2 .proj-row { display: contents; }
+  body.m2 .proj-row-divider { display: none; }
+
+  body.m2 .proj-card,
+  body.m2 .proj-card--img-right {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    justify-content: flex-start !important;
+    gap: 8px;
+    min-width: 0 !important;
+    min-height: 0 !important;
+  }
+
+  body.m2 .proj-card.is-filtered { display: none !important; }
+
+  body.m2 .proj-thumb {
+    width: 100%;
+    height: 150px;
+    aspect-ratio: auto;
+    border-radius: 2px;
+    background: #e6e6e6;
+  }
+
+  body.m2 .proj-text { gap: 4px; padding: 0; }
+
+  body.m2 .proj-card--img-right .proj-text {
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  body.m2 .proj-title {
+    font: 400 18px/24px 'Optima', 'Belleza', arial, sans-serif;
+    color: #333;
+  }
+
+  body.m2 .proj-category {
+    font: 400 11px/16px 'IBM Plex Mono', 'Courier New', monospace;
+    letter-spacing: 0;
+    text-transform: none;
+    color: #888f8d;
+  }
+
+  /* Sidebar blurb under the grid ("For more professional work") */
+  body.m2 .sidebar-intro {
+    margin: 0 0 8px;
+    font: 400 11px/16px 'IBM Plex Mono', 'Courier New', monospace;
+    letter-spacing: 0;
+    color: #888f8d;
+  }
+
+  body.m2 .sidebar-cta {
+    min-height: 0 !important;
+    justify-content: flex-start !important;
+    font: 400 14px/16px 'IBM Plex Mono', 'Courier New', monospace;
+    color: #47649a;
+  }
+
+  /* ---------- Portfolio ---------- */
+
+  body.m2 .container {
+    width: auto !important;
+    margin: 0 !important;
+    padding: 24px 20px 0;
+  }
+
+  body.m2 .container_inner {
+    width: 100% !important;
+    background: none;
+    border: none;
+  }
+
+  body.m2 .header {
+    margin: 0 0 16px;
+    padding: 0;
+    background: none;
+    border: none;
+  }
+
+  body.m2 .header h1 {
+    margin: 0;
+    font: 400 14px/16px 'IBM Plex Mono', 'Courier New', monospace;
+    color: #47649a;
+  }
+
+  body.m2 .topics-box {
+    display: block;
+    float: none;
+    width: 100%;
+  }
+
+  body.m2 .topics-list { display: block; }
+
+  body.m2 .topics-list li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0 0 10px;
+    padding: 16px !important;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 2px;
+    font: 400 18px/24px 'Optima', 'Belleza', arial, sans-serif !important;
+    color: #333;
+  }
+
+  body.m2 .topics-list li:hover { background: #fff; }
+
+  body.m2 .topics-list li::after {
+    content: "";
+    flex: none;
+    width: 18px;
+    height: 18px;
+    background: #888f8d;
+    -webkit-mask: url(icons/chevron-down.svg) center / contain no-repeat;
+    mask: url(icons/chevron-down.svg) center / contain no-repeat;
+  }
+
+  /* Open topic: header and body read as one bordered card (the JS moves
+     .section directly after the active <li> on mobile) */
+  body.m2 .topics-list li.active {
+    margin-bottom: 0;
+    background: #fff;
+    border-color: #333;
+    border-bottom-color: #fff;
+    border-radius: 2px 2px 0 0;
+  }
+
+  body.m2 .topics-list li.active::after {
+    -webkit-mask-image: url(icons/chevron-up.svg);
+    mask-image: url(icons/chevron-up.svg);
+  }
+
+  body.m2 .topics-list li[data-topic="resume"] {
+    justify-content: center;
+    gap: 10px;
+    margin-top: 14px;
+    background: #e4edf6;
+    border-color: #ddd;
+    font: 600 15px/24px 'Mulish', arial, sans-serif !important;
+    color: #47649a;
+  }
+
+  body.m2 .topics-list li[data-topic="resume"]::after {
+    width: 16px;
+    height: 16px;
+    background: #47649a;
+    -webkit-mask-image: url(icons/download.svg);
+    mask-image: url(icons/download.svg);
+  }
+
+  body.m2 .topics-list li[data-topic="resume"].active { background: #e4edf6; border-color: #ddd; }
+
+  body.m2 .container_inner .content {
+    display: block;
+    margin: 0;
+    padding: 0;
+    border-left: none;
+  }
+
+  body.m2 .section {
+    margin: 0 0 10px;
+    padding: 0 16px 16px;
+    background: #fff;
+    border: 1px solid #333;
+    border-top: none;
+    border-radius: 0 0 2px 2px;
+  }
+
+  body.m2 .section-header { display: none; }
+
+  body.m2 .section-content {
+    min-height: 0;
+    margin: 0;
+    padding: 0;
+  }
+
+  body.m2 .section-content p {
+    margin: 0 0 12px;
+    font: 400 15px/24px 'Mulish', arial, sans-serif;
+    color: #666;
+  }
+
+  body.m2 .section-content h1,
+  body.m2 .section-content h2 {
+    margin: 0 0 12px;
+    font: 400 18px/24px 'Optima', 'Belleza', arial, sans-serif;
+    color: #333;
+  }
+
+  body.m2 .section-content .paper { position: static; }
+
+  /* "Read paper" / "Code repository" links */
+  body.m2 .section-content a {
+    min-height: 0 !important;
+    min-width: 0 !important;
+    justify-content: flex-start !important;
+    margin: 0 0 8px;
+    font: 600 15px/24px 'Mulish', arial, sans-serif;
+    color: #47649a;
+  }
+
+  body.m2 .section-content img {
+    border: none;
+    border-radius: 2px;
+  }
+
+  body.m2 .img_col {
+    float: none;
+    width: 100%;
+    min-height: 0;
+    margin: 12px 0;
+  }
+
+  body.m2 .gallery {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  body.m2 .gallery-item { width: 100%; }
+}
