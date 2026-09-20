@@ -19,8 +19,7 @@
       box-sizing: border-box;
     }
 
-    /* Two-column alternating project layout, grouped into rows so a fine
-       divider can run between them */
+    /* Three-per-row project grid, titles floating right under each image */
     .projects-body {
       display: flex;
       gap: 40px;
@@ -29,39 +28,24 @@
     }
 
     .projects-rows {
-      display: flex;
-      flex-direction: column;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      column-gap: 32px;
+      row-gap: 48px;
       flex: 1;
       min-width: 0;
     }
 
-    .proj-row-divider {
-      border: none;
-      border-top: 1px solid #e4e4e4;
-      width: 80%;
-      margin: 14px auto;
-    }
-
-    /* Fixed two-column grid — the columns' positions never move, only
-       which piece of content (image vs text) sits in each one alternates
-       per row (see .proj-card--img-left/--img-right below). This keeps
-       every row's containers directly aligned while still alternating. */
-    /* Fixed-width card (not stretched to fill the row) so it can be
-       centered as a compact unit; align-self overrides the flex column's
-       default stretch so the card shrinks to its grid's natural width. */
     .proj-card {
-      display: grid;
-      grid-template-columns: 280px 340px;
-      column-gap: 14px;
-      align-items: end;
-      align-self: center;
+      display: flex;
+      flex-direction: column;
       text-decoration: none;
       color: inherit;
     }
 
     .proj-thumb {
-      width: 280px;
-      height: 192px;
+      width: 100%;
+      aspect-ratio: 280 / 192;
       border-radius: 1px;
       overflow: hidden;
       background: #eee;
@@ -81,13 +65,14 @@
     .proj-text {
       display: flex;
       flex-direction: column;
-      gap: 8px;
-      flex: 1;
-      min-width: 0;
+      align-items: flex-end;
+      text-align: right;
+      gap: 4px;
+      margin-top: 10px;
     }
 
     .proj-title {
-      font-size: 22px;
+      font-size: 19px;
       font-weight: 300;
       margin: 0;
       color: #666666;
@@ -100,39 +85,11 @@
     }
 
     .proj-category {
-      font-size: 14px;
+      font-size: 13px;
       letter-spacing: 0.06em;
       text-transform: uppercase;
       color: #999;
       font-family: 'Optima', arial, sans-serif;
-    }
-
-    /* image-left: image in column 1, text in column 2, hugging the image
-       on its left (i.e. left-aligned, toward the image). align-self is
-       set explicitly (not just relying on the grid's align-items) so
-       both pieces are pinned to the bottom regardless of which column
-       they land in. */
-    .proj-card--img-left .proj-thumb {
-      grid-column: 1;
-      align-self: end;
-    }
-    .proj-card--img-left .proj-text {
-      grid-column: 2;
-      align-self: end;
-      align-items: flex-start;
-    }
-
-    /* image-right: same two fixed columns, but the image sits in column 2
-       and the text in column 1, hugging the image on its right */
-    .proj-card--img-right .proj-thumb {
-      grid-column: 2;
-      align-self: end;
-    }
-    .proj-card--img-right .proj-text {
-      grid-column: 1;
-      align-self: end;
-      align-items: flex-end;
-      text-align: right;
     }
 
     .projects-sidebar {
@@ -143,11 +100,8 @@
       padding-left: 24px;
     }
 
-    /* CTA block — first item in the sidebar, fixed near the top of the
-       screen (sticky, clearing the site's fixed nav) instead of scrolling
-       away with the (much taller) project list. Extra left padding on top
-       of the sidebar's own, plus a solid background so the photo grid
-       scrolling underneath doesn't show through it. */
+    /* CTA block — fixed near the top of the screen (sticky, clearing the
+       site's fixed nav) instead of scrolling away with the project grid. */
     .sidebar-cta-block {
       position: sticky;
       top: 100px;
@@ -178,41 +132,10 @@
       filter: brightness(0.85);
     }
 
-    /* All gallery photos, always visible (not hover-triggered), each
-       linking to its project */
-    .sidebar-photos {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 6px;
-      margin-top: 8px;
-    }
-
-    .sidebar-photo {
-      display: block;
-      aspect-ratio: 1;
-      border-radius: 2px;
-      overflow: hidden;
-      background: #eee;
-    }
-
-    .sidebar-photo img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform 0.3s ease;
-    }
-
-    .sidebar-photo:hover img {
-      transform: scale(1.08);
-    }
-
     /* mobile */
     @media (max-width: 900px) {
       .projects-body {
         flex-direction: column;
-      }
-      .proj-row-divider {
-        width: 100%;
       }
       .projects-sidebar {
         width: 100%;
@@ -228,26 +151,11 @@
       }
     }
 
-    @media (max-width: 600px) {
-      .proj-card {
-        grid-template-columns: 1fr;
-      }
-      .proj-card--img-left .proj-thumb,
-      .proj-card--img-right .proj-thumb {
-        grid-column: 1;
-        grid-row: 1;
-      }
-      .proj-card--img-left .proj-text,
-      .proj-card--img-right .proj-text {
-        grid-column: 1;
-        grid-row: 2;
-        align-items: flex-start;
-        text-align: left;
-      }
-      .proj-thumb {
-        width: 100%;
-        height: auto;
-        aspect-ratio: 280 / 192;
+    @media (max-width: 700px) {
+      .projects-rows {
+        grid-template-columns: repeat(2, 1fr);
+        column-gap: 20px;
+        row-gap: 32px;
       }
     }
   </style>
@@ -285,115 +193,91 @@
     </div>
     <div class="projects-body">
       <div class="projects-rows">
-        <a href="../projects/design/poster.html" class="proj-card proj-card--img-left" target="_blank">
+        <a href="../projects/design/poster.html" class="proj-card" target="_blank">
           <div class="proj-thumb"><img src="../images/projects/preview/poster.png" alt="Poster Design"></div>
           <div class="proj-text">
             <h2 class="proj-title">Poster Design</h2>
             <span class="proj-category">Tools</span>
           </div>
         </a>
-        <hr class="proj-row-divider">
-
-        <a href="../projects/bezier.html" class="proj-card proj-card--img-right" target="_blank">
+        <a href="../projects/bezier.html" class="proj-card" target="_blank">
           <div class="proj-thumb"><img src="../images/projects/preview/curve.png" alt="Plotting Bezier Curves"></div>
           <div class="proj-text">
             <h2 class="proj-title">Plotting Bezier Curves</h2>
             <span class="proj-category">Tools</span>
           </div>
         </a>
-        <hr class="proj-row-divider">
-
-        <a href="../projects/camera/ghostLines.html" class="proj-card proj-card--img-left">
+        <a href="../projects/camera/ghostLines.html" class="proj-card">
           <div class="proj-thumb"><img src="../images/projects/preview/motion5.png" alt="Ghost Lines"></div>
           <div class="proj-text">
             <h2 class="proj-title">Ghost Lines</h2>
             <span class="proj-category">Webcam Fun</span>
           </div>
         </a>
-        <hr class="proj-row-divider">
-
-        <a href="../projects/camera/ascii_cam.html" class="proj-card proj-card--img-right">
+        <a href="../projects/camera/ascii_cam.html" class="proj-card">
           <div class="proj-thumb"><img src="../images/projects/preview/emilioAndrew.png" alt="ASCII Cam"></div>
           <div class="proj-text">
             <h2 class="proj-title">ASCII Cam</h2>
             <span class="proj-category">Webcam Fun</span>
           </div>
         </a>
-        <hr class="proj-row-divider">
-
-        <a href="../projects/camera/shapePhotos.html" class="proj-card proj-card--img-left">
+        <a href="../projects/camera/shapePhotos.html" class="proj-card">
           <div class="proj-thumb"><img src="../images/projects/preview/heartShape.jpeg" alt="Web Shape Maker"></div>
           <div class="proj-text">
             <h2 class="proj-title">Web Shape Maker</h2>
             <span class="proj-category">Webcam Fun</span>
           </div>
         </a>
-        <hr class="proj-row-divider">
-
-        <a href="../projects/camera/recognition.html" class="proj-card proj-card--img-right">
+        <a href="../projects/camera/recognition.html" class="proj-card">
           <div class="proj-thumb"><img src="../images/projects/preview/person.png" alt="Identification Camera"></div>
           <div class="proj-text">
             <h2 class="proj-title">Identification Camera</h2>
             <span class="proj-category">Webcam Fun</span>
           </div>
         </a>
-        <hr class="proj-row-divider">
-
-        <a href="../projects/dots/dots.html" class="proj-card proj-card--img-left">
+        <a href="../projects/dots/dots.html" class="proj-card">
           <div class="proj-thumb"><img src="../images/projects/preview/dots1.png" alt="Connect the Dots"></div>
           <div class="proj-text">
             <h2 class="proj-title">Connect the Dots</h2>
             <span class="proj-category">Creative</span>
           </div>
         </a>
-        <hr class="proj-row-divider">
-
-        <a href="../projects/camera/drawASCII.html" class="proj-card proj-card--img-right">
+        <a href="../projects/camera/drawASCII.html" class="proj-card">
           <div class="proj-thumb"><img src="../images/projects/preview/prev_star.png" alt="Draw ASCII Art"></div>
           <div class="proj-text">
             <h2 class="proj-title">Draw ASCII Art</h2>
             <span class="proj-category">Creative</span>
           </div>
         </a>
-        <hr class="proj-row-divider">
-
-        <a href="../game/riverPass/riverPass.html" class="proj-card proj-card--img-left">
+        <a href="../game/riverPass/riverPass.html" class="proj-card">
           <div class="proj-thumb"><img src="../game/riverPass/images/bckg.png" alt="River Crossing"></div>
           <div class="proj-text">
             <h2 class="proj-title">River Crossing</h2>
             <span class="proj-category">Games</span>
           </div>
         </a>
-        <hr class="proj-row-divider">
-
-        <a href="../game/shatter/shatter.html" class="proj-card proj-card--img-right">
+        <a href="../game/shatter/shatter.html" class="proj-card">
           <div class="proj-thumb"><img src="../images/projects/preview/glass_shattered.png" alt="Break Glass"></div>
           <div class="proj-text">
             <h2 class="proj-title">Break Glass</h2>
             <span class="proj-category">Games</span>
           </div>
         </a>
-        <hr class="proj-row-divider">
-
-        <a href="../projects/synth.html" class="proj-card proj-card--img-left">
+        <a href="../projects/synth.html" class="proj-card">
           <div class="proj-thumb"><img src="../images/projects/preview/synth.png" alt="Synthesizer"></div>
           <div class="proj-text">
             <h2 class="proj-title">Synthesizer</h2>
             <span class="proj-category">Games</span>
           </div>
         </a>
-        <hr class="proj-row-divider">
-
-        <a href="../game/cones.html" class="proj-card proj-card--img-right">
+        <a href="../game/cones.html" class="proj-card">
           <div class="proj-thumb"><img src="../images/projects/preview/cones.png" alt="Cones"></div>
           <div class="proj-text">
             <h2 class="proj-title">Cones</h2>
             <span class="proj-category">Misc.</span>
           </div>
         </a>
-        <hr class="proj-row-divider">
-
-        <a href="../game/object.html" class="proj-card proj-card--img-left">
+        <a href="../game/object.html" class="proj-card">
           <div class="proj-thumb"><img src="../images/projects/preview/obj2.png" alt="Graphics Playground"></div>
           <div class="proj-text">
             <h2 class="proj-title">Graphics Playground</h2>
@@ -406,28 +290,6 @@
         <div class="sidebar-cta-block">
           <p class="sidebar-intro">For more<br>professional work</p>
           <a href="../navigation/portfolio.html" class="sidebar-cta">VIEW PORTFOLIO &rarr;</a>
-        </div>
-
-        <div class="sidebar-photos">
-          <a href="../projects/camera/ghostLines.html" class="sidebar-photo"><img src="../images/projects/preview/motion1.png" alt="Ghost Lines"></a>
-          <a href="../projects/camera/ghostLines.html" class="sidebar-photo"><img src="../images/projects/preview/motion2.png" alt="Ghost Lines"></a>
-          <a href="../projects/camera/ghostLines.html" class="sidebar-photo"><img src="../images/projects/preview/motion3.png" alt="Ghost Lines"></a>
-          <a href="../projects/camera/ghostLines.html" class="sidebar-photo"><img src="../images/projects/preview/motion4.png" alt="Ghost Lines"></a>
-
-          <a href="../projects/camera/ascii_cam.html" class="sidebar-photo"><img src="../images/projects/preview/ascii-im2.png" alt="ASCII Cam"></a>
-          <a href="../projects/camera/ascii_cam.html" class="sidebar-photo"><img src="../images/projects/preview/ascii2.png" alt="ASCII Cam"></a>
-          <a href="../projects/camera/ascii_cam.html" class="sidebar-photo"><img src="../images/projects/preview/ascii_cat.JPEG" alt="ASCII Cam"></a>
-          <a href="../projects/camera/ascii_cam.html" class="sidebar-photo"><img src="../images/projects/preview/ascii_cat2.JPEG" alt="ASCII Cam"></a>
-
-          <a href="../projects/camera/recognition.html" class="sidebar-photo"><img src="../images/projects/preview/obj1.png" alt="Identification Camera"></a>
-          <a href="../projects/camera/recognition.html" class="sidebar-photo"><img src="../images/projects/preview/obj2.png" alt="Identification Camera"></a>
-          <a href="../projects/camera/recognition.html" class="sidebar-photo"><img src="../images/projects/preview/person.png" alt="Identification Camera"></a>
-          <a href="../projects/camera/recognition.html" class="sidebar-photo"><img src="../images/projects/preview/cat.png" alt="Identification Camera"></a>
-
-          <a href="../projects/camera/drawASCII.html" class="sidebar-photo"><img src="../images/projects/preview/marta_ascii.PNG" alt="Draw ASCII Art"></a>
-          <a href="../projects/camera/drawASCII.html" class="sidebar-photo"><img src="../images/projects/preview/worm.jpg" alt="Draw ASCII Art"></a>
-          <a href="../projects/camera/drawASCII.html" class="sidebar-photo"><img src="../images/projects/preview/prev_cat.png" alt="Draw ASCII Art"></a>
-          <a href="../projects/camera/drawASCII.html" class="sidebar-photo"><img src="../images/projects/preview/prev_heart.png" alt="Draw ASCII Art"></a>
         </div>
       </div>
     </div>
