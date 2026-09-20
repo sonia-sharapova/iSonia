@@ -46,18 +46,22 @@
        which piece of content (image vs text) sits in each one alternates
        per row (see .proj-card--img-left/--img-right below). This keeps
        every row's containers directly aligned while still alternating. */
+    /* Fixed-width card (not stretched to fill the row) so it can be
+       centered as a compact unit; align-self overrides the flex column's
+       default stretch so the card shrinks to its grid's natural width. */
     .proj-card {
       display: grid;
-      grid-template-columns: 230px 1fr;
+      grid-template-columns: 280px 340px;
       column-gap: 14px;
       align-items: end;
+      align-self: center;
       text-decoration: none;
       color: inherit;
     }
 
     .proj-thumb {
-      width: 230px;
-      height: 158px;
+      width: 280px;
+      height: 192px;
       border-radius: 1px;
       overflow: hidden;
       background: #eee;
@@ -243,7 +247,7 @@
       .proj-thumb {
         width: 100%;
         height: auto;
-        aspect-ratio: 230 / 158;
+        aspect-ratio: 280 / 192;
       }
     }
   </style>
