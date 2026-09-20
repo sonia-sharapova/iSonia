@@ -58,6 +58,8 @@
     font-size: 20px;
     position: relative;
     color: #45a049;
+    margin-top: -8px;
+    margin-bottom: -8px;
 }
 
 .hand {

@@ -18,6 +18,7 @@
   <style>
     #open-contact-modal:hover { filter: brightness(0.9); }
     #mobile-contact-form button[type="submit"]:hover { filter: brightness(0.9); }
+    #mobile-contact-form button[type="submit"]:active { transform: scale(0.97); filter: brightness(0.85); }
     #admin-link-area a, #admin-link-mobile a { white-space: nowrap; display: inline-block; }
     #admin-link-area a:hover, #admin-link-mobile a:hover { color: #45a049 !important; font-style: italic; }
     #admin-link-mobile { display: none; }
@@ -92,10 +93,27 @@
     }
 
     .right-column {
-      width: 15%;
-      min-width: 160px;
+      width: 20%;
+      min-width: 210px;
+      max-width: 260px;
       padding-left: 25px;
       flex-direction: column;
+    }
+
+    .tags-group {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    /* Admin login lives inline with the SEE: tags on wide screens only —
+       below 1000px it's hidden here and shown via #admin-link-mobile instead,
+       so keep .nav-links centered (its mobile default) in that case. */
+    @media only screen and (min-width: 1001px) {
+      .nav-links {
+        justify-content: space-between;
+        align-items: center;
+      }
     }
 
     .profile-section {
@@ -230,10 +248,13 @@
 
 <div class="title-container">
   <div class="nav-links">
-      <a href="#" class="sub-nav-item">SEE: </a>
-      <a href="./creations/blogs.html" class="sub-nav-item">writing</a>
-      <a href="./photos.html" class="sub-nav-item">photography</a>
-      <a href="./creations/art.html" class="sub-nav-item">art</a>
+      <div class="tags-group">
+        <a href="#" class="sub-nav-item">SEE: </a>
+        <a href="./creations/blogs.html" class="sub-nav-item">writing</a>
+        <a href="./photos.html" class="sub-nav-item">photography</a>
+        <a href="./creations/art.html" class="sub-nav-item">art</a>
+      </div>
+      <div id="admin-link-area" style="margin-top:5px;"></div>
   </div>
 </div>
 
@@ -254,7 +275,7 @@
           <br>
         </p>
         <div class="msg-btn-col">
-          <button class="msg-btn msg-btn-inline" onclick="document.getElementById('contactModal').classList.add('active')">
+          <button class="msg-btn msg-btn-inline" onclick="openContactModal()">
             Send me a msg <img src="images/icons/paper_plane.svg" alt="" style="width:15px;opacity:0.7;">
           </button>
         </div>
@@ -265,13 +286,11 @@
     <div class="home-cont">
 
       <div class="navigation-column">
-        <a href="personal/music.html" class="nav-column-item">Music</a>
         <a href="personal/movies.html" class="nav-column-item">Movies</a>
+        <a href="personal/music.html" class="nav-column-item">Music</a>
         <a href="personal/books.html" class="nav-column-item">Books</a>
-        <a href="personal/cards.html" class="nav-column-item nav-item-before-btn">Cards</a>
-        <button class="nav-column-item nav-msg-item" onclick="document.getElementById('contactModal').classList.add('active')">
-          send me a msg <img src="images/icons/mail.svg" alt="" style="width:14px;opacity:0.6;vertical-align:middle;margin-left:7px;">
-        </button>
+        <a href="personal/electronics.html" class="nav-column-item">Electronics</a>
+        <a href="personal/cards.html" class="nav-column-item">Pok&eacute;mon Cards</a>
       </div>
 
 
@@ -294,8 +313,20 @@
 
   <div class="right-column">
     <div class="widgets-container">
-      <div id="admin-link-area" style="margin-top:5px;margin-bottom:6px;text-align:center;"></div>
-      <hr style="width:100%;border:none;border-top:1px solid #ddd;margin:0 0 6px;">
+
+      <div class="widget-block">
+        <h3 class="widget-heading">My Archives</h3>
+        <div class="widget-list">
+          <a href="personal/movies.html" class="widget-list-item">Movies</a>
+          <a href="personal/music.html" class="widget-list-item">Music</a>
+          <a href="personal/books.html" class="widget-list-item">Books</a>
+          <a href="personal/electronics.html" class="widget-list-item">Electronics</a>
+          <a href="personal/cards.html" class="widget-list-item">Pok&eacute;mon Cards</a>
+        </div>
+      </div>
+
+      <hr style="width:100%;border:none;border-top:1px solid #ddd;margin:0;">
+
       <div class="clock-wrapper">
         <div class="digital-time" id="digitalTime"></div>
         <div class="clock">
@@ -308,8 +339,17 @@
         </div>
       </div>
 
+      <hr style="width:100%;border:none;border-top:1px solid #ddd;margin:0;">
 
-
+      <div class="widget-block widget-align-right">
+        <h3 class="widget-heading">Extra Credit</h3>
+        <div class="widget-list">
+          <a href="learning/web/internet-exploring.html" class="widget-list-item">Internet Exploring</a>
+          <a href="learning/web/privacy-checklist.html" class="widget-list-item">Privacy Checklist</a>
+          <a href="learning/web/web-tutorial.html" class="widget-list-item">Making a Site</a>
+          <a href="creations/projects.html" class="widget-list-item">Projects</a>
+        </div>
+      </div>
 
       <!--
       <a href="projects/synth.html" class="interactive-item">
@@ -335,16 +375,16 @@
 </div>
 
 <!-- Contact Modal -->
-<div class="modal" id="contactModal" style="z-index: 2000;">
-  <div class="modal-content" style="max-width: 480px; background: #f5f5f5; padding: 0; border-radius: 5px; box-shadow: 0 4px 20px rgba(0,0,0,0.15);">
-    <button class="modal-close" id="closeContactModal" style="color: #666;">✕</button>
-    <div style="padding: 30px 30px 24px;">
+<div class="modal" id="contactModal" style="z-index: 2000; background: rgba(27,27,27,0.36);">
+  <div class="modal-content" style="width: 90%; max-width: 560px; background: #f5f5f5; padding: 0; border-radius: 5px; box-shadow: 0 4px 10px rgba(0,0,0,0.15);">
+    <button class="modal-close" id="closeContactModal" style="color: #f0f0f0;">✕</button>
+    <div style="padding: 30px 40px 32px; display: flex; flex-direction: column; min-height: 520px; box-sizing: border-box;">
       <h2 style="text-align: center; margin: 0 0 4px; font-size: 22px; font-weight: normal; color: #666;">
-        Send me a msg <img src="images/icons/paper_plane.svg" alt="" style="width: 18px; vertical-align: middle; margin-right: 7px; opacity: 0.6;"> 
+        Write to Me
       </h2>
-      <hr style="border: none; border-top: 1px solid #ddd; margin: 12px 0 20px;">
+      <hr style="border: none; border-top: 1px solid #ddd; margin: 12px 0 20px; flex-shrink: 0;">
 
-      <form id="mobile-contact-form">
+      <form id="mobile-contact-form" style="display: flex; flex-direction: column; flex: 1;">
         <div style="margin-bottom: 10px;">
           <label for="mobile-name" style="display: block; margin-bottom: 5px; font-size: 14px; color: #666;">Your Name</label>
           <input type="text" id="mobile-name" name="name" required
@@ -370,7 +410,7 @@
         </div>
 
         <button type="submit"
-                style="width: 100%; padding: 11px; background: rgba(210,245,250,0.5); font-family: 'Optima', serif; color: rgba(72,72,72,0.85); border: 1px solid rgba(143,97,77,0.3); border-radius: 4px; font-size: 16px; cursor: pointer; transition: filter 0.2s;">
+                style="width: 100%; padding: 11px; background: rgba(210,230,250,0.29); font-family: 'Optima', serif; color: rgba(54,22,22,0.85); border: 1px solid rgba(121,121,121,0.8); border-radius: 2px; font-size: 16px; cursor: pointer; transition: filter 0.2s, transform 0.15s ease; margin-top: auto; flex-shrink: 0;">
           ---- send ----
         </button>
 
@@ -383,20 +423,24 @@
 <script>
   function openContactModal() {
     document.getElementById('contactModal').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeContactModal() {
+    document.getElementById('contactModal').classList.remove('active');
+    document.body.style.overflow = '';
   }
 
   const openModalBtn = document.getElementById('open-contact-modal');
   if (openModalBtn) openModalBtn.addEventListener('click', openContactModal);
 
   // Close contact modal
-  document.getElementById('closeContactModal').addEventListener('click', function() {
-    document.getElementById('contactModal').classList.remove('active');
-  });
+  document.getElementById('closeContactModal').addEventListener('click', closeContactModal);
 
   // Close modal when clicking outside
   document.getElementById('contactModal').addEventListener('click', function(e) {
     if (e.target === this) {
-      this.classList.remove('active');
+      closeContactModal();
     }
   });
 

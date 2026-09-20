@@ -35,8 +35,8 @@
     document.getElementById('minuteHand').style.transform = `rotate(${minuteAngle}deg)`;
     document.getElementById('secondHand').style.transform = `rotate(${secondAngle}deg)`;
 
-    // Update digital time
-    const timeString = now.toLocaleTimeString('en-US', { hour12: true, hour: '2-digit', minute: '2-digit' });
+    // Update digital time (24-hour / military time)
+    const timeString = now.toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' });
     document.getElementById('digitalTime').textContent = timeString;
 }
 
