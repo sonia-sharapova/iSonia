@@ -780,3 +780,482 @@ body.m2 .page-title { text-transform: uppercase; }
 
   body.m2 .gallery-item { width: 100%; }
 }
+
+/* ==========================================================================
+   Rollout to the remaining pages. Each page has its own body class
+   (p-resources, p-books, ...) so these rules can't collide — several pages
+   reuse the same class names (.grid, .item, .content) for different things.
+   ========================================================================== */
+
+@media (max-width: 768px) {
+
+  /* "Coming soon" pages */
+  body.m2 .placeholder-note {
+    margin: 0;
+    padding: 24px 20px 0;
+    font: 400 15px/24px 'Mulish', arial, sans-serif;
+    color: #666;
+  }
+
+  /* ---------- Footer on the resource pages (a different markup) ---------- */
+
+  body.m2 footer > p {
+    margin: 0 0 10px;
+    font-size: 0;
+    text-align: center;
+  }
+
+  body.m2 footer > p a {
+    display: inline-flex !important;
+    min-width: 0 !important;
+    min-height: 0 !important;
+    font: 400 15px/24px 'Mulish', arial, sans-serif !important;
+    color: #333 !important;
+  }
+
+  body.m2 footer > p a + a::before {
+    content: "·";
+    margin: 0 14px;
+    color: #888f8d;
+  }
+
+  /* ---------- Web archives (resources hub) ---------- */
+
+  body.m2.p-resources .content {
+    box-sizing: border-box;
+    width: auto !important;
+    margin: 0 !important;
+    padding: 0 20px !important;
+  }
+
+  body.m2 .resources-intro p {
+    margin: 0 0 28px;
+    font: 400 15px/24px 'Mulish', arial, sans-serif;
+    color: #666;
+  }
+
+  body.m2 .section-block { margin-bottom: 28px; }
+
+  body.m2 .section-header {
+    margin: 0 0 4px;
+    padding: 0 0 8px;
+    border-bottom: 2px solid #333;
+    font: 400 12px/16px 'Optima', 'Belleza', arial, sans-serif;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #333;
+  }
+
+  body.m2 .category-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  body.m2 .category-card {
+    position: relative;
+    display: flex !important;
+    flex-direction: column;
+    align-items: flex-start !important;
+    justify-content: flex-start !important;
+    height: auto !important;
+    min-height: 0 !important;
+    margin: 0;
+    padding: 16px 40px 16px 10px !important;
+    line-height: normal;
+    background: none !important;
+    border: none !important;
+    border-bottom: 1px solid #ddd !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    text-align: left;
+  }
+
+  body.m2 .category-title {
+    width: auto !important;
+    margin: 0 !important;
+    font: 400 18px/24px 'Optima', 'Belleza', arial, sans-serif !important;
+    color: #333 !important;
+  }
+
+  body.m2 .category-count {
+    float: none !important;
+    margin-top: 4px;
+    font: 400 13px/20px 'Mulish', arial, sans-serif !important;
+    color: #888f8d !important;
+  }
+
+  body.m2 .category-card::after {
+    content: "";
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    width: 18px;
+    height: 18px;
+    margin-top: -9px;
+    background: #888f8d;
+    -webkit-mask: url(icons/chevron-right.svg) center / contain no-repeat;
+    mask: url(icons/chevron-right.svg) center / contain no-repeat;
+  }
+
+  /* ---------- Resource category pages (link tables) ---------- */
+
+  body.m2.p-rescat .content,
+  body.m2.p-rescat .container {
+    box-sizing: border-box;
+    width: auto !important;
+    margin: 0 !important;
+    padding: 0 20px !important;
+  }
+
+  body.m2 .resource-table,
+  body.m2 .resource-table tbody { display: block; width: 100%; }
+  body.m2 .resource-table thead { display: none; }
+
+  body.m2 .resource-table tr {
+    display: block;
+    padding: 14px 0;
+    border-bottom: 1px solid #ddd;
+  }
+
+  body.m2 .resource-table td {
+    display: block;
+    padding: 0;
+    border: none;
+  }
+
+  body.m2 .resource-name,
+  body.m2 .resource-name a {
+    font: 400 18px/24px 'Optima', 'Belleza', arial, sans-serif;
+    color: #333;
+  }
+
+  body.m2 .resource-description {
+    margin-top: 2px;
+    font: 400 13px/20px 'Mulish', arial, sans-serif;
+    color: #888f8d;
+  }
+
+  body.m2 .resource-link,
+  body.m2 .resource-link a {
+    min-height: 0 !important;
+    justify-content: flex-start !important;
+    margin-top: 4px;
+    font: 400 11px/16px 'IBM Plex Mono', 'Courier New', monospace;
+    color: #47649a;
+    word-break: break-all;
+  }
+
+  /* ---------- About ---------- */
+
+  body.m2.p-about .content {
+    box-sizing: border-box;
+    width: auto !important;
+    margin: 0 20px !important;
+    padding: 20px !important;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 2px;
+  }
+
+  body.m2.p-about .project-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  body.m2.p-about .project-item {
+    box-sizing: border-box;
+    width: 100% !important;
+    max-width: 100%;
+    min-width: 0;
+    margin: 0 !important;
+  }
+
+  /* ---------- Art ---------- */
+
+  /* .container wraps .content — only one of them carries the gutter */
+  body.m2.p-art .container {
+    width: auto !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  body.m2.p-art .content {
+    box-sizing: border-box;
+    display: block;
+    width: auto !important;
+    margin: 0 !important;
+    padding: 0 20px !important;
+  }
+
+  body.m2.p-art .content h2 {
+    margin: 24px 0 12px;
+    font: 400 18px/24px 'Optima', 'Belleza', arial, sans-serif;
+    color: #333;
+  }
+
+  body.m2.p-art .profile-images {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  body.m2.p-art .profile-img img {
+    display: block;
+    width: 100% !important;
+    border-radius: 2px;
+  }
+
+  /* ---------- Games ---------- */
+
+  body.m2.p-games .content {
+    box-sizing: border-box;
+    display: block;
+    width: auto !important;
+    max-width: none;
+    margin: 0 !important;
+    padding: 0 20px !important;
+  }
+
+  body.m2.p-games .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px 16px;
+    background: none;
+  }
+
+  body.m2.p-games .item {
+    display: flex !important;
+    flex-direction: column;
+    align-items: stretch !important;
+    justify-content: flex-start !important;
+    gap: 8px;
+    min-height: 0 !important;
+    padding: 0;
+    border: none;
+    box-shadow: none;
+  }
+
+  body.m2.p-games .preview {
+    width: 100%;
+    height: 150px;
+    margin: 0;
+    border-radius: 2px;
+    background: #e6e6e6;
+  }
+
+  body.m2.p-games .preview img {
+    height: 100%;
+    object-fit: cover;
+    border: none;
+  }
+
+  body.m2.p-games .info { justify-content: flex-start; }
+
+  body.m2.p-games .info h2 {
+    margin: 0;
+    border: none;
+    font: 400 18px/24px 'Optima', 'Belleza', arial, sans-serif;
+    color: #333;
+  }
+
+  body.m2.p-games .info p {
+    margin-top: 4px;
+    font: 400 13px/20px 'Mulish', arial, sans-serif;
+    color: #888f8d;
+  }
+
+  /* ---------- Tutorials ---------- */
+
+  body.m2.p-tutorials .content {
+    box-sizing: border-box;
+    max-width: none;
+    margin: 0 !important;
+    padding: 0 20px !important;
+  }
+
+  body.m2 .course-list { margin-top: 8px; }
+
+  body.m2 .course-entry {
+    margin-bottom: 10px;
+    padding: 16px;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 2px;
+  }
+
+  body.m2 .course-entry.expanded { border-color: #333; }
+
+  body.m2 .course-entry-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+    margin-bottom: 6px;
+  }
+
+  body.m2 .course-entry-title,
+  body.m2 .course-entry.expanded .course-entry-title {
+    margin: 0;
+    font: 400 18px/24px 'Optima', 'Belleza', arial, sans-serif;
+    color: #333;
+  }
+
+  body.m2 .course-entry-date {
+    margin: 0;
+    font: 400 11px/16px 'IBM Plex Mono', 'Courier New', monospace;
+    color: #888f8d;
+  }
+
+  body.m2 .course-entry-excerpt,
+  body.m2 .course-entry-content {
+    margin: 0;
+    font: 400 15px/24px 'Mulish', arial, sans-serif;
+    color: #666;
+  }
+
+  body.m2 .course-entry-content a {
+    min-height: 0 !important;
+    justify-content: flex-start !important;
+    color: #47649a;
+  }
+
+  /* ---------- Bookshelf / Films / Albums ---------- */
+
+  /* The desktop side panel becomes a compact "now showing" card that sticks
+     under the top bar once a cover has been tapped. */
+  body.m2.p-books .content,
+  body.m2.p-movies .content {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: auto !important;
+    margin: 0 !important;
+    padding: 8px 20px 0 !important;
+  }
+
+  body.m2 .gallery {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+    width: 100%;
+    margin: 0;
+  }
+
+  body.m2 .thumbnail img {
+    border: 1px solid #ddd;
+    border-radius: 2px;
+  }
+
+  body.m2 .preview-section {
+    order: -1;
+    position: sticky;
+    top: 57px;
+    z-index: 5;
+    display: flex;
+    flex-direction: row;
+    gap: 14px;
+    height: auto !important;
+    padding: 12px;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 2px;
+  }
+
+  body.m2 .preview-section:has(#preview-img[src=""]) { display: none; }
+
+  body.m2 .preview-img {
+    flex: none;
+    width: 72px;
+    min-width: 0;
+    height: fit-content;
+    border: 1px solid #ddd;
+  }
+
+  body.m2 .movie-info {
+    min-width: 0;
+    margin: 0;
+    overflow: hidden;
+  }
+
+  body.m2 .movie-title {
+    margin: 0 0 4px;
+    font: 400 18px/24px 'Optima', 'Belleza', arial, sans-serif;
+    color: #333;
+  }
+
+  body.m2 .movie-description {
+    padding: 0;
+    font: 400 13px/20px 'Mulish', arial, sans-serif;
+    color: #666;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  body.m2.p-music .grid {
+    box-sizing: border-box;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+    width: auto;
+    margin: 0;
+    padding: 8px 20px 0;
+  }
+
+  body.m2.p-music .item:hover { transform: none; }
+  body.m2.p-music .item img { border: 1px solid #ddd; border-radius: 2px; }
+
+  /* stylesheet.css forces every <button> to display:flex on phones, which
+     un-hides these admin-only overlays for everyone. Keep them hidden unless
+     you're logged in as admin. */
+  body.m2 .thumb-edit-btn,
+  body.m2 .item-edit-btn { display: none !important; }
+
+  body.m2.admin-mode .thumb-edit-btn {
+    display: flex !important;
+    min-width: 0 !important;
+    min-height: 0 !important;
+    width: 28px;
+    height: 28px;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* ---------- Photos ---------- */
+
+  body.m2.p-photos .photos-wrap {
+    box-sizing: border-box;
+    width: auto !important;
+    padding: 0 20px !important;
+  }
+
+  /* ---------- Pokémon cards ---------- */
+
+  body.m2.p-cards .cards-nav {
+    box-sizing: border-box;
+    width: 100% !important;
+    margin: 16px 0 0;
+    padding: 0 20px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  body.m2.p-cards .cards-nav::-webkit-scrollbar { display: none; }
+
+  body.m2.p-cards .cards-nav button {
+    flex: none;
+    min-width: 0 !important;
+    min-height: 0 !important;
+    padding: 9px 16px;
+    white-space: nowrap;
+    font: 400 15px/24px 'Optima', 'Belleza', arial, sans-serif;
+  }
+
+  body.m2.p-cards .cards-nav button.active { border-bottom-color: #45a049; }
+
+  body.m2.p-cards .cards-section {
+    box-sizing: border-box;
+    width: auto !important;
+    padding: 16px 20px 30px !important;
+  }
+}

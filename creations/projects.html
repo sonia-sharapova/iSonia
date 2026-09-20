@@ -42,18 +42,22 @@
       margin: 14px auto;
     }
 
+    /* Fixed two-column grid — the columns' positions never move, only
+       which piece of content (image vs text) sits in each one alternates
+       per row (see .proj-card--img-left/--img-right below). This keeps
+       every row's containers directly aligned while still alternating. */
     .proj-card {
-      display: flex;
-      align-items: flex-end;
-      gap: 14px;
+      display: grid;
+      grid-template-columns: 230px 1fr;
+      column-gap: 14px;
+      align-items: end;
       text-decoration: none;
       color: inherit;
     }
 
     .proj-thumb {
-      flex-shrink: 0;
-      width: 186px;
-      height: 128px;
+      width: 230px;
+      height: 158px;
       border-radius: 1px;
       overflow: hidden;
       background: #eee;
@@ -76,7 +80,6 @@
       gap: 8px;
       flex: 1;
       min-width: 0;
-      padding-bottom: 8px;
     }
 
     .proj-title {
@@ -100,16 +103,30 @@
       font-family: 'Optima', arial, sans-serif;
     }
 
-    /* image-left (default): text hugs the image on its left */
+    /* image-left: image in column 1, text in column 2, hugging the image
+       on its left (i.e. left-aligned, toward the image). align-self is
+       set explicitly (not just relying on the grid's align-items) so
+       both pieces are pinned to the bottom regardless of which column
+       they land in. */
+    .proj-card--img-left .proj-thumb {
+      grid-column: 1;
+      align-self: end;
+    }
     .proj-card--img-left .proj-text {
+      grid-column: 2;
+      align-self: end;
       align-items: flex-start;
     }
 
-    /* image-right: reverse order, text hugs the image on its right */
-    .proj-card--img-right {
-      flex-direction: row-reverse;
+    /* image-right: same two fixed columns, but the image sits in column 2
+       and the text in column 1, hugging the image on its right */
+    .proj-card--img-right .proj-thumb {
+      grid-column: 2;
+      align-self: end;
     }
     .proj-card--img-right .proj-text {
+      grid-column: 1;
+      align-self: end;
       align-items: flex-end;
       text-align: right;
     }
@@ -208,17 +225,25 @@
     }
 
     @media (max-width: 600px) {
-      .proj-card, .proj-card--img-right {
-        flex-direction: column;
+      .proj-card {
+        grid-template-columns: 1fr;
       }
+      .proj-card--img-left .proj-thumb,
+      .proj-card--img-right .proj-thumb {
+        grid-column: 1;
+        grid-row: 1;
+      }
+      .proj-card--img-left .proj-text,
       .proj-card--img-right .proj-text {
+        grid-column: 1;
+        grid-row: 2;
         align-items: flex-start;
         text-align: left;
       }
       .proj-thumb {
         width: 100%;
         height: auto;
-        aspect-ratio: 186 / 128;
+        aspect-ratio: 230 / 158;
       }
     }
   </style>

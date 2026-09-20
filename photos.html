@@ -6,6 +6,7 @@
   <title>Sonia's Photos</title>
   <link rel="icon" href="/images/icons/heart3.png" />
   <link rel="stylesheet" href="styles/stylesheet.css">
+  <link rel="stylesheet" href="styles/mobile.css">
   <script src="scripts/siteStyle/bck.js"></script>
   <style>
     /* ── Page layout ── */
@@ -254,6 +255,8 @@
       display: flex;
       flex-direction: column;
       gap: 0;
+      /* breathing room on the left so the covers don't hug the edge */
+      padding-left: clamp(10px, 3.5vw, 52px);
     }
     .catalog-row {
       --cover-h: clamp(64px, 13vw, 105px);
@@ -332,7 +335,7 @@
     }
 
     .catalog-label {
-      width: 110px;
+      width: clamp(120px, 16vw, 210px);
       flex-shrink: 0;
       overflow: hidden;
       color: #888;
@@ -345,16 +348,7 @@
       display: inline-block;
       white-space: nowrap;
       transform-origin: left center;
-      font-size: 14px;
-    }
-    .catalog-count {
-      display: block;
-      font-size: 14px;
-      color: #888;
-      letter-spacing: 0;
-      margin-top: 3px;
-      white-space: nowrap;
-      font-family: 'Optima', arial, sans-serif;
+      font-size: clamp(15px, 1.6vw, 22px);
     }
 
     .catalog-thumbs {
@@ -398,8 +392,8 @@
     body.admin-mode .catalog-new-row { display: block; }
 
     @media (max-width: 640px) {
-      .catalog-label { width: 90px; }
-      .catalog-label-text { font-size: 12px; }
+      .catalog-label { width: 100px; }
+      .catalog-label-text { font-size: 14px; }
     }
 
     /* ── Photo rows container ── */
@@ -525,14 +519,14 @@
 
     /* ── Row modal ── */
     #row-modal .modal-box {
-      width: min(82vw, 900px);
-      max-height: 85vh;
+      width: min(94vw, 1300px);
+      max-height: 90vh;
       overflow-y: auto;
-      padding: 30px 30px 26px;
+      padding: 30px 34px 30px;
     }
     .row-modal-header {
-      font-size: 13px; color: #aaa; letter-spacing: 0.05em;
-      margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid #eee;
+      font-size: clamp(18px, 2vw, 26px); color: #777; letter-spacing: 0.04em;
+      margin-bottom: 18px; padding-bottom: 12px; border-bottom: 1px solid #eee;
       white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
     }
     /* Flow layout, like the album-view row and All Photos: fixed height,
@@ -544,10 +538,10 @@
        regardless of the photo's real proportions. flex:0 0 auto (matching
        .cover-flow-cell, which never had this bug) guarantees the tile only
        ever sizes to its content. */
-    .detail-grid { display: flex; flex-wrap: wrap; gap: 6px; }
+    .detail-grid { --tile-h: clamp(140px, 19vw, 250px); display: flex; flex-wrap: wrap; gap: 8px; }
     .detail-tile {
       position: relative;
-      height: 130px;
+      height: var(--tile-h);
       flex: 0 0 auto;
       overflow: hidden;
       cursor: pointer;
@@ -589,7 +583,7 @@
     body.admin-mode .detail-tile:hover .detail-tile-del { display: block; }
     .detail-tile.drag-over { outline: 2px solid #1d60c0; }
     .detail-add-tile {
-      height: 130px; width: 90px; flex-shrink: 0;
+      height: var(--tile-h); width: 120px; flex-shrink: 0;
       border: 1px dashed #ccc; background: none;
       color: #bbb; font-size: 26px; cursor: pointer;
       display: flex; align-items: center; justify-content: center;
@@ -597,38 +591,83 @@
     }
     .detail-add-tile:hover { border-color: #999; color: #888; }
     .row-modal-close {
-      float: right; background: none; border: none; font-size: 18px; color: #aaa;
+      float: right; background: none; border: none; font-size: 24px; color: #aaa;
       cursor: pointer; margin: -8px -8px 12px 0;
       min-height: unset !important; min-width: unset !important;
     }
     .row-modal-close:hover { color: #333; }
 
     /* ── Photo detail popup ── */
-    .photo-detail-box {
-      width: min(92vw, 720px);
-      max-height: 88vh;
+    /* compound selector: the generic .modal-box rule further down would otherwise
+       win on equal specificity and pin this to 400px */
+    .modal-box.photo-detail-box {
+      width: min(95vw, 1240px);
+      max-height: 94vh;
       overflow-y: auto;
-      padding: 26px 28px 28px;
+      padding: 26px 30px 30px;
     }
     .photo-detail-layout {
       display: flex;
-      gap: 24px;
+      gap: 30px;
       align-items: flex-start;
     }
-    .photo-detail-img {
-      width: 220px; height: 220px;
-      flex-shrink: 0;
-      object-fit: cover;
-      display: block;
+    /* The photo sits uncropped in a stage that holds the prev/next arrows */
+    .photo-detail-stage {
+      position: relative;
+      flex: 1 1 0;
+      min-width: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      /* fixed height so the arrows stay put as photos of different shapes change */
+      height: min(calc(94vh - 130px), 760px);
       background: #f5f5f5;
       border: 1px solid #eee;
+    }
+    .photo-detail-img {
+      display: block;
+      max-width: 100%;
+      max-height: 100%;
+      width: auto; height: auto;
+      object-fit: contain;
       animation: none;
       min-height: unset !important;
     }
-    .photo-detail-side { flex: 1; min-width: 0; }
-    @media (max-width: 560px) {
-      .photo-detail-layout { flex-direction: column; }
-      .photo-detail-img { width: 100%; height: auto; aspect-ratio: 1; }
+    .photo-detail-counter {
+      position: absolute; left: 12px; bottom: 10px;
+      padding: 3px 9px;
+      font-size: 13px; letter-spacing: 0.06em; color: #fff;
+      background: rgba(0,0,0,0.45); border-radius: 12px;
+      pointer-events: none;
+    }
+    /* Big, easy-to-hit arrows */
+    .photo-detail-nav {
+      position: absolute; top: 50%; transform: translateY(-50%);
+      z-index: 3;
+      width: 64px; height: 64px; padding: 0;
+      display: flex; align-items: center; justify-content: center;
+      background: rgba(255,255,255,0.92);
+      border: 1px solid rgba(0,0,0,0.12); border-radius: 50%;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.22);
+      color: #333; cursor: pointer;
+      transition: background 0.15s ease, transform 0.15s ease;
+      min-height: unset !important; min-width: unset !important;
+    }
+    .photo-detail-nav:hover { background: #fff; transform: translateY(-50%) scale(1.06); }
+    .photo-detail-nav:active { transform: translateY(-50%) scale(0.96); }
+    .photo-detail-nav svg { width: 30px; height: 30px; display: block; }
+    .photo-detail-prev { left: 14px; }
+    .photo-detail-next { right: 14px; }
+    .photo-detail-nav[hidden] { display: none !important; }
+    .photo-detail-side { flex: 0 0 clamp(240px, 24vw, 320px); min-width: 0; }
+    @media (max-width: 800px) {
+      .photo-detail-layout { flex-direction: column; gap: 18px; }
+      .photo-detail-stage { flex: none; width: 100%; height: 58vh; }
+      .photo-detail-side { flex: none; width: 100%; }
+      .photo-detail-nav { width: 52px; height: 52px; }
+      .photo-detail-nav svg { width: 26px; height: 26px; }
+      .photo-detail-prev { left: 8px; }
+      .photo-detail-next { right: 8px; }
     }
     .photo-detail-row {
       display: flex;
@@ -793,10 +832,10 @@
     }
   </style>
 </head>
-<body>
+<body class="m2 p-photos">
 
 <nav class="navigation">
-  <a href="/index.html" class="nav-item">HOME</a>
+  <a href="/index.html" class="nav-item" aria-current="page">HOME</a>
   <a href="/creations/projects.html" class="nav-item">PROJECTS</a>
   <a href="/navigation/portfolio.html" class="nav-item">PORTFOLIO</a>
   <a href="/navigation/resources.html" class="nav-item">RESOURCES</a>
@@ -810,7 +849,7 @@
       <a href="/photos.html" class="sub-nav-item">photography</a>
       <a href="/creations/art.html" class="sub-nav-item">art</a>
   </div>
-  <h1 class="page-title">PHOTOS</h1>
+  <h1 class="page-title">Photos</h1>
   <hr>
 </div>
 
@@ -901,7 +940,16 @@
   <div class="modal-box photo-detail-box">
     <button class="row-modal-close" id="photo-detail-close">✕</button>
     <div class="photo-detail-layout">
-      <img class="photo-detail-img" id="photo-detail-img" src="" alt="">
+      <div class="photo-detail-stage" id="photo-detail-stage">
+        <button class="photo-detail-nav photo-detail-prev" id="photo-detail-prev" aria-label="Previous photo" title="Previous (←)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>
+        </button>
+        <img class="photo-detail-img" id="photo-detail-img" src="" alt="">
+        <button class="photo-detail-nav photo-detail-next" id="photo-detail-next" aria-label="Next photo" title="Next (→)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg>
+        </button>
+        <div class="photo-detail-counter" id="photo-detail-counter"></div>
+      </div>
       <div class="photo-detail-side">
         <div class="photo-detail-meta" id="photo-detail-meta"></div>
         <div class="photo-detail-actions" id="photo-detail-actions"></div>
@@ -1211,9 +1259,7 @@ function renderPhotoRows(album) {
       return `<div class="catalog-row" data-row-idx="${rowIdx}" data-row-id="${row.rowId}" onclick="rowClick(event,${rowIdx})">
         <div class="catalog-row-bg"></div>
         ${photoCell(cover, true, coverIdx, color)}
-        <div class="catalog-label">${label ? `<span class="catalog-label-text">::${esc(label)}::</span>` : ''}
-          ${row.photos.length > 1 ? `<span class="catalog-count">${row.photos.length} photos</span>` : ''}
-        </div>
+        <div class="catalog-label">${label ? `<span class="catalog-label-text">::${esc(label)}::</span>` : ''}</div>
         <div class="catalog-thumbs">${thumbs}</div>
         ${isAdmin ? `
           <input type="color" class="row-color-input" value="${color}" title="Group colour"
@@ -1482,6 +1528,14 @@ function reorderGroupRows(fromRowId, toRowId) {
 
 // ── Photo detail popup ───────────────────────────────────────────
 let currentDetailPhotoId = null;
+let detailList = [];
+
+// Step to the previous (-1) / next (+1) photo, wrapping around at the ends
+function stepPhotoDetail(dir) {
+  if (detailList.length < 2) return;
+  const i = detailList.indexOf(currentDetailPhotoId);
+  openPhotoDetail(detailList[(i + dir + detailList.length) % detailList.length]);
+}
 
 function openPhotoDetail(id) {
   const album = albums.find(a => a.id === currentAlbumId) || albums.find(a => (a.photos||[]).some(p => p.id === id));
@@ -1490,7 +1544,19 @@ function openPhotoDetail(id) {
 
   currentDetailPhotoId = id;
   const img = document.getElementById('photo-detail-img');
-  img.src = photo.thumb || photo.src;
+  // Larger version when there is one — the thumb is far too small at this size
+  img.src = photo.display || photo.src || photo.thumb;
+  img.alt = photo.caption || '';
+
+  // The photos the arrows step through: the group this was opened from, or
+  // the whole album if it wasn't opened from an expanded group.
+  const groupRow = currentRowId && groupPhotosIntoRows(album.photos || []).find(r => r.rowId === currentRowId);
+  detailList = (groupRow && groupRow.photos.some(p => p.id === id) ? groupRow.photos : (album.photos || [])).map(p => p.id);
+  const pos = detailList.indexOf(id);
+  const multi = detailList.length > 1;
+  document.getElementById('photo-detail-prev').hidden = !multi;
+  document.getElementById('photo-detail-next').hidden = !multi;
+  document.getElementById('photo-detail-counter').textContent = multi ? (pos + 1) + ' / ' + detailList.length : '';
 
   const year = photoYear(photo);
   const tags = (photo.tags || '').split(',').map(t => t.trim()).filter(Boolean);
@@ -1534,6 +1600,21 @@ document.getElementById('photo-detail-close').onclick = closePhotoDetail;
 document.getElementById('photo-detail-modal').addEventListener('click', e => {
   if (e.target.id === 'photo-detail-modal') closePhotoDetail();
 });
+document.getElementById('photo-detail-prev').onclick = e => { e.stopPropagation(); stepPhotoDetail(-1); };
+document.getElementById('photo-detail-next').onclick = e => { e.stopPropagation(); stepPhotoDetail(1); };
+
+// Swipe left/right on the photo to step through (touch screens)
+(function () {
+  const stage = document.getElementById('photo-detail-stage');
+  let startX = null, startY = null;
+  stage.addEventListener('touchstart', e => { startX = e.touches[0].clientX; startY = e.touches[0].clientY; }, { passive: true });
+  stage.addEventListener('touchend', e => {
+    if (startX === null) return;
+    const dx = e.changedTouches[0].clientX - startX, dy = e.changedTouches[0].clientY - startY;
+    startX = startY = null;
+    if (Math.abs(dx) > 45 && Math.abs(dx) > Math.abs(dy) * 1.5) stepPhotoDetail(dx < 0 ? 1 : -1);
+  }, { passive: true });
+})();
 document.getElementById('photo-detail-replace-input').addEventListener('change', async function() {
   const file = this.files[0];
   this.value = '';
@@ -1691,8 +1772,12 @@ document.addEventListener('keydown', e => {
     if (e.key === 'ArrowRight') { lightboxIdx = (lightboxIdx + 1) % lightboxPhotos.length; updateLightbox(); }
     return;
   }
-  if (document.getElementById('photo-detail-modal').classList.contains('active') && e.key === 'Escape') {
-    closePhotoDetail();
+  if (document.getElementById('photo-detail-modal').classList.contains('active')) {
+    if (e.key === 'Escape') closePhotoDetail();
+    // don't hijack the arrow keys while typing in a field
+    const typing = /^(INPUT|TEXTAREA|SELECT)$/.test((document.activeElement || {}).tagName || '');
+    if (!typing && e.key === 'ArrowLeft')  stepPhotoDetail(-1);
+    if (!typing && e.key === 'ArrowRight') stepPhotoDetail(1);
     return;
   }
   if (document.getElementById('row-modal').classList.contains('active') && e.key === 'Escape') {
