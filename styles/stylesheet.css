@@ -95,7 +95,7 @@ h2 {
     font-size: 18px;
 }
 
-.sub-nav-item:hover {
+a.sub-nav-item:hover {
     text-decoration: underline;
     text-transform: uppercase;
     color: #45a049;
@@ -325,7 +325,7 @@ footer .socials {
         color: #737373 !important;
     }
 
-    .sub-nav-item:hover {
+    a.sub-nav-item:hover {
         color: #45a049 !important;
         text-transform: none;
         text-decoration: none;

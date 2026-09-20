@@ -24,6 +24,7 @@
     border-radius: 2px;
     border: 1px solid #ff0000;
     position: relative;
+    transform: scale(0.85);
 }
 
 .clock-face {
@@ -59,7 +60,7 @@
     position: relative;
     color: #45a049;
     margin-top: -8px;
-    margin-bottom: -8px;
+    margin-bottom: -16px;
 }
 
 .hand {
