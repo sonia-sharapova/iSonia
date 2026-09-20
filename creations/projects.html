@@ -13,9 +13,12 @@
     .projects {
       width: 100%;
       max-width: 100%;
+      padding: 0 28px;
+      box-sizing: border-box;
     }
 
-    /* Two-column alternating project layout */
+    /* Two-column alternating project layout, grouped into rows so a fine
+       divider can run between them */
     .projects-body {
       display: flex;
       gap: 40px;
@@ -23,19 +26,28 @@
       margin-top: 30px;
     }
 
-    .projects-columns {
+    .projects-rows {
       display: flex;
-      gap: 24px;
+      flex-direction: column;
       flex: 1;
       min-width: 0;
     }
 
-    .projects-col {
+    .proj-row {
       display: flex;
-      flex-direction: column;
-      gap: 58px;
+      gap: 24px;
+    }
+
+    .proj-row > .proj-card {
       flex: 1;
       min-width: 0;
+    }
+
+    .proj-row-divider {
+      border: none;
+      border-top: 1px solid #e4e4e4;
+      width: 80%;
+      margin: 29px auto;
     }
 
     .proj-card {
@@ -207,9 +219,12 @@
       .projects-body {
         flex-direction: column;
       }
-      .projects-columns {
+      .proj-row {
         flex-direction: column;
         gap: 30px;
+      }
+      .proj-row-divider {
+        width: 100%;
       }
       .projects-sidebar {
         width: 100%;
@@ -267,8 +282,8 @@
 <div class="content">
   <div class="projects">
     <div class="projects-body">
-      <div class="projects-columns">
-        <div class="projects-col">
+      <div class="projects-rows">
+        <div class="proj-row">
           <a href="../projects/design/poster.html" class="proj-card proj-card--img-left" target="_blank">
             <div class="proj-thumb"><img src="../images/projects/preview/poster.png" alt="Poster Design"></div>
             <div class="proj-text">
@@ -277,6 +292,17 @@
             </div>
           </a>
 
+          <a href="../projects/bezier.html" class="proj-card proj-card--img-left" target="_blank">
+            <div class="proj-thumb"><img src="../images/projects/preview/curve.png" alt="Plotting Bezier Curves"></div>
+            <div class="proj-text">
+              <h2 class="proj-title">Plotting Bezier Curves</h2>
+              <span class="proj-category">Tools</span>
+            </div>
+          </a>
+        </div>
+        <hr class="proj-row-divider">
+
+        <div class="proj-row">
           <a href="../projects/camera/ghostLines.html" class="proj-card proj-card--img-right" data-gallery="ghost-lines">
             <div class="proj-thumb"><img src="../images/projects/preview/motion5.png" alt="Ghost Lines"></div>
             <div class="proj-text">
@@ -285,60 +311,21 @@
             </div>
           </a>
 
-          <a href="../projects/camera/shapePhotos.html" class="proj-card proj-card--img-left">
-            <div class="proj-thumb"><img src="../images/projects/preview/heartShape.jpeg" alt="Web Shape Maker"></div>
-            <div class="proj-text">
-              <h2 class="proj-title">Web Shape Maker</h2>
-              <span class="proj-category">Webcam Fun</span>
-            </div>
-          </a>
-
-          <a href="../projects/dots/dots.html" class="proj-card proj-card--img-right">
-            <div class="proj-thumb"><img src="../images/projects/preview/dots1.png" alt="Connect the Dots"></div>
-            <div class="proj-text">
-              <h2 class="proj-title">Connect the Dots</h2>
-              <span class="proj-category">Creative</span>
-            </div>
-          </a>
-
-          <a href="../game/riverPass/riverPass.html" class="proj-card proj-card--img-left">
-            <div class="proj-thumb"><img src="../game/riverPass/images/bckg.png" alt="River Crossing"></div>
-            <div class="proj-text">
-              <h2 class="proj-title">River Crossing</h2>
-              <span class="proj-category">Games</span>
-            </div>
-          </a>
-
-          <a href="../projects/synth.html" class="proj-card proj-card--img-right">
-            <div class="proj-thumb"><img src="../images/projects/preview/synth.png" alt="Synthesizer"></div>
-            <div class="proj-text">
-              <h2 class="proj-title">Synthesizer</h2>
-              <span class="proj-category">Games</span>
-            </div>
-          </a>
-
-          <a href="../game/object.html" class="proj-card proj-card--img-left">
-            <div class="proj-thumb"><img src="../images/projects/preview/obj2.png" alt="Graphics Playground"></div>
-            <div class="proj-text">
-              <h2 class="proj-title">Graphics Playground</h2>
-              <span class="proj-category">Misc.</span>
-            </div>
-          </a>
-        </div>
-
-        <div class="projects-col">
-          <a href="../projects/bezier.html" class="proj-card proj-card--img-left" target="_blank">
-            <div class="proj-thumb"><img src="../images/projects/preview/curve.png" alt="Plotting Bezier Curves"></div>
-            <div class="proj-text">
-              <h2 class="proj-title">Plotting Bezier Curves</h2>
-              <span class="proj-category">Tools</span>
-            </div>
-          </a>
-
           <a href="../projects/camera/ascii_cam.html" class="proj-card proj-card--img-right" data-gallery="ascii-cam">
             <div class="proj-thumb"><img src="../images/projects/preview/emilioAndrew.png" alt="ASCII Cam"></div>
             <div class="proj-text">
               <h2 class="proj-title">ASCII Cam</h2>
+              <span class="proj-category">Webcam Fun</span>
+            </div>
+          </a>
+        </div>
+        <hr class="proj-row-divider">
+
+        <div class="proj-row">
+          <a href="../projects/camera/shapePhotos.html" class="proj-card proj-card--img-left">
+            <div class="proj-thumb"><img src="../images/projects/preview/heartShape.jpeg" alt="Web Shape Maker"></div>
+            <div class="proj-text">
+              <h2 class="proj-title">Web Shape Maker</h2>
               <span class="proj-category">Webcam Fun</span>
             </div>
           </a>
@@ -350,12 +337,34 @@
               <span class="proj-category">Webcam Fun</span>
             </div>
           </a>
+        </div>
+        <hr class="proj-row-divider">
+
+        <div class="proj-row">
+          <a href="../projects/dots/dots.html" class="proj-card proj-card--img-right">
+            <div class="proj-thumb"><img src="../images/projects/preview/dots1.png" alt="Connect the Dots"></div>
+            <div class="proj-text">
+              <h2 class="proj-title">Connect the Dots</h2>
+              <span class="proj-category">Creative</span>
+            </div>
+          </a>
 
           <a href="../projects/camera/drawASCII.html" class="proj-card proj-card--img-right" data-gallery="draw-ascii-art">
             <div class="proj-thumb"><img src="../images/projects/preview/prev_star.png" alt="Draw ASCII Art"></div>
             <div class="proj-text">
               <h2 class="proj-title">Draw ASCII Art</h2>
               <span class="proj-category">Creative</span>
+            </div>
+          </a>
+        </div>
+        <hr class="proj-row-divider">
+
+        <div class="proj-row">
+          <a href="../game/riverPass/riverPass.html" class="proj-card proj-card--img-left">
+            <div class="proj-thumb"><img src="../game/riverPass/images/bckg.png" alt="River Crossing"></div>
+            <div class="proj-text">
+              <h2 class="proj-title">River Crossing</h2>
+              <span class="proj-category">Games</span>
             </div>
           </a>
 
@@ -366,11 +375,33 @@
               <span class="proj-category">Games</span>
             </div>
           </a>
+        </div>
+        <hr class="proj-row-divider">
+
+        <div class="proj-row">
+          <a href="../projects/synth.html" class="proj-card proj-card--img-right">
+            <div class="proj-thumb"><img src="../images/projects/preview/synth.png" alt="Synthesizer"></div>
+            <div class="proj-text">
+              <h2 class="proj-title">Synthesizer</h2>
+              <span class="proj-category">Games</span>
+            </div>
+          </a>
 
           <a href="../game/cones.html" class="proj-card proj-card--img-right">
             <div class="proj-thumb"><img src="../images/projects/preview/cones.png" alt="Cones"></div>
             <div class="proj-text">
               <h2 class="proj-title">Cones</h2>
+              <span class="proj-category">Misc.</span>
+            </div>
+          </a>
+        </div>
+        <hr class="proj-row-divider">
+
+        <div class="proj-row">
+          <a href="../game/object.html" class="proj-card proj-card--img-left">
+            <div class="proj-thumb"><img src="../images/projects/preview/obj2.png" alt="Graphics Playground"></div>
+            <div class="proj-text">
+              <h2 class="proj-title">Graphics Playground</h2>
               <span class="proj-category">Misc.</span>
             </div>
           </a>
