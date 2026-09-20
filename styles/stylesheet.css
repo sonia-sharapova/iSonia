@@ -397,3 +397,28 @@ footer .socials {
         font-size: 30px !important;
     }
 }
+/* LARGE SCREENS - keep the page a readable width instead of stretching edge to
+   edge on monitors. Everything stays centred; the fixed nav's links are spread
+   across the same 1200px column as the content below it. */
+.navigation {
+    width: auto;
+    padding-left: max(10%, calc((100% - 1200px) / 2));
+    padding-right: max(10%, calc((100% - 1200px) / 2));
+}
+
+@media (min-width: 1500px) {
+    /* !important: some pages' own stylesheets set max-width: 80% on .content
+       (e.g. creations/display.css), which would otherwise win at this size */
+    .title-container,
+    .content,
+    .container {
+        max-width: 1200px !important;
+    }
+}
+
+footer {
+    box-sizing: border-box;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+}

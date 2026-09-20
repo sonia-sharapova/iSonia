@@ -15,7 +15,7 @@
     .projects {
       width: 100%;
       max-width: 100%;
-      padding: 0 28px;
+      padding: 0 64px;
       box-sizing: border-box;
     }
 
@@ -80,7 +80,7 @@
     }
 
     .proj-title {
-      font-size: 18px;
+      font-size: 22px;
       font-weight: 300;
       margin: 0;
       color: #666666;
@@ -93,7 +93,7 @@
     }
 
     .proj-category {
-      font-size: 12px;
+      font-size: 14px;
       letter-spacing: 0.06em;
       text-transform: uppercase;
       color: #999;
@@ -114,8 +114,6 @@
       text-align: right;
     }
 
-    /* Sidebar — bottom-anchored (projects-body's default align-items:
-       stretch makes it match the tall columns' height) */
     .projects-sidebar {
       position: relative;
       width: 300px;
@@ -124,67 +122,18 @@
       padding-left: 24px;
     }
 
-    /* Sticks to the same spot on screen (near the bottom of the viewport)
-       while the (much taller) project list scrolls past, instead of
-       scrolling away with it. Uses `top` (not `bottom`) since that's the
-       edge that keeps an element visible during normal downward scroll —
-       the offset is just computed to land near the viewport's bottom.
-       It only leaves that spot (sliding up) once the sidebar's own
-       container — which matches the full project-list height — runs out,
-       i.e. once you actually reach the bottom of the page. */
-    .sidebar-sticky {
+    /* CTA block — first item in the sidebar, fixed near the top of the
+       screen (sticky, clearing the site's fixed nav) instead of scrolling
+       away with the (much taller) project list. Extra left padding on top
+       of the sidebar's own, plus a solid background so the photo grid
+       scrolling underneath doesn't show through it. */
+    .sidebar-cta-block {
       position: sticky;
-      top: calc(100vh - 170px);
-      display: flex;
-      flex-direction: column;
+      top: 100px;
+      padding-left: 24px;
+      padding-bottom: 20px;
+      background: #f5f5f5;
     }
-
-    /* Gallery mosaic preview — hidden entirely off a project; only shown
-       above the rest of the sidebar text on hover over a card that has
-       its own gallery. Sits in normal flow (floats to the top, pushing
-       the text below it down) instead of overlapping it. `display` can't
-       be transitioned, so the show/hide animation runs on max-height +
-       opacity instead — `display: grid` stays constant and `overflow:
-       hidden` + `max-height: 0` collapse it to zero footprint when off. */
-    .sidebar-gallery-preview {
-      display: grid;
-      width: 250px;
-      margin: 0 auto;
-      max-height: 0;
-      opacity: 0;
-      overflow: hidden;
-      grid-template-columns: repeat(2, 1fr);
-      grid-template-rows: repeat(2, 122px);
-      gap: 8px;
-      pointer-events: none;
-      transition: max-height 0.4s ease, opacity 0.35s ease, margin-bottom 0.4s ease;
-    }
-
-    .sidebar-gallery-preview.active {
-      max-height: 260px;
-      opacity: 1;
-      margin-bottom: 36px;
-    }
-
-    .sidebar-gallery-preview img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      border-radius: 3px;
-      opacity: 0;
-      transform: scale(0.82);
-      transition: opacity 0.3s ease, transform 0.3s ease;
-    }
-
-    .sidebar-gallery-preview.active img {
-      opacity: 1;
-      transform: scale(1);
-    }
-
-    .sidebar-gallery-preview.active img:nth-child(1) { transition-delay: 0s; }
-    .sidebar-gallery-preview.active img:nth-child(2) { transition-delay: 0.06s; }
-    .sidebar-gallery-preview.active img:nth-child(3) { transition-delay: 0.12s; }
-    .sidebar-gallery-preview.active img:nth-child(4) { transition-delay: 0.18s; }
 
     .sidebar-intro {
       font-family: 'Courier New', monospace;
@@ -208,6 +157,34 @@
       filter: brightness(0.85);
     }
 
+    /* All gallery photos, always visible (not hover-triggered), each
+       linking to its project */
+    .sidebar-photos {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-top: 8px;
+    }
+
+    .sidebar-photo {
+      display: block;
+      aspect-ratio: 1;
+      border-radius: 2px;
+      overflow: hidden;
+      background: #eee;
+    }
+
+    .sidebar-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+
+    .sidebar-photo:hover img {
+      transform: scale(1.08);
+    }
+
     /* mobile */
     @media (max-width: 900px) {
       .projects-body {
@@ -224,12 +201,9 @@
         padding-top: 20px;
         margin-top: 20px;
       }
-      .sidebar-sticky {
+      .sidebar-cta-block {
         position: static;
-      }
-      .sidebar-gallery-preview,
-      .sidebar-gallery-preview.active {
-        display: none;
+        padding-left: 0;
       }
     }
 
@@ -300,7 +274,7 @@
         </a>
         <hr class="proj-row-divider">
 
-        <a href="../projects/camera/ghostLines.html" class="proj-card proj-card--img-left" data-gallery="ghost-lines">
+        <a href="../projects/camera/ghostLines.html" class="proj-card proj-card--img-left">
           <div class="proj-thumb"><img src="../images/projects/preview/motion5.png" alt="Ghost Lines"></div>
           <div class="proj-text">
             <h2 class="proj-title">Ghost Lines</h2>
@@ -309,7 +283,7 @@
         </a>
         <hr class="proj-row-divider">
 
-        <a href="../projects/camera/ascii_cam.html" class="proj-card proj-card--img-right" data-gallery="ascii-cam">
+        <a href="../projects/camera/ascii_cam.html" class="proj-card proj-card--img-right">
           <div class="proj-thumb"><img src="../images/projects/preview/emilioAndrew.png" alt="ASCII Cam"></div>
           <div class="proj-text">
             <h2 class="proj-title">ASCII Cam</h2>
@@ -327,7 +301,7 @@
         </a>
         <hr class="proj-row-divider">
 
-        <a href="../projects/camera/recognition.html" class="proj-card proj-card--img-right" data-gallery="identification-camera">
+        <a href="../projects/camera/recognition.html" class="proj-card proj-card--img-right">
           <div class="proj-thumb"><img src="../images/projects/preview/person.png" alt="Identification Camera"></div>
           <div class="proj-text">
             <h2 class="proj-title">Identification Camera</h2>
@@ -345,7 +319,7 @@
         </a>
         <hr class="proj-row-divider">
 
-        <a href="../projects/camera/drawASCII.html" class="proj-card proj-card--img-right" data-gallery="draw-ascii-art">
+        <a href="../projects/camera/drawASCII.html" class="proj-card proj-card--img-right">
           <div class="proj-thumb"><img src="../images/projects/preview/prev_star.png" alt="Draw ASCII Art"></div>
           <div class="proj-text">
             <h2 class="proj-title">Draw ASCII Art</h2>
@@ -400,15 +374,31 @@
       </div>
 
       <div class="projects-sidebar">
-        <div class="sidebar-sticky">
-          <div id="gallery-preview" class="sidebar-gallery-preview">
-            <img alt="">
-            <img alt="">
-            <img alt="">
-            <img alt="">
-          </div>
+        <div class="sidebar-cta-block">
           <p class="sidebar-intro">For more<br>professional work</p>
           <a href="../navigation/portfolio.html" class="sidebar-cta">VIEW PORTFOLIO &rarr;</a>
+        </div>
+
+        <div class="sidebar-photos">
+          <a href="../projects/camera/ghostLines.html" class="sidebar-photo"><img src="../images/projects/preview/motion1.png" alt="Ghost Lines"></a>
+          <a href="../projects/camera/ghostLines.html" class="sidebar-photo"><img src="../images/projects/preview/motion2.png" alt="Ghost Lines"></a>
+          <a href="../projects/camera/ghostLines.html" class="sidebar-photo"><img src="../images/projects/preview/motion3.png" alt="Ghost Lines"></a>
+          <a href="../projects/camera/ghostLines.html" class="sidebar-photo"><img src="../images/projects/preview/motion4.png" alt="Ghost Lines"></a>
+
+          <a href="../projects/camera/ascii_cam.html" class="sidebar-photo"><img src="../images/projects/preview/ascii-im2.png" alt="ASCII Cam"></a>
+          <a href="../projects/camera/ascii_cam.html" class="sidebar-photo"><img src="../images/projects/preview/ascii2.png" alt="ASCII Cam"></a>
+          <a href="../projects/camera/ascii_cam.html" class="sidebar-photo"><img src="../images/projects/preview/ascii_cat.JPEG" alt="ASCII Cam"></a>
+          <a href="../projects/camera/ascii_cam.html" class="sidebar-photo"><img src="../images/projects/preview/ascii_cat2.JPEG" alt="ASCII Cam"></a>
+
+          <a href="../projects/camera/recognition.html" class="sidebar-photo"><img src="../images/projects/preview/obj1.png" alt="Identification Camera"></a>
+          <a href="../projects/camera/recognition.html" class="sidebar-photo"><img src="../images/projects/preview/obj2.png" alt="Identification Camera"></a>
+          <a href="../projects/camera/recognition.html" class="sidebar-photo"><img src="../images/projects/preview/person.png" alt="Identification Camera"></a>
+          <a href="../projects/camera/recognition.html" class="sidebar-photo"><img src="../images/projects/preview/cat.png" alt="Identification Camera"></a>
+
+          <a href="../projects/camera/drawASCII.html" class="sidebar-photo"><img src="../images/projects/preview/marta_ascii.PNG" alt="Draw ASCII Art"></a>
+          <a href="../projects/camera/drawASCII.html" class="sidebar-photo"><img src="../images/projects/preview/worm.jpg" alt="Draw ASCII Art"></a>
+          <a href="../projects/camera/drawASCII.html" class="sidebar-photo"><img src="../images/projects/preview/prev_cat.png" alt="Draw ASCII Art"></a>
+          <a href="../projects/camera/drawASCII.html" class="sidebar-photo"><img src="../images/projects/preview/prev_heart.png" alt="Draw ASCII Art"></a>
         </div>
       </div>
     </div>
@@ -431,56 +421,6 @@
           const category = card.querySelector('.proj-category').textContent.trim();
           card.classList.toggle('is-filtered', filter !== 'all' && category !== filter);
         });
-      });
-    });
-  </script>
-
-  <script>
-    // Gallery mosaic preview: show a project's own gallery images in the
-    // sidebar on hover, for the projects that actually have a gallery.
-    const galleryPreviewData = {
-      'ghost-lines': [
-        '../images/projects/preview/motion1.png',
-        '../images/projects/preview/motion2.png',
-        '../images/projects/preview/motion3.png',
-        '../images/projects/preview/motion4.png',
-      ],
-      'ascii-cam': [
-        '../images/projects/preview/ascii-im2.png',
-        '../images/projects/preview/ascii2.png',
-        '../images/projects/preview/ascii_cat.JPEG',
-        '../images/projects/preview/ascii_cat2.JPEG',
-      ],
-      'identification-camera': [
-        '../images/projects/preview/obj1.png',
-        '../images/projects/preview/obj2.png',
-        '../images/projects/preview/person.png',
-        '../images/projects/preview/cat.png',
-      ],
-      'draw-ascii-art': [
-        '../images/projects/preview/marta_ascii.PNG',
-        '../images/projects/preview/worm.jpg',
-        '../images/projects/preview/prev_cat.png',
-        '../images/projects/preview/prev_heart.png',
-      ],
-    };
-
-    const galleryPreview = document.getElementById('gallery-preview');
-    const galleryPreviewImgs = galleryPreview ? galleryPreview.querySelectorAll('img') : [];
-
-    document.querySelectorAll('[data-gallery]').forEach(function (card) {
-      const images = galleryPreviewData[card.dataset.gallery];
-      if (!images) return;
-
-      card.addEventListener('mouseenter', function () {
-        galleryPreviewImgs.forEach(function (img, i) {
-          img.src = images[i] || '';
-        });
-        galleryPreview.classList.add('active');
-      });
-
-      card.addEventListener('mouseleave', function () {
-        galleryPreview.classList.remove('active');
       });
     });
   </script>
