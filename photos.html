@@ -10,10 +10,13 @@
   <script src="scripts/siteStyle/bck.js"></script>
   <style>
     /* ── Page layout ── */
-    .photos-wrap {
+    /* Reuses the shared .content rule (styles/stylesheet.css) for its
+       width/margin/box-sizing, so this stays bounded to the same edges as
+       .title-container above it — including the >=1500px max-width:1200px
+       cap that a page-specific class name would otherwise miss. Only adds
+       what's specific to this page's two-column layout. */
+    .content {
       display: flex;
-      width: 80%;
-      margin: 0 auto;
       padding: 0 20px;
       gap: 40px;
     }
@@ -51,9 +54,9 @@
     .sidebar-link:hover { color: #45a049; border-left-color: #45a049; padding-left: 13px; }
     .sidebar-link.active { color: #45a049; border-left-color: #45a049; font-weight: 500; }
 
-    @media (max-width: 960px) { .photos-wrap { width: 94%; } }
+    @media (max-width: 960px) { .content { width: 94%; } }
     @media (max-width: 768px) {
-      .photos-wrap { flex-direction: column; width: 95%; padding: 0; gap: 0; }
+      .content { flex-direction: column; width: 95%; padding: 0; gap: 0; }
       .photos-sidebar { display: none; }
       .photos-main { margin-top: 10px; }
     }
@@ -872,7 +875,7 @@
   <hr>
 </div>
 
-<div class="photos-wrap">
+<div class="content">
 
   <!-- Album directory sidebar -->
   <div class="photos-sidebar" id="photo-sidebar">

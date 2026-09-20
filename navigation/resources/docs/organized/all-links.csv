@@ -1,0 +1,1223 @@
+Section,Category,Sub-category,Name,URL,Notes,Also relevant to,Found in
+Technology,Programming,Low-Level & Systems,Bash,https://ss64.com/bash/syntax.html,How-to guides and examples,,Tech (1) | Technology
+Technology,Programming,Low-Level & Systems,C++ Tutorial,http://www.cplusplus.com/doc/tutorial/basic_io/,Basic Input / Output,,Tech (1) | Technology
+Technology,Programming,Low-Level & Systems,C-Programming,http://knking.com/books/c2/,"C-Programming, A Modern Approach",,Tech (1) | Technology
+Technology,Programming,Low-Level & Systems,CUDA C++ Programming Guide,https://docs.nvidia.com/cuda/pdf/CUDA_C_Programming_Guide.pdf,C/C++ Programming in CUDA,,Tech (1) | Technology
+Technology,Programming,Low-Level & Systems,GPU Architectures,https://cvw.cac.cornell.edu/gpu-architecture,Roadmap to understanding GPU architectures,,Tech (1) | Technology
+Technology,Programming,Low-Level & Systems,Intro to CUDA Programming,https://www.pyspur.dev/blog/introduction_cuda_programming,CUDA for Python Developers,,Tech (1) | Technology
+Technology,Programming,Low-Level & Systems,Low-level programming-university,https://github.com/gurugio/lowlevelprogramming-university,Learn about low-level programming,,Tech (1) | Technology
+Technology,Programming,Low-Level & Systems,Parallelism,https://temitayoadefemi.github.io/Papers/,What Every Computer Scientist Should Know,,Tech (1) | Technology
+Technology,Programming,Low-Level & Systems,Programming Parallel Computers,https://ss64.com/,Hands-on algorithm engineering,,Archives | Tech (1) | Technology
+Technology,Programming,Low-Level & Systems,Programming Parallel Computers,https://ppc.cs.aalto.fi/,Practical hands-on course on algorithm engineering for modern computers,,Technology
+Technology,Programming,Low-Level & Systems,Sane C++ Libraries,https://github.com/Pagghiu/SaneCppLibraries,Some C++ Libraries,,Tech (1) | Technology
+Technology,Programming,Low-Level & Systems,The CUDA Handbook,https://ptgmedia.pearsoncmg.com/images/9780321809469/samplepages/0321809467.pdf,"The CUDA Handbook, A Comprehensive Guide to GPU Programming by Nicholas Wilt",,Tech (1) | Technology
+Technology,Programming,Learning Resources,aplmooc.fi,https://aplmooc.fi/,,,Archives
+Technology,Programming,Learning Resources,Artful Code,https://artfulcode.net/,"Resources and tips for dynamic, interactive languages",,Tech (1) | Technology
+Technology,Programming,Learning Resources,Code Concepts,https://mohitmishra786.github.io/chessman/,Code Concepts Explained,,Tech (1) | Technology
+Technology,Programming,Learning Resources,CodeProg,https://coderprog.com/,Programming books and courses,,Tech (1) | Technology
+Technology,Programming,Learning Resources,colorforth.github.io,https://colorforth.github.io/,,,Archives
+Technology,Programming,Learning Resources,Computer Systems - A Programmers Perspective,https://www.cs.sfu.ca/~ashriram/Courses/CS295/assets/books/CSAPP_2016.pdf,"CSAPP by Randal E. Bryant, David R. O’Hallaron",,Tech (1) | Technology
+Technology,Programming,Learning Resources,Destroy all software,https://www.destroyallsoftware.com/blog,blog,,Tech (1) | Technology | resources (1) | www
+Technology,Programming,Learning Resources,dyalog.tv/Dyalog24/?v=2wdtPPqdECo,https://dyalog.tv/Dyalog24/?v=2wdtPPqdECo,,,Archives
+Technology,Programming,Learning Resources,Free Code Camp,https://www.freecodecamp.org/learn/,Learn various coding concepts / programs,Web > Learn Web Development,Tech (1) | Technology | resources (1) | www
+Technology,Programming,Learning Resources,Free Programming Books,https://github.com/EbookFoundation/free-programming-books,Collection of free programming books,,Tech (1) | Technology
+Technology,Programming,Learning Resources,Functional CS,http://functionalcs.github.io/curriculum/,"A Self-Learning, Modern Computer Science Curriculum",Design > Learning Design,Tech (1) | Technology
+Technology,Programming,Learning Resources,Go by Example,https://gobyexample.com/,Hands-on introduction to GO,,Tech (1)
+Technology,Programming,Learning Resources,Learn X in Y Minutes,https://learnxinyminutes.com/,Cheat sheets for nearly every programming/markup language in existence,,Tech (1) | Technology
+Technology,Programming,Learning Resources,Learning Ruby,https://github.com/gauthamchandra/learning-ruby-from-js?tab=readme-ov-file#topics,,,Archives
+Technology,Programming,Learning Resources,Lisp,http://verisimilitudes.net/lisp,,,Archives
+Technology,Programming,Learning Resources,Markdown Guide,https://www.markdownguide.org/basic-syntax/,Markdown file syntax,Design > Learning Design | Web > Learn Web Development,Tech (1) | Technology | resources (1) | www
+Technology,Programming,Learning Resources,Progopedia,http://progopedia.com/,Encyclopedia of programming languages,,Tech (1) | Technology
+Technology,Programming,Learning Resources,Programming in 10y,https://norvig.com/21-days.html,Teach Yourself Programming in Ten Years,,Tech (1) | Technology
+Technology,Programming,Learning Resources,Programming in LUA,https://www.lua.org/pil/contents.html,,,Archives
+Technology,Programming,Learning Resources,Programming Links,https://wiki.chadnet.org/programming,Misc programming links,,Tech (1) | Technology
+Technology,Programming,Learning Resources,Snipplr,https://snipplr.com/,Code snippets,,Tech (1) | Technology | resources (1) | www
+Technology,Programming,Learning Resources,Structure and Interpretation of Computer Programs,https://web.mit.edu/6.001/6.037/sicp.pdf,Structure and Interpretation of Computer Programs by Harold Abelson and Gerald Jay Sussman with Julie Sussman,,Tech (1) | Technology
+Technology,Programming,Learning Resources,TeachYourselfCS,https://teachyourselfcs.com/,Teach yourself computer science,,Tech (1) | Technology
+Technology,Programming,Learning Resources,ultratechnology.com,https://www.ultratechnology.com/,,,Archives
+Technology,Programming,Challenges & Puzzles,Deadlock Empire,https://deadlockempire.github.io/,Game for Multithreading,,Technology
+Technology,Programming,Challenges & Puzzles,Nand Game,https://nandgame.com/,Learning game about gates and components.,,Technology
+Technology,Programming,Challenges & Puzzles,projecteuler.net,https://projecteuler.net/,,,Technology
+Technology,Programming,Challenges & Puzzles,Security practice games,https://overthewire.org/wargames/,Games to develop security practices,Ideas & People > Politics & Society | Technology > Security & Privacy,Archives | OpenSource & FreeWare | Technology | resources (1)
+Technology,Programming,Projects & Ideas,A Garden of Computational Delights,https://arbesman.net/computationaldelights/,"A list of places that collect or catalyze sources for being enraptured by the web, programming, and the wider world of computing",Design > Learning Design | Technology > Blogs & Communities,Archives | Tech (1) | Technology | resources (1) | www
+Technology,Programming,Projects & Ideas,Advent of code,https://adventofcode.com/,Daily coding problems and projects,Design > Learning Design,Tech (1) | Technology
+Technology,Programming,Projects & Ideas,Awesome Creative Coding,https://github.com/terkelg/awesome-creative-coding,Biiiig reference for everything creative code,Design > Learning Design,Technology | resources (1) | www
+Technology,Programming,Projects & Ideas,Bam Software,https://www.bamsoftware.com/hacks/,Projects,,Technology
+Technology,Programming,Projects & Ideas,Build Your Own <blank>,https://github.com/codecrafters-io/build-your-own-x,Tutorials and resources to build your own software,Software & Tools > Open Source Software,OpenSource & FreeWare | Technology | resources (1)
+Technology,Programming,Projects & Ideas,DIY Subwoofers,https://www.diysubwoofers.org/projects/,Subwoofer/audio DIY,,Technology
+Technology,Programming,Projects & Ideas,Esoteric Codes,https://esoteric.codes/,,,resources (1) | www
+Technology,Programming,Projects & Ideas,Faz Jammer,https://github.com/system-linux/FazJammer,Bluetooth and wifi jammer,,Technology
+Technology,Programming,Projects & Ideas,Hacking Your Neighbours WiFi,https://mango.pdf.zone/hacking-your-neighbours-wifi/,Guide to hacking the internet,Technology > Security & Privacy,OpenSource & FreeWare | Technology | resources (1)
+Technology,Programming,Projects & Ideas,JavaScript projects,https://orteil.dashnet.org/,Collection of personal projects,,Technology
+Technology,Programming,Projects & Ideas,Joy of Computing,https://joy.recurse.com/,Find Coding Projects,,Technology
+Technology,Programming,Projects & Ideas,Kaggle,https://www.kaggle.com/datasets,Open dataset of projects,,Technology
+Technology,Programming,Projects & Ideas,OpenProcessing,https://openprocessing.org/,Generative are and creative coding,,resources (1) | www
+Technology,Programming,Projects & Ideas,Run Your Own Social,https://runyourown.social/,Tutorial on creating a social media site,,Technology
+Technology,Programming,Projects & Ideas,Science projects,https://scienceclass.github.io/category/projects.html,misc projects from science class,,Technology
+Technology,Programming,Projects & Ideas,Screenshot Garden,https://screenshot-garden.neocities.org/build-your-own,Build your own screenshot garden,,Technology
+Technology,Programming,Video Tutorials,Building a Bit-Packer (Low Byte Productions) — 2-part series.,https://www.youtube.com/watch?v=74co_YG39Bw&list=PLP29wDx6QmW5xJ6yz_MInDL_AnLbpafyL,,,Videos
+Technology,Programming,Video Tutorials,How Do Regular Expressions Really Work? (Low Byte Productions) — builds a simple regular expression engine from scratch.,https://www.youtube.com/watch?v=u01jb8YN2Lw,,,Videos
+Technology,Programming,Video Tutorials,Low Byte Productions — great channel on low-level programming. Some of his videos are listed here.,https://www.youtube.com/@LowByteProductions/videos,,,Videos
+Technology,Programming,Video Tutorials,Music With C,https://www.youtube.com/watch?v=8r8wsvHUbCo&pp=ygVBQWxleGFuZGVyIFpvbG90b3YgLSBNdXNpYyBjcmVhdGVkIHdpdGggdGhlIEMgcHJvZ3JhbW1pbmcgbGFuZ3VhZ2U%3D,,,Media
+Technology,Programming,Video Tutorials,Parser Combinators From Scratch (Low Byte Productions) — 8-part series.,https://www.youtube.com/watch?v=6oQLRhw5Ah0&list=PLP29wDx6QmW5yfO1LAgO8kU3aQEj8SIrU,,,Videos
+Technology,Programming,Video Tutorials,"Source Dive (Low Byte Productions) — in-depth look at low-level open-source projects, e.g., an operating system.",https://www.youtube.com/watch?v=KkenLT8S9Hs&list=PLP29wDx6QmW4Mw8mgvP87Zk33LRcKA9bl,,,Videos
+Technology,Programming,Video Tutorials,The Bits And Bytes of Binary (Low Byte Productions) — 6-part series.,https://www.youtube.com/watch?v=pOM86M1pGb4&list=PLP29wDx6QmW47oPsNBFNEi_SYTOLDJXqQ,,,Videos
+Technology,Programming,Video Tutorials,Understanding AES Encryption Mechanics (Low Byte Productions),https://www.youtube.com/watch?v=OnhtzFJW_4I,,,Videos
+Technology,Programming,Video Tutorials,Why GPU Programming is Chaotic,https://www.youtube.com/watch?v=oaOxMdKlJTc&list=LL&index=14&t=5s&pp=gAQBiAQB,,,Media
+Technology,AI & Machine Learning,,"AI, A Modern Approach",https://aima.cs.berkeley.edu/contents.html,Full textbook for AI - A modern approach,,Tech (1) | Technology
+Technology,AI & Machine Learning,,Cartography of Generative AI,https://cartography-of-generative-ai.net/,Cool graphic of the cartography of generative AI,,Tech (1) | Technology
+Technology,AI & Machine Learning,,Economics of AI..,https://blog.samaltman.com/,,Technology > Blogs & Communities,Archives
+Technology,AI & Machine Learning,,Generative tools,https://www.are.na/serena-ho/generative-tools-48i6d9oltye,are.na/serena-ho/generative-tools-48i6d9oltye,,Design Work | General | resources (1)
+Technology,AI & Machine Learning,,Learn AI From Scratch,https://learnaifromscratch.github.io/,Full guide to learning AI principles,,Tech (1) | Technology
+Technology,AI & Machine Learning,,Machine Learning Mastery,https://machinelearningmastery.com/machine-learning-in-python-step-by-step/,ML Resources,,Tech (1)
+Technology,AI & Machine Learning,,Machine Learning Uni Research,https://www.are.na/nio/machine-learning-uni-research,,,Archives
+Technology,AI & Machine Learning,,Machine Learning with Python,https://www.youtube.com/playlist?list=PLQVvvaa0QuDfKTOs3Keq_kaG2P55YRn5v,Tutorial on learning how to use python for Machine Learning,,Technology | Videos
+Technology,AI & Machine Learning,,Mathematical Foundations of Reinforcement Learning,https://github.com/MathFoundationRL/Book-Mathematical-Foundation-of-Reinforcement-Learning,Shiyu Zhao's Course,,Tech (1) | Technology
+Technology,AI & Machine Learning,,Pharmapsychotic - Tools and Resources for AI art,https://pharmapsychotic.com/tools.html,Tools and Resources for AI art,Design > Resource Collections,Design Work | General | Tech (1) | Technology | resources (1) | www
+Technology,AI & Machine Learning,,Working and Teaching,https://blog.mariusjopen.com/,Working and Teaching in the field of AI,Internet Culture > Personal Sites & Digital Gardens,Archives | Tech (1) | Technology
+Technology,Math,,Britney Spears Physics,https://britneyspears.ac/lasers.htm,I like this site,,Tech (1) | Technology
+Technology,Math,,Calculus,https://www.youtube.com/playlist?list=PL67C119EDA6BDE946,Lectures on Calculus,,Tech (1) | Technology
+Technology,Math,,Floating Point Arithmetic,https://docs.oracle.com/cd/E19957-01/806-3568/ncg_goldberg.html,What Every Computer Scientist Should Know about Floating-Point Arithmetic,,Tech (1) | Technology
+Technology,Math,,Floating Point Math,https://0.30000000000000004.com/,On Floating point math,,Tech (1) | Technology
+Technology,Math,,Intro to Fourier Transformations,https://www.jezzamon.com/fourier/index.html,Understanding Fourier Transformations,,Archives | Tech (1) | Technology
+Technology,Math,,Linear regression,https://www.youtube.com/watch?v=MDBpBE3B-b8,Tutorial on Linear Regression,,Tech (1) | Technology
+Technology,Math,,Matrix Calculus,https://ocw.mit.edu/courses/18-s096-matrix-calculus-for-machine-learning-and-beyond-january-iap-2023/,Matrix Calculus for ML,,Tech (1) | Technology
+Technology,Math,,Sundry Obscure Topics,http://tamivox.org/,Collection of links to strange topics to explore,Archives & Collections > Web & Internet Archives,General | Tech (1) | Technology | resources (1)
+Technology,Math,,The Colossal Book of Mathematics,https://ia801004.us.archive.org/17/items/martingardnerthecolossalbookofmathematics/Martin%20Gardner%20-%20The%20Colossal%20Book%20Of%20Mathematics.pdf,The Colossal Book of Mathematics by Martin Gardner,,Tech (1) | Technology
+Technology,Operating Systems,,Addonics,https://www.addonics.com/,Disk Drives,,Tech (1) | Technology
+Technology,Operating Systems,,Arch Linux Wiki,https://wiki.archlinux.org/title/Main_page,Arch Linux Wiki,,Tech (1) | Technology
+Technology,Operating Systems,,Bash cheat sheet,https://cheat.sh/,Bash Cheat Sheets,,Tech (1) | Technology
+Technology,Operating Systems,,Bash Commands,https://cheatography.com/davechild/cheat-sheets/linux-command-line/,Bash Commands,,Tech (1) | Technology
+Technology,Operating Systems,,Bash Guide,http://mywiki.wooledge.org/BashGuide,Reference to start scripting,,Tech (1)
+Technology,Operating Systems,,Bash Hackers Wiki,https://web.archive.org/web/20230406205817/https://wiki.bash-hackers.org/,,,Tech (1)
+Technology,Operating Systems,,Bash in Windows,https://www.geeksforgeeks.org/techtips/use-bash-shell-natively-windows-10/,Use linux in Windows10,,Tech (1) | Technology
+Technology,Operating Systems,,BootDisk,https://www.bootdisk.com/bootdisk.htm,Free Windows Bootdisks,,Tech (1) | Technology
+Technology,Operating Systems,,GNU OS,https://www.gnu.org/,The GNU Operating System,,Tech (1) | Technology
+Technology,Operating Systems,,Linux Books,https://itsfoss.com/learn-linux-for-free/,20 Best free-download Linux Books (Legal),,Tech (1) | Technology
+Technology,Operating Systems,,Linux Commands,https://www.websentra.com/linux-commands-cheat-sheet/,Linux command cheat sheet,,Tech (1) | Technology
+Technology,Operating Systems,,Linux Word Count,https://www.vidarholen.net/contents/wordcount/,Get Linux word count,,Tech (1) | Technology
+Technology,Operating Systems,,Lubuntu,http://lubuntu.net/,Linux distribution. The LXDE interface is fast and efficient,,Tech (1) | Technology
+Technology,Operating Systems,,MacOS,https://ss64.com/mac/syntax.html,MacOS Guides and Examples,,Tech (1) | Technology
+Technology,Operating Systems,,MEGAcmd Setup 1 3 0 0 RC 2 Windows XP SP3 32bit,http://archive.org/details/megacmd-setup-1-3-0-0-rc-2,"MEGA.nz Free Download, Borrow, and Streaming - Internet Archive",,Technology
+Technology,Operating Systems,,MEGAsync Client 4.3.3.0 Portable Windows XP x86 32bit,http://archive.org/details/megasync-windows-xp.-7z,"MEGA.nz Free Download, Borrow, and Streaming - Internet Archive",,Technology
+Technology,Operating Systems,,Nixpub Archive,https://mw.rat.bz/nixpub/,Public Access Unix Lists,,Tech (1) | Technology
+Technology,Operating Systems,,SDF,https://sdf.org/,Free Shell account and shell access,,Tech (1) | Technology
+Technology,Operating Systems,,.sh Cheats,https://devhints.io/bash,Bash scripting cheetsheet,,Tech (1)
+Technology,Operating Systems,,The Linux Kernel Archives,https://www.kernel.org/,Linux kernel,,Tech (1) | Technology
+Technology,Operating Systems,,Tiny Linux,http://www.tinycorelinux.net/welcome.html,A tiny Linux,,Tech (1) | Technology
+Technology,Operating Systems,,VOGONS,https://www.vogons.org/,PC information and resources,,Archives | Tech (1) | Technology
+Technology,Operating Systems,,web.mit.edu/~simsong/www/ugh.pdf,https://web.mit.edu/~simsong/www/ugh.pdf,"The UNIX-Haters Handbook, Edited by Simson Garfinkel, Daniel Weise, and Steven Strassmann",,Tech (1) | Technology
+Technology,Operating Systems,,Windows Desktop UX Guide,http://docs.microsoft.com/en-us/windows/win32/uxguide/visual-index,Has a chock ton of examples of and descriptions of common things used in Windows programs,,Tech (1) | Technology
+Technology,Operating Systems,,XFree86,https://www.xfree86.org/index.html,Open source X Windows System,,Tech (1) | Technology
+Technology,Hardware & Electronics,,Adafruit,https://www.adafruit.com/,Unique & fun DIY electronics and kits,,Tech (1) | Technology
+Technology,Hardware & Electronics,,Arduino,http://arduino.cc/,Helpful references and library functions,,Tech (1) | Technology
+Technology,Hardware & Electronics,,EEV-blog,https://www.eevblog.com/wiki/index.php?title=Main_Page,Electrical Engineering links,,Tech (1) | Technology
+Technology,Hardware & Electronics,,HDL Practice (Circuits),https://hdlbits.01xz.net/wiki/Main_Page,Verilog Hardware Description Language (HDL) practice,,Tech (1) | Technology
+Technology,Hardware & Electronics,,Logical Increments,https://www.logicalincrements.com/,Everything to know about PC parts,,Tech (1)
+Technology,Hardware & Electronics,,Many here,https://jim.rees.org/culture/,,,Archives
+Technology,Hardware & Electronics,,Palm Pilot Stuff,https://jim.rees.org/pilot/,Palm Pilot resources,,Tech (1) | Technology
+Technology,Hardware & Electronics,,Raspberry Pi Foundation,http://www.raspberrypi.org/,Useful for updating your Raspberry Pi images,,Tech (1) | Technology
+Technology,Hardware & Electronics,,rpi-update,https://github.com/Hexxeh/rpi-update,Kernel updates for Raspberry Pi,,Tech (1) | Technology
+Technology,Hardware & Electronics,,Smartcard,http://www.citi.umich.edu/projects/smartcard/,Smartcard programming seminar (or how to hack an m card),,Tech (1) | Technology
+Technology,Hardware & Electronics,,T-Line Speakers,http://www.t-linespeakers.org/,Build Transmission Line Speakers,,Tech (1) | Technology
+Technology,Hardware & Electronics,,Total Hardware 99,http://www.uncreativelabs.de/th99/,Archive of anything related to computers and tech,,Tech (1) | Technology
+Technology,Hardware & Electronics,,TubeData,http://tubedata.philipse.info/,Electron Tubes Info,,Tech (1) | Technology
+Technology,Networking & Servers,,Collab-vm,http://computernewb.com/collab-vm/,Control collaborative virtual machines,,Tech (1) | Technology
+Technology,Networking & Servers,,Dd-wrt,http://www.dd-wrt.com/site/index,Aftermarket router firmware,,Tech (1) | Technology
+Technology,Networking & Servers,,EFF Archive,https://w2.eff.org/Net_culture/Net_info/Resources/,"Net Info: Net Resources (Lists, Indexes, etc.)",,Tech (1) | Technology
+Technology,Networking & Servers,,Home Computer Support Page,http://webarchive.me/geocities/SiliconValley/5649/,"Computer Support, Hardware Specs, Web Page Creation, Reference Sources",,Tech (1) | Technology
+Technology,Networking & Servers,,Internet Trash,https://www.internettrash.com/,Stuff about the internet,Internet Culture > Weird & Fun | Design > Inspiration & Galleries,Design Work | General | Tech (1) | Technology | resources (1)
+Technology,Networking & Servers,,Openwrt,https://openwrt.org/,Alternative router firmware with package customizations,,Tech (1) | Technology
+Technology,Networking & Servers,,Privoxy,http://www.privoxy.org/,"A HTTP proxy with forwarding, useful for non-SOCKS capable programs",,Tech (1) | Technology
+Technology,Networking & Servers,,PuTTY,http://www.chiark.greenend.org.uk/~sgtatham/putty/,"Free SSH, Telnet client for Windows",,Tech (1) | Technology
+Technology,Networking & Servers,,Retro Computing Internet Resources,https://github.com/dotcomboom/retro-computing-internet-resources,A list of projects which let vintage computers connect to the internet!,Internet Culture > Nostalgia & Old Internet,Archives | Tech (1) | Technology
+Technology,Networking & Servers,,UltraVNC,http://ultravnc.org/,VNC remote control server and client with file transfer ability,,Tech (1) | Technology
+Technology,Networking & Servers,,WinSCP,http://winscp.net/eng/index.php,Secure copy client for Windows,,Tech (1) | Technology
+Technology,Security & Privacy,Learn & Practice,Bitsy,https://make.bitsy.org/,mini video game maker,,Tech (1)
+Technology,Security & Privacy,Learn & Practice,captf.com/practice-ctf,http://captf.com/practice-ctf/,,,Security
+Technology,Security & Privacy,Learn & Practice,crackmes.de,http://crackmes.de/,,,Security
+Technology,Security & Privacy,Learn & Practice,Crypto Museum,https://www.cryptomuseum.com/index.htm,Cryptography Museum,,Archives | Tech (1) | Technology
+Technology,Security & Privacy,Learn & Practice,Dig Deeper,https://digdeeper.neocities.org/index.xhtml,"site with articles on privacy, software, and other things.",Technology > Blogs & Communities | Technology > Security & Privacy,Archives | OpenSource & FreeWare | Security | Tech (1) | Technology | resources (1)
+Technology,Security & Privacy,Learn & Practice,essential privacy addons,https://digdeeper.neocities.org/articles/addons.xhtml,,,Tech (1)
+Technology,Security & Privacy,Learn & Practice,Firefox Profilemaker,https://ffprofile.com/,This tool will help you to create a Firefox profile with the defaults you like.,,Tech (1)
+Technology,Security & Privacy,Learn & Practice,free proxies,https://her.st/usr/bin/unlimited-free-proxies.html,,,Tech (1)
+Technology,Security & Privacy,Learn & Practice,Hacking Resources,https://totseans.com/totse/en/hack/index.html,Everything on hacking,Ideas & People > Politics & Society,Archives | Tech (1) | Technology
+Technology,Security & Privacy,Learn & Practice,How to choose browser,https://digdeeper.neocities.org/articles/browsers.xhtml#ff,,,Tech (1)
+Technology,Security & Privacy,Learn & Practice,N-Gate,http://n-gate.com/,"annotated digest of the top ""Hacker"" ""News""",,Tech (1) | Technology
+Technology,Security & Privacy,Learn & Practice,PHRACK,https://phrack.org/issues/7/3,A Compilation of The Hackers Manifestos Of The 20th And 21st Century,Archives & Collections > Curated Collections,Design Work | Tech (1) | Technology
+Technology,Security & Privacy,Learn & Practice,.ssh power,https://her.st/usr/bin/ssh-is-power.html,,,Tech (1)
+Technology,Security & Privacy,Learn & Practice,Surveillance self-defence,https://ssd.eff.org/,"Tips, tools, and hot-tos for safer online communications",,Tech (1)
+Technology,Security & Privacy,Learn & Practice,The information Hiding Homepage,https://www.petitcolas.net/steganography/,Digital watermarking & stenography,,Tech (1)
+Technology,Security & Privacy,Learn & Practice,Train Hacking Skills,https://www.root-me.org/?lang=en,Develop your hacking skills,Technology > Programming | Technology > Security & Privacy,OpenSource & FreeWare | Tech (1) | Technology | resources (1)
+Technology,Security & Privacy,Learn & Practice,webscrape urself,https://inteltechniques.com/workbook.html,,,Tech (1)
+Technology,Security & Privacy,Learn & Practice,wechall.net,http://www.wechall.net/,,,Security
+Technology,Security & Privacy,Learn & Practice,Why to VPN,https://digdeeper.neocities.org/articles/vpn.xhtml,How and why to VPNize your entire traffic,,Tech (1)
+Technology,Security & Privacy,Security Tools,Exploit Database,https://www.exploit-db.com/,Archive of public exploits and corresponding vulnerable software,,Security
+Technology,Security & Privacy,Security Tools,Have I Been Pwned - Data Breach Lookup,https://haveibeenpwned.com/,"A database of known data breaches, allowing users to check if their credentials have been exposed.",Technology > Security & Privacy,OpenSource & FreeWare | Security | resources (1)
+Technology,Security & Privacy,Security Tools,MD5Hashing.net,https://md5hashing.net/,Everythign on Hashing,,Security
+Technology,Security & Privacy,Security Tools,Mitre | ATT&CK,https://attack.mitre.org/,globally-accessible knowledge base of adversary tactics and techniques based on real-world observations.,,Security
+Technology,Security & Privacy,Security Tools,NIST,https://nvd.nist.gov/,National Vulnerability Database,,Security
+Technology,Security & Privacy,Security Tools,PrivacyTools - Online Privacy Protection,https://anonymousplanet.org/guide/,A detailed guide on protecting digital privacy through secure tools and practices.,Technology > Security & Privacy,Security | Tech (1)
+Technology,Security & Privacy,Security Tools,VirusTotal,https://www.virustotal.com/gui/home/upload,Check if a file or website has a virus,,Security
+Technology,Security & Privacy,Security Tools,web-check.xyz,https://web-check.xyz/,,,Security
+Technology,Security & Privacy,Privacy & Anonymity,Awesome Piracy,https://github.com/Igglybuff/awesome-piracy/blob/master/readme.md,A curated list of arrrrrrrrr!,,OpenSource & FreeWare | resources (1)
+Technology,Security & Privacy,Privacy & Anonymity,Defensive Computing Checklist,https://defensivecomputingchecklist.com/,A list of internet-related things to be aware of and defensive steps to take in response to said things.,,OpenSource & FreeWare | resources (1)
+Technology,Security & Privacy,Privacy & Anonymity,How Secure Is My Password?,https://www.security.org/how-secure-is-my-password/,Check how secure your password is,,OpenSource & FreeWare | resources (1)
+Technology,Security & Privacy,Privacy & Anonymity,Hyphanet,https://www.hyphanet.org/index.html,FreeNet,,OpenSource & FreeWare | resources (1)
+Technology,Security & Privacy,Privacy & Anonymity,I2P,https://geti2p.net/en/,Invisible Internet Project,,OpenSource & FreeWare | resources (1)
+Technology,Security & Privacy,Privacy & Anonymity,IP Filter,https://github.com/fonic/ipfilter,ipfilter updater & generator (ipfilter),,OpenSource & FreeWare | resources (1)
+Technology,Security & Privacy,Privacy & Anonymity,LogMeIn Hamachi,https://secure.logmein.com/products/hamachi/,VPN software,,OpenSource & FreeWare | resources (1)
+Technology,Security & Privacy,Privacy & Anonymity,PRISM Break,https://prism-break.org/en/,"Opt out of global data surveillance programs like PRISM, XKeyscore and Tempora",,OpenSource & FreeWare | resources (1)
+Technology,Security & Privacy,Privacy & Anonymity,PrivacyTools.io,https://www.privacytools.io/,"Privacy Tools Guide, website for encrypted software & apps",,OpenSource & FreeWare | resources (1)
+Technology,Security & Privacy,Privacy & Anonymity,SpywareBlaster,http://www.brightfort.com/spywareblaster.html,Pre-emptive blocking protection for dangerous sites.,,OpenSource & FreeWare | resources (1)
+Technology,Security & Privacy,Privacy & Anonymity,SpywareWatchdog,https://spyware.neocities.org/,Tool for users to be aware of spyware,,OpenSource & FreeWare | resources (1)
+Technology,Security & Privacy,Privacy & Anonymity,ToR,https://torproject.org/,Free anonymizing proxy with SOCKS interface.,,OpenSource & FreeWare | resources (1)
+Technology,Security & Privacy,Privacy & Anonymity,ZeroNet,https://zeronet.io/,"Open, free and uncensorable websites, using Bitcoin cryptography and BitTorrent network",,OpenSource & FreeWare | resources (1)
+Technology,Retro Computing & Emulation,,Blog on Emulation,https://nerdlypleasures.blogspot.com/search/label/Emulation,Nerdly pleasures blog on emulation,,Technology | resources (1)
+Technology,Retro Computing & Emulation,,Blog on Mods,https://nerdlypleasures.blogspot.com/search/label/Mods,Nerdly Pleasures on Mods,,Technology | resources (1)
+Technology,Retro Computing & Emulation,,BoxedWine,https://www.boxedwine.org/,Emulator that runs Windows applications,,Technology | resources (1)
+Technology,Retro Computing & Emulation,,Cygwin,http://cygwin.com/,A UNIX-like environment for Windows – quite useful for recompiling software for use in Windows and to use gcc to compile hobby C programs,,Technology | resources (1)
+Technology,Retro Computing & Emulation,,DOS Haven,https://www.doshaven.eu/,DOS Games,,Technology | resources (1)
+Technology,Retro Computing & Emulation,,EmulationZone,http://www.emulationzone.org/,Website about retro emulation,,Technology | resources (1)
+Technology,Retro Computing & Emulation,,Flash Emulator,https://ruffle.rs/,Emulate Flash,,Technology | resources (1)
+Technology,Retro Computing & Emulation,,Floppy Disk Emulator,https://cbm-pi1541.firebaseapp.com/,Floppy disk drive emulator (for raspberry pi),,Technology | resources (1)
+Technology,Retro Computing & Emulation,,Intro to Emulators,https://macintoshgarden.org/guides,Introduction to emulators,,Technology | resources (1)
+Technology,Retro Computing & Emulation,,Kernelloader Files,https://sourceforge.net/projects/kernelloader/files/BlackRhino%20Linux%20Distribution/Live%20Linux%20DVD/,Kernelloader Distributions,,Technology
+Technology,Retro Computing & Emulation,,Mod Archive,https://modarchive.org/index.php,World’s largest collection of music modules,Music & Audio > Free Music & Sound,Music Archive | Technology | resources (1)
+Technology,Retro Computing & Emulation,,OldWebToday,https://oldweb.today/#19960101/http://geocities.com/,Browser Emulators,,Technology | resources (1)
+Technology,Retro Computing & Emulation,,PalmDB,https://palmdb.net/about/,PalmDB is a community effort to preserve the work and history of Palm OS and its developers,,Technology | resources (1)
+Technology,Retro Computing & Emulation,,Run Linux on PS2,https://kernelloader.sourceforge.net/linux.html,How to run linux on your PlayStation2,Technology > Programming,Technology | resources (1)
+Technology,Retro Computing & Emulation,,SNES Emulator:(Super Nintendo) Emulator,https://zsnes.com/,Super Nintendo Emulator,,Technology | resources (1)
+Technology,Retro Computing & Emulation,,Software,https://macintoshgarden.org/installing-software-your-emulator,Installing software onto emulators,,Technology | resources (1)
+Technology,Retro Computing & Emulation,,The Macintosh Garden,https://macintoshgarden.org/,"An abandonware archive, dedicated in particular to supporting the Macintosh computer platform",,Technology | resources (1)
+Technology,Retro Computing & Emulation,,x86 Machine,http://copy.sh/v86/,X86 machine images with webassembly,,Technology | resources (1)
+Technology,Computer Science Reading,,Books for the Budding New Grad,https://mitpress.mit.edu/books-for-the-budding-new-grad-computer-science-and-technology/,Computer science and technology books,,Tech (1) | Technology
+Technology,Computer Science Reading,,CCRU,http://www.ccru.net/link.htm,Cybernetics Culture Research Unit,,Technology | resources (1) | www
+Technology,Computer Science Reading,,CHADNET,https://chadnet.org/,"Home of several projects, mainly the wiki (web directory, archive, compendium of knowledge), as well as some games and archives",,Tech (1) | Technology | resources (1) | www
+Technology,Computer Science Reading,,CITI,http://www.citi.umich.edu/projects/,Center for Information Technology Integration: Misc. tech information and resources,,Tech (1) | Technology
+Technology,Computer Science Reading,,Compression,https://www.compression.ru/index_en.htm,Everything about Compression,,Tech (1) | Technology
+Technology,Computer Science Reading,,Computational Structures,https://computationstructures.org/,"An introductory course about the design and implementation of digital systems, emphasizing structural principles common to a wide range of technologies",,Tech (1) | Technology
+Technology,Computer Science Reading,,Computer Programs,https://lukesmith.xyz/programs/,,,Archives
+Technology,Computer Science Reading,,Computer Utopias,https://chrisnovello.com/teaching/risd/computer-utopias/,teachings: computer utopia,,resources (1) | www
+Technology,Computer Science Reading,,Cybernetic Serendipity,https://archive.org/details/cybernetic-serendipity,The Computer and the arts,,Tech (1) | Technology | resources (1)
+Technology,Computer Science Reading,,Data Hoarding in the Modern Age,https://dhitma.neocities.org/,A Guide,,Archives | Tech (1) | Technology
+Technology,Computer Science Reading,,en.wikipedia.org/wiki/The_Mother_of_All_Demos,https://en.wikipedia.org/wiki/The_Mother_of_All_Demos,,,Archives
+Technology,Computer Science Reading,,Geek Girls,https://geekgirls.com/,Easy to understand computer tips,Web > Learn Web Development,Tech (1) | Technology | resources (1) | www
+Technology,Computer Science Reading,,Hello World Collection,http://helloworldcollection.de/,Over 600 Hello World Programs,,Tech (1) | Technology
+Technology,Computer Science Reading,,How to Design Programs,https://htdp.org/,Program design,,Tech (1) | Technology | resources (1)
+Technology,Computer Science Reading,,Making software,https://www.makingsoftware.co/,A reference manual for people who design and build software,Web > Learn Web Development,Tech (1) | Technology | resources (1) | www
+Technology,Computer Science Reading,,Mobile Phone History,http://mobilephonehistory.co.uk,Mobile Phone Museum,,Tech (1) | Technology
+Technology,Computer Science Reading,,Old Computers,https://oldcomputers.net/,Old Computer Museum,,Tech (1) | Technology
+Technology,Computer Science Reading,,Papers We Love,https://paperswelove.org/,Repository of academic computer science papers,,Tech (1)
+Technology,Computer Science Reading,,Refactoring Guru,https://refactoring.guru/design-patterns,All about design patterns for software design,Technology > Programming,Tech (1) | Technology
+Technology,Computer Science Reading,,Simply How,https://simply-how.com/,"Simplified Tech Tutorials, How-To Guides and Reviews",,Technology
+Technology,Computer Science Reading,,Text Editors,https://texteditors.org/cgi-bin/wiki.pl,Wiki on Text editors,Technology > Programming,Tech (1) | Technology
+Technology,Computer Science Reading,,The Architecture of Open Source Applications,https://aosabook.org/en/index.html,"authors of four dozen open source applications explain how their software is structured, and why",,Tech (1)
+Technology,Computer Science Reading,,The Cheapskate's Guide to Computers and the Internet,https://cheapskatesguide.org/,Cybernetics Culture Research Unit,,Tech (1) | Technology
+Technology,Computer Science Reading,,The Computer Crypt,https://www.ricomputermuseum.org/collections-gallery,Computer Museum,,Tech (1) | Technology
+Technology,Computer Science Reading,,The CSS saga,https://www.w3.org/Style/LieBos2e/history/,W3 CSS History,,Tech (1)
+Technology,Computer Science Reading,,The Techno-Galactic Guide to Software Observation,https://observatory.constantvzw.org/tgsoguide_1806051351.pdf,"Observation Methods from the Techno-Galactic Software Observatory (Brussels, June 2017)",,Tech (1) | Technology | resources (1)
+Technology,Blogs & Communities,Blogs & Essays,Andrew Karpathy,https://karpathy.ai/,Best ML/AI/Tech resource,,Archives
+Technology,Blogs & Communities,Blogs & Essays,"BASICA Zen or Real Men Program in ""C"" (PC Extracts at Davar Web Site)",http://davar.net/PC/EXTRACTS/BASICZEN.HTM,,,Archives
+Technology,Blogs & Communities,Blogs & Essays,Cacoveanu,https://blog.cacoveanu.com/,A blog about programming and the pleasure of figuring things out.,,Tech (1) | Technology
+Technology,Blogs & Communities,Blogs & Essays,ceesjhay.org,https://ceesjhay.org/,,,Archives
+Technology,Blogs & Communities,Blogs & Essays,classic computer collector called Terry Stewart,https://www.classic-computers.org.nz/,,,Archives
+Technology,Blogs & Communities,Blogs & Essays,construction-physics.com/p/how-to-build-a-20-billion,https://www.construction-physics.com/p/how-to-build-a-20-billion-semiconductor,,,Archives
+Technology,Blogs & Communities,Blogs & Essays,Contemporary Home Computing,https://contemporary-home-computing.org/,,,Archives
+Technology,Blogs & Communities,Blogs & Essays,Cybernews,https://cybernews.com/,Cybernews,,Tech (1)
+Technology,Blogs & Communities,Blogs & Essays,Davar Web Site,https://davar.net/,,,Archives
+Technology,Blogs & Communities,Blogs & Essays,eclecblog.live,https://eclecblog.live/,,,Archives
+Technology,Blogs & Communities,Blogs & Essays,FJGroups,https://vhosts.eecs.umich.edu/fjgroup/,Networking and Security Research Group,,Tech (1) | Technology
+Technology,Blogs & Communities,Blogs & Essays,Fourmilab,https://www.fourmilab.ch/,"A variety of documents, images, software for various machines, and interactive Web resources",,Tech (1) | Technology | resources (1) | www
+Technology,Blogs & Communities,Blogs & Essays,Game of Life Cellular Automation,https://writings.stephenwolfram.com/,,,Archives
+Technology,Blogs & Communities,Blogs & Essays,Gwern,https://gwern.net/,AI thoughts and writings;,,Archives
+Technology,Blogs & Communities,Blogs & Essays,Infrastructures,https://infrastructures.us/en/tools,Mutual Aid Tools,,Tech (1) | Technology | resources (1) | www
+Technology,Blogs & Communities,Blogs & Essays,Internet Blog,https://benjojo.co.uk/,,,Archives
+Technology,Blogs & Communities,Blogs & Essays,Links for Technology and Tech News,https://goughlui.com/interesting-links/,,,Archives
+Technology,Blogs & Communities,Blogs & Essays,Longevity FAQ,https://ldeming.com/longevityfaq,Longevity Research,,Archives
+Technology,Blogs & Communities,Blogs & Essays,Marginal Revolution,https://marginalrevolution.com/,AI Talks,,Archives
+Technology,Blogs & Communities,Blogs & Essays,Michael Nielsen,https://michaelnielsen.org/,Quantum Computing/ML/AI,,Archives
+Technology,Blogs & Communities,Blogs & Essays,Nintil,https://nintil.com/categories,Running Discussion,,Archives
+Technology,Blogs & Communities,Blogs & Essays,Rotterdam’s Internet Cafes,https://contemporary-home-computing.org/still-there/belhuizen.html,,,Archives
+Technology,Blogs & Communities,Blogs & Essays,Sounds and Signals,https://www.windytan.com/,,,Archives
+Technology,Blogs & Communities,Blogs & Essays,t.co,https://t.co/6cuZJSbbY8,,,Archives
+Technology,Blogs & Communities,Blogs & Essays,t.co,https://t.co/dEXOcOCJ5J,,,Archives
+Technology,Blogs & Communities,Blogs & Essays,taylor.town,https://taylor.town/,,,Archives
+Technology,Blogs & Communities,Blogs & Essays,Tech Essays,https://www.construction-physics.com/,,,Archives
+Technology,Blogs & Communities,Blogs & Essays,Tech essays and reflections,https://dynomight.net/,,,Archives
+Technology,Blogs & Communities,Blogs & Essays,TechARP,http://techarp.com/,occasionally handy guides and information about new technology.,,Archives
+Technology,Blogs & Communities,Blogs & Essays,Temple OS,https://www.palladiummag.com/2022/04/01/palladium-is-now-templeos/,,,Archives
+Technology,Blogs & Communities,Blogs & Essays,The Joys of the Craft (Programming Extracts at Davar Web Site),http://davar.net/PROGRAM/EXTRACTS/CRAFTJOY.HTM,,,Archives
+Technology,Blogs & Communities,Blogs & Essays,The Woes of the Craft (Programming Extracts at Davar Web Site),http://davar.net/PROGRAM/EXTRACTS/CRAFTWOE.HTM,,,Archives
+Technology,Blogs & Communities,Blogs & Essays,Uncreative Labs,https://uncreativelabs.net/,On old computers,,Tech (1) | Technology
+Technology,Blogs & Communities,Blogs & Essays,UsesThis,https://usesthis.com/,A collection of nerdy interviews asking people from all walks of life what they use to get the job done,Careers & Opportunities > Tech Careers,Tech (1) | Technology | resources (1)
+Technology,Blogs & Communities,Blogs & Essays,Virtually Fun,https://virtuallyfun.com/,Musings on old technology and virtualization,,Archives
+Technology,Blogs & Communities,Blogs & Essays,XanLee,http://xahlee.info/,Math and Programming,,Tech (1) | Technology
+Technology,Blogs & Communities,Blogs & Essays,Yale CS,https://www.cs.yale.edu/homes/perlis-alan/quotes.html,Epigrams in Programming,,Tech (1) | Technology
+Technology,Blogs & Communities,Forums,λ,https://legacy.arisuchan.jp/%CE%BB/,Programming board,,Tech (1)
+Technology,Blogs & Communities,Forums,Anandtech,http://www.anandtech.com/,Very thorough reviews and in depth looks at new technology,,Tech (1) | Technology
+Technology,Blogs & Communities,Forums,AnandTech,https://forums.anandtech.com/,Active tech forum,,Tech (1)
+Technology,Blogs & Communities,Forums,Arch Linux32,https://archlinux32.org/,Everything you need to know about ArchLinux,,Tech (1) | Technology
+Technology,Blogs & Communities,Forums,Arisuchan,https://legacy.arisuchan.jp/,,,Tech (1)
+Technology,Blogs & Communities,Forums,DistroWatch,https://distrowatch.com/,Go-to for anything OS related,,Tech (1) | Technology
+Technology,Blogs & Communities,Forums,/g,https://catalog.neet.tv/g/,Technology OG catalog,,Tech (1) | Technology
+Technology,Blogs & Communities,Forums,Hacker News,https://news.ycombinator.com/news,News focusing on computer science and entrepreneurship,,Security
+Technology,Blogs & Communities,Forums,Hard Forum,https://hardforum.com/,Hardware forum,,Tech (1) | Technology
+Technology,Blogs & Communities,Forums,Hardware Forums,http://www.hardwareforums.com/,General hardware forums,,Tech (1) | Technology
+Technology,Blogs & Communities,Forums,Howard Forums,http://howardforums.com,Mobile Phone Community,,Tech (1) | Technology
+Technology,Blogs & Communities,Forums,Lainchan,https://lainchan.org/Ω/,Technology Board,,Tech (1) | Technology
+Technology,Blogs & Communities,Forums,Legit Reviews,http://www.legitreviews.com/,Reviews of hardware,,Tech (1) | Technology
+Technology,Blogs & Communities,Forums,Lobsters,https://lobste.rs/,General tech discussion,,Tech (1) | Technology
+Technology,Blogs & Communities,Forums,Miladychan,https://boards.miladychan.org/ai/,AI Development & Content,,Tech (1)
+Technology,Blogs & Communities,Forums,Rip It Apart,https://ripitapart.wordpress.com/,"A mix of different random tech stuff including reviews, tests, software development, opinions and more",,Tech (1) | Technology
+Technology,Blogs & Communities,Forums,/ru/ - Киберпанк,https://legacy.arisuchan.jp/ru/,russian forum,,Tech (1)
+Technology,Blogs & Communities,Forums,Tech Arena Forums,http://forums.techarena.in/,Tech forums,,Tech (1) | Technology
+Technology,Blogs & Communities,Forums,ThinkPad Discussion,https://4chanarchives.com/board/g/thread/281340,ThinkPad General,,Tech (1) | Technology
+Technology,Blogs & Communities,Forums,Tom's Hardware,http://www.tomshardware.com/,OS forums etc.,,Tech (1) | Technology
+Web,History of the Web,,History of the Internet,https://www.youtube.com/watch?v=g-SL4ejpP94,History of the internet,,Technology | Videos
+Web,History of the Web,,The History of the Web,https://thehistoryoftheweb.com/,Comprehensive history of the web,,Technology | resources (1) | www
+Web,History of the Web,,W3 History,https://www.w3.org/History/1989/proposal-msw.html,"History of the web, from the source",,Technology | resources (1) | www
+Web,Learn Web Development,,Basic html and css for non-web designers,http://www.dontfeartheinternet.com/,Basic html and css for non-web designers,,Design Work | Tech (1) | Technology | resources (1) | www
+Web,Learn Web Development,,Brad Woods Digital Garden,https://garden.bradwoods.io/,Notes about web dev. creative coding,,resources (1) | www
+Web,Learn Web Development,,Can I Use,https://caniuse.com/,Browser support tables for modern web technologies,,resources (1) | www
+Web,Learn Web Development,,Can We,https://canwe.dev/,A collection of websites focused on browsers usage and features.,,resources (1) | www
+Web,Learn Web Development,,CSS Bed,http://www.cssbed.com/,Showcases a multitude of classless CSS frameworks. Just plug one into your <head> and your markup's completely styled. Excellent for small projects and sites,,Technology | resources (1) | www
+Web,Learn Web Development,,CSS Reference,https://cssreference.io/,A free visual guide to css,,resources (1) | www
+Web,Learn Web Development,,Frontend Checklist,https://frontendchecklist.io/,Complete reference for full frontend,,resources (1) | www
+Web,Learn Web Development,,"How 2 code (HTML, JS, CSS)",https://howtocode.club/,"How 2 code (HTML, JS, CSS)",,Design Work | Technology
+Web,Learn Web Development,,HTML Cheatsheet,https://htmlcheatsheet.com/,,,Tech (1)
+Web,Learn Web Development,,HTML Docs,https://developer.mozilla.org/en-US/docs/Web/HTML,HTML documentation / tutorial,,resources (1) | www
+Web,Learn Web Development,,HTML for People,https://htmlforpeople.com/,Good beginner-friendly HTML tutorial,,Tech (1) | resources (1) | www
+Web,Learn Web Development,,HTML Generator,https://html-css-js.com/html/generator/,,,Tech (1)
+Web,Learn Web Development,,HTML Layouts,https://neothemes.neocities.org/,Pre-defines layouts,,Tech (1)
+Web,Learn Web Development,,HTML Reference,https://htmlreference.io/,A freeguide to html,,resources (1) | www
+Web,Learn Web Development,,HTML Reference,https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements,HTML elements reference,Design > Design Tools,Tech (1) | resources (1) | www
+Web,Learn Web Development,,HTML/CSS,https://webguide.neocities.org/,A Beginner's Guide to HTML and CSS,,Tech (1)
+Web,Learn Web Development,,JavaScript,https://javascript.info/,The Modern JavaScript Tutorial,,Tech (1) | Technology | resources (1) | www
+Web,Learn Web Development,,KhanAcademy,https://www.khanacademy.org/computing/computer-programming/programming,JavaScript and the Web,,Tech (1) | Technology | resources (1) | www
+Web,Learn Web Development,,P5js,https://editor.p5js.org/,"JavaScript for web, online programming",,Technology | resources (1) | www
+Web,Learn Web Development,,SitePoint,https://www.sitepoint.com/,Books and courses on various programming topics,,Tech (1) | Technology | resources (1) | www
+Web,Learn Web Development,,three.js - examples,https://threejs.org/examples/#webgl_animation_keyframes,Examples of Animation with three.js,,Tech (1)
+Web,Learn Web Development,,Three.js Audio,https://threejs.org/docs/#api/en/audio/Audio,Tutorial on audio with Three.js,,Music Archive
+Web,Learn Web Development,,W3 SQL Tutorial,https://www.w3schools.com/sql/sql_intro.asp,Tutorial on SQL,,Tech (1) | Technology
+Web,Learn Web Development,,W3Schools,https://www.w3schools.com/,Anything web-based and HTML,,Tech (1) | Technology | resources (1) | www
+Web,Learn Web Development,,WebFlow,https://discourse.webflow.com/c/community/35,Community / discourse on WebFlow,,Tech (1) | Technology | resources (1) | www
+Web,Learn Web Development,,Website Templates,https://html.elliott.computer/,.elliott.computer/,,Design Work
+Web,Hosting & Publishing,,321 Webmaster,https://www.321webmaster.com/,Webmaster resource guide,,Technology | resources (1) | www
+Web,Hosting & Publishing,,Filezilla,https://filezilla-project.org/,Free FTP client – the one I used to get this website up and running!,,Technology | resources (1) | www
+Web,Hosting & Publishing,,Free Web Hosting,https://www.free-webhosts.com/webhosting-01.php,List of Web Hosts,,Technology | resources (1) | www
+Web,Hosting & Publishing,,Host Static Websites,https://tildepages.org/,Host Static Websites,Web > Learn Web Development,Design Work | Technology | resources (1) | www
+Web,Hosting & Publishing,,Land Chad,https://landchad.net/,"Simple guides on how to set up your own website, email server, or other online service",Web > Learn Web Development,Design Work | Technology | resources (1) | www
+Web,Hosting & Publishing,,Mess With DNS,https://messwithdns.net/,Mess with your DNS Config,Web > Learn Web Development,Design Work | Technology | resources (1) | www
+Web,Hosting & Publishing,,Public APIs,https://github.com/public-apis/public-apis,List of public APIs,Web > Learn Web Development,Technology | resources (1) | www
+Web,Hosting & Publishing,,The Site Wizard,https://www.thesitewizard.com/,WebWizard Guide to the web,,Technology | resources (1) | www
+Web,Hosting & Publishing,,tiiny.host,https://tiiny.host/,,,Archives
+Web,Hosting & Publishing,,Web APIs,https://developer.mozilla.org/en-US/docs/Web/API,A list of all the APIs and interfaces (object types) that you may be able to use while developing your Web app or site,Web > Learn Web Development,Technology | resources (1) | www
+Web,Indie & Small Web,,1 MB Club,https://1mb.club/,Sites under 1MB,,Technology | resources (1) | www
+Web,Indie & Small Web,,1k Club,https://1kb.club/,Sites under 1k,,Technology | resources (1) | www
+Web,Indie & Small Web,,250 KB Club,https://250kb.club/,Sites under 250KB,,Technology | resources (1) | www
+Web,Indie & Small Web,,512 KB Club,https://512kb.club/,Sites under 512KB,,Technology | resources (1) | www
+Web,Indie & Small Web,,Dead Simple Sites (DSS),https://deadsimplesites.com/,Collection of simple websites,,Design Work | Technology | resources (1) | www
+Web,Indie & Small Web,,Digital Gardeners,https://github.com/MaggieAppleton/digital-gardeners?tab=readme-ov-file,Bunch-a-sites,,resources (1) | www
+Web,Indie & Small Web,,End Of the Internet,https://hmpg.net/,The End!,,resources (1) | www
+Web,Indie & Small Web,,Geocities,https://blog.geocities.institute/,Digging through Geocities Torrent,,Technology | resources (1) | www
+Web,Indie & Small Web,,Geocities,https://www.oocities.org/#gsc.tab=0,Largest Geocities Archive,,Technology | resources (1) | www
+Web,Indie & Small Web,,Moonjump,https://moonjump.app/,jump through random pages,,Technology | resources (1) | www
+Web,Indie & Small Web,,Neocities,https://neocities.org/,Create your own free website,,Technology | resources (1) | www
+Web,Indie & Small Web,,Neocities Websites,https://neocities.org/browse,Browse Neocities Websites,Design > Website Inspiration,Design Work | Technology | resources (1) | www
+Web,Indie & Small Web,,One Terabyte of Kilobyte Age,https://blog.geocities.institute/about,,,Archives
+Web,Indie & Small Web,,One Terabyte of Kilobyte Age,http://oneterabyteofkilobyteage.tumblr.com,oneterabyteofkilobyteage.tumblr.com,Design > Website Inspiration,Design Work | Technology | resources (1) | www
+Web,Indie & Small Web,,Pretty website :),https://aliceinavocadoland.neocities.org/,yes,,resources (1) | www
+Web,Indie & Small Web,,Prof Dr :),https://contemporary-home-computing.org/prof-dr-style/,Prof Dr Sites,,resources (1) | www
+Web,Indie & Small Web,,Publish 4 the web,https://www.are.na/kristoffer-tjalve/publish-for-the-web,Bunch-a-sites,,resources (1) | www
+Web,Indie & Small Web,,The Webring,https://webring.xxiivv.com/,List of members from the XXIIVV webring,,Archives | Technology | resources (1) | www
+Web,Indie & Small Web,,The Whimsical Web,https://whimsical.club/,List of fun creative sites,,resources (1) | www
+Web,Indie & Small Web,,Tiny Awards,https://tinyawards.net/,Awards for handmade websites,,resources (1) | www
+Web,Indie & Small Web,,USB Club,https://usb.club/,,,resources (1) | www
+Web,Search & Discovery,Alternative Search Engines,4get,https://4get.ca/,An open-source metasearch engine for your privacy.,,General | resources (1)
+Web,Search & Discovery,Alternative Search Engines,All in One Search,https://all-io.net/,All major search engines in one,,General | resources (1)
+Web,Search & Discovery,Alternative Search Engines,Big List of Specialized Search Engines,https://medium.com/@internetmoneyjournal/specializedsearchengines-d869c81b1be1,Comprehensive directory,,General | resources (1)
+Web,Search & Discovery,Alternative Search Engines,Curlie,https://curlie.org/,Search Websites / source for any topic,,General | resources (1)
+Web,Search & Discovery,Alternative Search Engines,Kagi Search,https://kagi.com/,"No ads, no tracking, no third parties",,Design Work | General | resources (1)
+Web,Search & Discovery,Alternative Search Engines,LumpySoft,https://lumpysoft.com/,Google Index Search (find files),,General | resources (1)
+Web,Search & Discovery,Alternative Search Engines,Marginalia Search,https://marginalia-search.com/,"An independent DIY search engine that focuses on non-commercial content, and attempts to show you sites you perhaps weren't aware of.",,Design Work | General | resources (1)
+Web,Search & Discovery,Alternative Search Engines,See random sites,https://wiby.me/,Search through / find old websites,,Design Work | General | Technology | resources (1) | www
+Web,Search & Discovery,Alternative Search Engines,Shodan,https://www.shodan.io/,Search engine for internet-connected devices,,General | resources (1)
+Web,Search & Discovery,Alternative Search Engines,Start Page,https://www.startpage.com/,Private Search Engine,,General | resources (1)
+Web,Search & Discovery,Search by Media Type,Brave,https://search.brave.com/,Private alternative,,resources (1)
+Web,Search & Discovery,Search by Media Type,DuckDuckGo,https://duckduckgo.com/,Internet Privacy,,resources (1)
+Web,Search & Discovery,Search by Media Type,Gophie,https://gophie.org/,Open-source Gopher browser,,General | resources (1)
+Web,Search & Discovery,Search by Media Type,Marginalia Search,https://search.marginalia.nu/,a search engine favouring text-heavy websites,,resources (1)
+Web,Search & Discovery,Search by Media Type,Mojeek,https://www.mojeek.com/,no tracking,,resources (1)
+Web,Search & Discovery,Search by Media Type,Musgle,http://musgle.com/,"Google for music, search music files",,General | resources (1)
+Web,Search & Discovery,Search by Media Type,Mwmbl,https://mwmbl.org/,Open Source Web Search Engine,,resources (1)
+Web,Search & Discovery,Search by Media Type,RFC Editor,https://www.rfc-editor.org/,Contains technical and organizational documents about the Internet,,General | resources (1)
+Web,Search & Discovery,Search by Media Type,Search My Site,https://searchmysite.net/,"Search through personal sites, blogs, and the small web",,General | resources (1)
+Web,Search & Discovery,Search by Media Type,SearXNG,https://github.com/searxng/searxng,open source meta search engine,,resources (1)
+Web,Search & Discovery,Search by Media Type,Stract,https://stract.com/,"an open source, private search engine with a focus on privacy and customizability",,resources (1)
+Web,Search & Discovery,Search by Media Type,TinyEye,https://tineye.com/,"Reverse Image Search, Search by image and find where else it appears online. Sort images by size, appearance date, etc.",,General | resources (1)
+Web,Search & Discovery,Search by Media Type,YaCy,https://yacy.net/,open source distributed search engine,,resources (1)
+Design,Inspiration & Galleries,,50 Watts,https://50watts.com/,"International book designs, illustrations, and covers",,General | resources (1)
+Design,Inspiration & Galleries,,Alt Museum,https://afterneworder.com/altmuseum/about.html,Texts of Open Access artworks from around the world,,General | resources (1)
+Design,Inspiration & Galleries,,Artists' Books at MassArt,https://blogs.massart.edu/artistsbooks/,Book layout design,,General | resources (1)
+Design,Inspiration & Galleries,,ASCII Art,https://asciiart.website/,ASCII Collection,,General | resources (1)
+Design,Inspiration & Galleries,,ASCII Gallery,https://ascii.co.uk/,The place for all things textual.,,resources (1)
+Design,Inspiration & Galleries,,CommArts - Design Gallery,https://www.commarts.com/gallery?d=design,Design gallery,,Design Work | General | resources (1)
+Design,Inspiration & Galleries,,Cover Junkie,https://coverjunkie.com/,coverjunkie.com,Archives & Collections > Curated Collections,Design Work | General | resources (1)
+Design,Inspiration & Galleries,,Japanese Images,https://www.irasutoya.com/,Cute japanese cartoons,,resources (1)
+Design,Inspiration & Galleries,,Kaleidoscope,https://kaleidoscope.hryjksn.com/,Kaleidoscope schemes from around the WWW,,General | resources (1)
+Design,Inspiration & Galleries,,Kaomoji Library,https://emojidb.org/kaomoji-emojis,Library of Kaomojis,,General | resources (1)
+Design,Inspiration & Galleries,,Logo Archive,https://archive.org/details/bitsavers_unitedTechngineersMasterVol2_242068752/page/n397/mode/2up?view=theater,Archive of logo’s,,General | resources (1)
+Design,Inspiration & Galleries,,Packaging,https://www.flickr.com/photos/13166455@N05/albums/72157608888976602/with/3022967918,Collection of various packaging,,Design Work | General | resources (1)
+Design,Inspiration & Galleries,,PC Fonts,https://int10h.org/oldschool-pc-fonts/fontlist/,Oldschool PC fonts,,General | resources (1)
+Design,Inspiration & Galleries,,Pose Maniacs,https://www.posemaniacs.com/,Human body poses (anatomy),,General | resources (1)
+Design,Inspiration & Galleries,,Texas Instrument Covers,https://archive.org/details/tibooks,Archive of TI covers,,General | resources (1)
+Design,Inspiration & Galleries,,THA LTD,https://tha.jp/works,Design Gallery,,Design Work | General | resources (1)
+Design,Inspiration & Galleries,,TM Research Archive,http://www.tm-research-archive.ch/,Interesting designs and covers,Archives & Collections > Curated Collections,Design Work | General | resources (1)
+Design,Inspiration & Galleries,,Tralfaz,https://tralfaz-archives.com/coverart/coverart.html,Album Cover Art Gallery,,General | resources (1)
+Design,Website Inspiration,,404 Page Found,https://www.404pagefound.com/,Web 1.0 collection,,Archives | Technology | resources (1) | www
+Design,Website Inspiration,,Brutal HTML Collection of Brutalist websites,https://brutalist.design/,brutalist.design,,Design Work | Technology
+Design,Website Inspiration,,Brutalist Websites,https://brutalistwebsites.com/,Collection of Brutalist websites,,resources (1) | www
+Design,Website Inspiration,,Diagram Spreadsheet,https://docs.google.com/spreadsheets/d/1y5AMSi3Q7JuyNmghJSBV6GhEBLAsdCfKTRoWzrc-8xE/,Huge collection of internet explorations,,Technology | resources (1) | www
+Design,Website Inspiration,,Diagram Website,https://diagram.website/,Huge collection of internet explorations,,Technology | resources (1) | www
+Design,Website Inspiration,,Free Website Templates,https://freewebsitetemplates.com/,Get some ready to use/sample templates,,Design Work | Technology | resources (1) | www
+Design,Website Inspiration,,HTML Review,https://thehtml.review/archive,Archive of HTML award winners. Good for finding inspo.,,Tech (1) | resources (1) | www
+Design,Website Inspiration,,Old Flash Websites,https://www.webdesignmuseum.org/flash-websites,webdesignmuseum.org/flash-websites,,Design Work | Technology | resources (1) | www
+Design,Website Inspiration,,Open Source Web Design,https://www.oswd.org/,Standards-compliant HTML and CSS for your projects,,OpenSource & FreeWare | Technology | resources (1) | www
+Design,Website Inspiration,,Site Inspire,https://www.siteinspire.com/websites,Browse design websites,,Technology | resources (1) | www
+Design,Website Inspiration,,Startpages,https://startpages.github.io/,A curated listing of beautiful and interesting Startpages from around the web,,Design Work | Technology | resources (1) | www
+Design,Website Inspiration,,thehtml.review/04,https://thehtml.review/04/,,,Archives
+Design,Colour,,ColorCodes,https://colorcodes.io/,Get colour codes,,Technology | resources (1) | www
+Design,Colour,,Colour Palette Generator,https://huemint.com/,Generate colour schemes,Design > Design Tools,Design Work | Technology | resources (1) | www
+Design,Colour,,Colour Scheme,http://colormind.io/,colormind.io/,Design > Design Tools,Design Work | Technology
+Design,Colour,,CSS Button (random gen),https://buttonbrew.vercel.app/,Randomly generate CSS button,Design > Design Tools | Web > Learn Web Development,Design Work | Technology
+Design,Colour,,Duo colour combinations,https://duo.alexpate.com/?ref=designresourc.es,,,Technology
+Design,Colour,,Handwriting into Font,https://www.calligraphr.com/en/,,,Technology
+Design,Colour,,Nippon Colors,https://nipponcolors.com/,Beautiful CSS showcare,,Technology | resources (1) | www
+Design,Colour,,Paletton,https://paletton.com,Colour wheel colour scheme,,Technology
+Design,Colour,,Web Gradients,https://webgradients.com/,Colour wheel scheme,,Technology | resources (1) | www
+Design,Typography,,Collletttivo Typefaces,https://www.collletttivo.it/typefaces,www.collletttivo.it/typefaces,,Design Work | Technology | resources (1) | www
+Design,Typography,,Fonts in Use,https://fontsinuse.com/,Independent archive of typography,,Technology | resources (1) | www
+Design,Typography,,FontShare,https://www.fontshare.com/,Free font service,,Design Work | Technology | resources (1) | www
+Design,Typography,,Free Font Library,https://fontlibrary.org/,Bunch of free fonts,,resources (1) | www
+Design,Typography,,Free Font Library,https://typotheque.luuse.fun/,typotheque.luuse.fun,,Design Work | Technology
+Design,Typography,,Open source fonts,https://www.are.na/john-cassidy/high-quality-open-source-fonts,are.na/john-cassidy/high-quality-open-source-fonts,,Design Work | Technology | resources (1) | www
+Design,Typography,,So You Need a Typeface,https://ianli.github.io/so-you-need-a-typeface/#_newspaper,Interactive typeface selector,,Technology | resources (1) | www
+Design,Typography,,TypeBy,https://www.typeby.com/,Typeface collection,,Technology
+Design,Typography,,Typographers and Foundries,http://linkli.st/graphicdesign/3igjH,linkli.st/graphicdesign/3igjH,Design > Design Tools,Design Work | Technology
+Design,"Graphics, Textures & 3D",,3D textures,https://3dtextures.me/category/fabric/,3dtextures.me/category/fabric,,Design Work | Technology | resources (1) | www
+Design,"Graphics, Textures & 3D",,3DL - Threedle,https://3dl.cs.uchicago.edu/,Computer graphics,,resources (1) | www
+Design,"Graphics, Textures & 3D",,Free 3D,http://free3d.com,Free 3D textures,,Design Work | Technology | resources (1) | www
+Design,"Graphics, Textures & 3D",,GuidebookGallery,https://guidebookgallery.org/icons/components,Icons from Various Interfaces,,Technology
+Design,"Graphics, Textures & 3D",,ISF,https://editor.isf.video/,Interactive shaders,,Technology | resources (1) | www
+Design,"Graphics, Textures & 3D",,ShaderFrog,https://shaderfrog.com/app,Some shader stuff,,Technology
+Design,"Graphics, Textures & 3D",,Shadertoy,https://www.shadertoy.com/,Build and Share Shaders,Design > Learning Design,Technology | resources (1) | www
+Design,"Graphics, Textures & 3D",,Shadertoy Tutorial,https://inspirnathan.com/posts/47-shadertoy-tutorial-part-1,inspirnathan.com/posts/47-shadertoy-tutorial-part-1,Design > Learning Design,Design Work | Technology | resources (1) | www
+Design,"Graphics, Textures & 3D",,Svg shapes,https://www.svgshapes.in/,svgshapes.in,,Design Work | Technology
+Design,"Graphics, Textures & 3D",,System Uicons,https://www.systemuicons.com/,systemuicons.com,,Design Work | Technology | resources (1) | www
+Design,"Graphics, Textures & 3D",,Texture Station,https://thejang.com/textures/,Textures,,Technology | resources (1) | www
+Design,"Graphics, Textures & 3D",,Textures,https://www.are.na/xixi-chen/textures-1511227075,are.na/xixi-chen/textures-1511227075,,Design Work
+Design,Design Tools,,ASCII Art Creator,https://asciiart.club/,Create ASCII art,,General | resources (1)
+Design,Design Tools,,ASCII Art Generator,https://www.ascii-art-generator.org/,Generate ASCII art,,General | resources (1)
+Design,Design Tools,,CollectUI,https://collectui.com/?ref=flatuicolors&page=3,UI Designs,,resources (1) | www
+Design,Design Tools,,Diagrams,https://app.diagrams.net/,Drawing / diagram tool,,Technology | resources (1) | www
+Design,Design Tools,,Everywhere Tools,https://everywhere.tools/,Collection of open-source tools for designers & creatives,Design > Resource Collections | Software & Tools > Open Source Software,Design Work | OpenSource & FreeWare | Technology | resources (1) | www
+Design,Design Tools,,EZ Gif,https://ezgif.com/,Gif maker and image editor,,Technology | resources (1) | www
+Design,Design Tools,,Fontello,https://fontello.com/,Icon Fonts Generator,,resources (1) | www
+Design,Design Tools,,Frame Maker,http://www.bagism.com/frameshop/,bagism.com/frameshop/,,Design Work | Technology | resources (1) | www
+Design,Design Tools,,Free Customizable Templates,https://templatewire.com/,Free Customizable Templates,Web > Learn Web Development,Design Work | Technology | resources (1) | www
+Design,Design Tools,,Get thumbnail of any youtube video,http://www.get-youtube-thumbnail.com/,Get thumbnail of any youtube video,,Design Work | Technology | resources (1) | www
+Design,Design Tools,,Image and Video Sizes for Social Media,https://socialsizes.io/,Image and Video Sizes for Social Media,,Design Work | Technology | resources (1) | www
+Design,Design Tools,,ImageOps,https://imgops.com/,Image operations meta-tool,,Technology | resources (1) | www
+Design,Design Tools,,NPS Image Editor,http://nps.nookkin.com/,Microsoft Paint Alternative,,Technology
+Design,Design Tools,,Remove Background,https://www.remove.bg/,"Good tool, make transparent png’s",,Technology | resources (1) | www
+Design,Design Tools,,Table Maker,http://www.bagism.com/tablemaker/,bagism.com/tablemaker/,,Design Work | Technology | resources (1) | www
+Design,Design Tools,,TorchSoft,http://torchsoft.com/,Home of ASCII Art Studio,,General | resources (1)
+Design,Design Tools,,Trimage,https://trimage.org/,Optimize image files for web,Software & Tools > File Conversion | Software & Tools > Open Source Alternatives,OpenSource & FreeWare | Technology | resources (1) | www
+Design,Design Tools,,Vector halftone maker,https://halftone.xoihazard.com/,halftone.xoihazard.com/,,Design Work | General | resources (1)
+Design,Stock Images & Public Domain,,Animal Pictures Archive,http://animal.memozee.com/,Free animal pictures,,OpenSource & FreeWare | resources (1)
+Design,Stock Images & Public Domain,,Free PNG Logos,https://www.freepnglogos.com/,Search free stock images and PNGs,,OpenSource & FreeWare | Technology | resources (1) | www
+Design,Stock Images & Public Domain,,Modem Studio,https://img.modem.studio/,Collection of copyright free images,,Design Work | OpenSource & FreeWare | resources (1)
+Design,Stock Images & Public Domain,,People Images,https://www.freepnglogos.com/pics/people,freepnglogos.com/pics/people,,Design Work | OpenSource & FreeWare | resources (1)
+Design,Stock Images & Public Domain,,Photo Public Domain,https://www.photopublicdomain.com/,Public Domain Images,,resources (1) | www
+Design,Stock Images & Public Domain,,PikWizard,https://pikwizard.com/,Stock Photos,,OpenSource & FreeWare | resources (1)
+Design,Stock Images & Public Domain,,Public Domain Image Archive,https://pdimagearchive.org/search/?q=horse,pdimagearchive.org/search/?q=horse,,Design Work | OpenSource & FreeWare | resources (1)
+Design,Stock Images & Public Domain,,Public Domain Pictures,https://www.publicdomainpictures.net/en/,Free Images,,resources (1) | www
+Design,Stock Images & Public Domain,,Public Domain Textures,https://publicdomaintextures.com/nature-2/,publicdomaintextures.com/nature-2,,Design Work | Technology
+Design,Stock Images & Public Domain,,Public Domain Textures,https://www.photopublicdomain.com/textures,Free textures,,resources (1) | www
+Design,Stock Images & Public Domain,,Stock Photos,https://stocksnap.io/,stocksnap.io,,Design Work | OpenSource & FreeWare | resources (1)
+Design,Learning Design,,3D modelers,http://xahlee.org/sl/blender/3d_modelers.html,Blender Tutorial,,Technology | resources (1) | www
+Design,Learning Design,,3D Modelling,https://snelting.domainepublic.net/modelling/girlsandcars.pdf,snelting.domainepublic.net/modelling/girlsandcars.pdf,"Design > Graphics, Textures & 3D | Technology > Computer Science Reading",Design Work | Technology | resources (1)
+Design,Learning Design,,Art of Computer Designing,https://archive.org/details/satoArtOfComputerDesigning,The art of computer design,Technology > Computer Science Reading,Technology | resources (1)
+Design,Learning Design,,Design Guide,https://hihayk.github.io/unit/,General Design Guide,,Technology | resources (1) | www
+Design,Learning Design,,GuidebookGallery,https://guidebookgallery.org/,Graphical User Interface Gallery,,resources (1) | www
+Design,Learning Design,,Intercom,https://www.intercom.com/blog/category/product-and-design/,Posts about products and design,,Tech (1) | Technology | resources (1) | www
+Design,Learning Design,,Intercom Blog,https://www.intercom.com/blog/category/ai-ml/,AI & Automation,,Tech (1)
+Design,Learning Design,,intercom.com/blog,https://www.intercom.com/blog/,,,Tech (1)
+Design,Learning Design,,Learn Adobe,http://helpx.adobe.com/support.html?promoid=KTVIN#/top_products,Tutorials to learn Adobe,,Design Work | Technology | resources (1) | www
+Design,Learning Design,,Learn Design Pilot - Figma,https://www.figma.com/resources/learn-design/#lessons,,,Design Work
+Design,Learning Design,,Macintosh Garden,https://macintoshgarden.org/apps/visual-arts-graphics/3d-rendering-cad,3D Rendering & CAD,,Technology
+Design,Learning Design,,medium.com/google-design/faq-tips-and-tools-for-gett,https://medium.com/google-design/faq-tips-and-tools-for-getting-started-in-user-experience-design-aka-ux-f46406729d4d,Tips and Tools for Getting Started in User Experience Design,,Design Work
+Design,Learning Design,,Practical Typography,https://practicaltypography.com/,Everything Typography,,Technology | resources (1) | www
+Design,Learning Design,,Tim Rodenbroeker - Creative Coding / Design Resources,https://timrodenbroeker.de/resources/,Coding / Web Design Form / Community,,Design Work | Tech (1) | Technology | resources (1) | www
+Design,Learning Design,,Usability Testing 101,https://www.nngroup.com/articles/usability-testing-101/,,,Design Work
+Design,Learning Design,,UX Collective,https://uxdesign.cc/,Medium articles on design,,Tech (1) | Technology | resources (1) | www
+Design,Learning Design,,Web Accessibility,https://webaim.org/,Resources for an accessible web,,resources (1) | www
+Design,Learning Design,,Web Semantics,https://mikemai.net/blog/2022/12/04/24-semantic-terms-web-pros-should-know.html,Semantic terms web pros should know,Web > Learn Web Development,Technology | resources (1) | www
+Design,Resource Collections,,Area17,https://guides.area17.com/design-techniques/,Design Techniques,,Technology | resources (1) | www
+Design,Resource Collections,,B8ta Style Guide,https://zeroheight.com/6668137f2/p/820f27-b8ta-styleguide,Retail Design Guide,,Technology
+Design,Resource Collections,,Carbon Design System (IBM),https://carbondesignsystem.com/,Open Source Design System,,Design Work | OpenSource & FreeWare | resources (1)
+Design,Resource Collections,,Component.gallery - (Design) Component Gallery,https://component.gallery/,"An up-to-date repository of interface components based on examples from the world of design systems, designed to be a reference for anyone building user interfaces",Design > Design Tools,Design Work | Technology | resources (1) | www
+Design,Resource Collections,,Design Checklist,https://www.checklist.design/,Collection of best design practices,,Technology | resources (1) | www
+Design,Resource Collections,,Design Manifestos,https://designmanifestos.org/,Collection of Design Manifestos,Design > Learning Design,Technology | resources (1) | www
+Design,Resource Collections,,Design Systems,https://www.designsystems.com/,,,Design Work
+Design,Resource Collections,,FreeSourc.es - Free Resources on the Web,http://freesourc.es,Free Resources on the Web,Software & Tools > Open Source Software | Web > Learn Web Development,Design Work | OpenSource & FreeWare | Technology | resources (1) | www
+Design,Resource Collections,,PixelBudha,https://pixelbuddha.net/all,Design Resources Board,,Tech (1) | Technology
+Design,Resource Collections,,Readings on design,https://readings.design/,Readings on design,Archives & Collections > Curated Collections,Design Work | Technology | resources (1) | www
+Design,Resource Collections,,UX Library,https://www.uxlibrary.org/,,,Design Work
+Careers & Opportunities,Tech Careers,Interview Prep,Coding Interview University,https://github.com/jwasham/coding-interview-university,A step by step guide to becoming a software engineer,,Technology | resources (1)
+Careers & Opportunities,Tech Careers,Interview Prep,Deep-ML,https://www.deep-ml.com/,Practice machine learning and data science problems,,Technology | resources (1)
+Careers & Opportunities,Tech Careers,Interview Prep,GeeksForGeeks,https://www.geeksforgeeks.org/machine-learning/machine-learning-interview-questions/,Machine Learning Interview Questions,,Technology | resources (1)
+Careers & Opportunities,Tech Careers,Interview Prep,github.com/Tanu-N-Prabhu/Python/blob/master/Python%2,https://github.com/Tanu-N-Prabhu/Python/blob/master/Python%20Coding%20Interview%20Prep/Python%20Coding%20Interview%20Questions%20(Beginner%20to%20Advanced,,,Technology
+Careers & Opportunities,Tech Careers,Interview Prep,Grind75,https://www.techinterviewhandbook.org/grind75/,LeetCode study plans,,Technology | resources (1)
+Careers & Opportunities,Tech Careers,Interview Prep,Machine Learning Basics,https://towardsdatascience.com/machine-learning-basics-i-look-for-in-data-scientist-interviews-a6ff25be38c9/,Machine learning basics to look for in data scientist interviews,,Technology | resources (1)
+Careers & Opportunities,Tech Careers,Interview Prep,OA and Interviews,https://github.com/Leader-board/OA-and-Interviews/tree/main,Former interview discussions,,Technology | resources (1)
+Careers & Opportunities,Tech Careers,Interview Prep,Python Interview Prep,https://github.com/Tanu-N-Prabhu/Python/blob/master/Python%20Coding%20Interview%20Prep/,20 Coding interview exercises,,resources (1)
+Careers & Opportunities,Tech Careers,Interview Prep,QuantNet,https://quantnet.com/threads/study-programme-for-quant-researcher-interviews.50152/,Study program for quant researcher interviews,,Technology | resources (1)
+Careers & Opportunities,Tech Careers,Interview Prep,Study Algorithms,https://studyalgorithms.com/,Algorithms Study,,Technology | resources (1)
+Careers & Opportunities,Tech Careers,Interview Prep,Tech Interview Handbook,https://www.techinterviewhandbook.org/coding-interview-rubrics/,Coding interview rubrics,,Technology | resources (1)
+Careers & Opportunities,Tech Careers,Job Boards,ComputerJobs,https://www.computerjobs.com/us/en/IT-Jobs/,IT Jobs,,Technology | resources (1)
+Careers & Opportunities,Tech Careers,Job Boards,ComputerWork,https://www.computerwork.com/us/en/IT-Jobs/,IT Jobs,,Technology | resources (1)
+Careers & Opportunities,Tech Careers,Job Boards,CyberCoders,https://www.cybercoders.com/,Search jobs and Career Advice,,Technology | resources (1)
+Careers & Opportunities,Tech Careers,Job Boards,Linux jobs,https://www.hotlinuxjobs.com/,Jobs in Linux,,Technology | resources (1)
+Careers & Opportunities,Tech Careers,Job Boards,Python jobs,https://www.python.org/jobs/,Jobs in Python,,Technology | resources (1)
+Careers & Opportunities,Tech Careers,Job Boards,Tech and Bio-Science,https://www.8vc.com/,Job board,,Technology | resources (1)
+Careers & Opportunities,Tech Careers,Job Boards,TrueUp,https://www.trueup.io/jobs,Startup/tech job search,,Technology | resources (1)
+Careers & Opportunities,Design Careers,Job Boards,AIGA,http://designjobs.aiga.org/,Aigna Design Jobs - like listings,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Job Boards,Behance,https://www.behance.net/joblist,Creative jobs: freelance and full-tim,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Job Boards,behance.net,https://www.behance.net,,,Archives
+Careers & Opportunities,Design Careers,Job Boards,behance.net,https://www.behance.net/onboarding,,,Archives
+Careers & Opportunities,Design Careers,Job Boards,Continuously Updated Job Openings,https://www.are.na/mindy-seu/job-openings,www.are.na/mindy-seu/job-openings,Careers & Opportunities > General Job Boards | Learning & Life > Everyday Life,Archives | Design Work | DesignCareers | Technology | resources (1) | www
+Careers & Opportunities,Design Careers,Job Boards,Core 77,http://www.core77.com/Jobs,General design listings and creative opportunities,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Job Boards,Creative Commissions,https://creative-commission.com/,creative-commission.com/,Careers & Opportunities > Design Careers,Design Work | DesignCareers | Technology | resources (1) | www
+Careers & Opportunities,Design Careers,Job Boards,Design Jobs Board,http://www.designjobsboard.com/,Job board for design jobs,,Design Work | DesignCareers | Technology | resources (1) | www
+Careers & Opportunities,Design Careers,Job Boards,DesignX,https://designx.community/jobs,,,Design Work
+Careers & Opportunities,Design Careers,Job Boards,Dribbble,https://dribbble.com/jobs,General graphic design listings,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Job Boards,Layers,https://layers.to/jobs,layers.to/jobs,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Job Boards,New York Foundation for the Arts,https://www.nyfa.org/Jobs,NYFA Job Listings,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Job Boards,NYC Fairly Paid Internships,https://payinterns.nyc/,payinterns.nyc/,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Job Boards,Remote Design Jobs,https://www.remote-design-jobs.com/,www.remote-design-jobs.com/,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Job Boards,We The Makers,https://www.wethemakers.club/,Curated design jobs,,Design Work
+Careers & Opportunities,Design Careers,Job Boards,We Work Remotely,https://weworkremotely.com/categories/remote-design-jobs#job-listings,Remote design jobs,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Job Boards,WellFound,https://wellfound.com/role/l/designer/united-states,wellfound.com/role/l/designer/united-states,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Job Boards,Working Nomads,https://www.workingnomads.com/remote-design-jobs,www.workingnomads.com/remote-design-jobs,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Job Boards,Working Not Working,https://workingnotworking.com/unjobboard,Working Nomads,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Freelance,UpWork,https://www.upwork.com/cat/design-creative,Design-specific freelance,,Design Work
+Careers & Opportunities,Design Careers,Networking,Designer Slack Communities,https://www.designerslack.community/,Explore and join design communities (public and private),,Design Work
+Careers & Opportunities,Design Careers,Networking,Designers Guild,https://www.facebook.com/groups/designguild/,,,Design Work
+Careers & Opportunities,Design Careers,Networking,Microcopy and UX Writing,https://www.facebook.com/groups/microcopy,,,Design Work
+Careers & Opportunities,Design Careers,Networking,r/userexperience,https://www.reddit.com/r/userexperience/,,,Design Work
+Careers & Opportunities,Design Careers,Networking,r/userexperiencedesign,https://www.reddit.com/r/UserExperienceDesign/,,,Design Work
+Careers & Opportunities,Design Careers,Networking,r/uxwriting,https://www.reddit.com/r/uxwriting/,,,Design Work
+Careers & Opportunities,Design Careers,Networking,"User experience (UX) design, Product Design, Service Design",https://www.linkedin.com/groups/1875717/,,,Design Work
+Careers & Opportunities,Design Careers,Networking,UX / HCI Researchers,https://www.linkedin.com/groups/126114/,,,Design Work
+Careers & Opportunities,Design Careers,Networking,UX Coffee Hours,https://storage.googleapis.com/uxcoffeehours.com/site/index.html,Find professionals to chat with.,,Design Work
+Careers & Opportunities,Design Careers,Networking,UX Writing Professionals,https://www.linkedin.com/groups/12411233/,,,Design Work
+Careers & Opportunities,Design Careers,Networking,UXBeginner,http://facebook.com/groups/uxbeginner,,,Design Work
+Careers & Opportunities,Design Careers,Networking,UXPA - User Experience Professionals Association,https://www.facebook.com/groups/404691612915081/,,,Design Work
+Careers & Opportunities,Design Careers,Small Studios,29 NYC,https://www.xxix.co/,,Careers & Opportunities > Design Careers,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Small Studios,Alright Studio,http://alright.studio/,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Small Studios,are.na/carly-ayres/studios-agencies-hmeelvkozg8,https://www.are.na/carly-ayres/studios-agencies-hmeelvkozg8,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Small Studios,are.na/harry-gassel/studios-1z9zayxg0xi,https://www.are.na/harry-gassel/studios-1z9zayxg0xi,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Small Studios,Area 17,https://area17.com,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Small Studios,Aruliden,https://aruliden.com/work/,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Small Studios,Athletics NYC,http://athleticsnyc.com/,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Small Studios,Avec,http://www.avec.us/,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Small Studios,Base Design,http://basedesign.com,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Small Studios,Channel Studio,https://channel.studio/careers,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Small Studios,Chermayeff & Geismar & Haviv,http://www.cghnyc.com,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Small Studios,Chips,http://chips.nyc/info/,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Small Studios,Collected Works,http://thecollectedworks.com/,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Small Studios,Common Name,http://common-name.com/index/,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Small Studios,Datalands,https://datalands.co/,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Small Studios,Decade,http://www.decadenewyork.com/,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Small Studios,DIA,http://dia.tv,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Small Studios,Everything Studio,http://www.everythingstudio.com/,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Small Studios,Everything Type Company,http://etc-nyc.com/,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Small Studios,For Office Use Only,https://forofficeuseonly.com/,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Small Studios,Franklyn,http://quitefranklyn.com/,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Small Studios,Gander,http://www.takeagander.com/,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Small Studios,High Tide,http://hightidenyc.com/,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Small Studios,Human,http://www.human-nyc.com/,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Small Studios,Hyperhyper,http://hyperhyper.com/,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Small Studios,L+L,http://www.landl.us/,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Small Studios,Linked by Air,http://www.linkedbyair.net/,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Small Studios,Local Projects,http://localprojects.net/about/,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Small Studios,Lotta Nieminen,http://www.lottanieminen.com/,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Small Studios,m ss ng p eces,https://mssngpeces.com/contact/,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Small Studios,Milkshake Studio,https://milkshake.studio/,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Small Studios,Morcos Key,https://morcoskey.com/,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Small Studios,mschf,https://mschf.xyz,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Small Studios,MTFWTF,http://www.mtwtf.com/about,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Small Studios,No Plans,https://no-plans.com/,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Small Studios,Oak,http://oak.is/,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Small Studios,Order,http://www.order.design,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Small Studios,Paper White Studio,http://www.paperwhite-studio.com/,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Small Studios,Planetary,https://planetary.co/,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Small Studios,Play Lab NYC,http://www.playlab.org/,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Small Studios,Revolver NYC,http://revolvernewyork.com/,,Careers & Opportunities > Design Careers,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Small Studios,RoandCo,https://roandcostudio.com/,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Small Studios,Sanctuary Computer,https://www.sanctuary.computer/,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Small Studios,Small Stuff,https://smallstuff.us/,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Small Studios,Studio Rubric,https://www.studiorubric.co/home#our-team,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Small Studios,The Future Forward,http://thefutureforward.com/,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Small Studios,This Also,http://thisalso.com,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Small Studios,This is our Work,http://thisisourwork.net/,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Small Studios,Toda,http://www.toda.com/,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Small Studios,Ustwo,https://www.ustwo.com/,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Small Studios,Virtually Real,https://www.virtuallyreal.nyc/,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Small Studios,With Projects,http://www.withprojects.org,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Small Studios,Wkshps,https://www.wkshps.com/,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Small Studios,Yungbld,http://yungbld.com/,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Small Studios,Zero Studios,https://zero.nyc/careers,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Small Studios,Zut Alors Inc,http://zutalorsinc.com/,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Agencies,2x4,http://2x4.org,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Agencies,Ace Hotel,http://www.acehotel.com/newyork,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Agencies,B-Reel b-reel.com Case Agency,http://www.b-reel.com,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Agencies,Barrel,https://www.barrelny.com/careers/,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Agencies,case-agency.com,http://www.case-agency.com/,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Agencies,Chandelier Creative,http://www.chandeliercreative.com/,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Agencies,Code & Theory,http://www.codeandtheory.com,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Agencies,Collins,http://www.wearecollins.com/,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Agencies,Crema,https://www.crema.us/careers,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Agencies,Critical Mass,https://www.criticalmass.com/,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Agencies,Droga5,https://droga5.com/careers/,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Agencies,Elephant,https://elephant.is/,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Agencies,Fantasy,http://fantasy.co/careers,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Agencies,Free Association,http://freeassociation.is/,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Agencies,Grafx,https://grafx.co/,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Agencies,Gretel,http://gretelny.com/,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Agencies,HUGE,https://www.hugeinc.com/,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Agencies,Hugo and Marie,http://www.hugoandmarie.com/,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Agencies,Hyperakt,http://hyperakt.com/contact/,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Agencies,Icon,https://iconinteractive.com/,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Agencies,Instrument,https://www.instrument.com/careers/,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Agencies,Joan Creative,http://joancreative.com/,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Agencies,King and Partners,https://www.kingandpartners.com/,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Agencies,Kounterattack,http://kounterattack.com/careers,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Agencies,Landor,https://landor.com,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Agencies,Madwell,http://www.madwell.com/,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Agencies,Method,http://www.method.com/careers,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Agencies,Mother New York,http://motherdesign.com,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Agencies,nr2154,http://www.nr2154.com/,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Agencies,Partners and Spade,http://www.partnersandspade.com/,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Agencies,Pentagram,http://pentagram.com,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Agencies,Red Antler,http://redantler.com/,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Agencies,Siberia,http://siberia.io/,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Agencies,Sibling Rivalry,https://siblingrivalry.com/,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Agencies,Smakk Studios,https://smakkstudios.com/,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Agencies,Space 150,http://www.space150.com/careers/,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Agencies,Stink Digital,http://www.stinkdigital.com/careers/,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Agencies,Studio Paradis,https://studioparadise.com/#intro,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Agencies,Sullivan,http://www.sullivannyc.com/careers/,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Agencies,Sweden NYC,https://swedenunlimited.com/about/,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Agencies,Who,http://wh-o.us/,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Agencies,Wolff Olins,http://wolffolins.com,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Agencies,Wondersauce,http://wondersauce.com,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Agencies,Work&Co,http://work.co,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Agencies,Zero Studios,https://zero.nyc/,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,In-House Teams,Bandcamp,https://bandcamp.com/jobs,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,In-House Teams,Brooklyn Museum,https://www.brooklynmuseum.org/about/careers/,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,In-House Teams,Code Academy,https://www.codecademy.com/about/careers,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,In-House Teams,Dropbox,https://www.dropbox.com/jobs/all,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,In-House Teams,Etsy,https://www.etsy.com/careers,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,In-House Teams,Eyebeam,https://www.eyebeam.org/about/work-intern/,www.eyebeam.org/about/work-intern/,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,In-House Teams,General Assembly,https://generalassemb.ly/careers,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,In-House Teams,Genius,https://genius.com/Genius-jobs-at-genius-annotated,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,In-House Teams,Girls Who Code,https://jobs.lever.co/girlswhocode,jobs.lever.co/girlswhocode,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,In-House Teams,Google,https://careers.google.com/locations/new-york/,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,In-House Teams,Grailed,https://www.grailed.com/jobs,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,In-House Teams,Greenhouse,http://www.greenhouse.io/careers,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,In-House Teams,Kickstarter,https://www.kickstarter.com/jobs,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,In-House Teams,Pioneer Works,https://pioneerworks.org/about/,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,In-House Teams,Soundcloud,https://soundcloud.com/jobs,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,In-House Teams,Splice,https://boards.greenhouse.io/splice,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,In-House Teams,Squarespace,https://www.squarespace.com/about/careers,www.squarespace.com/about/careers,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,In-House Teams,Stack Overflow,https://stackoverflow.com/company/work-here/,stackoverflow.com/company/work-here/,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,In-House Teams,Superhi,http://www.superhi.com/,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,In-House Teams,The MET,https://www.linkedin.com/company/the-metropolitan-museum-of-art/careers,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,In-House Teams,Tumblr,https://www.tumblr.com/jobs,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,In-House Teams,Universe,http://workatuniverse.com,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,In-House Teams,Vimeo,https://boards.greenhouse.io/vimeo#.WtdhWtPwbUI,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,In-House Teams,WeTransfer,https://wetransfer.com/,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,In-House Teams,WeWork,https://www.wework.com/careers,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,In-House Teams,Whitney Museum,http://whitney.org,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,In-House Teams,workatuniverse.com,http://workatuniverse.com/design,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Media & News,Atlantic Media,https://www.atlanticmedia.com/careers/,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Media & News,Buzzfeed,https://www.buzzfeed.com/about/jobs,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Media & News,First Look Media,https://www.firstlook.media/,www.firstlook.media/,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Media & News,Hypebeast/Hypebae,https://jobs.lever.co/hypebeast,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Media & News,MTV,http://mtv.com/,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Media & News,Propublica,https://www.propublica.org/jobs/,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Media & News,Quartz,https://qz.com/,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Media & News,Refinery29,https://www.linkedin.com/company/refinery29,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Media & News,Salon,https://www.salon.com/about/hiring,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Media & News,Slate,http://www.slate.com/articles/news_and_politics/slate_fare/2008/04/a_job_for_you_at_slate.html,www.slate.com,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Media & News,The Fader,https://thefader.workable.com/,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Media & News,The Marshall Project,https://www.themarshallproject.org/jobs,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Media & News,The New York Times,https://www.nytco.com/careers/us-opportunites/,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Media & News,The New Yorker,https://www.newyorker.com/about/careers,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Media & News,Vice,https://www.vicemediagroup.com/workinghere/,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Residencies & Fellowships,Curatron,http://curatroneq.com/mc/exhibitions/?utm_source=aldea+website+&utm_medium=website&utm_campaign=Curatron+residency+and+exhibition+&utm_id=Curatron_20aldeawebsite,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Residencies & Fellowships,Design Interns Club,https://docs.google.com/spreadsheets/d/180LzMIra5eu64rMcscplCPtg6LVbc_UYs8p3tbw-xOs/edit?gid=426140815#gid=426140815,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Residencies & Fellowships,Interdisciplinary Remote & Remote-Friendly Employers (by Words of Mouth),https://docs.google.com/spreadsheets/d/1J5VZipnZVrb-5HvtedCIbI3uFixnjfVK8cEN4gz9Rmc/edit?gid=0#gid=0,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Residencies & Fellowships,Residencies,https://docs.google.com/spreadsheets/d/1o__WKUBTHLoQX8pSRJsh0wMC8fCGzycQ0ezxe5CklxM/edit?gid=0#gid=0,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Residencies & Fellowships,The Big Artist Opportunities List,https://docs.google.com/spreadsheets/d/1KWIzznlFNs_rQCEzW5ub6ehwaLcwR80xbuOokXwRa_Y/htmlview?fbclid=IwAR3P8lDsOpM_zKaq-MdCYK-b8Mg1lnTKmeHRG56htFHagDl8TjXemBo6M90&usp=gmail_thread#gid=0,,,Design Work | DesignCareers
+Careers & Opportunities,Design Careers,Interview Prep & Challenges,Collected Resources for Interview Prep - Large corps.,https://toludesign.notion.site/Design-Resources-I-think-are-cool-846f2fb3c1664d46b0d66f28acb21909,,,Design Work
+Careers & Opportunities,Design Careers,Interview Prep & Challenges,DESIGNERCIZE - Design Challenge Generator,https://designercize.com/,,,Design Work
+Careers & Opportunities,General Job Boards,,CreativeGuild,https://creativemornings.com/jobs,,,Design Work
+Careers & Opportunities,General Job Boards,,Dice,https://www.dice.com/,Job Board,,Technology | resources (1)
+Careers & Opportunities,General Job Boards,,FreelanceFoundry,https://freelancerfoundry.com/,Freelance job board,,Technology | resources (1)
+Careers & Opportunities,General Job Boards,,Job Sites,https://www.somuch.com/link-list.asp?topicID=106&categoryID=874&topic=job-sites,Job sites from So Much,,Technology | resources (1)
+Careers & Opportunities,General Job Boards,,So Much,https://www.somuch.com/link-topic-list/106/employment/,Employment Links (may be outdated),,Technology | resources (1)
+Careers & Opportunities,General Job Boards,,Stackoverflow,https://stackoverflow.com/jobs,,,Design Work | DesignCareers
+Careers & Opportunities,General Job Boards,,The Muse,https://www.themuse.com/,Job board,,Technology | resources (1)
+Careers & Opportunities,General Job Boards,,Wayup,https://www.wayup.com/member/jobs-listing,Job Listings,,Technology | resources (1)
+Careers & Opportunities,General Job Boards,,We Work Remotely,https://weworkremotely.com/#job-listings,,,Design Work | DesignCareers
+Careers & Opportunities,Film & Art Opportunities,Festivals: Open Now,Alchemy Film & Moving Image Festival (UK),https://alchemyfilmandarts.org.uk/festival/,Specializes in experimental film and expanded cinema.,,FilmFestivals
+Careers & Opportunities,Film & Art Opportunities,Festivals: Open Now,Alchemy Film & Moving Image Festival (UK) — deadlines,https://filmfreeway.com/alchemyfilmandarts,May 1st: submit,,FilmFestivals
+Careers & Opportunities,Film & Art Opportunities,Festivals: Open Now,American Horror Film Festival (US),https://www.americanhorrorfilmfestival.com/,,,FilmFestivals
+Careers & Opportunities,Film & Art Opportunities,Festivals: Open Now,American Horror Film Festival (US) — deadlines,https://www.americanhorrorfilmfestival.com/rules,May 9th: submit,,FilmFestivals
+Careers & Opportunities,Film & Art Opportunities,Festivals: Open Now,"Antimatter (Victoria, Canada) - Showcases experimental media art",https://antimatter.squarespace.com/,,,FilmFestivals
+Careers & Opportunities,Film & Art Opportunities,Festivals: Open Now,"Antimatter (Victoria, Canada) - Showcases experimental media art — deadlines",https://antimatter.squarespace.com/2025-entries,June 30: submit,,FilmFestivals
+Careers & Opportunities,Film & Art Opportunities,Festivals: Open Now,"Boston Film Festival (Boston, US)",https://bostonfilmfestival.org/,,,FilmFestivals
+Careers & Opportunities,Film & Art Opportunities,Festivals: Open Now,"Chicago International Film Festival (CIFF) (Chicago, US)",https://www.chicagofilmfestival.com/,,,FilmFestivals
+Careers & Opportunities,Film & Art Opportunities,Festivals: Open Now,"Chicago International Film Festival (CIFF) (Chicago, US) — submit",https://www.chicagofilmfestival.com/festival/submit/,,,FilmFestivals
+Careers & Opportunities,Film & Art Opportunities,Festivals: Open Now,Co-Prosperity Sphere (Bridgeport),https://coprosperity.org/,DIY space for screenings and multimedia art.,,FilmFestivals
+Careers & Opportunities,Film & Art Opportunities,Festivals: Open Now,Co-Prosperity Sphere (Bridgeport) — deadlines,https://app.publicmediainstitute.com/,May 4th: submit,,FilmFestivals
+Careers & Opportunities,Film & Art Opportunities,Festivals: Open Now,Dam Short Film Festival (US),https://damshortfilm.org/,,,FilmFestivals
+Careers & Opportunities,Film & Art Opportunities,Festivals: Open Now,Early Bird Deadline,https://damshortfilm.org/submit/,June 30th: submit,,FilmFestivals
+Careers & Opportunities,Film & Art Opportunities,Festivals: Open Now,Extended Deadline,https://filmfreeway.com/BostonFilmFestival,June 16: submit,,FilmFestivals
+Careers & Opportunities,Film & Art Opportunities,Festivals: Open Now,Fantoche International Animation Film Festival (Switzerland),https://fantoche.ch/en,Open to avant-garde animation.,,FilmFestivals
+Careers & Opportunities,Film & Art Opportunities,Festivals: Open Now,Fantoche International Animation Film Festival (Switzerland) — deadlines,https://filmfreeway.com/Fantoche?utm_campaign=Fantoche+International+Animation+Film+Festival&utm_medium=External&utm_source=Submission+Button,May 11th: submit,,FilmFestivals
+Careers & Opportunities,Film & Art Opportunities,Festivals: Open Now,Festival des Cinémas Différents et Expérimentaux de Paris (France),https://cjcinema.org/festival/,Dedicated to experimental cinema.,,FilmFestivals
+Careers & Opportunities,Film & Art Opportunities,Festivals: Open Now,Festival des Cinémas Différents et Expérimentaux de Paris (France) — deadlines,https://cjcinema.org/appel-a-films/fcdep/,May 26: submit,,FilmFestivals
+Careers & Opportunities,Film & Art Opportunities,Festivals: Open Now,"Images Festival (Toronto, Canada)",https://imagesfestival.com/,,,FilmFestivals
+Careers & Opportunities,Film & Art Opportunities,Festivals: Open Now,"Images Festival (Toronto, Canada) — deadlines",https://imagesfestival.com/submissions,July 31st: submit,,FilmFestivals
+Careers & Opportunities,Film & Art Opportunities,Festivals: Open Now,Nouveau Cinema (Canada),https://nouveaucinema.ca/en,,,FilmFestivals
+Careers & Opportunities,Film & Art Opportunities,Festivals: Open Now,Nouveau Cinema (Canada) — deadlines,https://nouveaucinema.ca/en/about/submissions,May 15th: submit,,FilmFestivals
+Careers & Opportunities,Film & Art Opportunities,Festivals: Open Now,Ottawa International Animation Festival(Canada),https://www.animationfestival.ca/,Includes experimental animation categories.,,FilmFestivals
+Careers & Opportunities,Film & Art Opportunities,Festivals: Open Now,Ottawa International Animation Festival(Canada) — deadlines,https://www.animationfestival.ca/festival/entries/,submit,,FilmFestivals
+Careers & Opportunities,Film & Art Opportunities,Festivals: Open Now,Slamdance Film Festival(US),https://slamdance.com/,,,FilmFestivals
+Careers & Opportunities,Film & Art Opportunities,Festivals: Open Now,Slamdance Film Festival(US) — deadlines,https://slamdance.com/screenplay-submit/,May 5th: submit,,FilmFestivals
+Careers & Opportunities,Film & Art Opportunities,Festivals: Open Now,Uppsala (Sweden),https://shortfilmfestival.com/en/,Sweden’s main arena for short film and one of the most important short film festivals in Europe.,,FilmFestivals
+Careers & Opportunities,Film & Art Opportunities,Festivals: Open Now,Uppsala (Sweden) — deadlines,https://shortfilmfestival.com/en/anmala-film/,May 31st: submit,,FilmFestivals
+Careers & Opportunities,Film & Art Opportunities,Festivals: Upcoming,"Ann Arbor Film Festival (Ann Arbor, US)",https://www.aafilmfest.org/,,,FilmFestivals
+Careers & Opportunities,Film & Art Opportunities,Festivals: Upcoming,Black Hole Cinematheque | Southern Exposure (Oakland),https://soex.org/,,,FilmFestivals
+Careers & Opportunities,Film & Art Opportunities,Festivals: Upcoming,"Black Maria Film Festival/Woods Hole (Cape Cod, US)",https://woodsholefilmfestival.org/events/blackmaria/,,,FilmFestivals
+Careers & Opportunities,Film & Art Opportunities,Festivals: Upcoming,"Chicago Underground Film Festival (CUFF) (Chicago, US)",https://cuff.org/,,,FilmFestivals
+Careers & Opportunities,Film & Art Opportunities,Festivals: Upcoming,"Experiments in Cinema (Albuquerque, US)",https://www.experimentsincinema.org/,,,FilmFestivals
+Careers & Opportunities,Film & Art Opportunities,Festivals: Upcoming,Fracto Film Encounter (Berlin) - Focuses on experimental film and digital media,https://fractofilm.com/,,,FilmFestivals
+Careers & Opportunities,Film & Art Opportunities,Festivals: Upcoming,"Indy Film Fest (Indianapolis, US)",https://indyfilmfest.org/,,,FilmFestivals
+Careers & Opportunities,Film & Art Opportunities,Festivals: Upcoming,International Short Film Festival Oberhausen(Germany),https://www.kurzfilmtage.de/en/,,,FilmFestivals
+Careers & Opportunities,Film & Art Opportunities,Festivals: Upcoming,International Short Film Festival Oberhausen(Germany) — submit,https://www.kurzfilmtage.de/en/festival/submission/,,,FilmFestivals
+Careers & Opportunities,Film & Art Opportunities,Festivals: Upcoming,"Milwaukee Underground Film Festival(Milwaukee, US)",https://www.milwaukeeundergroundfilm.org/,,,FilmFestivals
+Careers & Opportunities,Film & Art Opportunities,Festivals: Upcoming,"Milwaukee Underground Film Festival(Milwaukee, US) — deadlines",https://www.milwaukeeundergroundfilm.org/submissions,here,,FilmFestivals
+Careers & Opportunities,Film & Art Opportunities,Festivals: Upcoming,"Onion City Experimental Film & Video Festival (Chicago, US)",https://www.onioncityfilmfest.org/,,,FilmFestivals
+Careers & Opportunities,Film & Art Opportunities,Festivals: Upcoming,Rotterdam International Film Festival (IFFR) (Netherlands),https://iffr.com/nl/,,,FilmFestivals
+Careers & Opportunities,Film & Art Opportunities,Festivals: Upcoming,Rotterdam International Film Festival (IFFR) (Netherlands) — submit,https://iffr.com/en/iffr-pro-submissions,,,FilmFestivals
+Careers & Opportunities,Film & Art Opportunities,Festivals: Upcoming,"Sidewalk Film Festival (Birmingham, US)",https://sidewalkfest.com/,,,FilmFestivals
+Careers & Opportunities,Film & Art Opportunities,Festivals: Upcoming,"Thomas Edison Film Festival (New Jersey, US)",https://www.tefilmfest.org/,,,FilmFestivals
+Careers & Opportunities,Film & Art Opportunities,Underground & DIY Screenings,Anthology Film Archives (New York) - Screens experimental films,https://www.anthologyfilmarchives.org/,,,FilmFestivals
+Careers & Opportunities,Film & Art Opportunities,Underground & DIY Screenings,ATA (Artists' Television Access) (San Francisco) - Screens underground films,https://www.atasite.org/,,,FilmFestivals
+Careers & Opportunities,Film & Art Opportunities,Underground & DIY Screenings,Canyon Cinema - Distributor for experimental and avant-garde cinema,https://canyoncinema.com/,,,FilmFestivals
+Careers & Opportunities,Film & Art Opportunities,Underground & DIY Screenings,Canyon Cinema - Distributor for experimental and avant-garde cinema — submit,https://canyoncinema.com/artists/submissions/,,,FilmFestivals
+Careers & Opportunities,Film & Art Opportunities,Underground & DIY Screenings,Echo Park Film Center (Los Angeles) - Non-profit media arts center,https://www.epfccollective.org/,,,FilmFestivals
+Careers & Opportunities,Film & Art Opportunities,Underground & DIY Screenings,Electronic Arts Intermix - Distributes experimental media,https://www.eai.org/,,,FilmFestivals
+Careers & Opportunities,Film & Art Opportunities,Underground & DIY Screenings,Electronic Arts Intermix - Distributes experimental media — submit,https://www.eai.org/submissions,EAI accepts previews of recently produced video works along with a resume and synopses of submitted pieces. Submissions are accepted by e-mail at info@eai.org. We review submissions on a case-by-case basis.,,FilmFestivals
+Careers & Opportunities,Film & Art Opportunities,Underground & DIY Screenings,Light Industry (New York) - Art venue for film and electronic art,https://www.lightindustry.org/,,,FilmFestivals
+Careers & Opportunities,Film & Art Opportunities,Underground & DIY Screenings,"Microscope Gallery (US, NYC)",https://microscopegallery.com/,Exhibits avant-garde and time-based media.,,FilmFestivals
+Careers & Opportunities,Film & Art Opportunities,Underground & DIY Screenings,"Other Cinema (US, San Francisco)",http://www.othercinema.com/otherzine/,Curates underground and experimental works.,,FilmFestivals
+Careers & Opportunities,Film & Art Opportunities,Underground & DIY Screenings,"Other Cinema (US, San Francisco) — submit",http://www.othercinema.com/otherzine/submissions/,,,FilmFestivals
+Careers & Opportunities,Film & Art Opportunities,Underground & DIY Screenings,Spectacle Theater (Brooklyn) - Microcinema that shows experimental work,https://www.spectacletheater.com/,,,FilmFestivals
+Careers & Opportunities,Film & Art Opportunities,Online Platforms & Distributors,FilmFreeway,https://filmfreeway.com/,"Film Festivals, Screenplay Contests, Submissions",,FilmFestivals
+Careers & Opportunities,Film & Art Opportunities,Online Platforms & Distributors,Short of the Week (sometimes features experimental work).,https://www.shortoftheweek.com/,,,FilmFestivals
+Careers & Opportunities,Film & Art Opportunities,Online Platforms & Distributors,Short of the Week (sometimes features experimental work). — submit,https://www.shortverse.com/festivals/shortoftheweek?utm_source=shortoftheweek&utm_medium=website&utm_campaign=header,,,FilmFestivals
+Careers & Opportunities,Film & Art Opportunities,Residencies & Grants,Experimental Television Center(US),https://www.experimentaltvcenter.org/,Supports media artists.,,FilmFestivals
+Careers & Opportunities,Film & Art Opportunities,Residencies & Grants,Experimental Television Center(US) — grants,https://www.experimentaltvcenter.org/grants/,,,FilmFestivals
+Careers & Opportunities,Film & Art Opportunities,Residencies & Grants,Experimental Television Center(US) — residency,https://www.experimentaltvcenter.org/residency-program/,,,FilmFestivals
+Careers & Opportunities,Film & Art Opportunities,Residencies & Grants,IMA (Institute for Media Archaeology),https://ima.or.at/en/,Supports alternative media arts.,,FilmFestivals
+Careers & Opportunities,Film & Art Opportunities,Chicago Venues,ACRE TV,https://acretv.org/,An artist-run TV project that sometimes features experimental shorts.,,FilmFestivals
+Careers & Opportunities,Film & Art Opportunities,Chicago Venues,Chicago Artists Film Festival (at Comfort Station),https://comfortstationlogansquare.org/,Hosts experimental film nights and artist talks.,,FilmFestivals
+Careers & Opportunities,Film & Art Opportunities,Chicago Venues,Chicago Artists Film Festival (at Comfort Station) — submit,https://comfortstationlogansquare.org/submit,,,FilmFestivals
+Careers & Opportunities,Film & Art Opportunities,Chicago Venues,Chicago Filmmakers - Non-profit media arts organization that offers screenings and resources,https://chicagofilmmakers.org/,,,FilmFestivals
+Careers & Opportunities,Film & Art Opportunities,Chicago Venues,Chicago Filmmakers - Non-profit media arts organization that offers screenings and resources — submit,https://chicagofilmmakers.org/submit-your-film,,,FilmFestivals
+Careers & Opportunities,Film & Art Opportunities,Chicago Venues,Experimental Sound Studio (ESS),https://ess.org/,Occasionally screens avant-garde films with sound art.,,FilmFestivals
+Careers & Opportunities,Film & Art Opportunities,Chicago Venues,Intuit,https://art.org/,The Center for Intuitive and Outsider Art - Occasionally screens experimental films aligned with outsider art,,FilmFestivals
+Careers & Opportunities,Film & Art Opportunities,Chicago Venues,Intuit — apply,https://art.org/opportunities/,,,FilmFestivals
+Careers & Opportunities,Film & Art Opportunities,Chicago Venues,Intuit — submit,https://www.chicagofilmsociety.org/projects/projectyourself/,,,FilmFestivals
+Careers & Opportunities,Film & Art Opportunities,Chicago Venues,"Video Data Bank - Based at the School of the Art Institute of Chicago, specializes in distributing experimental video art",https://www.vdb.org/,,,FilmFestivals
+Careers & Opportunities,Film & Art Opportunities,Chicago Venues,"Video Data Bank - Based at the School of the Art Institute of Chicago, specializes in distributing experimental video art — submit",https://www.vdb.org/content/submissions,,,FilmFestivals
+Software & Tools,Open Source Software,Directories & Downloads,AlternativeTo,https://alternativeto.net/,Find alternatives to software,,OpenSource & FreeWare | resources (1)
+Software & Tools,Open Source Software,Directories & Downloads,Choose A Licence,https://choosealicense.com/,Guide and list of Choosing Open Source Software / Licences,,OpenSource & FreeWare | resources (1)
+Software & Tools,Open Source Software,Directories & Downloads,CNET,https://download.cnet.com/,Free software download,,OpenSource & FreeWare | resources (1)
+Software & Tools,Open Source Software,Directories & Downloads,CodeBerg,https://codeberg.org/kitten/app#kitten,Build small web apps,,OpenSource & FreeWare | resources (1)
+Software & Tools,Open Source Software,Directories & Downloads,File hippo:The latest versions of the BEST & SAFE software,https://filehippo.com/mac/,Latest versions of best & safe software,,OpenSource & FreeWare | resources (1)
+Software & Tools,Open Source Software,Directories & Downloads,Free Software Directory,https://directory.fsf.org/wiki/Main_Page,Directory of free software,,OpenSource & FreeWare | resources (1)
+Software & Tools,Open Source Software,Directories & Downloads,Libraries,https://libraries.io/,Search open source frameworks and libraries,Web > Search & Discovery,General | OpenSource & FreeWare | resources (1)
+Software & Tools,Open Source Software,Directories & Downloads,NirSoft,https://www.nirsoft.net/,Collection of freeware,,OpenSource & FreeWare | resources (1)
+Software & Tools,Open Source Software,Directories & Downloads,OlderGeeks,https://www.oldergeeks.com/,Download softwares and VideoGames,,OpenSource & FreeWare | resources (1)
+Software & Tools,Open Source Software,Directories & Downloads,Open Source Alternatives,https://github.com/mayfrost/guides/blob/master/ALTERNATIVES.md,Collection,,OpenSource & FreeWare | resources (1)
+Software & Tools,Open Source Software,Directories & Downloads,Pablo Software Solutions,http://pablosoftwaresolutions.com/,"Many tools here, such as Quick and Easy FTP Server for getting things onto old machines.",,OpenSource & FreeWare | resources (1)
+Software & Tools,Open Source Software,Directories & Downloads,Portable Freeware,https://www.portablefreeware.com/,Freeware collection,,OpenSource & FreeWare | resources (1)
+Software & Tools,Open Source Software,Directories & Downloads,Softpedia,https://www.softpedia.com/,Free software download,,OpenSource & FreeWare | resources (1)
+Software & Tools,Open Source Software,Directories & Downloads,SourceHut,https://sourcehut.org/,Suite of Open Source Tools,,OpenSource & FreeWare | resources (1)
+Software & Tools,Open Source Software,Directories & Downloads,Top Shareware,https://www.topshareware.com/,Huge collection of resources,,OpenSource & FreeWare | resources (1)
+Software & Tools,Open Source Software,Directories & Downloads,Vidarholen,https://www.vidarholen.net/contents/index.html,Lots of Projects,,OpenSource & FreeWare | resources (1)
+Software & Tools,Open Source Software,Communities & Organizations,Cat-v,http://cat-v.org/,Anti-culture technology community,,OpenSource & FreeWare | resources (1)
+Software & Tools,Open Source Software,Communities & Organizations,DanSoft Australia,http://dan.cx/,"Misc Softwares, earlier computer software and PHP scripts. His main site is here ()",,OpenSource & FreeWare
+Software & Tools,Open Source Software,Communities & Organizations,DanSoft Australia,http://www.dansoftaustralia.net/,"Misc Softwares, earlier computer software and PHP scripts",,OpenSource & FreeWare | resources (1)
+Software & Tools,Open Source Software,Communities & Organizations,FSF,https://www.fsf.org/,Free Software Foundation,,OpenSource & FreeWare | resources (1)
+Software & Tools,Open Source Software,Communities & Organizations,SourceForge,https://sourceforge.net/directory/,Browse Open Source Software,Software & Tools > Open Source Software,OpenSource & FreeWare | resources (1)
+Software & Tools,Open Source Software,Communities & Organizations,SuckLess,https://suckless.org/,Software that sucks less,,OpenSource & FreeWare | resources (1)
+Software & Tools,Open Source Alternatives,,DeTexify,https://detexify.kirelabs.org/classify.html,Draw to look for LaTex Symbols,,OpenSource & FreeWare | resources (1)
+Software & Tools,Open Source Alternatives,,ESPHome,https://esphome.io/,ESPHome is an open-source firmware framework that simplifies the process of creating custom firmware for popular WiFi-enabled microcontrollers,,OpenSource & FreeWare | resources (1)
+Software & Tools,Open Source Alternatives,,Goat Counter,https://www.goatcounter.com/,Open Source Web analytics,,OpenSource & FreeWare | resources (1)
+Software & Tools,Open Source Alternatives,,K-Lite Codec Pack,http://codecguide.com/download_kl.htm,Easy way to make sure you can play almost anything. Includes MPC-HC.,,OpenSource & FreeWare | resources (1)
+Software & Tools,Open Source Alternatives,,Manim,https://github.com/3b1b/manim,Open Source Mathematical Animations engine (by 3Blue1Brown),,OpenSource & FreeWare | resources (1)
+Software & Tools,Open Source Alternatives,,musl,https://musl.libc.org/,C music Library on Linux,,OpenSource & FreeWare | resources (1)
+Software & Tools,Open Source Alternatives,,Open Discord,https://revolt.chat/,Open Source Discord,,OpenSource & FreeWare | resources (1)
+Software & Tools,Open Source Alternatives,,Open Photoshop,https://www.photopea.com/,Open Source Photoshop,,OpenSource & FreeWare | resources (1)
+Software & Tools,Open Source Alternatives,,Open Reddit,https://teddit.net/,Open source reddit,,OpenSource & FreeWare | resources (1)
+Software & Tools,Open Source Alternatives,,Open Twitter,https://nitter.net/,Open source twitter,,OpenSource & FreeWare | resources (1)
+Software & Tools,Open Source Alternatives,,SafeWeb,https://safeweb.norton.com/,Check if a website is safe to visit,,OpenSource & FreeWare
+Software & Tools,Open Source Alternatives,,Test your monitor quality,http://www.lagom.nl/lcd-test/clock_phase.php,Check if a website is safe to visit,,OpenSource & FreeWare | resources (1)
+Software & Tools,Open Source Alternatives,,Umami,https://umami.is/,Self hosted website analytics tool,,OpenSource & FreeWare | resources (1)
+Software & Tools,Open Source Alternatives,,VLC Media Player,http://videolan.org/,Good media playing solution especially for network streams,,OpenSource & FreeWare | resources (1)
+Software & Tools,Open Source Alternatives,,XPDF Reader,https://www.xpdfreader.com/about.html,OpenSource PDF Reader,,OpenSource & FreeWare | resources (1)
+Software & Tools,File Conversion,,Bear File Converter,https://www.ofoct.com/,"Convert office documents, audio, video, image etc. Plus useful tools",,OpenSource & FreeWare | resources (1)
+Software & Tools,File Conversion,,CloudConvert,https://cloudconvert.com/,"Nearly all audio, video, document, ebook, archive, image, spreadsheet, formats",,OpenSource & FreeWare | resources (1)
+Software & Tools,File Conversion,,Convert Files,http://www.convertfiles.com/,Convert your files,,OpenSource & FreeWare | resources (1)
+Software & Tools,File Conversion,,Convertio,https://convertio.co/,Great online converter,,OpenSource & FreeWare | resources (1)
+Software & Tools,File Conversion,,Free File Convert,https://www.freefileconvert.com/,As the title says,,OpenSource & FreeWare | resources (1)
+Software & Tools,File Conversion,,FreeConvert,https://www.freeconvert.com/,"Image, video, document, and music + File Compressors and video tools",,OpenSource & FreeWare | resources (1)
+Software & Tools,File Conversion,,Imgburn,http://www.imgburn.com/,"Free CD/DVD/BD burning software, compact and very featureful.",,OpenSource & FreeWare | resources (1)
+Software & Tools,File Conversion,,JPEG Compress,https://jpegcompress.com/,JPEG Compressor,,OpenSource & FreeWare | resources (1)
+Software & Tools,File Conversion,,MediaCoder,https://mediacoderhq.com/,media transcoding solution with wide format support and many advanced options,,OpenSource & FreeWare | resources (1)
+Software & Tools,File Conversion,,Online-Convert,https://www.online-convert.com/,All the normal stuff + Webservice converter,,OpenSource & FreeWare | resources (1)
+Software & Tools,File Conversion,,OnlineConverter,https://www.onlineconverter.com/,An online converter,,OpenSource & FreeWare | resources (1)
+Software & Tools,File Conversion,,OpenPuff,https://embeddedsw.net/OpenPuff_Steganography_Home.html,Stenography Tool,Technology > Security & Privacy,OpenSource & FreeWare | resources (1)
+Software & Tools,File Conversion,,The Convert,https://convert.app/,Convert anything,,OpenSource & FreeWare | resources (1)
+Software & Tools,File Conversion,,WinRAR,http://rarlabs.com/,Compression tool,,OpenSource & FreeWare | resources (1)
+Software & Tools,File Conversion,,Zamzar,https://www.zamzar.com/,online converter,,OpenSource & FreeWare | resources (1)
+Software & Tools,Online Tools,,BugMeNot,https://bugmenot.com/,Share Logins,,General | resources (1)
+Software & Tools,Online Tools,,Detect when your services are down,https://downdetector.com/,Detect when your services are down,,Design Work | General | resources (1)
+Software & Tools,Online Tools,,Download YT,https://www.4kdownload.com/,Download YouYube videos,,General | resources (1)
+Software & Tools,Online Tools,,Emailinator (Formerly Gmailinator),https://www.emailnator.com/,Generates a temporary Gmail inbox that you can use as a throw-away when signing up for online services that you don't want to use your real email for. Similar service to Mailinator,,General | resources (1)
+Software & Tools,Online Tools,,Free PDF Tools,https://www.ilovepdf.com/,Anything PDF,,General | resources (1)
+Software & Tools,Online Tools,,PineTools,https://pinetools.com/,Free online tools,,Archives | General | resources (1)
+Software & Tools,Online Tools,,PlText,https://pltext.com/,Plagiarism checker,,General | resources (1)
+Software & Tools,Online Tools,,Printing and binding,https://www.printedmatter.org/services/the-bulletin/printing-and-binding,Printing and binding,Learning & Life > Everyday Life | Learning & Life > Guides & How-Tos,Design Work | General | resources (1)
+Software & Tools,Online Tools,,Remove paywall,https://www.removepaywall.com/,Remove your paywalls,,Design Work | General | resources (1)
+Software & Tools,Online Tools,,Text Munger,https://impliedchaos.github.io/mungeutf8.html,,,Archives
+Software & Tools,Online Tools,,VisiBone,https://www.visibone.com/type/,Touch-Typing Tutor,,General | resources (1)
+Software & Tools,Online Tools,,Youtube to MP3,https://ytmp3.cc/uu100cc/,YouTube to MP3 file converter,,Music Archive
+Software & Tools,Online Tools,,Zoom Escaper,https://zoomescaper.com/,Self-sabotage your audio stream,,General | resources (1)
+Software & Tools,Downloads & Torrents,,Anime Torrents,https://nyaa.si/,Search anime torrents,,OpenSource & FreeWare | resources (1)
+Software & Tools,Downloads & Torrents,,Snowfl,https://snowfl.com/,Search public torrents,,General | OpenSource & FreeWare | resources (1)
+Software & Tools,Downloads & Torrents,,The Pirate Bay,https://www.pirateproxy-bay.com/,Most important ever,,OpenSource & FreeWare | resources (1)
+Software & Tools,Downloads & Torrents,,Torrentio,https://torrentio.org/#google_vignette,Stream directly with this add-on,,OpenSource & FreeWare | resources (1)
+Software & Tools,Downloads & Torrents,,yt-dlp,https://github.com/yt-dlp/yt-dlp,Command line video downloader,,OpenSource & FreeWare | resources (1)
+Media,Film & Video,Documentaries & Short Films,Adam Curtis Free Documentaries,https://www.diygenius.com/adam-curtis-documentaries/,,,Archives
+Media,Film & Video,Documentaries & Short Films,Archive of some short films,https://www.classreal.com/shorts.php,,,Archives
+Media,Film & Video,Documentaries & Short Films,Documentaries,https://ihavenotv.com/,,,Archives
+Media,Film & Video,Documentaries & Short Films,Documentaries,https://documentaryheaven.com/,,,Archives
+Media,Film & Video,Documentaries & Short Films,Film Noir,https://archive.org/details/Film_Noir,,,Archives
+Media,Film & Video,Documentaries & Short Films,John Wilson,https://johnsmovies.com/,,,Archives
+Media,Film & Video,Documentaries & Short Films,Short films,https://elephgraveyard.com/,,,Archives
+Media,Film & Video,Documentaries & Short Films,Toolboxd,https://letterboxd.tools/,Tools for your letterboxd,,Archives | General | resources (1)
+Media,Film & Video,Full Movies,9,https://www.youtube.com/watch?v=GdtCH98ElB4&list=LL&index=3&t=86s&pp=gAQBiAQB,,,Media
+Media,Film & Video,Full Movies,A Family Finds Entertainment (2004),http://www.youtube.com/watch?v=aTzcMlNuMXI,,,Media
+Media,Film & Video,Full Movies,Anima Mundi (1992),https://vk.com/video-26512203_160939519?to=L3ZpZGVvLTI2NTEyMjAzXzE2MDkzOTUxOT8-,,,Media
+Media,Film & Video,Full Movies,Battle Royal High School (1987),http://www.youtube.com/watch?v=Kb3O-pgoEok,,,Media
+Media,Film & Video,Full Movies,Blue (1993),https://www.youtube.com/watch?v=w-hmuUAmFHQ&list=PL9HYUgr7HhdoTeriSkH5x65R0mLGThSGO&index=34&pp=gAQBiAQB,,,Media
+Media,Film & Video,Full Movies,Corpus Collosum (2002),https://www.youtube.com/watch?v=yx9Nb6-wjIY,,,Media
+Media,Film & Video,Full Movies,Emotion (1966),http://www.youtube.com/watch?v=KzfQq5lXKJM,,,Media
+Media,Film & Video,Full Movies,Haru (1996),https://www.youtube.com/watch?v=Jdys69dKOB0,,,Media
+Media,Film & Video,Full Movies,Hedgehog in the Fog (1975),https://www.youtube.com/watch?v=ThmaGMgWRlY&list=LL&index=104&pp=gAQBiAQB,,,Media
+Media,Film & Video,Full Movies,Hypernormalisation (2016),https://www.youtube.com/watch?v=AUiqaFIONPQ,,,Media
+Media,Film & Video,Full Movies,L'Ange (1982),https://archive.org/details/lange1982,,,Media
+Media,Film & Video,Full Movies,Sleep Has Her House (2017),https://www.youtube.com/watch?v=uZPePp3byRU,,,Media
+Media,Film & Video,Full Movies,SPACE IS THE PLACE (1974),https://www.youtube.com/watch?v=owCPrIEliZc,,,Media
+Media,Film & Video,Full Movies,The Last Angel of History (1996),https://www.youtube.com/watch?v=gcbSUwPjass,,,Media
+Media,Film & Video,Full Movies,Thunder (1982),https://www.youtube.com/watch?v=89y-FC6mBjk,,,Media
+Media,Film & Video,Full Movies,Trash Humpers (2009),http://www.youtube.com/watch?v=0JJhxo-etI0,,,Media
+Media,Film & Video,Full Movies,Voices in the Wind (2020),https://www.youtube.com/watch?v=gptcrYzqkNY,,,Media
+Media,Film & Video,Video Channels & Clips,Analife,https://archive.org/details/analife-anaraifu-kenji-goda-2005,,,resources (1)
+Media,Film & Video,Video Channels & Clips,Aphex Twin logo designer Paul Nicholson shows more unseen sketches,https://www.youtube.com/watch?v=vDSFMxLQBsk&ab_channel=ResidentAdvisor,,,Archives
+Media,Film & Video,Video Channels & Clips,Arena,https://vimeo.com/259989412,,,Archives
+Media,Film & Video,Video Channels & Clips,Cat Duet!!,https://www.youtube.com/watch?v=QHNeMcSdBCM&pp=ygUIQ2F0IER1ZXQ%3D,,,Media
+Media,Film & Video,Video Channels & Clips,Cool Guy made Cool Things,https://horo.ch/gal/intro_en.html,,,Archives
+Media,Film & Video,Video Channels & Clips,Cory Arcangel......a couple of thousand short films about Glenn Gould,https://www.youtube.com/watch?v=89ZueN7Szy0,,,Archives
+Media,Film & Video,Video Channels & Clips,Fishtank,https://www.fishtank.live/,"A streamer house monitored 24/7 & broadcasted live to the world. All bedrooms have cameras, common spaces are monitored via video and audio surveillance. When the lights go out, the IR comes on. The Fishtank house is always on.",,Archives
+Media,Film & Video,Video Channels & Clips,fo.am,https://fo.am/,,,Archives
+Media,Film & Video,Video Channels & Clips,fstoppers.com/animal/bbc-radiohead-and-hans-zimmer-t,https://fstoppers.com/animal/bbc-radiohead-and-hans-zimmer-team-amazing-trailer-blue-planet-ii-197870,,,Archives
+Media,Film & Video,Video Channels & Clips,Gallery,https://bryce5.com/,,,Archives
+Media,Film & Video,Video Channels & Clips,Green Day - Boulevard of Broken Dreams - Smiley Face…,https://www.youtube.com/watch?v=IiDQwQQsrL8&list=LL&index=149&pp=gAQBiAQB,,,Media
+Media,Film & Video,Video Channels & Clips,History of online public messaging,https://arstechnica.com/gadgets/2024/04/first-post-a-history-of-online-public-messaging/,,,Archives
+Media,Film & Video,Video Channels & Clips,In Browser water simulation,https://madebyevan.com/webgl-water/,,,Archives
+Media,Film & Video,Video Channels & Clips,Interactive YouTube Drum Machine,https://www.youtube.com/watch?v=3yRx-dd7Jcs&list=LL&index=22&pp=gAQBiAQB,,,Media
+Media,Film & Video,Video Channels & Clips,Laid Off,https://vimeo.com/19364123,,,Archives
+Media,Film & Video,Video Channels & Clips,Le jardin secret de Sébastien - Serge Gainsbourg,https://www.youtube.com/watch?v=unYu22Ign1E&pp=ygUxTGUgamFyZGluIHNlY3JldCBkZSBTw6liYXN0aWVuIC0gU2VyZ2UgR2FpbnNib3VyZw%3D%3D,,,Media
+Media,Film & Video,Video Channels & Clips,Levitating Magnetic Fluid,https://www.youtube.com/watch?v=bYGQu-LHSNE&pp=ygUZTGV2aXRhdGluZyBNYWduZXRpYyBGbHVpZA%3D%3D,,,Media
+Media,Film & Video,Video Channels & Clips,medium.com/message/tilde-club-i-had-a-couple-drinks-,https://medium.com/message/tilde-club-i-had-a-couple-drinks-and-woke-up-with-1-000-nerds-a8904f0a2ebf,,,Archives
+Media,Film & Video,Video Channels & Clips,Moon landing hoax,https://www.youtube.com/watch?v=Y5MVVtFYTSo,,,Archives
+Media,Film & Video,Video Channels & Clips,Noah,https://vimeo.com/65935223,,,Archives
+Media,Film & Video,Video Channels & Clips,Planking,https://www.youtube.com/watch?v=pjhI_hW46mo,,,Archives
+Media,Film & Video,Video Channels & Clips,Raccoon eats cotton candy in the end!,https://www.youtube.com/watch?v=eesxH2-8Jlo&pp=ygUlUmFjY29vbiBlYXRzIGNvdHRvbiBjYW5keSBpbiB0aGUgZW5kIQ%3D%3D,,,Media
+Media,Film & Video,Video Channels & Clips,Realtime Cloth Simulation,https://www.youtube.com/watch?v=KpJzoFzDDMw&pp=ygUZUmVhbHRpbWUgQ2xvdGggU2ltdWxhdGlvbg%3D%3D,,,Media
+Media,Film & Video,Video Channels & Clips,September 11 - The New Pearl Harbor,https://www.youtube.com/watch?v=hj3e8cKZWiY,,,Archives
+Media,Film & Video,Video Channels & Clips,Spiders on Drugs,https://www.youtube.com/watch?v=sHzdsFiBbFc&list=PLgZJDgRloTk5gUf-hvIwSWrUdQWf2v2r2&index=4&pp=gAQBiAQB,,,Media
+Media,Film & Video,Video Channels & Clips,The Code,https://www.youtube.com/watch?v=XMm0HsmOTFI&pp=ygUkVGhlIENvZGU6IFN0b3J5IG9mIExpbnV4IERvY3VtZW50YXJ5,Story of Linux Documentary,,Media
+Media,Film & Video,Video Channels & Clips,TRANSFORMERS_ THE PREMAKE (a desktop documentary),https://vimeo.com/365141641,,,Archives
+Media,Film & Video,Video Channels & Clips,Voices Near the Hypocentre,https://www.youtube.com/watch?v=nIYTAQJQjUk&pp=ygUaVm9pY2VzIE5lYXIgdGhlIEh5cG9jZW50cmU%3D,,,Media
+Media,Film & Video,Video Channels & Clips,WANNACRY,https://www.youtube.com/watch?v=I5Wxh-rCzrY&pp=ygUuV0FOTkFDUlk6IEVhcnRoJ3MgRGVhZGxpZXN0IFtDb21wdXRlcl0gVmlydXNlcw%3D%3D,Earth's Deadliest [Computer] Viruses,,Media
+Media,Film & Video,Video Channels & Clips,youtube.com,https://www.youtube.com/watch?v=3QjTPA-Ib9E,,,Archives
+Media,Film & Video,Music Videos,Amanda Lear - Enigma,https://www.youtube.com/watch?v=wXoWV2DXKYI,,,Media
+Media,Film & Video,Music Videos,Art of Noise - Close (To The Edit),https://www.youtube.com/watch?v=-sFK0-lcjGU,,,Media
+Media,Film & Video,Music Videos,Christina Ricci - Buffalo '66,https://www.reddit.com/r/KingCrimson/comments/1kpw0ms/buffalo_66_moonchild_featuring_christina_ricci/,,,Media
+Media,Film & Video,Music Videos,Cibo Matto - Sugar Water,https://www.youtube.com/watch?v=EN9auBn6Jys,,,Media
+Media,Film & Video,Music Videos,Foux Du FaFa,https://www.youtube.com/watch?v=EuXdhow3uqQ,,,Media
+Media,Film & Video,Music Videos,Her Morning Elegance,https://www.youtube.com/watch?v=2_HXUhShhmY,,,Media
+Media,Film & Video,Music Videos,Ivan Kupala - Kostroma,https://www.youtube.com/watch?v=A5Iw2fCkkwg&list=LL&index=7&pp=gAQBiAQB,,,Media
+Media,Film & Video,Music Videos,Momus & Vampire Weekend,https://www.youtube.com/watch?v=ShWxGSbP9Qc&list=LL&index=192&pp=gAQBiAQB,Salty Hot Peanuts,,Media
+Media,Film & Video,Music Videos,Papooz - You and I,https://www.youtube.com/watch?v=bS26bkXcLhU,,,Media
+Media,Film & Video,Music Videos,"Planet Earth | Blue Planet II, Radiohead & Hans Zimmer",https://www.youtube.com/watch?v=2f9SItUEtJ8&list=LL&index=17&pp=gAQBiAQB,,,Media
+Media,Film & Video,Free Streaming Sites,AZMovies,https://azmovies.to/,Stream movies,,OpenSource & FreeWare | resources (1)
+Media,Film & Video,Free Streaming Sites,Because.moe,https://because.moe/,Anime Streaming,,OpenSource & FreeWare | resources (1)
+Media,Film & Video,Free Streaming Sites,DopeBox,https://dopebox.to/,Movie streaming,,OpenSource & FreeWare | resources (1)
+Media,Film & Video,Free Streaming Sites,HDBest,https://hdbest.net/,Movie/TV show streaming,,OpenSource & FreeWare | resources (1)
+Media,Film & Video,Free Streaming Sites,LookMovie,https://www.lookmovie2.to/,Movie Streaming,,OpenSource & FreeWare | resources (1)
+Media,Film & Video,Free Streaming Sites,PutLocker,https://putlocker-sb.lol/stream/,Movie Streaming,,OpenSource & FreeWare | resources (1)
+Media,Film & Video,Free Streaming Sites,Streamio,https://www.stremio.com/,Stream / download media,,OpenSource & FreeWare | resources (1)
+Media,Film & Video,Free Streaming Sites,StreamLord,http://www.streamlord.com/,Streaming service,,OpenSource & FreeWare | resources (1)
+Media,Film & Video,Free Streaming Sites,YesMovies,https://yesmovies.ag/,Movie/TV Show streaming,,OpenSource & FreeWare | resources (1)
+Media,Film & Video,Anime & Animation,Anime Database,https://myanimelist.net/,,,Archives
+Media,Film & Video,Anime & Animation,Anime links,https://anilinks.neocities.org/,,,Archives
+Media,Books & Magazines,,BYTE FAQ,https://www.halfhill.com/bytefaq.html,"Tom's Unofficial BYTE FAQ, The Death of BYTE Magazine",,General
+Media,Books & Magazines,,Lainezine,https://lainzine.org/,Serial Experiments Lain themed magazine,,General | Tech (1)
+Media,Books & Magazines,,Literature Zine,https://lampbylit.com/magazine/,Based on /li/,,General
+Media,Books & Magazines,,Low-Tech Magazine,https://solar.lowtechmagazine.com/,Magazine on technology,,General
+Media,Books & Magazines,,Ptuch Archive,https://archive.org/details/Ptuch/%D0%9F%D0%A2%D0%AE%D0%A7/%D0%BF%D1%82%D1%8E%D1%87%201994/%D0%BF%D1%82%D1%8E%D1%87.1994.01.pdf,Soviet magazine from the 90s/00s. My mama worked here ^_^,,resources (1)
+Media,Books & Magazines,,PTYUCH,https://archive.org/details/Ptuch/%D0%9F%D0%A2%D0%AE%D0%A7/%D0%BF%D1%82%D1%8E%D1%87%201998/%D0%9F%D1%82%D1%8E%D1%87.1998.12.%2834%29.pdf,Archive of PTYUCH issues (my mom worked on these ^_^),,Design Work | General
+Media,Books & Magazines,,Real Life Mag,https://reallifemag.com/,Magazine about living with technology,,Archives | General
+Media,Books & Magazines,,TANK Magazine,https://tank.tv/magazine,Collection of blogs and other media,,General
+Media,Books & Magazines,,Volvox Observer,https://volvox.observer/archive,Small independent magazines,,General
+Media,Video Games,,ClassicReload,https://classicreload.com/,,,OpenSource & FreeWare
+Media,Video Games,,Emulator,http://emulator.online/,,,OpenSource & FreeWare
+Media,Video Games,,Emulator.games,https://emulator.games/,,,OpenSource & FreeWare
+Media,Video Games,,Free80sArcard,https://www.free80sarcade.com/,,,OpenSource & FreeWare
+Media,Video Games,,GamesHaha,https://www.gameshaha.net/,,,OpenSource & FreeWare
+Media,Video Games,,Gamulator,https://www.gamulator.com/roms,,,OpenSource & FreeWare
+Media,Video Games,,HAUNTED PS1 DEMO DISC,https://hauntedps1.itch.io/demodisc2020,indie horror video game demos that are all somewhat styled with a PS1 aesthetic,,resources (1)
+Media,Video Games,,MyAbandonWare,https://www.myabandonware.com/,Download or play abandonware games (1978 - 2010),,OpenSource & FreeWare | resources (1)
+Media,Video Games,,PlayClassicGames,https://playclassic.games/,,,OpenSource & FreeWare
+Media,Video Games,,PlayRetroGames,https://www.playretrogames.com/,,,OpenSource & FreeWare
+Media,Video Games,,ps1Fun,http://www.ps1fun.com/,,,OpenSource & FreeWare
+Media,Video Games,,PS2 Games,https://store.steampowered.com/curator/42604691/,PS2 on steam,,resources (1)
+Media,Video Games,,psxui,https://psxui.tumblr.com/,appreciation of user interface design in PlayStation 1 games.,,resources (1)
+Media,Video Games,,RetroGames,https://www.retrogames.cz/,,,OpenSource & FreeWare
+Media,Video Games,,SubServ,https://github.com/kaervin/subserv-mpv-plugin,Send subtitles displayed by mpv to your web-browser,,OpenSource & FreeWare | resources (1)
+Media,Video Games,,vimms lair,https://vimm.net/,"The best archival site for games, manuals, reviews, and more.",,resources (1)
+Music & Audio,Free Music & Sound,,CitizenDJ,https://citizen-dj.labs.loc.gov/,Free-to-use audio and video collections from the Library of Congress for hip-hop creators.,,Music Archive | OpenSource & FreeWare | resources (1)
+Music & Audio,Free Music & Sound,,Free Music Archive,https://freemusicarchive.org/,All royalty free,,Music Archive | OpenSource & FreeWare | resources (1)
+Music & Audio,Free Music & Sound,,FreeSound,https://freesound.org/,Some free sounds,,Music Archive | OpenSource & FreeWare | resources (1)
+Music & Audio,Free Music & Sound,,Mod Archive Torrents,http://tracker.modarchive.org/,World’s largest collection of music modules,,OpenSource & FreeWare | resources (1)
+Music & Audio,Free Music & Sound,,Open Source Sounds,https://citiesandmemory.com/obsolete-sounds/,citiesandmemory.com/obsolete-sounds,Music & Audio > Discover Music,Design Work | Music Archive | OpenSource & FreeWare | resources (1)
+Music & Audio,Free Music & Sound,,Ringtone Banger Archive,https://drive.google.com/drive/folders/1gmdJvP_TZ9NlcV3av16Vvbp1vvXbBcuc,Google Drive with ringtones for download.,,Music Archive | OpenSource & FreeWare | resources (1)
+Music & Audio,Free Music & Sound,,SoundBible,https://soundbible.com/,Free Sound effects,,Music Archive | OpenSource & FreeWare | resources (1)
+Music & Audio,Free Music & Sound,,Soviet Music,http://sovmusic.ru/,Archive of Soviet Music,,Music Archive | OpenSource & FreeWare | resources (1)
+Music & Audio,Free Music & Sound,,Synth Archive,https://teenage.engineering/guides,Synth archive with guides,,Music Archive
+Music & Audio,Free Music & Sound,,Video Game Music,https://mw.rat.bz/davgmsrl/,Demoscene and video game music streaming radio station links,,Archives | Music Archive
+Music & Audio,Free Music & Sound,,WavSource,http://wavsource.com,Free Wav Files and sound files,,Music Archive | OpenSource & FreeWare | resources (1)
+Music & Audio,Free Music & Sound,,YouTube Royalty Free,https://www.youtube.com/channel/UCht8qITGkBvXKsR1Byln-wA,YouTube Free Music,,Music Archive | OpenSource & FreeWare | resources (1)
+Music & Audio,Radio,,AM Stereo,http://www.amstereo.org/,Listen to the AM radio ^_^,,General | Videos
+Music & Audio,Radio,,Anime Music Radio,https://listen.moe/,A radio for anime music,,Music Archive
+Music & Audio,Radio,,Public Radio,https://www.publicradio.info/,It’s a public radio,,General | Videos
+Music & Audio,Radio,,r/a/dio,https://r-a-d.io/,Anime music internet radio station run by /a/.,,resources (1)
+Music & Audio,Discover Music,,Ambiance,https://ambiancejeune.com/,Ambient radio,,Music Archive
+Music & Audio,Discover Music,,Ambient-mixer,https://www.ambient-mixer.com/,Mix your own dynamic soundscape online.,,Music Archive
+Music & Audio,Discover Music,,Anime Music Player,https://touhou.kuukunen.net/,Play anime music,,Music Archive
+Music & Audio,Discover Music,,Beepbox,https://www.beepbox.co/,Online tool for sketching and sharing instrumental music (esp chiptune).,,Music Archive
+Music & Audio,Discover Music,,Every Noise,https://everynoise.com/engenremap.html,Music of every genre,,Music Archive
+Music & Audio,Discover Music,,Japanese Sound Effects,https://www.muri.se/misc/soundfx.html,Sound effects and what they mean,,Music Archive
+Music & Audio,Discover Music,,Keygen Jukebox,https://keygenjukebox.net/,Keygen music,,Music Archive
+Music & Audio,Discover Music,,Music Blog Search,http://xahlee.org/music/index.html,,,Archives
+Music & Audio,Discover Music,,Music for Programming,https://musicforprogramming.net/latest/,Music for programming - selected works,,Music Archive
+Music & Audio,Discover Music,,Music Genre History,https://musicmap.info/,"Map of popular music genres, and their relations and history.",Music & Audio > Learn Music & Audio,Music Archive
+Music & Audio,Discover Music,,Music Genre Tree,https://www.musicgenretree.org/,Visual for the evolution of music,,Music Archive
+Music & Audio,Discover Music,,Mydora,https://mydora.restorativland.org/,Continuous streaming music player,,Music Archive
+Music & Audio,Discover Music,,Purrli,https://purrli.com/,HD cat purrs for background noise (in TempleOS),,Music Archive
+Music & Audio,Discover Music,,Radio,https://radio.syg.ma/,Radio collection,,Music Archive
+Music & Audio,Discover Music,,Radiooooo,https://app.radiooooo.com/,"Interactive map to learn and discover music, by country and decade.",,Music Archive
+Music & Audio,Discover Music,,Satellite Sound,https://satellitesound.bandcamp.com/music,Andrew Elmore Music Projects/,,resources (1)
+Music & Audio,Discover Music,,three.fm,https://www.tree.fm/,Forests around the world.,,Music Archive
+Music & Audio,Communities & Databases,,fendoap,https://www.chriskorda.com/software.html,Music Projects and Software,,Music Archive
+Music & Audio,Communities & Databases,,LastFM,https://www.last.fm/,Connect your audio world,,Music Archive
+Music & Audio,Communities & Databases,,NerdlyPleasures on MIDI,https://nerdlypleasures.blogspot.com/search/label/MIDI,NerdlyPleasures blogs on MIDI,,Music Archive
+Music & Audio,Communities & Databases,,Open Game Art,https://opengameart.org/,Free videogame music and discussion,,Music Archive
+Music & Audio,Communities & Databases,,Rate Your Music,https://rateyourmusic.com/,One of the largest music databases and communities online,,Music Archive
+Music & Audio,Learn Music & Audio,,Audio Programming Tutorial,https://www.youtube.com/watch?v=lIeP5nbnpeE&list=PLEETnX-uPtBVpZvp-R2daNfy9k3-L-Q3u&ab_channel=thebennybox,,,Music Archive
+Music & Audio,Learn Music & Audio,,AudioGrid,https://www.audiogrid.com/arsl.html,"Audio Related Internet, World Wide Web & FTP Sites ©",,Music Archive
+Music & Audio,Learn Music & Audio,,Ishkur's Guide to Electronic Music,https://music.ishkur.com/,An insanely detailed timeline showcasing the history and relationships between different types of electronic music. Online since 2003,,Music Archive
+Music & Audio,Learn Music & Audio,,Learn MSP Max,https://docs.cycling74.com/learn/,Guide to MSP Max,,Music Archive
+Music & Audio,Learn Music & Audio,,Midi File Choral Music,https://www.learnchoralmusic.co.uk/,John's Midi File Choral Music site,,Music Archive
+Music & Audio,Learn Music & Audio,,Music Theory,https://www.musictheory.net/lessons,"Music theory lessons, exercises, ear trainers, and calculators.",,Music Archive
+Music & Audio,Learn Music & Audio,,Musical Notation,https://github.com/lvm/MusicalNotation,"A set of classes related to Musical Notation (Percussion, Note, Chord, Progression)",Music & Audio > Music Projects,Archives | Music Archive
+Music & Audio,Learn Music & Audio,,Ppooll,https://github.com/ppooll-dev/ppooll,Learn ppooll,,Music Archive
+Music & Audio,Learn Music & Audio,,Ppooll Video Guide,https://www.youtube.com/watch?v=gaIMJLAxmu0&ab_channel=ppooll,Video tutorial to ppooll,,Music Archive
+Music & Audio,Learn Music & Audio,,Python MIDI,https://stackoverflow.com/questions/64838592/how-do-i-set-the-time-and-duration-of-a-note-when-creating-a-midi-file/64839411#64839411,Write MIDI file in Python,,Music Archive
+Music & Audio,Music Projects,,Another Music Project - IDM/Electronic radio station,https://www.rcast.net/dir/204258/another-music-project,Icecast Streaming Media Server,,Archives
+Music & Audio,Music Projects,,anothermusicproject.com,http://anothermusicproject.com/radio,,,Archives
+Music & Audio,Music Projects,,DIY Speaker System,http://www.zaphaudio.com/,DIY Speaker System,Music & Audio > Learn Music & Audio,Archives | Music Archive
+Music & Audio,Music Projects,,github.com,https://github.com/lukephills/omni/tree/master,,,Archives
+Music & Audio,Music Projects,,github.com/masonarmand,https://github.com/masonarmand,,,Archives
+Music & Audio,Music Projects,,OMNI,https://femurdesign.com/omni/,,,Archives
+Music & Audio,Music Projects,,radio.anothermusicproject.com:8000,http://radio.anothermusicproject.com:8000/,,,Archives
+Archives & Collections,Web & Internet Archives,,archive.rhizome.org/exhibition/artbase101,https://archive.rhizome.org/exhibition/artbase101/,,,Archives
+Archives & Collections,Web & Internet Archives,,Collection of Various Archives,https://www.underconsideration.com/brandnew/collected,underconsideration.com/brandnew/collected,,Design Work | General | resources (1)
+Archives & Collections,Web & Internet Archives,,Flickr Archive,https://docs.google.com/spreadsheets/d/1psWduzRxBHzi-aKD_McSM4P7eNO8wHhANCrus_uo6e8/edit?gid=770506321#gid=770506321,Spreadsheet of Flickr archives,,General | resources (1)
+Archives & Collections,Web & Internet Archives,,Motto Distribution,https://www.mottodistribution.com/shop/,Shop/browse interesting media,,General | resources (1)
+Archives & Collections,Web & Internet Archives,,So Much,https://www.somuch.com/,A free website link directory where you can find the best human edited links sorted by topic and category,,Archives | General | resources (1)
+Archives & Collections,Web & Internet Archives,,The Eye,https://the-eye.eu/,"Archive consisting of 140TB of books, websites, games, software, or anything else you can really think of",,OpenSource & FreeWare | resources (1)
+Archives & Collections,Web & Internet Archives,,the-eye.eu/public,https://the-eye.eu/public/,,,Archives | General
+Archives & Collections,Web & Internet Archives,,Wayback Machine,https://archive.org/web/,Web archive,,General | resources (1)
+Archives & Collections,Digital Libraries,,AO3: Our Own Archive,https://archiveofourown.org/,"Our Own Archive: A fan-created, fan-run, nonprofit, noncommercial archive for transformative fanworks, like fanfiction, fanart, fan videos, and podfic",Archives & Collections > Web & Internet Archives,General | resources (1)
+Archives & Collections,Digital Libraries,,Cold War Transcripts,https://nsarchive.gwu.edu/briefing-book/russia-programs/2016-12-18/new-book-combines-soviet-us-transcripts-highest-level,Transcripts from NSArchive,,General | resources (1)
+Archives & Collections,Digital Libraries,,Free Tech Books,https://www.freetechbooks.com/,Open Source Tech Books,,OpenSource & FreeWare | resources (1)
+Archives & Collections,Digital Libraries,,Library Stack,https://www.librarystack.org/,Another open library,,Design Work | OpenSource & FreeWare | resources (1)
+Archives & Collections,Digital Libraries,,Memory of the World Library,https://library.memoryoftheworld.org/,"A hugeonline library where you can freely download books that have entered the public domain. Over 153,000 titles to choose from.",,OpenSource & FreeWare | resources (1)
+Archives & Collections,Digital Libraries,,Open library,https://openlibrary.org/,openlibrary.org,,Design Work | OpenSource & FreeWare | resources (1)
+Archives & Collections,Digital Libraries,,Project Gutenberg,https://www.gutenberg.org/,"A library of over 75,000 free eBooks",,OpenSource & FreeWare | resources (1)
+Archives & Collections,Digital Libraries,,Standard EBooks,https://standardebooks.org/,Free public domain e-books,,resources (1)
+Archives & Collections,Digital Libraries,,Ubu Web,https://www.ubu.com/,“UbuWeb is a pirate shadow library consisting of hundreds of thousands of freely downloadable avant-garde artifacts”,,FilmFestivals | General | Music Archive | resources (1)
+Archives & Collections,Digital Libraries,,Universal Digital Archive,http://ulib.isri.cmu.edu/,Collection of over 1mill books,,OpenSource & FreeWare | resources (1)
+Archives & Collections,Curated Collections,Games & Retro Tech,Consollection,https://consollection.de/,Collection of gaming consoles,,General | resources (1)
+Archives & Collections,Curated Collections,Games & Retro Tech,Flash Game Archive,https://archive.org/details/softwarelibrary_flash?page=2,Archive of Flash games,,General | resources (1)
+Archives & Collections,Curated Collections,Games & Retro Tech,Go Canucks,http://gocanucks.free.fr/,Library of cute lil pixel guys,,General | resources (1)
+Archives & Collections,Curated Collections,Games & Retro Tech,I/O games,https://iogames.space/,various I/O games,,General | resources (1)
+Archives & Collections,Curated Collections,Games & Retro Tech,KB Archive,https://jeffpar.github.io/kbarchive/,"KnowledgeBase, archive of early Microsoft KnowledgeBase Articles",,General | resources (1)
+Archives & Collections,Curated Collections,Games & Retro Tech,MyCalcDB,http://mycalcdb.free.fr/,Calculator Database,,General | resources (1)
+Archives & Collections,Curated Collections,Games & Retro Tech,The Cover Project,https://thecoverproject.net/index.php,Video Game Covers,,General | resources (1)
+Archives & Collections,Curated Collections,Games & Retro Tech,The LED Watch,https://www.theledwatch.com/watches,LED Watches,,General | resources (1)
+Archives & Collections,Curated Collections,Games & Retro Tech,The Old Robots,https://www.theoldrobots.com/index.html,Gallery of retro robots,,General | resources (1)
+Archives & Collections,Curated Collections,Games & Retro Tech,WebAmp,https://skins.webamp.org/,Winamp skin museum,,General | resources (1)
+Archives & Collections,Curated Collections,Nature & Science,Bug Guide,https://bugguide.net/node/view/15740,Guide to all bugs,,General | resources (1)
+Archives & Collections,Curated Collections,Nature & Science,Insect Portraits,http://microsculpture.net/,Archive of bugs,,General | resources (1)
+Archives & Collections,Curated Collections,Nature & Science,Optical Illusions,https://michaelbach.de/ot/index.html,152 Visual Phenomena and optical illusions,,General | resources (1)
+Archives & Collections,Curated Collections,Nature & Science,Rubiks Cubes,https://www.grubiks.com/,Everything you need to know,,General | resources (1)
+Archives & Collections,Curated Collections,Nature & Science,XKCD,https://what-if.xkcd.com/,Answers to Random Science Questions,,General | resources (1)
+Archives & Collections,Curated Collections,Curiosities & Ephemera,Anime Girls Holding Programming Books,https://github.com/cat-milk/Anime-Girls-Holding-Programming-Books,As the title states,Archives & Collections > Curated Collections,General | resources (1)
+Archives & Collections,Curated Collections,Curiosities & Ephemera,Bahai Library,https://bahai-library.com/,Bahai teachings and information,,General | resources (1)
+Archives & Collections,Curated Collections,Curiosities & Ephemera,Bottlecaps,https://capacedebere.neocities.org/,Over 4000 Bottle caps from around the world,,General | resources (1)
+Archives & Collections,Curated Collections,Curiosities & Ephemera,Everything Can Be Scanned,https://ecbscanned.com/,Everything can be scanned: ecbscanned.com,"Design > Graphics, Textures & 3D",Design Work | General | Technology | resources (1)
+Archives & Collections,Curated Collections,Curiosities & Ephemera,Greatest Films of All Time,https://www.bfi.org.uk/sight-and-sound/greatest-films-all-time,Top films,,General | resources (1)
+Archives & Collections,Curated Collections,Curiosities & Ephemera,Hatsune Miku Friends,https://www.giantbomb.com/hatsune-miku/3005-7367/friends/,Learn about Hatsune Miku,,General | resources (1)
+Archives & Collections,Curated Collections,Curiosities & Ephemera,Jigsaw Explorer,https://www.jigsawexplorer.com/,Jigsaw puzzlesss,,Archives | General | resources (1)
+Archives & Collections,Curated Collections,Curiosities & Ephemera,Lock Wiki,https://lockwiki.com/index.php/Main_Page/,All about locks,,General | resources (1)
+Archives & Collections,Curated Collections,Curiosities & Ephemera,Presidential Campaign Commercials,https://www.livingroomcandidate.org/commercials/1952,Presidential Campaign Commercials,Archives & Collections > Curated Collections,Design Work | General | resources (1)
+Archives & Collections,Curated Collections,Curiosities & Ephemera,Rare Historical Photos,https://rarehistoricalphotos.com/,rarehistoricalphotos.com,,Design Work | General | resources (1)
+Archives & Collections,Curated Collections,Curiosities & Ephemera,Swatch,https://www.stay-tuned-to-sw.de/specials.html,Virtual Swatch Museum,,General | resources (1)
+Archives & Collections,Curated Collections,Curiosities & Ephemera,The Hydrant Directory,https://www.dayroselane.com/hydrants,Showcase of fire hydrants,"Design > Graphics, Textures & 3D",Design Work | General | resources (1)
+Archives & Collections,Curated Collections,Curiosities & Ephemera,The Rosetta Stone PowerPac,http://archive.org/details/trs-power-pac/,"Free Download, Borrow, and Streaming - Internet Archive",,General | resources (1)
+Internet Culture,Personal Sites & Digital Gardens,,acgillette.net,https://acgillette.net/,,,Archives
+Internet Culture,Personal Sites & Digital Gardens,,acko.net,https://acko.net/,,,Archives
+Internet Culture,Personal Sites & Digital Gardens,,ahmedghazi.com,https://ahmedghazi.com/,,,Archives
+Internet Culture,Personal Sites & Digital Gardens,,andegraf.com,https://andegraf.com/,,,Archives
+Internet Culture,Personal Sites & Digital Gardens,,andymakes.com,https://andymakes.com/,,,Archives
+Internet Culture,Personal Sites & Digital Gardens,,anonicus.net/etc/links.html,https://anonicus.net/etc/links.html,,,Archives
+Internet Culture,Personal Sites & Digital Gardens,,art.teleportacia.org/olia.html,https://art.teleportacia.org/olia.html,,,Archives
+Internet Culture,Personal Sites & Digital Gardens,,blog.enes.in,https://blog.enes.in/,,,Archives
+Internet Culture,Personal Sites & Digital Gardens,,chia.design,https://chia.design/,,,Archives
+Internet Culture,Personal Sites & Digital Gardens,,chias.blog,https://chias.blog/,,,Archives
+Internet Culture,Personal Sites & Digital Gardens,,Chris Korda,https://www.chriskorda.com,Interesting audio and code projects,,General
+Internet Culture,Personal Sites & Digital Gardens,,coryarcangel.com,https://coryarcangel.com/,,,Archives
+Internet Culture,Personal Sites & Digital Gardens,,cyberb.space/work,https://cyberb.space/work/,,,Archives
+Internet Culture,Personal Sites & Digital Gardens,,cyberd.org/links.html,https://cyberd.org/links.html,,,Archives
+Internet Culture,Personal Sites & Digital Gardens,,Dan Luu - Dan Luu’s programming blog,https://www.hamhamparadise.com/,Hamtoro fan site,Internet Culture > Weird & Fun | Technology > Blogs & Communities,Archives | General | resources (1)
+Internet Culture,Personal Sites & Digital Gardens,,danluu.com,https://danluu.com/,,,Archives
+Internet Culture,Personal Sites & Digital Gardens,,Derek Sivers,https://sive.rs/,Blog,,resources (1) | www
+Internet Culture,Personal Sites & Digital Gardens,,digilord.neocities.org,https://digilord.neocities.org/,,,Archives
+Internet Culture,Personal Sites & Digital Gardens,,enes.in,https://enes.in/,,,Archives
+Internet Culture,Personal Sites & Digital Gardens,,Erik Loyer,https://erikloyer.com/,Interesting works,,General
+Internet Culture,Personal Sites & Digital Gardens,,everest-pipkin.com,https://everest-pipkin.com/,,,Archives
+Internet Culture,Personal Sites & Digital Gardens,,Excerpts from my notes app,https://www.are.na/deusness-pinlac/excerpts-from-my-notes-app-qgnchhi08v4,,,Archives
+Internet Culture,Personal Sites & Digital Gardens,,grahamdowney.com/links.htm,https://grahamdowney.com/links.htm,,,Archives
+Internet Culture,Personal Sites & Digital Gardens,,gyford.com,https://www.gyford.com/,,,Archives
+Internet Culture,Personal Sites & Digital Gardens,,Hans Witschi,https://handbook.org/,Hans Witschi’s personal site,,General
+Internet Culture,Personal Sites & Digital Gardens,,hryjksn.com/links,https://hryjksn.com/links,,,Archives
+Internet Culture,Personal Sites & Digital Gardens,,Interesting photographs and tech projects,https://jim.rees.org/,,,Archives
+Internet Culture,Personal Sites & Digital Gardens,,ivanzhao.me,https://www.ivanzhao.me/,,,Archives
+Internet Culture,Personal Sites & Digital Gardens,,Jason Scott,https://ascii.textfiles.com/,Jason Scott’s Weblog,,General
+Internet Culture,Personal Sites & Digital Gardens,,joeyh.name/offgrid,https://joeyh.name/offgrid/,,,Archives
+Internet Culture,Personal Sites & Digital Gardens,,kayvandenaker.nl,https://www.kayvandenaker.nl/,,,Archives
+Internet Culture,Personal Sites & Digital Gardens,,Larry Cuba,https://people.well.com/user/cuba/Biography.html,,,Archives
+Internet Culture,Personal Sites & Digital Gardens,,Le Hipster Portal,https://lehipsterportal.blogspot.com/,Meg Superstar Princess's former blog,,General
+Internet Culture,Personal Sites & Digital Gardens,,lolwut.neocities.org/links,https://lolwut.neocities.org/links,,,Archives
+Internet Culture,Personal Sites & Digital Gardens,,maxbittker.com/projects,https://maxbittker.com/projects/,,,Archives
+Internet Culture,Personal Sites & Digital Gardens,,mebious.neocities.org,https://mebious.neocities.org/,,,Archives
+Internet Culture,Personal Sites & Digital Gardens,,Molly Soda,https://mollysoda.exposed/,,,Archives
+Internet Culture,Personal Sites & Digital Gardens,,morefunz.com,https://morefunz.com/,,,Archives
+Internet Culture,Personal Sites & Digital Gardens,,Olia URL Lecture,https://aos.arebyte.com/contents/olia-lialina-her-majesty-url-lecture/,,,Archives
+Internet Culture,Personal Sites & Digital Gardens,,Oneotrix Point Never,https://pointnever.com/,OPN personal site,,General
+Internet Culture,Personal Sites & Digital Gardens,,Paul Graham,https://www.paulgraham.com/articles.html,Paul Graham’s Essays,Technology > Blogs & Communities,Archives | General
+Internet Culture,Personal Sites & Digital Gardens,,peelopaalu.neocities.org,https://peelopaalu.neocities.org/,,,Archives
+Internet Culture,Personal Sites & Digital Gardens,,protopage.com/edtechflynn,https://protopage.com/edtechflynn,,,Archives
+Internet Culture,Personal Sites & Digital Gardens,,protopage.com/mrman2001,https://www.protopage.com/mrman2001#Home,,,Archives
+Internet Culture,Personal Sites & Digital Gardens,,sadgrl.online/guides,https://sadgrl.online/guides/,,,Archives
+Internet Culture,Personal Sites & Digital Gardens,,sadgrl.online/guides/surf,https://sadgrl.online/guides/surf/,,,Archives
+Internet Culture,Personal Sites & Digital Gardens,,sadgrl.online/posts/internet-manifesto,https://sadgrl.online/posts/internet-manifesto/,,,Archives
+Internet Culture,Personal Sites & Digital Gardens,,sadgrl.online/posts/its-personal,https://sadgrl.online/posts/its-personal/,,,Archives
+Internet Culture,Personal Sites & Digital Gardens,,sigilwen.ca,https://sigilwen.ca/,,,Archives
+Internet Culture,Personal Sites & Digital Gardens,,Spencer Chang,https://news.spencer.place/,Blog,,resources (1) | www
+Internet Culture,Personal Sites & Digital Gardens,,spencer.place,https://spencer.place/,,,Archives
+Internet Culture,Personal Sites & Digital Gardens,,t.co,https://t.co/jfzPuz1jjp,,,General
+Internet Culture,Personal Sites & Digital Gardens,,tanami.org/archive/Etudes%20for%20Programmers.html,https://tanami.org/archive/Etudes%20for%20Programmers.html,,,Archives
+Internet Culture,Personal Sites & Digital Gardens,,Tao Lin,https://www.taolin.us/books,Tao Lin’s Books,,General
+Internet Culture,Personal Sites & Digital Gardens,,the-simple-site.neocities.org,https://the-simple-site.neocities.org/,,,Archives
+Internet Culture,Personal Sites & Digital Gardens,,Turing Complete User,https://tanami.org/archive/Turing%20Complete%20User.html,,,Archives
+Internet Culture,Personal Sites & Digital Gardens,,wdell.com,https://www.wdell.com/,,,Archives
+Internet Culture,Personal Sites & Digital Gardens,,whenwe.love,https://whenwe.love/,,,Archives
+Internet Culture,Personal Sites & Digital Gardens,,xahlee.org,http://xahlee.org/index.html,,,General
+Internet Culture,Blogs & Organizations,,AreByte,https://aos.arebyte.com/,Cool art community,,General
+Internet Culture,Blogs & Organizations,,ChadNet,https://wiki.chadnet.org/,"Home of wiki, games and archives",,General | resources (1) | www
+Internet Culture,Blogs & Organizations,,Code Societies Blog,https://sfpc.io/code-societies/blog/,School for Poetic Computation (SFPC)’s tutorials and discussions on computers,,Tech (1) | Technology | resources (1) | www
+Internet Culture,Blogs & Organizations,,Creative Commons,https://commonsconservancy.org/,A home for technology efforts in the public interest,,General
+Internet Culture,Blogs & Organizations,,e-flux.com,https://www.e-flux.com/,,,Archives
+Internet Culture,Blogs & Organizations,,Negative Land,https://negativland.com/,Multimedia Collective,,General
+Internet Culture,Blogs & Organizations,,Nerdy Pleasures,https://nerdlypleasures.blogspot.com/,Lots of nerdy pleasures,,General
+Internet Culture,Blogs & Organizations,,New Models - Networked Technology Forum,https://www.newmodels.io/,Networked Technology Forum,,Design Work | General | Tech (1) | Technology | resources (1) | www
+Internet Culture,Blogs & Organizations,,Our Friend the Computer,https://www.ourfriendthe.computer/,Cute podcast about technology,,General
+Internet Culture,Blogs & Organizations,,Perfectly Imperfect,https://www.pi.fyi/welcome,Interviews with public figures,,General
+Internet Culture,Blogs & Organizations,,Read Only Memory,https://readonlymemory.com/,Books on videogames and world building,,General
+Internet Culture,Blogs & Organizations,,Rhizome,https://rhizome.org/,Digital Art and Culture,,resources (1) | www
+Internet Culture,Blogs & Organizations,,School for Poetic Computation,https://sfpc.study/,School + community related to art and code and society,,resources (1) | www
+Internet Culture,Forums & Communities,,CCRU,http://www.ccru.net/index.htm,Cybernetics Culture Research Unit,,resources (1) | www
+Internet Culture,Forums & Communities,,Japanese forum,https://itest.5ch.io/topics/popular,,,resources (1)
+Internet Culture,Forums & Communities,,Job Resources,https://www.reddit.com/r/kaidomac/comments/qqzjc2/job_resource_guides/,,,resources (1)
+Internet Culture,Forums & Communities,,lesswrong.com/wikitags/all,https://www.lesswrong.com/wikitags/all,,,Archives
+Internet Culture,Forums & Communities,,ooh,https://ooh.directory/,"A collection of 2,397 blogs about every topic",,resources (1)
+Internet Culture,Nostalgia & Old Internet,,4chan Archive,https://4museum-v.neocities.org/,,,Archives
+Internet Culture,Nostalgia & Old Internet,,4Chan History,https://wiki.bibanon.org/4chan/History,History of the infamous 4Chan,,Archives | Tech (1) | Technology
+Internet Culture,Nostalgia & Old Internet,,Adobe Flash,https://archives.somnolescent.net/web/lince//pc/flash.html,Flash gaming and resource page,,Technology | resources (1)
+Internet Culture,Nostalgia & Old Internet,,archive.kioskkiosk.com,https://archive.kioskkiosk.com/,,,Archives
+Internet Culture,Nostalgia & Old Internet,,archives.somnolescent.net/web/mari_v3/junk/ilifesfx,https://archives.somnolescent.net/web/mari_v3/junk/ilifesfx/,,,Archives
+Internet Culture,Nostalgia & Old Internet,,archives.somnolescent.net/web/mari_v3/music,https://archives.somnolescent.net/web/mari_v3/music/,,,Archives
+Internet Culture,Nostalgia & Old Internet,,desuarchive.org,https://desuarchive.org/,,,Archives
+Internet Culture,Nostalgia & Old Internet,,"info.stylee32.net - some old 4chan infographics, I think mostly from the Information Library from 2010.",https://info.stylee32.net/,,,Archives
+Internet Culture,Nostalgia & Old Internet,,Netiquette Anthropology,http://xahlee.info/Netiquette_dir/troll.html,,,Archives
+Internet Culture,Nostalgia & Old Internet,,toastytech.com,http://toastytech.com/,,,Archives
+Internet Culture,Nostalgia & Old Internet,,VGM,https://vgmrips.net/packs/,Video Game Rips,,Archives
+Internet Culture,Nostalgia & Old Internet,,VidLii,https://www.vidlii.com/videos,Mimics pre-2009 YouTube,,General | resources (1)
+Internet Culture,Nostalgia & Old Internet,,Weeb / chan archive,https://namelessrumia.heliohost.org/w/doku.php,,,Archives
+Internet Culture,Weird & Fun,Odd Sites,Chrome Experiments,https://stars.chromeexperiments.com/,Complete Stellar Network,,General | resources (1)
+Internet Culture,Weird & Fun,Odd Sites,Dark Site Finder,https://darksitefinder.com/,Dark locations and sites to see stars,,General | resources (1)
+Internet Culture,Weird & Fun,Odd Sites,Deep Fried Memes,https://deepfriedmemes.com/,Meme Deep Fryer,,General
+Internet Culture,Weird & Fun,Odd Sites,Fail Blog,https://failblog.cheezburger.com/,,,Archives
+Internet Culture,Weird & Fun,Odd Sites,Holotypic Occlupanid Research Group,https://www.horg.com/horg/,Interesting fascination,,General | resources (1)
+Internet Culture,Weird & Fun,Odd Sites,Human Clock,https://humanclock.com/,So cute!,,General | resources (1)
+Internet Culture,Weird & Fun,Odd Sites,Japanese Police Records,https://www.police.pref.hokkaido.lg.jp/,Public japanese police records,,General | resources (1)
+Internet Culture,Weird & Fun,Odd Sites,LockLab,https://locklab.com/,Everything about lockpicking,,General | resources (1)
+Internet Culture,Weird & Fun,Odd Sites,PetitTube,https://petittube.com/,Random YouTube videos with less than 10 views,,General | resources (1)
+Internet Culture,Weird & Fun,Odd Sites,PostSecret,https://postsecret.com/,Postcards with secrets,,General | resources (1)
+Internet Culture,Weird & Fun,Odd Sites,SCUM Games,https://scumgames.neocities.org/,TempleOS Games,Media > Film & Video,Archives | General
+Internet Culture,Weird & Fun,Odd Sites,Spurious Correlations,https://tylervigen.com/spurious-correlations,Correlation != causation,,General | resources (1)
+Internet Culture,Weird & Fun,Odd Sites,The Worst Things for Sale,https://theworstthingsforsale.com/,Silly collection of funny things on the market,,General | resources (1)
+Internet Culture,Weird & Fun,Odd Sites,Tracky Birthday,http://www.trackybirthday.com/,A crazy site,,General | resources (1)
+Internet Culture,Weird & Fun,Odd Sites,Windows93,https://www.windows93.net/,A parody OS Game,,General | resources (1)
+Internet Culture,Weird & Fun,Live Cams,EarthCam,https://www.earthcam.com/,Live Webcams across the world,,General | resources (1)
+Internet Culture,Weird & Fun,Live Cams,OpenTopia,http://www.opentopia.com/,More LiveCams,,General | resources (1)
+Internet Culture,Weird & Fun,Live Cams,WXYZWebCams,https://wxyzwebcams.com/,Some more webcams!,,General | resources (1)
+Internet Culture,Mature Content,,Adult Web Masters Online,https://www.adultwebmastersonline.com/,The Adult Webmaster Industry Source,,Technology | resources (1) | www
+Internet Culture,Mature Content,,Erowid,https://www.erowid.org/splash.php,Drug Info (research only),,General | resources (1)
+Internet Culture,Mature Content,,Everything about Columbine,https://www.columbine-guide.com/,,,Archives
+Internet Culture,Mature Content,,F0ck!,https://f0ck.me/,Random misc. Images (may be NSFW),,General | resources (1)
+Internet Culture,Mature Content,,KiwiFarms,https://kiwifarms.st/,"Lolcows, internet social discourse",,General
+Internet Culture,Mature Content,,Lolcow,https://lolcow.farm/,Internet discussion forum,,General
+Internet Culture,Mature Content,,New Totse,https://newtotse.com/phpbb3/,Forum Archive,,Tech (1) | Technology | resources (1) | www
+Internet Culture,Mature Content,,newtotse.com/oldtotse/en/erotica/alpha,https://newtotse.com/oldtotse/en/erotica/alpha/index.html,,,resources (1) | www
+Internet Culture,Mature Content,,Rotten Library Archive,https://web.archive.org/web/20170829074032/rotten.com/library,,,Archives
+Internet Culture,Mature Content,,Space Ghetto,https://www.spaceghetto.space/,"Some cool random images, may be nsfw",,General | resources (1)
+Internet Culture,Mature Content,,This Porn Does Not Exist,https://nsfwai.com/,"Generated porn, not technically NSFW..",,General | resources (1)
+Internet Culture,Mature Content,,Totse,https://totseans.com/totse/en/drugs/index.html,More Drug info (research only),,General | resources (1)
+Ideas & People,Influential People,Programmers & Scientists,Aaron Swartz — The Internet’s Own Boy,https://www.youtube.com/watch?v=9vz06QO3UkQ,,Media > Film & Video,Media
+Ideas & People,Influential People,Programmers & Scientists,Claude Shannon,https://www.youtube.com/watch?v=z2Whj_nL-x8,,,Media
+Ideas & People,Influential People,Programmers & Scientists,Finding Ada,https://findingada.com/about/who-was-ada/,,,Media
+Ideas & People,Influential People,Programmers & Scientists,Ilya Zhitomirskiy — His GitHub,https://github.com/zhitomirskiyi,,,Media
+Ideas & People,Influential People,Programmers & Scientists,Martin Gardner,https://www.martin-gardner.org/,,,Media
+Ideas & People,Influential People,Programmers & Scientists,Terence Tao — Arrow's Theorem,https://www.math.ucla.edu/~tao/arrow.pdf,Tao on AI in Science and Mathematics,,Media
+Ideas & People,Influential People,Programmers & Scientists,Terence Tao — Personal Page,https://www.math.ucla.edu/~tao/,,,Media
+Ideas & People,Influential People,Programmers & Scientists,Terence Tao — Video,https://www.youtube.com/watch?v=MXJ-zpJeY3E,The Worlds Best Mathematician,,Media
+Ideas & People,Influential People,Programmers & Scientists,Terry Davis — TempleOS,https://templeos.org/,,Internet Culture > Nostalgia & Old Internet,Archives | Media
+Ideas & People,Influential People,Programmers & Scientists,Terry Davis — The Tragic Story of a Genius Schizophrenic Programmer,https://www.youtube.com/watch?v=YMUhbIAA9-8,,,Media
+Ideas & People,Influential People,Philosophers & Writers,Alain de Botton — Personal Website,https://www.alaindebotton.com/,,,Media
+Ideas & People,Influential People,Philosophers & Writers,Gilles Deleuze — From Internet Encyclopedia of Philosophy,https://iep.utm.edu/gilles-deleuze/,,,Media
+Ideas & People,Influential People,Philosophers & Writers,Jacques Lacan — Lacan.com,https://www.lacan.com/,Lacan in the US,Internet Culture > Blogs & Organizations,General | Media
+Ideas & People,Influential People,Philosophers & Writers,Mark Fisher — Capitalist Realism,https://files.libcom.org/files/Capitalist%20Realism_%20Is%20There%20No%20Alternat%20-%20Mark%20Fisher.pdf,,,Media
+Ideas & People,Influential People,Philosophers & Writers,Nick Land,http://www.ccru.net/swarm1/1_melt.htm,Nick Land’s - Meltdown,,Media
+Ideas & People,Influential People,Philosophers & Writers,Nick Land,https://www.youtube.com/watch?v=TJISIwit0tk,Accelerationism,,Media
+Ideas & People,Influential People,Philosophers & Writers,"Nick Land on Time (waves, spirals, lemurs)",https://cybertrophic.wordpress.com/2020/07/09/waves-spirals-lemurs-nick-land-on-time/,,,Media
+Ideas & People,Influential People,Philosophers & Writers,Slavoj Zizek — The Pervert's Guide to Cinema (2009),https://www.thepervertsguide.com/,,,Media
+Ideas & People,Influential People,Philosophers & Writers,Slavoj Zizek — The Pervert's Guide to Ideology (2012),https://www.youtube.com/watch?v=oBcFLmu_tlc&rco=1&ab_channel=ThePhilosopherKing,,,Media
+Ideas & People,Politics & Society,,Copyright Reform,https://annas-archive.org/blog/ai-copyright.html,,,Archives
+Ideas & People,Politics & Society,,Hack Magazine,https://phrack.org/,,,Archives
+Ideas & People,Politics & Society,,Hacktivism,https://www.hackthissite.org/,,,Archives
+Ideas & People,Politics & Society,,objective viewpoints on world change,https://ourworldindata.org/,,,Archives
+Ideas & People,Politics & Society,,UK Conspiracist,https://www.richplanet.net/,,,Archives
+Ideas & People,Conspiracy & Alternative Views,,9/11,http://worldtradeaftermath.com/wta/,,,Archives
+Ideas & People,Conspiracy & Alternative Views,,9/11 flip book,https://www.barcodeart.com/911_flipbook.pdf,,,Archives
+Ideas & People,Conspiracy & Alternative Views,,9/11 review,http://www.911review.com/index.html,,,Archives
+Ideas & People,Conspiracy & Alternative Views,,Banned books and conspiracies,https://www.pauladaunt.com/books/Banned%20books%20and%20conspiracy%20theories/,,,Archives
+Ideas & People,Conspiracy & Alternative Views,,Conspiracy Library,http://whale.to/,,,Archives
+Ideas & People,Conspiracy & Alternative Views,,heiwaco.tripod.com,https://heiwaco.tripod.com/index.html,,,Archives
+Ideas & People,Conspiracy & Alternative Views,,Historical anomalies,https://stolenhistory.net/,,,Archives
+Ideas & People,Conspiracy & Alternative Views,,Ministry of truth,https://digdeeper.club/articles/wikipedia.xhtml,,,Archives
+Ideas & People,Conspiracy & Alternative Views,,number1victimofcrime.com,https://number1victimofcrime.com/,,,Archives
+Ideas & People,Conspiracy & Alternative Views,,On critical thinking,http://whatstheharm.net/,,,Archives
+Ideas & People,Conspiracy & Alternative Views,,Psychological warfare,https://topdocumentaryfilms.com/psywar/,,,Archives
+Ideas & People,Conspiracy & Alternative Views,,Softpanorama,https://softpanorama.org/index.shtml,"Educational society promoting ""Back to basics"" movement against IT overcomplexity and bastardization of classic Unix",,Archives
+Ideas & People,Conspiracy & Alternative Views,,Weird conspiracy links,https://mileswmathis.com/link.html,,,Archives
+Ideas & People,Conspiracy & Alternative Views,,WTC4,http://[wtc7.net/index.html,,,Archives
+Ideas & People,Conspiracy & Alternative Views,,wtc7.net,http://wtc7.net/index.html,,,Archives
+Learning & Life,Guides & How-Tos,,Blackstump,https://www.blackstump.com.au/house.htm,HowTos on anything,,General
+Learning & Life,Guides & How-Tos,,FilmScalpel,https://www.filmscalpel.com/,Video Making Best Practices,,General
+Learning & Life,Guides & How-Tos,,Guru,https://www.guru99.com/,Simple and easy learning,,General
+Learning & Life,Guides & How-Tos,,How to make a Zine,https://thecreativeindependent.com/guides/how-to-make-a-zine/,Guide on Making a magazine,,General
+Learning & Life,Guides & How-Tos,,Instructables,https://www.instructables.com/,How to Make Anything,,General
+Learning & Life,Guides & How-Tos,,The Creative Independent,https://thecreativeindependent.com/guides/,Creative How-Tos,,General
+Learning & Life,Guides & How-Tos,,WebZine,https://coolguy.website/web-zine/01/table-of-contents.html,Web 101 making a zine,,General
+Learning & Life,Guides & How-Tos,,Writing,https://www.benkuhn.net/writing/,How to Write on the Internet,,General
+Learning & Life,Free Courses & Textbooks,,Free Harvard Courses,https://pll.harvard.edu/catalog/free,Free courses from Harvard,,General | resources (1)
+Learning & Life,Free Courses & Textbooks,,Open Textbook Library,https://open.umn.edu/opentextbooks,Free textbooks,,General | resources (1)
+Learning & Life,Free Courses & Textbooks,,OpenStax,https://openstax.org/,Free textbooks,,General | resources (1)
+Learning & Life,Free Courses & Textbooks,,Sci-Hub V1,https://sci-hub.se/,Free Scientific Journals / Papers.,,General | resources (1)
+Learning & Life,Free Courses & Textbooks,,Sci-Hub V2,https://www.sci-hub.st/,"Remove the paywalls on academic articles. (Link frequently changes and may be dead, but other mirrors will be findable by search.)",,General | resources (1)
+Learning & Life,Shopping & Free Stuff,Shopping,/csg/ Guide,https://csg-guide.neocities.org/,Online Shopping Guide,,General | resources (1)
+Learning & Life,Shopping & Free Stuff,Shopping,eBay,http://www.ebay.com/,"cheap, strange, or old",,General | resources (1)
+Learning & Life,Shopping & Free Stuff,Shopping,Epoka,https://epoka.com/,Supercomputers / hardware,,General | resources (1)
+Learning & Life,Shopping & Free Stuff,Shopping,Japanese Bidding,https://yahoo.aleado.com/about_yahoo_en.htm,Service for Bidding on Japan auctions & import from Japanese online shops,,General | resources (1)
+Learning & Life,Shopping & Free Stuff,Shopping,Thieve,https://thieve.co/tools/image-search,An incredibly accurate reverse image search tool for finding products on AliExpress.,,General | resources (1)
+Learning & Life,Shopping & Free Stuff,Free Stuff,FreeCycle,https://www.freecycle.org/,Find Free Stuff,,General | resources (1)
+Learning & Life,Shopping & Free Stuff,Free Stuff,The Free Country,https://www.thefreecountry.com/,Free Stuff,,General | resources (1)
+Learning & Life,Shopping & Free Stuff,Free Stuff,The Free Site,https://www.thefreesite.com/,Free stuff,,General | resources (1)
+Learning & Life,Everyday Life,Food & Recipes,Nutrition,https://grimgrains.com/site/nutrition.html,,,Archives
+Learning & Life,Everyday Life,Food & Recipes,Recipes,https://based.cooking/,,,Archives
+Learning & Life,Everyday Life,Self-Improvement,"Posts about creativity, productivity, mental wellness, and more",https://nesslabs.com/best,,,Archives
+Learning & Life,Everyday Life,Self-Improvement,Transform yourself - A guide to self improvement,https://newarcitea.neocities.org/,,,Archives
+Learning & Life,Everyday Life,Self-Improvement,web.archive.org,https://web.archive.org/web/20161104092813/http://www.arcitea.com/2012/03/transform-yourself-guide-to-self.html,,,Archives
+Learning & Life,Everyday Life,Reference & Info,FabricLink,https://www.fabriclink.com/stains/holidaystain.cfm,Stain Removal,Learning & Life > Guides & How-Tos,General | resources (1)
+Learning & Life,Everyday Life,Reference & Info,Flights,https://matrix.itasoftware.com/search,,,Archives
+Learning & Life,Everyday Life,Reference & Info,JustDeleteMe,https://backgroundchecks.org/justdeleteme/,A directory of direct links to delete your account from web services.,,Archives | OpenSource & FreeWare | resources (1)
+Learning & Life,Everyday Life,Reference & Info,MyLifeElsewhere,https://www.mylifeelsewhere.com/,"If you’re considering moving, compare your current country to others around the world",Learning & Life > Guides & How-Tos,General | resources (1)
+Learning & Life,Everyday Life,Reference & Info,Paper CD Case,https://papercdcase.com/,Make CD Cover paper,Learning & Life > Guides & How-Tos,General | resources (1)
+Learning & Life,Everyday Life,Reference & Info,Printable Paper,https://www.printablepaper.net/,Print paper and stuff,Learning & Life > Guides & How-Tos,General | resources (1)

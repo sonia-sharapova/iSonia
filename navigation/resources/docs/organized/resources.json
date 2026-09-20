@@ -1,0 +1,76 @@
+[
+  {
+    "id": "cat",
+    "title": "Categories",
+    "type": "cards",
+    "intro": "",
+    "items": [
+      {
+        "id": "technology",
+        "title": "Technology",
+        "href": "resources/technology.html",
+        "desc": "Programming, computers and how they work."
+      },
+      {
+        "id": "web",
+        "title": "Web",
+        "href": "resources/web.html",
+        "desc": "How the web works, how to build for it, and the corners worth exploring."
+      },
+      {
+        "id": "design",
+        "title": "Design",
+        "href": "resources/design.html",
+        "desc": "Inspiration, tools and assets for design work."
+      },
+      {
+        "id": "careers",
+        "title": "Careers & Opportunities",
+        "href": "resources/careers.html",
+        "desc": "Jobs, studios, festivals and open calls."
+      },
+      {
+        "id": "software",
+        "title": "Software & Tools",
+        "href": "resources/software.html",
+        "desc": "Free software, alternatives and handy online tools."
+      },
+      {
+        "id": "media",
+        "title": "Media",
+        "href": "resources/media.html",
+        "desc": "Film, video, anime, games and things to read."
+      },
+      {
+        "id": "music",
+        "title": "Music & Audio",
+        "href": "resources/music.html",
+        "desc": "Free sound, radio, discovery and learning."
+      },
+      {
+        "id": "archives",
+        "title": "Archives & Collections",
+        "href": "resources/archives.html",
+        "desc": "Libraries, museums and the internet's memory."
+      },
+      {
+        "id": "culture",
+        "title": "Internet Culture",
+        "href": "resources/culture.html",
+        "desc": "Personal sites, forums, nostalgia and the strange."
+      },
+      {
+        "id": "ideas",
+        "title": "Ideas & People",
+        "href": "resources/ideas.html",
+        "desc": "The thinkers, arguments and theories behind it all."
+      },
+      {
+        "id": "life",
+        "title": "Learning & Life",
+        "href": "resources/life.html",
+        "desc": "Everyday guides, free courses and life admin."
+      }
+    ]
+  }
+]

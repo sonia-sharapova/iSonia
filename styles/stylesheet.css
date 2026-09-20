@@ -26,6 +26,7 @@ h2 {
     width: 80%;
     margin: 0 auto;
     padding: 1px;
+    box-sizing: border-box;
 }
 
 .navigation {
@@ -117,6 +118,20 @@ a.sub-nav-item:hover {
     width: 80%;
     margin: 0 auto;
     margin-top: 80px;
+    box-sizing: border-box;
+}
+
+/* Shared bounds for a page's main content area, so it always lines up with
+   .title-container above it. Pages may add their own .content rule (flex/
+   grid direction, gap, inner padding, etc.) — as long as they don't
+   re-declare width/margin, this is what keeps every such page's content
+   flush with its title's left/right edges instead of drifting wider or
+   narrower. See CLAUDE.md's "Design" section for the full page-title +
+   content pattern this belongs to. */
+.content {
+    width: 80%;
+    margin: 0 auto;
+    box-sizing: border-box;
 }
 
 .nav-links {

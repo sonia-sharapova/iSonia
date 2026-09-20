@@ -1282,7 +1282,7 @@ body.m2 .page-title { text-transform: uppercase; }
 
   /* ---------- Photos ---------- */
 
-  body.m2.p-photos .photos-wrap {
+  body.m2.p-photos .content {
     box-sizing: border-box;
     width: auto !important;
     padding: 0 20px !important;
