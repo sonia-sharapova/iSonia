@@ -53,15 +53,15 @@
     .proj-card {
       display: flex;
       align-items: flex-end;
-      gap: 0;
+      gap: 14px;
       text-decoration: none;
       color: inherit;
     }
 
     .proj-thumb {
       flex-shrink: 0;
-      width: 210px;
-      height: 145px;
+      width: 170px;
+      height: 117px;
       border-radius: 1px;
       overflow: hidden;
       background: #eee;
@@ -130,9 +130,15 @@
       flex-shrink: 0;
       border-left: 1px solid #ddd;
       padding-left: 24px;
+    }
+
+    /* Sticks to the same spot on screen while the (much taller) project
+       list scrolls past, instead of scrolling away with it */
+    .sidebar-sticky {
+      position: sticky;
+      top: 24px;
       display: flex;
       flex-direction: column;
-      justify-content: flex-end;
     }
 
     /* Gallery mosaic preview — hidden entirely off a project; only shown
@@ -142,7 +148,7 @@
       display: none;
       position: absolute;
       top: 0;
-      left: 24px;
+      left: 0;
       right: 0;
       height: 220px;
       grid-template-columns: repeat(2, 1fr);
@@ -235,6 +241,9 @@
         padding-top: 20px;
         margin-top: 20px;
       }
+      .sidebar-sticky {
+        position: static;
+      }
       .sidebar-spacer {
         height: 20px;
       }
@@ -255,7 +264,7 @@
       .proj-thumb {
         width: 100%;
         height: auto;
-        aspect-ratio: 210 / 145;
+        aspect-ratio: 170 / 117;
       }
     }
   </style>
@@ -410,16 +419,18 @@
       </div>
 
       <div class="projects-sidebar">
-        <div id="gallery-preview" class="sidebar-gallery-preview">
-          <img alt="">
-          <img alt="">
-          <img alt="">
-          <img alt="">
+        <div class="sidebar-sticky">
+          <div id="gallery-preview" class="sidebar-gallery-preview">
+            <img alt="">
+            <img alt="">
+            <img alt="">
+            <img alt="">
+          </div>
+          <a href="../creations/games.html" class="sidebar-see-all">SEE ALL</a>
+          <div class="sidebar-spacer"></div>
+          <p class="sidebar-intro">For more<br>professional work</p>
+          <a href="../navigation/portfolio.html" class="sidebar-cta">VIEW PORTFOLIO &rarr;</a>
         </div>
-        <a href="../creations/games.html" class="sidebar-see-all">SEE ALL</a>
-        <div class="sidebar-spacer"></div>
-        <p class="sidebar-intro">For more<br>professional work</p>
-        <a href="../navigation/portfolio.html" class="sidebar-cta">VIEW PORTFOLIO &rarr;</a>
       </div>
     </div>
   </div>
