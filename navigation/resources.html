@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="../styles/stylesheet.css">
   <link rel="stylesheet" href="../styles/mobile.css">
   <link rel="stylesheet" href="../styles/categories.css">
-  <script src="../scripts/siteStyle/bck.js"></script>
+  <script src="../scripts/admin.js" defer></script>
   <style>
     #background-canvas { position: fixed; top: 30%; left: 0; z-index: -1; }
 
@@ -116,12 +116,15 @@
 </nav>
 
 <div class="title-container">
-  <div class="nav-links">
-      <a href="../index.html" class="sub-nav-item">SEE: </a>
-      <a href="../creations/blogs.html" class="sub-nav-item">writing</a>
-      <a href="../photos.html" class="sub-nav-item">photography</a>
-      <a href="../creations/art.html" class="sub-nav-item">art</a>
-  </div>
+    <div class="nav-links">
+        <div class="tags-group">
+            <span class="sub-nav-item">SEE: </span>
+            <a href="../creations/blogs.html" class="sub-nav-item">writing</a>
+            <a href="../photos.html" class="sub-nav-item">photography</a>
+            <a href="../creations/art.html" class="sub-nav-item">art</a>
+        </div>
+        <div id="admin-link-area"></div>
+    </div>
   <h1 class="page-title">Web Archives</h1>
   <hr>
 </div>
@@ -151,6 +154,7 @@
   <div class="add-section-row">
     <button class="adm-btn adm-add" onclick="openSectionModal(null)">+ Add Section</button>
   </div>
+  <div id="admin-link-mobile"></div>
 </div>
 
 <!-- Item Modal -->

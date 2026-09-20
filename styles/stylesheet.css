@@ -74,6 +74,14 @@ h2 {
     background: #999;
 }
 
+/* Groups the SEE: label + category links together so the admin link
+   can sit on the far right of .nav-links without crowding them. */
+.tags-group {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
 .sub-navigation {
     display: flex;
     gap: 20px;
@@ -105,11 +113,11 @@ a.sub-nav-item:hover {
 /* Pre-expand the category links (not the "SEE:" label) and shrink them
    slightly on hover, so the switch to uppercase doesn't widen the word
    and shift the layout. */
-.nav-links .sub-nav-item:not(:first-child) {
+.tags-group .sub-nav-item:not(:first-child) {
     letter-spacing: 2.2px;
 }
 
-.nav-links .sub-nav-item:not(:first-child):hover {
+.tags-group .sub-nav-item:not(:first-child):hover {
     letter-spacing: 0;
     font-size: 16px;
 }
@@ -431,9 +439,64 @@ footer .socials {
     }
 }
 
+
 footer {
     box-sizing: border-box;
     max-width: 1200px;
     margin-left: auto;
     margin-right: auto;
+}
+
+/* ============================================================
+   Admin login / logout link — shared across every page header.
+   Wide screens:  rendered inline in #admin-link-area,
+                  sitting to the right of the SEE: tags.
+   Narrow (<1000px): #admin-link-area is hidden and
+                  #admin-link-mobile is shown instead, below
+                  the profile section.
+   ============================================================ */
+
+#admin-link-area a,
+#admin-link-mobile a {
+    white-space: nowrap;
+    display: inline-block;
+    font-size: 13px;
+    color: #888;
+    text-decoration: none;
+    letter-spacing: 0.08em;
+    font-family: 'Optima', arial, sans-serif;
+}
+
+#admin-link-area a:hover,
+#admin-link-mobile a:hover {
+    color: #45a049 !important;
+    font-style: italic;
+}
+
+/* Wide screens: admin link sits inline next to the SEE: tags */
+#admin-link-area {
+    margin-top: 5px;
+}
+
+/* Narrow screens: swap which one is visible */
+#admin-link-mobile {
+    display: none;
+}
+
+@media only screen and (max-width: 1000px) {
+    #admin-link-area {
+        display: none !important;
+    }
+    #admin-link-mobile {
+        display: block !important;
+        margin-top: 16px;
+    }
+}
+
+/* On wide screens, spread the SEE: tags and the admin link apart. */
+@media only screen and (min-width: 1001px) {
+    .nav-links {
+        justify-content: space-between;
+        align-items: center;
+    }
 }

@@ -12,6 +12,7 @@
     <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
     <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <script src="../scripts/admin.js" defer></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
     <style>
@@ -46,11 +47,13 @@
 
 <div class="title-container">
     <div class="nav-links">
-        <a href="../index.html" class="sub-nav-item">SEE: </a>
-        <a href="../personal/music.html" class="sub-nav-item">music</a>
-        <a href="../personal/movies.html" class="sub-nav-item">movies</a>
-        <a href="../personal/books.html" class="sub-nav-item">books</a>
-        <a href="../personal/cards.html" class="sub-nav-item">cards</a>
+        <div class="tags-group">
+            <span class="sub-nav-item">SEE: </span>
+            <a href="../creations/blogs.html" class="sub-nav-item">writing</a>
+            <a href="../photos.html" class="sub-nav-item">photography</a>
+            <a href="../creations/art.html" class="sub-nav-item">art</a>
+        </div>
+        <div id="admin-link-area"></div>
     </div>
     <h1 class="page-title">LECTURES</h1>
 </div>
@@ -58,6 +61,7 @@
 
 <main class="content">
     <div id="root"></div>
+    <div id="admin-link-mobile"></div>
 </main>
 
 <!-- Load your React component -->

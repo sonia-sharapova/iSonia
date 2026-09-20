@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="../styles/stylesheet.css">
     <link rel="stylesheet" href="../styles/mobile.css">
     <link rel="stylesheet" href="../styles/blogs.css">
-    <script src="../scripts/siteStyle/bck.js"></script>
+    <script src="../scripts/admin.js" defer></script>
 </head>
 <body class="m2 p-blogs">
 <nav class="navigation">
@@ -21,10 +21,13 @@
 
 <div class="title-container">
     <div class="nav-links">
-        <a href="../index.html" class="sub-nav-item">SEE: </a>
+    <div class="tags-group">
+        <span class="sub-nav-item">SEE: </span>
         <a href="../creations/blogs.html" class="sub-nav-item">writing</a>
         <a href="../photos.html" class="sub-nav-item">photography</a>
         <a href="../creations/art.html" class="sub-nav-item">art</a>
+    </div>
+    <div id="admin-link-area"></div>
     </div>
     <h1 class="page-title">Blogging</h1>
     <hr>
@@ -51,6 +54,7 @@
             <p style="color:#888;font-family:'Courier New',monospace;font-size:13px;">Loading posts…</p>
         </div>
     </div>
+    <div id="admin-link-mobile"></div>
 </div>
 
 <!-- Admin: New Post Modal -->
@@ -89,6 +93,7 @@
       <span id="np-status" style="font-size:12px;color:#888;margin-left:auto;"></span>
     </div>
   </div>
+  <div id="admin-link-mobile"></div>
 </div>
 
 <script>
@@ -188,6 +193,25 @@
         2026
     </div>
 </footer>
+
+<script>
+    cycleImages();
+  function renderAdminLink(isAdmin) {
+    var text = isAdmin ? 'ADMIN LOGOUT (moi)' : 'ADMIN LOGIN (moi)';
+    var href = isAdmin ? 'admin/logout.php' : 'admin/login.html?redirect=/index.html';
+    var css  = 'font-size:13px;color:#888;text-decoration:none;letter-spacing:0.08em;font-family:Optima,arial,sans-serif;';
+    ['admin-link-area', 'admin-link-mobile'].forEach(function(id) {
+      var area = document.getElementById(id);
+      if (!area) return;
+      var a = document.createElement('a');
+      a.href = href; a.textContent = text; a.style.cssText = css;
+      area.appendChild(a);
+    });
+  }
+  fetch('admin/check-session.php').then(r=>r.json()).then(function(d){
+    renderAdminLink(d.admin);
+  }).catch(function(){ renderAdminLink(false); });
+</script>
 
 </body>
 </html>
