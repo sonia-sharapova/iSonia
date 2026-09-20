@@ -25,7 +25,7 @@
 
     .projects-columns {
       display: flex;
-      gap: 40px;
+      gap: 24px;
       flex: 1;
       min-width: 0;
     }
@@ -48,8 +48,8 @@
 
     .proj-thumb {
       flex-shrink: 0;
-      width: 170px;
-      height: 117px;
+      width: 190px;
+      height: 131px;
       border-radius: 4px;
       overflow: hidden;
       background: #eee;
@@ -113,7 +113,7 @@
        stretch makes it match the tall columns' height) */
     .projects-sidebar {
       position: relative;
-      width: 200px;
+      width: 260px;
       flex-shrink: 0;
       border-left: 1px solid #ddd;
       padding-left: 24px;
@@ -122,19 +122,24 @@
       justify-content: flex-end;
     }
 
-    /* Gallery mosaic preview — shown in the sidebar's empty upper area
-       on hover over a project card that has its own gallery */
+    /* Gallery mosaic preview — hidden entirely off a project; only shown
+       in the sidebar's empty upper area on hover over a card that has
+       its own gallery */
     .sidebar-gallery-preview {
+      display: none;
       position: absolute;
       top: 0;
       left: 24px;
       right: 0;
       height: 220px;
-      display: grid;
       grid-template-columns: repeat(2, 1fr);
       grid-template-rows: repeat(2, 1fr);
       gap: 6px;
       pointer-events: none;
+    }
+
+    .sidebar-gallery-preview.active {
+      display: grid;
     }
 
     .sidebar-gallery-preview img {
@@ -217,7 +222,8 @@
       .sidebar-spacer {
         height: 20px;
       }
-      .sidebar-gallery-preview {
+      .sidebar-gallery-preview,
+      .sidebar-gallery-preview.active {
         display: none;
       }
     }
