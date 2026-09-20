@@ -56,6 +56,24 @@ Editable content (books, movies, music, photo albums, blog posts, resource links
 
 No CSS custom-property/design-token system — values are hardcoded per stylesheet. `styles/stylesheet.css` is the shared base (Optima font, `#f5f5f5` background, `#666` muted text, minimalist look); page/section-specific styles are split into their own files (`homepage.css`, `gallery.css`, `blogs.css`, `categories.css`, `clock.css`, `lessons.css`, `landing.css`) and included per page rather than through one global sheet.
 
+**Shared page-title + content pattern.** Every top-level page (Photos, Projects, Blogging, Art, About, Portfolio, …) uses the same skeleton, all defined once in `styles/stylesheet.css`:
+
+```html
+<div class="title-container">
+  <div class="nav-links">...SEE: writing / photography / art...</div>
+  <h1 class="page-title">Page Name</h1>
+  <hr>
+</div>
+
+<div class="content">
+  ...page-specific content...
+</div>
+```
+
+`.title-container` and `.content` (`.container` is an older equivalent, still used by a couple of pages) both resolve to `width: 80%; margin: 0 auto; box-sizing: border-box;`, and both get capped to `max-width: 1200px` on screens ≥1500px wide (see the `@media (min-width: 1500px)` block in `styles/stylesheet.css`). A page's own stylesheet/inline `<style>` may add to `.content` (flex/grid direction, gap, inner padding) but must not redeclare `width` or the left/right `margin` — doing so, or inventing a page-specific wrapper class instead of reusing `.content`, breaks alignment with `.title-container` and (worse, since it's easy to miss below ~1500px) drifts wider than the title on large screens. `photos.html` had exactly this bug via a bespoke `.photos-wrap` class before it was renamed to `.content`. A live visual reference for this pattern lives at `navigation/styleguide.html`.
+
+Every page in this pattern should also have the `<hr>` title-underline — `blogs.html` and `art.html` were both missing it until this was written up.
+
 ### Navigation map
 
 - `index.html` — home

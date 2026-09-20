@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Styleguide</title>
+  <link rel="icon" href="/images/icons/heart3.png" />
+  <link rel="stylesheet" href="../styles/stylesheet.css">
+  <link rel="stylesheet" href="../styles/mobile.css">
+  <script src="../scripts/siteStyle/bck.js"></script>
+
+  <style>
+    .content {
+      padding: 40px 0 80px;
+      color: #666;
+      line-height: 1.6;
+    }
+
+    .sg-section {
+      margin-bottom: 56px;
+    }
+
+    .sg-section h2 {
+      font-family: 'Optima', arial, sans-serif;
+      font-weight: 300;
+      font-size: 24px;
+      color: #444;
+      margin: 0 0 6px;
+    }
+
+    .sg-section p {
+      max-width: 720px;
+      margin: 0 0 14px;
+    }
+
+    .sg-section code {
+      font-family: 'Courier New', monospace;
+      color: #45a049;
+      font-size: 0.92em;
+    }
+
+    pre {
+      font-family: 'Courier New', monospace;
+      font-size: 13px;
+      line-height: 1.5;
+      background: #f0f0f0;
+      border: 1px solid #ddd;
+      border-radius: 3px;
+      padding: 16px 18px;
+      overflow-x: auto;
+      color: #444;
+      max-width: 720px;
+    }
+
+    /* Live demo: a mock title + content pair, scaled down inside its own
+       bordered viewport so the alignment is visible without needing a full
+       browser-width resize. */
+    .sg-demo-frame {
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      background: #fafafa;
+      padding: 24px;
+      max-width: 720px;
+      overflow: hidden;
+    }
+    .sg-demo-title {
+      width: 80%;
+      margin: 0 auto;
+      box-sizing: border-box;
+    }
+    .sg-demo-title h3 {
+      font-family: 'Optima', arial, sans-serif;
+      font-weight: 300;
+      font-size: 22px;
+      color: #666;
+      margin: 0 0 10px;
+    }
+    .sg-demo-title hr {
+      margin: 0 0 14px;
+    }
+    .sg-demo-content {
+      width: 80%;
+      margin: 0 auto;
+      box-sizing: border-box;
+      background: repeating-linear-gradient(
+        45deg, #e8f3e9, #e8f3e9 6px, #f3f8f3 6px, #f3f8f3 12px
+      );
+      border: 1px dashed #8bc98f;
+      border-radius: 2px;
+      padding: 10px;
+      font-family: 'Courier New', monospace;
+      font-size: 12px;
+      color: #45a049;
+    }
+
+    .sg-do-dont {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+      margin-top: 8px;
+    }
+    .sg-do-dont > div {
+      flex: 1 1 280px;
+      border-radius: 3px;
+      padding: 14px 16px;
+      font-family: 'Courier New', monospace;
+      font-size: 13px;
+    }
+    .sg-do { background: #eef7ef; border: 1px solid #bfe3c2; }
+    .sg-dont { background: #fbeeee; border: 1px solid #eec2c2; }
+    .sg-do-dont strong { display: block; margin-bottom: 6px; font-family: 'Optima', arial, sans-serif; }
+  </style>
+</head>
+<body class="m2">
+<nav class="navigation">
+  <a href="../index.html" class="nav-item">HOME</a>
+  <a href="../creations/projects.html" class="nav-item">PROJECTS</a>
+  <a href="../navigation/portfolio.html" class="nav-item">PORTFOLIO</a>
+  <a href="../navigation/resources.html" class="nav-item">RESOURCES</a>
+  <a href="../navigation/about.html" class="nav-item" aria-current="page">ABOUT</a>
+</nav>
+
+<div class="title-container">
+  <div class="nav-links">
+    <a href="../index.html" class="sub-nav-item">SEE: </a>
+    <a href="../creations/blogs.html" class="sub-nav-item">writing</a>
+    <a href="../photos.html" class="sub-nav-item">photography</a>
+    <a href="../creations/art.html" class="sub-nav-item">art</a>
+  </div>
+  <h1 class="page-title">Styleguide</h1>
+  <hr>
+</div>
+
+<div class="content">
+  <div class="sg-section">
+    <h2>Page structure</h2>
+    <p>
+      Every top-level page (Photos, Projects, Blogging, Art, About, Portfolio…) follows the
+      same skeleton: a fixed <code>.navigation</code> bar, a <code>.title-container</code> holding
+      the "SEE:" sub-nav + the page's <code>&lt;h1 class="page-title"&gt;</code> + an
+      <code>&lt;hr&gt;</code> underline, and then the page's actual content wrapped in
+      <code>.content</code> (or <code>.container</code>, its older sibling).
+    </p>
+    <pre>&lt;div class="title-container"&gt;
+  &lt;div class="nav-links"&gt;...SEE: writing / photography / art...&lt;/div&gt;
+  &lt;h1 class="page-title"&gt;Page Name&lt;/h1&gt;
+  &lt;hr&gt;
+&lt;/div&gt;
+
+&lt;div class="content"&gt;
+  ...page-specific content...
+&lt;/div&gt;</pre>
+  </div>
+
+  <div class="sg-section">
+    <h2>Bounds: why content has to stay a <code>.content</code></h2>
+    <p>
+      <code>.title-container</code> and <code>.content</code> (defined once, shared, in
+      <code>styles/stylesheet.css</code>) both resolve to <code>width: 80%; margin: 0 auto;</code>,
+      and both get capped at <code>max-width: 1200px</code> on screens ≥1500px wide. Reusing the
+      literal class name <code>.content</code> — rather than inventing a page-specific wrapper — is
+      what keeps a page's content flush with its title's left/right edges at every viewport width,
+      including that large-screen cap. A bespoke class name (e.g. an old <code>.photos-wrap</code>)
+      quietly misses the cap and drifts wider than the title above it on big monitors.
+    </p>
+    <p>Live demo — title box and content box below always share the same edges:</p>
+    <div class="sg-demo-frame">
+      <div class="sg-demo-title">
+        <h3>Example Page</h3>
+        <hr>
+      </div>
+      <div class="sg-demo-content">.content — same 80%-width, centered box as .title-container above it</div>
+    </div>
+  </div>
+
+  <div class="sg-section">
+    <h2>Do / don't</h2>
+    <div class="sg-do-dont">
+      <div class="sg-do">
+        <strong>Do</strong>
+        &lt;div class="content"&gt;...&lt;/div&gt;<br><br>
+        Add page-specific layout (flex/grid direction, gap, inner padding) to a page's own
+        <code>.content</code> rule — but never redeclare its <code>width</code> or
+        <code>margin-left</code>/<code>margin-right</code>.
+      </div>
+      <div class="sg-dont">
+        <strong>Don't</strong>
+        &lt;div class="my-page-wrap"&gt;...&lt;/div&gt;<br><br>
+        A one-off class name isn't covered by the shared bounds or the ≥1500px cap — it will
+        silently overflow past the title on large screens.
+      </div>
+    </div>
+  </div>
+
+  <div class="sg-section">
+    <h2>Full reference</h2>
+    <p>
+      See the <code>Design</code> section of the repo's <code>CLAUDE.md</code> for the complete
+      write-up (box-sizing, the ≥1500px cap, and which pages currently follow this pattern).
+    </p>
+  </div>
+</div>
+
+<footer>
+  <div class="socials">
+    <a href="https://github.com/sonia-sharapova">GitHub</a>|
+    <a href="https://www.linkedin.com/in/sonia-sharapova/">LinkedIn</a>|
+    <a href="https://www.instagram.com/sonia.s.ru/">Instagram</a>
+  </div>
+  <div>Contact Links<br>2026</div>
+</footer>
+</body>
+</html>

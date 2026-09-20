@@ -1033,13 +1033,6 @@ body.m2 .page-title { text-transform: uppercase; }
 
   /* ---------- Art ---------- */
 
-  /* .container wraps .content — only one of them carries the gutter */
-  body.m2.p-art .container {
-    width: auto !important;
-    margin: 0 !important;
-    padding: 0 !important;
-  }
-
   body.m2.p-art .content {
     box-sizing: border-box;
     display: block;
