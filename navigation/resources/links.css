@@ -16,7 +16,7 @@
     display: grid;
     grid-template-columns: 220px 240px minmax(0, 1fr);
     align-items: start;
-    margin-top: 24px;
+    margin-top: 20px;      /* same as .sidebar on the other pages */
 }
 
 .res-col { min-width: 0; }
@@ -59,15 +59,7 @@
 
 /* (.res-link and its hover / active states: shared sidebar design) */
 
-.res-back {
-    display: inline-block;
-    margin-top: 22px;
-    font-size: 13px;
-    color: #888f8d;
-    text-decoration: none;
-}
-
-.res-back:hover { color: #45a049; }
+/* ("< All Topics" is a plain .sidebar-link; .res-back only marks it for the phone layout) */
 
 /* ── The section: title, description, then the links ── */
 .res-col-links .res-head {

@@ -935,14 +935,17 @@ body.m2 .page-title { text-transform: uppercase; }
   /* !important on .res-back: every <a> is display:flex !important on phones */
   body.m2 .res-col-cats .res-head,
   body.m2 .res-col-sections .res-head { display: none; }
-  /* only the current category is listed, and the page title already names it — so
-     just keep the way back to the full list */
-  body.m2 .res-col-cats .res-list { display: none; }
+  /* the page title already names the category, so on a phone the categories column
+     is just the way back to the full list */
+  body.m2 .res-col-cats .sidebar-section + .sidebar-section { display: none; }
+  body.m2 .res-col-cats .sidebar-section { margin: 0; }
   body.m2 .res-back {
     display: inline-flex !important;
     min-height: 0 !important;
     min-width: 0 !important;
     margin: 0;
+    padding: 0 !important;
+    border: 0;
     font: 400 11px/16px 'IBM Plex Mono', 'Courier New', monospace;
     color: #47649a;
   }
@@ -1240,8 +1243,11 @@ body.m2 .page-title { text-transform: uppercase; }
 
   /* The desktop side panel becomes a compact "now showing" card that sticks
      under the top bar once a cover has been tapped. */
-  body.m2.p-books .content,
-  body.m2.p-movies .content {
+  /* Both pages keep their left sidebar (hidden below 768px by the shared
+     .sidebar rule) — the gallery + preview panel live one level deeper, in
+     .archive-main, so that's what needs the stacking treatment here. */
+  body.m2.p-movies .archive-main,
+  body.m2.p-books .archive-main {
     box-sizing: border-box;
     display: flex;
     flex-direction: column;

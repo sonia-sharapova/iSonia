@@ -215,8 +215,9 @@ function linkList(items, fi, si) {
 }
 
 function categoriesCol() {
-    // only the category you're in is listed; "← All categories" goes back to the full list
-    const rows = categories.map((c, i) => !isCurrent(c) ? '' : `<div class="res-row">
+    // same two-part sidebar as Blogs / Photos / Art / Archives: one general link
+    // ("< All Topics", back to the hub), then a titled list of every category
+    const rows = categories.map((c, i) => `<div class="res-row">
         <a class="res-link${isCurrent(c) ? ' active' : ''}" href="${esc(c.href)}">${esc(c.title)}</a>
         ${isAdmin ? `<span class="res-adm">
           <button class="lnk-adm-btn lnk-edit" onclick="openCategoryModal(${i})" title="Rename / describe category">✎</button>
@@ -224,10 +225,14 @@ function categoriesCol() {
         </span>` : ''}
       </div>`).join('');
     return `<div class="res-col res-col-cats">
-        <div class="res-head"><h2 class="res-title">Categories</h2><p class="res-sub">Browse the archive.</p></div>
-        <nav class="res-list">${rows}</nav>
-        ${isAdmin ? '<button class="lnk-adm-add-row" onclick="openCategoryModal(null)">+ Add category</button>' : ''}
-        <a class="res-back" href="../resources.html">← All categories</a>
+        <div class="sidebar-section">
+          <a class="sidebar-link res-back" href="../resources.html">&lt; All Topics</a>
+        </div>
+        <div class="sidebar-section">
+          <h3 class="res-head">Categories</h3>
+          <nav class="res-list">${rows}</nav>
+          ${isAdmin ? '<button class="lnk-adm-add-row" onclick="openCategoryModal(null)">+ Add category</button>' : ''}
+        </div>
       </div>`;
 }
 

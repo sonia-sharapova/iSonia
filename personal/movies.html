@@ -9,19 +9,24 @@
     <link rel="stylesheet" href="../styles/mobile.css">
     <script src="../scripts/admin.js" defer></script>
     <style>
-        /* Layout/sidebar is the shared .content.has-sidebar / .sidebar system
-           (styles/stylesheet.css) — same as Photos, Blogs and Art. */
+        /* Left sidebar is the shared .content.has-sidebar / .sidebar system
+           (styles/stylesheet.css) — same as Photos, Blogs and Art. Within that
+           narrower column, gallery + the right-hand preview panel (updates to
+           whichever film is selected) sit side by side, same as Books. */
         .archive-main {
             flex: 1;
             min-width: 0;
             margin-top: 20px;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
         }
 
         .gallery {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 30px;
-            margin-bottom: 70px;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin-bottom: 100px;
         }
 
         .thumbnail {
@@ -100,7 +105,7 @@
         }
 
         @media (max-width: 1000px) {
-            .gallery { grid-template-columns: repeat(4, 1fr); gap: 10px; }
+            .gallery { grid-template-columns: repeat(3, 1fr); gap: 10px; }
         }
         @media (max-width: 760px) {
             .gallery { width: 100%; grid-template-columns: repeat(2, 1fr); }
@@ -201,6 +206,7 @@
 
         .modal-status { font-size: 12px; color: #888; }
     </style>
+    <script src="https://mcp.figma.com/mcp/html-to-design/capture.js" async></script>
 </head>
 <body class="m2 p-movies">
 <nav class="navigation">
@@ -246,8 +252,7 @@
             <p style="color:#888;font-family:'Courier New',monospace;font-size:13px;">Loading…</p>
         </div>
 
-        <!-- Hidden for now (right sidebar) -->
-        <div class="preview-section" style="display:none">
+        <div class="preview-section">
             <img id="preview-img" src="" alt="Preview" class="preview-img">
             <div class="movie-info">
                 <div class="movie-title" id="movie-title"></div>

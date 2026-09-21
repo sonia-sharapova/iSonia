@@ -55,8 +55,7 @@
       border-top: 1px solid #e4e4e4;
     }
 
-    /* Border and padding sit on the card itself (transparent until hover)
-       so the whole card — image, border and text together — scales up as
+    /* Border and padding sit on the card itself so the whole card — image, border and text together — scales up as
        one unit on hover, instead of just the image zooming inside its
        clipped thumb box. */
     .proj-card {
@@ -65,7 +64,7 @@
       flex: 0 0 auto;
       text-decoration: none;
       color: inherit;
-      border: 1px solid transparent;
+      border: 1px solid #d5d5d5;
       border-radius: 2px;
       padding: 8px;
       box-sizing: border-box;
@@ -73,7 +72,8 @@
     }
 
     .proj-card:hover {
-      border-color: #ddd;
+      border-color: #aaa;
+      background: #fff;
       transform: scale(1.04);
       position: relative;
       z-index: 2;

@@ -50,3 +50,9 @@
   - /learning/parallel/go.html
 - **HPC Overview**: Overview
   - /learning/HPC/HPC.html
+
+## Privacy
+> Take back control of your data.
+
+- **privacy4all**: Privacy for everyone — a practical guide.
+  - /privacy4all/index.html
