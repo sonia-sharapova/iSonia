@@ -16,7 +16,9 @@ if (!preg_match('/^[a-z0-9\-]+$/', $file)) {
     exit;
 }
 
-$path = __DIR__ . '/../navigation/resources/markdown/' . $file . '.md';
+$dir = __DIR__ . '/../navigation/resources/markdown';
+if (!is_dir($dir)) mkdir($dir, 0755, true);   // not there on a fresh checkout — the first save creates it
+$path = $dir . '/' . $file . '.md';
 
 if (file_put_contents($path, $content) !== false) {
     echo json_encode(['success' => true]);

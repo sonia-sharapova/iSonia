@@ -70,6 +70,12 @@
         "title": "Learning & Life",
         "href": "resources/life.html",
         "desc": "Everyday guides, free courses and life admin."
+      },
+      {
+        "id": "tutorials",
+        "title": "Guides & Tutorials",
+        "href": "resources/tutorials.html",
+        "desc": "Step-by-step write-ups and how-tos I've put together."
       }
     ]
   }

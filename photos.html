@@ -10,54 +10,16 @@
   <script src="../scripts/admin.js" defer></script>
 <style>
     /* ── Page layout ── */
-    /* Reuses the shared .content rule (styles/stylesheet.css) for its
-       width/margin/box-sizing, so this stays bounded to the same edges as
-       .title-container above it — including the >=1500px max-width:1200px
-       cap that a page-specific class name would otherwise miss. Only adds
-       what's specific to this page's two-column layout. */
-    .content {
-      display: flex;
-      padding: 0 20px;
-      gap: 40px;
-    }
-    .photos-sidebar {
-      width: 140px;
-      flex-shrink: 0;
-      margin-top: 20px;
-    }
+    /* The two-column layout, the sidebar and its links all come from the shared
+       .content.has-sidebar / .sidebar rules in styles/stylesheet.css. */
     .photos-main {
       flex: 1;
       min-width: 0;
       margin-top: 20px;
     }
-    .sidebar-section { margin-bottom: 30px; }
-    .sidebar-title {
-      font-size: 18px;
-      font-weight: 500;
-      color: #666;
-      margin-bottom: 15px;
-      padding-bottom: 10px;
-      border-bottom: 2px solid #ddd;
-    }
-    .sidebar-link {
-      display: block;
-      padding: 8px 0 8px 10px;
-      color: #888f8d;
-      text-decoration: none;
-      font-size: 18px;
-      transition: all 0.3s ease;
-      border-left: 2px solid transparent;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-    .sidebar-link:hover { color: #45a049; border-left-color: #45a049; padding-left: 13px; }
-    .sidebar-link.active { color: #45a049; border-left-color: #45a049; font-weight: 500; }
-
     @media (max-width: 960px) { .content { width: 94%; } }
     @media (max-width: 768px) {
-      .content { flex-direction: column; width: 95%; padding: 0; gap: 0; }
-      .photos-sidebar { display: none; }
+      .content { width: 95%; }
       .photos-main { margin-top: 10px; }
     }
 
@@ -886,10 +848,10 @@
   <hr>
 </div>
 
-<div class="content">
+<div class="content has-sidebar">
 
   <!-- Album directory sidebar -->
-  <div class="photos-sidebar" id="photo-sidebar">
+  <div class="photos-sidebar sidebar" id="photo-sidebar">
     <div class="sidebar-section">
       <a href="#" class="sidebar-link active" id="sidebar-all"
          onclick="renderAlbumList();return false;">All Photos</a>

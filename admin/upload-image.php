@@ -20,7 +20,7 @@ if (empty($_SESSION['admin'])) {
 }
 
 $type = $_POST['type'] ?? 'books';
-$allowedTypes = ['books', 'movies', 'music', 'albums'];
+$allowedTypes = ['books', 'movies', 'music', 'albums', 'resources'];
 if (!in_array($type, $allowedTypes)) {
     echo json_encode(['success' => false, 'error' => 'Invalid type']);
     exit;

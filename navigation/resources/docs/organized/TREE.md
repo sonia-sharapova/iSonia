@@ -1,6 +1,6 @@
 # Resources — proposed tree
 
-1222 unique links, sorted into 11 top-level sections. Built from all 14 files in `docs/`
+1234 unique links, sorted into 12 top-level sections. Built from all 14 files in `docs/`
 (9 Word documents and 5 spreadsheets: 3,387 link mentions, which were 1,243 unique links once duplicates were merged).
 
 Each top-level section is one page (`markdown/<name>.md`) and one entry in the sidebar's *Categories* column; the `##` headings are the *Sections* column, and any `###` heading breaks the links inside a section.
@@ -90,7 +90,7 @@ Each top-level section is one page (`markdown/<name>.md`) and one entry in the s
 - **Online Tools** — 13  ·  Single-purpose web tools that save time.
 - **Downloads & Torrents** — 5  ·  Torrent indexes and downloaders.
 
-## Media — 101 links  (`media.md`)
+## Media — 130 links  (`media.md`)
 > Film, video, anime, games and things to read.
 
 - **Film & Video** — 76  ·  Documentaries, films and the odd good clip.
@@ -101,6 +101,7 @@ Each top-level section is one page (`markdown/<name>.md`) and one entry in the s
     - Free Streaming Sites — 9
     - Anime & Animation — 2
 - **Books & Magazines** — 9  ·  Magazines, zines and the people who publish them.
+- **Sites I Like** — 29  ·  Collectives, communities and corners of the web I keep coming back to.
 - **Video Games** — 16  ·  Play classic games in the browser, or download them.
 
 ## Music & Audio — 55 links  (`music.md`)
@@ -123,11 +124,9 @@ Each top-level section is one page (`markdown/<name>.md`) and one entry in the s
     - Nature & Science — 5
     - Curiosities & Ephemera — 13
 
-## Internet Culture — 120 links  (`culture.md`)
+## Internet Culture — 48 links  (`culture.md`)
 > Personal sites, forums, nostalgia and the strange.
 
-- **Personal Sites & Digital Gardens** — 59  ·  Sites by individuals, worth reading and revisiting.
-- **Blogs & Organizations** — 13  ·  Collectives, blogs and independent organizations.
 - **Forums & Communities** — 5  ·  Boards and communities.
 - **Nostalgia & Old Internet** — 13  ·  Preserved corners of the early web.
 - **Weird & Fun** — 18  ·  Small delights and oddities.
@@ -135,12 +134,14 @@ Each top-level section is one page (`markdown/<name>.md`) and one entry in the s
     - Live Cams — 3
 - **Mature Content** — 12  ·  Adult, unmoderated or controversial sites. Review before publishing.
 
-## Ideas & People — 39 links  (`ideas.md`)
+## Ideas & People — 82 links  (`ideas.md`)
 > The thinkers, arguments and theories behind it all.
 
-- **Influential People** — 19  ·  People whose work shaped my thinking.
-    - Programmers & Scientists — 10
-    - Philosophers & Writers — 9
+- **People** — 62  ·  People whose work and websites I keep learning from.
+    - Creatives — 24
+    - Nerds — 20
+    - Thinkers — 10
+    - Blogs — 8
 - **Politics & Society** — 5  ·  Politics, activism and society online.
 - **Conspiracy & Alternative Views** — 15  ·  Alternative histories, theories and archives to think critically about.
 
@@ -156,3 +157,14 @@ Each top-level section is one page (`markdown/<name>.md`) and one entry in the s
     - Food & Recipes — 2
     - Self-Improvement — 3
     - Reference & Info — 6
+
+## Guides & Tutorials — 12 links  (`tutorials.md`)
+> Step-by-step write-ups and how-tos I've put together.
+
+- **Web Design Tutorial** — 6  ·  Make your own website.
+    - HTML — 2
+    - CSS — 2
+    - Projects — 2
+- **Algorithms** — 1  ·  A crash course in algorithms.
+- **Machine Learning** — 2  ·  Overviews of machine learning and AI.
+- **High Performance Computing** — 3  ·  Parallel computing, Go and HPC.

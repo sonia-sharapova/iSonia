@@ -9,12 +9,12 @@
     max-width: 1200px;
     margin: 0 auto;
     margin-bottom: 5%;
-    padding: 0;
+    padding: 0 20px;      /* same left inset as every other sidebar page (.content.has-sidebar) */
 }
 
 .res-tree {
     display: grid;
-    grid-template-columns: 200px 240px minmax(0, 1fr);
+    grid-template-columns: 220px 240px minmax(0, 1fr);
     align-items: start;
     margin-top: 24px;
 }
@@ -28,18 +28,14 @@
     border-left: 1px solid #ececec;
 }
 
-/* ── Column heading: title + a one-line description ── */
-.res-head {
-    margin-bottom: 14px;
-    padding-bottom: 10px;
-    border-bottom: 2px solid #ddd;
-}
-
+/* ── Column heading: title + a one-line description ──
+   The heading box and the list links use the shared sidebar design
+   (.res-head / .res-link in styles/stylesheet.css, same as Blogs, Photos and Art). */
 .res-title {
     margin: 0;
-    font-size: 18px;
-    font-weight: 500;
-    color: #666666;
+    font-size: inherit;
+    font-weight: inherit;
+    color: inherit;
 }
 
 .res-sub {
@@ -61,30 +57,7 @@
 .res-list { display: flex; flex-direction: column; }
 .res-row { position: relative; }
 
-.res-link {
-    display: block;
-    padding: 8px 0 8px 10px;
-    color: #888f8d;
-    text-decoration: none;
-    font-size: 18px;
-    line-height: 1.3;
-    border-left: 2px solid transparent;
-    transition: all 0.3s ease;
-}
-
-.res-col-sections .res-link { font-size: 16px; }
-
-.res-link:hover {
-    color: #45a049;
-    border-left-color: #45a049;
-    padding-left: 18px;
-}
-
-.res-link.active {
-    color: #45a049;
-    border-left-color: #45a049;
-    font-weight: 500;
-}
+/* (.res-link and its hover / active states: shared sidebar design) */
 
 .res-back {
     display: inline-block;
@@ -113,13 +86,11 @@
 
 .res-col-links .res-sub { font-size: 15px; }
 
-/* long lists flow into extra columns rather than one very tall strip */
+/* one column of links */
 .res-links {
     list-style: none;
     margin: 0 0 6px;
     padding: 0;
-    column-width: 230px;
-    column-gap: 40px;
 }
 
 .res-links li {
@@ -171,6 +142,51 @@
     color: #aaa;
 }
 
+
+/* ── Nothing selected yet: the category's picture and description ── */
+.res-intro-image {
+    width: 100%;
+    max-width: 560px;
+    aspect-ratio: 16 / 9;
+    margin-bottom: 22px;
+    overflow: hidden;
+    border-radius: 2px;
+    background: #e6e6e6;
+}
+
+.res-intro-image img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.res-intro-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    color: #bdbdbd;
+}
+
+.res-intro-placeholder svg { width: 110px; height: 74px; }
+
+.res-intro-text {
+    max-width: 560px;
+    margin: 10px 0 0;
+    font-size: 17px;
+    line-height: 1.6;
+    color: #666666;
+}
+
+.res-hint {
+    margin: 20px 0 0;
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    color: #aaa;
+}
+
 /* ── Admin controls (only present when logged in) ── */
 .res-adm { display: none; gap: 4px; }
 .res-row .res-adm { position: absolute; right: 0; top: 50%; transform: translateY(-50%); }
@@ -188,10 +204,8 @@
 
 /* Narrower desktop windows */
 @media (max-width: 1000px) {
-    .res-tree { grid-template-columns: 160px 200px minmax(0, 1fr); }
+    .res-tree { grid-template-columns: 180px 200px minmax(0, 1fr); }
     .res-col + .res-col { margin-left: 22px; padding-left: 22px; }
-    .res-link { font-size: 16px; }
-    .res-col-sections .res-link { font-size: 15px; }
 }
 
 /* Phones: the columns stack (styles/mobile.css turns the two lists into chips) */

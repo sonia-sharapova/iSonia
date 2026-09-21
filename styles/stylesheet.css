@@ -82,6 +82,17 @@ h2 {
     gap: 20px;
 }
 
+/* Second cross-page nav row (e.g. "ARCHIVES: movies / music / books / ...")
+   sitting below the SEE: row inside .title-container. */
+.archives-nav {
+    margin-top: 8px;
+}
+
+.sub-nav-item[aria-current="page"] {
+    color: #45a049;
+    font-weight: bold;
+}
+
 .sub-navigation {
     display: flex;
     gap: 20px;
@@ -499,4 +510,78 @@ footer {
         justify-content: space-between;
         align-items: center;
     }
+}
+
+/* ==========================================================================
+   SIDEBAR NAVIGATION — one design for the Blogs, Photos and Art sidebars and
+   the two left-hand columns of the Resources tree (.res-*). Pages add
+   class="has-sidebar" to their .content and class="sidebar" to the nav column;
+   they should not redefine any of this. The inset (20px) and the 40px gap are
+   what give every sidebar page the same left margin.
+   ========================================================================== */
+.content.has-sidebar {
+    display: flex;
+    gap: 40px;
+    padding: 0 20px;
+}
+
+.sidebar {
+    width: 220px;
+    flex-shrink: 0;
+    align-self: flex-start;
+    margin-top: 20px;
+}
+
+.sidebar-section {
+    margin-bottom: 30px;
+}
+
+.sidebar-title,
+.res-head {
+    font-size: 18px;
+    font-weight: 500;
+    color: #666666;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #ddd;
+}
+
+.sidebar-link,
+.res-link {
+    display: block;
+    padding: 8px 0 8px 10px;
+    color: #888f8d;
+    text-decoration: none;
+    font-size: 18px;
+    line-height: 1.3;
+    border-left: 2px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.sidebar-link:hover,
+.res-link:hover {
+    color: #45a049;
+    border-left-color: #45a049;
+    padding-left: 18px;
+}
+
+.sidebar-link.active,
+.res-link.active {
+    color: #45a049;
+    border-left-color: #45a049;
+    font-weight: 500;
+}
+
+@media (max-width: 1000px) {
+    .sidebar-link,
+    .res-link { font-size: 16px; }
+}
+
+@media (max-width: 768px) {
+    .content.has-sidebar {
+        flex-direction: column;
+        padding: 0;
+        gap: 0;
+    }
+    .sidebar { display: none; }
 }

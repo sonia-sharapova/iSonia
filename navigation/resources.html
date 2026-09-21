@@ -137,20 +137,20 @@
     </p>
   </div>
 
-  <div class="section-block">
+  <div id="resources-body"></div>
+
+  <!-- Guides & Tutorials: the last category (it used to live at creations/tutorials.html) -->
+  <div class="section-block" id="guides-block">
     <div class="section-header-row">
       <div class="section-header">Guides</div>
     </div>
     <div class="category-grid">
-      <a href="../creations/tutorials.html" class="category-card">
+      <a href="resources/tutorials.html" class="category-card">
         <div class="category-title">Guides &amp; Tutorials</div>
         <div class="category-count">Step-by-step write-ups and how-tos I've put together.</div>
       </a>
     </div>
-    <div id="admin-link-mobile"></div>
   </div>
-
-  <div id="resources-body"></div>
 
   <div class="add-section-row">
     <button class="adm-btn adm-add" onclick="openSectionModal(null)">+ Add Section</button>
@@ -216,6 +216,22 @@ async function init() {
     const r = await fetch(DATA_URL + '?t=' + Date.now());
     sections = r.ok ? await r.json() : [];
     if (!Array.isArray(sections)) sections = [];
+    // until data/resources.json exists, show the default categories (the first save creates the file)
+    if (!sections.some(s => s.type === 'cards' && (s.items || []).length)) {
+      sections = [{ id: 'cat', title: 'Categories', type: 'cards', intro: '', items: [
+        ['technology', 'Technology', 'Programming, computers and how they work.'],
+        ['web', 'Web', 'How the web works, how to build for it, and the corners worth exploring.'],
+        ['design', 'Design', 'Inspiration, tools and assets for design work.'],
+        ['careers', 'Careers & Opportunities', 'Jobs, studios, festivals and open calls.'],
+        ['software', 'Software & Tools', 'Free software, alternatives and handy online tools.'],
+        ['media', 'Media', 'Film, video, anime, games and things to read.'],
+        ['music', 'Music & Audio', 'Free sound, radio, discovery and learning.'],
+        ['archives', 'Archives & Collections', "Libraries, museums and the internet's memory."],
+        ['culture', 'Internet Culture', 'Forums, nostalgia and the strange.'],
+        ['ideas', 'Ideas & People', 'The thinkers, arguments and theories behind it all.'],
+        ['life', 'Learning & Life', 'Everyday guides, free courses and life admin.']
+      ].map(([slug, title, desc]) => ({ id: slug, title, href: 'resources/' + slug + '.html', desc })) }];
+    }
   } catch(e) { sections = []; }
 
   render();
@@ -230,6 +246,9 @@ function esc(s) {
 function render() {
   const body = document.getElementById('resources-body');
   body.innerHTML = sections.map(sec => renderSection(sec)).join('');
+  // the fixed Guides card is only needed while the list itself has no Guides & Tutorials entry
+  const guides = document.getElementById('guides-block');
+  if (guides) guides.hidden = sections.some(sec => (sec.items || []).some(i => /tutorials\.html/.test(i.href || '')));
 }
 
 function renderSection(sec) {

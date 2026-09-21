@@ -11,7 +11,9 @@
   <style>
     .content {
       display: grid;
-      grid-template-columns: 3fr 1fr;
+      /* .preview-section (right sidebar) is hidden for now — single column
+         until it comes back. */
+      grid-template-columns: 1fr;
       gap: 40px;
       width: 80%;
       margin: 40px auto;
@@ -221,7 +223,16 @@
         </div>
         <div id="admin-link-area"></div>
     </div>
+    <div class="tags-group archives-nav">
+        <span class="sub-nav-item">ARCHIVES: </span>
+        <a href="movies.html" class="sub-nav-item">movies</a>
+        <a href="music.html" class="sub-nav-item">music</a>
+        <a href="books.html" class="sub-nav-item" aria-current="page">books</a>
+        <a href="electronics.html" class="sub-nav-item">electronics</a>
+        <a href="cards.html" class="sub-nav-item">cards</a>
+    </div>
   <h1 class="page-title">Bookshelf</h1>
+  <hr>
 </div>
 
 <div class="content">
@@ -229,7 +240,8 @@
     <p style="color:#888;font-family:'Courier New',monospace;font-size:13px;">Loading…</p>
   </div>
 
-  <div class="preview-section">
+  <!-- Hidden for now (right sidebar) -->
+  <div class="preview-section" style="display:none">
     <img id="preview-img" src="" alt="Preview" class="preview-img">
     <div class="movie-info">
       <div class="movie-title" id="movie-title"></div>

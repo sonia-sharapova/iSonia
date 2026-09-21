@@ -177,6 +177,16 @@ body.m2 .page-title { text-transform: uppercase; }
 
   body.m2 .tags-group { gap: 14px; }
 
+  /* .archives-nav is a standalone row (sibling of .nav-links, not nested
+     inside it) — order it right after .nav-links instead of drifting
+     between .page-title (order:-1) and .nav-links (order:1) at its
+     default order:0. */
+  body.m2 .archives-nav {
+    order: 2;
+    flex-wrap: wrap;
+    margin: 0 0 16px;
+  }
+
   body.m2 .sub-nav-item {
     min-width: 0 !important;
     min-height: 0 !important;
@@ -916,7 +926,17 @@ body.m2 .page-title { text-transform: uppercase; }
   /* !important on .res-back: every <a> is display:flex !important on phones */
   body.m2 .res-col-cats .res-head,
   body.m2 .res-col-sections .res-head { display: none; }
-  body.m2 .res-back { display: none !important; }
+  /* only the current category is listed, and the page title already names it — so
+     just keep the way back to the full list */
+  body.m2 .res-col-cats .res-list { display: none; }
+  body.m2 .res-back {
+    display: inline-flex !important;
+    min-height: 0 !important;
+    min-width: 0 !important;
+    margin: 0;
+    font: 400 11px/16px 'IBM Plex Mono', 'Courier New', monospace;
+    color: #47649a;
+  }
 
   body.m2 .res-col-cats .res-list,
   body.m2 .res-col-sections .res-list {

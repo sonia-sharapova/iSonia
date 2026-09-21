@@ -3,7 +3,7 @@
     var text = isAdmin ? 'ADMIN LOGOUT (moi)' : 'ADMIN LOGIN (moi)';
     var href = isAdmin
       ? '/admin/logout.php'
-      : '/admin/login.html?redirect=' + encodeURIComponent(window.location.pathname);
+      : '/admin/login.html?redirect=' + encodeURIComponent(window.location.pathname + window.location.search);
 
     ['admin-link-area', 'admin-link-mobile'].forEach(function (id) {
       var area = document.getElementById(id);

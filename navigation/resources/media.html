@@ -8,8 +8,8 @@
   <link rel="stylesheet" href="../../styles/stylesheet.css">
   <link rel="stylesheet" href="../../styles/mobile.css">
   <link rel="stylesheet" href="links.css">
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <script src="links.js"></script>
+  <script src="../../scripts/admin.js" defer></script>
 
   <style>
     #background-canvas {
@@ -31,12 +31,15 @@
 
 <div class="title-container">
   <div class="nav-links">
-      <a href="../../index.html" class="sub-nav-item">SEE: </a>
-      <a href="../../creations/blogs.html" class="sub-nav-item">writing</a>
-      <a href="../../photos.html" class="sub-nav-item">photography</a>
-      <a href="../../creations/art.html" class="sub-nav-item">art</a>
+      <div class="tags-group">
+          <span class="sub-nav-item">SEE: </span>
+          <a href="../../creations/blogs.html" class="sub-nav-item">writing</a>
+          <a href="../../photos.html" class="sub-nav-item">photography</a>
+          <a href="../../creations/art.html" class="sub-nav-item">art</a>
+      </div>
+      <div id="admin-link-area"></div>
   </div>
-  <h1 class="page-title">Media Resources</h1>
+  <h1 class="page-title">Media</h1>
   <hr>
 </div>
 
@@ -44,6 +47,7 @@
   <div id="res-tree" class="res-tree">
     <div class="loading">Loading resources...</div>
   </div>
+  <div id="admin-link-mobile"></div>
 </div>
 
 <script src="../../scripts/siteStyle/bck.js"></script>

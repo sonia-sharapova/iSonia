@@ -79,7 +79,7 @@ Every page in this pattern should also have the `<hr>` title-underline — `blog
 - `index.html` — home
 - `navigation/portfolio.html`, `navigation/about.html`, `navigation/contact.html` — about/portfolio/contact
 - `navigation/resources.html` + `navigation/resources/*` — curated links archive (see above)
-- `creations/projects.html`, `creations/blogs.html`, `creations/tutorials.html`, `creations/games.html`, `creations/art.html` — creative work sections
+- `creations/projects.html`, `creations/blogs.html`, `creations/games.html`, `creations/art.html` — creative work sections (`creations/tutorials.html` now just redirects to `navigation/resources/tutorials.html`, the Guides & Tutorials category)
 - `photos.html` — photo galleries (backed by `data/albums.json`)
 - `personal/music.html`, `personal/movies.html`, `personal/books.html`, `personal/cards.html` — personal favorites/collections (backed by their respective `data/*.json`)
 - `projects/` — standalone interactive projects (camera/ASCII effects, dots, bezier, screenshot garden, the synth app)
