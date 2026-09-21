@@ -9,108 +9,13 @@
   <link rel="stylesheet" href="../styles/mobile.css">
   <link rel="stylesheet" href="../styles/categories.css">
   <script src="../scripts/admin.js" defer></script>
-  <style>
-    #background-canvas { position: fixed; top: 30%; left: 0; z-index: -1; }
-
-    .content { width: 80%; margin: 0 auto 5%; padding: 0 20px; }
-
-    /* ── Admin controls ── */
-    .admin-only { display: none; }
-    body.admin-mode .admin-only { display: inline-flex; }
-
-    .adm-btn {
-      background: none; border: none; cursor: pointer;
-      font-size: 13px; padding: 2px 6px; border-radius: 2px;
-      font-family: 'Optima', arial, sans-serif;
-      min-height: unset !important; min-width: unset !important;
-    }
-    .adm-add  { color: #1d60c0; border: 1px solid rgba(0,80,200,0.25); background: rgba(0,80,200,0.06); }
-    .adm-add:hover  { background: rgba(0,80,200,0.14); }
-    .adm-del  { color: #c00; border: 1px solid rgba(200,0,0,0.2); background: rgba(200,0,0,0.05); }
-    .adm-del:hover  { background: rgba(200,0,0,0.14); }
-    .adm-edit { color: #666; border: 1px solid #ddd; }
-    .adm-edit:hover { background: #f0f0f0; }
-
-    /* Inline icon controls */
-    .adm-plus {
-      background: none; border: none; cursor: pointer;
-      color: #4caf50; font-size: 18px; line-height: 1;
-      padding: 0 2px; font-weight: 300;
-      min-height: unset !important; min-width: unset !important;
-    }
-    .adm-plus:hover { color: #2e7d32; }
-    .adm-text-del {
-      background: none; border: none; cursor: pointer;
-      color: #c00; font-size: 11px; letter-spacing: 0.04em;
-      padding: 0; font-family: 'Optima', arial, sans-serif;
-      min-height: unset !important; min-width: unset !important;
-      opacity: 0.7;
-    }
-    .adm-text-del:hover { opacity: 1; text-decoration: underline; }
-
-    .section-header-row {
-      display: flex; align-items: center; gap: 10px; margin-bottom: 10px;
-    }
-    .section-header-row .section-header { margin-bottom: 0; }
-
-    .item-admin-btns {
-      display: none; gap: 4px; position: absolute; top: 6px; right: 6px;
-    }
-    body.admin-mode .category-card:hover .item-admin-btns,
-    body.admin-mode .subcategory-item:hover .item-admin-btns { display: flex; }
-    .category-card { position: relative; }
-    .subcategory-item { position: relative; }
-
-    .add-section-row {
-      display: none; margin-top: 30px; padding-top: 20px;
-      border-top: 1px dashed #ddd;
-    }
-    body.admin-mode .add-section-row { display: flex; gap: 10px; align-items: center; }
-
-    /* ── Modal ── */
-    .res-modal {
-      display: none; position: fixed; inset: 0;
-      background: rgba(0,0,0,0.4); z-index: 600;
-      align-items: center; justify-content: center;
-    }
-    .res-modal.active { display: flex; }
-    .res-modal-box {
-      background: #fff; padding: 28px 32px 30px;
-      width: 420px; max-width: 94vw;
-      border: 1px solid #ddd;
-    }
-    .res-modal-box h3 { font-weight: 300; font-size: 19px; margin: 0 0 18px; color: #444; }
-    .res-modal-box label { display: block; font-size: 12px; color: #999; margin: 12px 0 3px; }
-    .res-modal-box input, .res-modal-box select, .res-modal-box textarea {
-      width: 100%; box-sizing: border-box;
-      border: 1px solid #ddd; padding: 7px 9px;
-      font-family: 'Optima', arial, sans-serif; font-size: 14px;
-      color: #444; background: #fafafa; outline: none;
-      min-height: unset !important;
-    }
-    .res-modal-box textarea { resize: vertical; min-height: 50px; }
-    .res-modal-actions { display: flex; gap: 10px; margin-top: 18px; }
-    .res-modal-save {
-      background: rgba(210,245,250,0.5); border: 1px solid rgba(143,97,77,0.35);
-      color: #1d60c0; font-family: 'Optima', arial, sans-serif;
-      font-size: 14px; padding: 8px 20px; cursor: pointer;
-      min-height: unset !important;
-    }
-    .res-modal-save:hover { background: #c2e2e787; }
-    .res-modal-cancel {
-      background: none; border: 1px solid #ddd; color: #999;
-      font-family: 'Optima', arial, sans-serif;
-      font-size: 14px; padding: 8px 16px; cursor: pointer;
-      min-height: unset !important;
-    }
-    .res-modal-cancel:hover { border-color: #aaa; color: #555; }
-  </style>
+  <link rel="stylesheet" href="resources/hub.css">
+  <script src="resources/hub-data.js"></script>
 </head>
 <body class="m2 p-resources">
 <nav class="navigation">
   <a href="../index.html" class="nav-item">HOME</a>
   <a href="../creations/projects.html" class="nav-item">PROJECTS</a>
-  <a href="../navigation/portfolio.html" class="nav-item">PORTFOLIO</a>
   <a href="../navigation/resources.html" class="nav-item" aria-current="page">RESOURCES</a>
   <a href="../navigation/learning.html" class="nav-item">LEARNING</a>
   <a href="../navigation/about.html" class="nav-item">ABOUT</a>
@@ -141,18 +46,11 @@
 
   <div id="resources-body"></div>
 
-  <!-- Guides & Tutorials: the last category (also shown on the Learning page) -->
-  <div class="section-block" id="guides-block">
-    <div class="section-header-row">
-      <div class="section-header">Guides</div>
-    </div>
-    <div class="category-grid">
-      <a href="resources/tutorials.html" class="category-card">
-        <div class="category-title">Guides &amp; Tutorials</div>
-        <div class="category-count">Step-by-step write-ups and how-tos I've put together.</div>
-      </a>
-    </div>
-  </div>
+  <!-- the Guides moved to the Learning page -->
+  <a href="learning.html" class="learning-note">
+    <span class="learning-note-title">Interested in learning more from me?</span>
+    <span class="learning-note-text">Guides and tutorials are on the Learning page &rarr;</span>
+  </a>
 
   <div class="add-section-row">
     <button class="adm-btn adm-add" onclick="openSectionModal(null)">+ Add Section</button>
@@ -197,197 +95,7 @@
   </div>
 </div>
 
-<script>
-const SAVE_URL = '../admin/save-resources.php';
-const DATA_URL = '../data/resources.json';
-
-let sections = [];
-let isAdmin = false;
-
-// current modal state
-let modalSectionId = null;
-let modalItemId = null;
-
-async function init() {
-  try {
-    const s = await fetch('../admin/check-session.php').then(r => r.json());
-    if (s.admin) { isAdmin = true; document.body.classList.add('admin-mode'); }
-  } catch(e) {}
-
-  try {
-    const r = await fetch(DATA_URL + '?t=' + Date.now());
-    sections = r.ok ? await r.json() : [];
-    if (!Array.isArray(sections)) sections = [];
-    // until data/resources.json exists, show the default categories (the first save creates the file)
-    if (!sections.some(s => s.type === 'cards' && (s.items || []).length)) {
-      sections = [{ id: 'cat', title: 'Categories', type: 'cards', intro: '', items: [
-        ['technology', 'Technology', 'Programming, computers and how they work.'],
-        ['web', 'Web', 'How the web works, how to build for it, and the corners worth exploring.'],
-        ['design', 'Design', 'Inspiration, tools and assets for design work.'],
-        ['careers', 'Careers & Opportunities', 'Jobs, studios, festivals and open calls.'],
-        ['software', 'Software & Tools', 'Free software, alternatives and handy online tools.'],
-        ['media', 'Media', 'Film, video, anime, games and things to read.'],
-        ['music', 'Music & Audio', 'Free sound, radio, discovery and learning.'],
-        ['archives', 'Archives & Collections', "Libraries, museums and the internet's memory."],
-        ['culture', 'Internet Culture', 'Forums, nostalgia and the strange.'],
-        ['ideas', 'Ideas & People', 'The thinkers, arguments and theories behind it all.'],
-        ['life', 'Learning & Life', 'Everyday guides, free courses and life admin.']
-      ].map(([slug, title, desc]) => ({ id: slug, title, href: 'resources/' + slug + '.html', desc })) }];
-    }
-  } catch(e) { sections = []; }
-
-  render();
-}
-
-function uid() { return Math.random().toString(36).slice(2,9) + Date.now().toString(36); }
-function esc(s) {
-  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-}
-
-// ── Render ───────────────────────────────────────────────────────
-function render() {
-  const body = document.getElementById('resources-body');
-  body.innerHTML = sections.map(sec => renderSection(sec)).join('');
-  // the fixed Guides card is only needed while the list itself has no Guides & Tutorials entry
-  const guides = document.getElementById('guides-block');
-  if (guides) guides.hidden = sections.some(sec => (sec.items || []).some(i => /tutorials\.html/.test(i.href || '')));
-}
-
-function renderSection(sec) {
-  const items = sec.type === 'cards' ? renderCards(sec) : renderLinks(sec);
-  return `
-    <div class="section-block" data-id="${sec.id}">
-      <div class="section-header-row">
-        <div class="section-header">${esc(sec.title)}</div>
-        <button class="adm-plus admin-only" onclick="openItemModal('${sec.id}',null)" title="Add item">+</button>
-      </div>
-      ${sec.intro ? `<div class="resources-intro"><p>${esc(sec.intro)}</p></div>` : ''}
-      ${items}
-      <div class="admin-only" style="margin-top:6px;">
-        <button class="adm-text-del" onclick="deleteSection('${sec.id}')">delete section</button>
-      </div>
-    </div>`;
-}
-
-function renderCards(sec) {
-  return `<div class="category-grid">` +
-    (sec.items||[]).map(item => `
-      <a href="${esc(item.href)}" class="category-card">
-        <div class="category-title">${esc(item.title)}</div>
-        <div class="category-count">${esc(item.desc)}</div>
-        <span class="item-admin-btns admin-only">
-          <button class="adm-btn adm-edit" onclick="event.preventDefault();openItemModal('${sec.id}','${item.id}')">✎</button>
-          <button class="adm-btn adm-del"  onclick="event.preventDefault();deleteItem('${sec.id}','${item.id}')">✕</button>
-        </span>
-      </a>`).join('') +
-    `</div>`;
-}
-
-function renderLinks(sec) {
-  return `<ul class="subcategory-list">` +
-    (sec.items||[]).map(item => `
-      <li class="subcategory-item">
-        <a href="${esc(item.href)}" class="subcategory-link">
-          <span><span style="font-weight:bold">${esc(item.title)}:</span> ${esc(item.desc)}<hr></span>
-        </a>
-        <span class="item-admin-btns admin-only" style="top:8px;">
-          <button class="adm-btn adm-edit" onclick="openItemModal('${sec.id}','${item.id}')">✎</button>
-          <button class="adm-btn adm-del"  onclick="deleteItem('${sec.id}','${item.id}')">✕</button>
-        </span>
-      </li>`).join('') +
-    `</ul>`;
-}
-
-// ── Delete ───────────────────────────────────────────────────────
-async function deleteSection(id) {
-  if (!confirm('Delete this entire section?')) return;
-  sections = sections.filter(s => s.id !== id);
-  await persist();
-  render();
-}
-
-async function deleteItem(secId, itemId) {
-  if (!confirm('Remove this item?')) return;
-  const sec = sections.find(s => s.id === secId);
-  sec.items = sec.items.filter(i => i.id !== itemId);
-  await persist();
-  render();
-}
-
-// ── Item modal ───────────────────────────────────────────────────
-function openItemModal(secId, itemId) {
-  modalSectionId = secId;
-  modalItemId = itemId;
-  const sec = sections.find(s => s.id === secId);
-  const item = itemId ? sec.items.find(i => i.id === itemId) : null;
-  document.getElementById('item-modal-title').textContent = itemId ? 'Edit Item' : 'Add Item';
-  document.getElementById('item-title').value = item ? item.title : '';
-  document.getElementById('item-href').value  = item ? item.href  : '';
-  document.getElementById('item-desc').value  = item ? item.desc  : '';
-  document.getElementById('item-modal').classList.add('active');
-  setTimeout(() => document.getElementById('item-title').focus(), 60);
-}
-function closeItemModal() { document.getElementById('item-modal').classList.remove('active'); }
-
-document.getElementById('item-save').onclick = async () => {
-  const title = document.getElementById('item-title').value.trim();
-  const href  = document.getElementById('item-href').value.trim();
-  const desc  = document.getElementById('item-desc').value.trim();
-  if (!title || !href) { alert('Title and URL are required.'); return; }
-
-  const sec = sections.find(s => s.id === modalSectionId);
-  if (modalItemId) {
-    const item = sec.items.find(i => i.id === modalItemId);
-    item.title = title; item.href = href; item.desc = desc;
-  } else {
-    sec.items.push({ id: uid(), title, href, desc });
-  }
-  await persist();
-  closeItemModal();
-  render();
-};
-
-document.getElementById('item-modal').addEventListener('click', e => { if (e.target === e.currentTarget) closeItemModal(); });
-
-// ── Section modal ─────────────────────────────────────────────────
-function openSectionModal(id) {
-  const sec = id ? sections.find(s => s.id === id) : null;
-  document.getElementById('section-modal-title').textContent = id ? 'Edit Section' : 'Add Section';
-  document.getElementById('section-title').value = sec ? sec.title : '';
-  document.getElementById('section-type').value  = sec ? sec.type  : 'cards';
-  document.getElementById('section-intro').value = sec ? (sec.intro||'') : '';
-  document.getElementById('section-modal').classList.add('active');
-  setTimeout(() => document.getElementById('section-title').focus(), 60);
-}
-function closeSectionModal() { document.getElementById('section-modal').classList.remove('active'); }
-
-document.getElementById('section-save').onclick = async () => {
-  const title = document.getElementById('section-title').value.trim();
-  const type  = document.getElementById('section-type').value;
-  const intro = document.getElementById('section-intro').value.trim();
-  if (!title) { alert('Title is required.'); return; }
-  sections.push({ id: uid(), title, type, intro, items: [] });
-  await persist();
-  closeSectionModal();
-  render();
-};
-
-document.getElementById('section-modal').addEventListener('click', e => { if (e.target === e.currentTarget) closeSectionModal(); });
-
-// ── Persist ───────────────────────────────────────────────────────
-async function persist() {
-  try {
-    const res = await fetch(SAVE_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(sections)
-    }).then(r => r.json());
-    if (!res.success) alert('Save error: ' + (res.error||'unknown'));
-  } catch(e) { alert('Network error — changes not saved.'); }
-}
-
-init();
-</script>
+<script src="resources/hub.js"></script>
 
 <script>animate();</script>
 

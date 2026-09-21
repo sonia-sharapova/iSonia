@@ -8,6 +8,7 @@
 // A category's content lives in markdown/<name>.md (falls back to seed/<name>.md until it is first edited):
 //   ![alt](image)              (before the first ##: the category's picture)
 //   > one-line description     (before the first ##: the category's description)
+//   # Topic                    (optional, groups the sections below it; next line, optional:  > description)
 //   ## Section                 (next line, optional:  > one-line description)
 //   ### Sub-section            (next line, optional:  > description) — a header that breaks up the links
 //   - **Link name**: notes     (the notes stay in the file, they aren't shown on the page)
@@ -16,42 +17,35 @@
 // Signed in as admin you can edit every layer: categories, the intro, sections, sub-sections and links.
 // Categories can also be added without creating a page: category.html?c=<name> shows any category.
 
-// navigation/learning.html reuses this tree for the Learning section (the Guides & Tutorials content, which is
-// also a Resources category): same sections → links layout, but no category column, no hub, and it lives one folder up.
-const LEARNING = /\/learning\.html$/.test(window.location.pathname);
-const ROOT = LEARNING ? '../' : '../../';                 // the site root, relative to this page
-const MD_BASE = LEARNING ? './resources/' : './';          // where markdown/ and seed/ are
+// A page with topics is a four-level tree: the title is the category, the first column lists its Topics,
+// the second column the selected topic's Sections, the third the section's links (### sub-sections break them).
+// Pages without any "# Topic" line keep the older layout (category list → sections → links).
+//
+// This one file drives two folders of category pages, which mirror each other:
+//   navigation/resources/*.html → the "Saved Links" categories
+//   navigation/learning/*.html  → the "Guides" categories (tutorials; the sub-sections are their secondary navigation)
+// Which group a page belongs to comes from its folder; the category column lists just that group (hub-data.js).
+const FOLDER = window.location.pathname.split('/').slice(-2, -1)[0];   // 'resources' or 'learning'
+const GUIDE = FOLDER === 'learning';
+const ROOT = '../../';                                                 // the site root, relative to this page
+const HUB_TITLE = GUIDE ? 'Guides' : 'Saved Links';
+const HUB_PAGE = GUIDE ? '../learning.html' : '../resources.html';     // the page the "< All ..." link goes back to
+const HUB_BACK = GUIDE ? 'All Guides' : 'All Topics';
+const SITE_SECTION = GUIDE ? 'Learning' : 'Resources';                  // "Learning - Algorithms" in the tab title
 const PARAMS = new URLSearchParams(window.location.search);
-const PAGE = LEARNING ? 'tutorials' : (PARAMS.get('c') || window.location.pathname.split('/').pop().replace('.html', '')).toLowerCase().replace(/[^a-z0-9-]/g, '');
+const PAGE = (PARAMS.get('c') || window.location.pathname.split('/').pop().replace('.html', '')).toLowerCase().replace(/[^a-z0-9-]/g, '');
 // technology.html has always read tech.md, the README says technology.md — accept either
-const MD_NAMES = { technology: ['technology', 'tech'] };
+// (the topic-tree pages: creating, consuming, exploring, learning, misc, technology, open-source, get-involved)
+const TOPIC_PAGES = ['creating', 'consuming', 'exploring', 'learning', 'misc', 'technology', 'open-source', 'get-involved'];
+const MD_NAMES = {};
 const HUB_DATA_URL = ROOT + 'data/resources.json';
 const HUB_SAVE_URL = ROOT + 'admin/save-resources.php';
-const LEARNING_INFO = { title: 'Learning', desc: "Guides, tutorials and step-by-step write-ups I've put together." };
-// Guides & Tutorials is the last Resources category; navigation/learning.html shows the same content
-const TUTORIALS = { title: 'Guides & Tutorials', desc: "Step-by-step write-ups and how-tos I've put together.", href: 'resources/tutorials.html' };
-
-// used until data/resources.json exists (the first category you add or edit creates it)
-const DEFAULT_HUB = [{
-    id: 'cat', title: 'Categories', type: 'cards', intro: '', items: [
-        ['technology', 'Technology', 'Programming, computers and how they work.'],
-        ['web', 'Web', 'How the web works, how to build for it, and the corners worth exploring.'],
-        ['design', 'Design', 'Inspiration, tools and assets for design work.'],
-        ['careers', 'Careers & Opportunities', 'Jobs, studios, festivals and open calls.'],
-        ['software', 'Software & Tools', 'Free software, alternatives and handy online tools.'],
-        ['media', 'Media', 'Film, video, anime, games and things to read.'],
-        ['music', 'Music & Audio', 'Free sound, radio, discovery and learning.'],
-        ['archives', 'Archives & Collections', "Libraries, museums and the internet's memory."],
-        ['culture', 'Internet Culture', 'Forums, nostalgia and the strange.'],
-        ['ideas', 'Ideas & People', 'The thinkers, arguments and theories behind it all.'],
-        ['life', 'Learning & Life', 'Everyday guides, free courses and life admin.'],
-        ['tutorials', TUTORIALS.title, TUTORIALS.desc]
-    ].map(([slug, title, desc]) => ({ id: slug, title, href: 'resources/' + slug + '.html', desc }))
-}];
 
 let mdFile = PAGE;          // the markdown file that loaded (saves always go to markdown/<name>.md)
 let intro = { image: '', alt: '', description: '' };
-let foldersData = [];       // [{ name, description, items, subfolders: [{ name, description, items }] }]
+let topicsData = [];        // [{ name, description }] — the "# Topic" headings, in file order
+let curTopic = -1;          // index into topicsData, -1 = none selected
+let foldersData = [];       // [{ name, description, topic, items, subfolders: [{ name, description, items }] }]
 let hubData = [];           // the hub's raw sections (data/resources.json)
 let categories = [];        // [{ title, desc, href, si, ii }]  — si/ii point back into hubData
 let curSection = -1;        // -1 = nothing selected
@@ -59,15 +53,19 @@ let isAdmin = false;
 
 // ── Parse markdown ───────────────────────────────────────────────
 function parseMarkdown(markdown) {
-    const folders = [];
+    const folders = [], topics = [];
     const info = { image: '', alt: '', description: '' };
-    let folder = null, sub = null, last = null;
+    let folder = null, sub = null, last = null, topic = null;
 
     markdown.split('\n').forEach(raw => {
         const line = raw.replace(/\r$/, '');
         const t = line.trim();
-        if (line.startsWith('## ')) {
-            folder = { name: line.slice(3).trim(), description: '', subfolders: [], items: [] };
+        if (line.startsWith('# ')) {
+            topic = { name: line.slice(2).trim(), description: '' };
+            topics.push(topic);
+            folder = null; sub = null; last = null;
+        } else if (line.startsWith('## ')) {
+            folder = { name: line.slice(3).trim(), description: '', topic: topic ? topic.name : '', subfolders: [], items: [] };
             folders.push(folder);
             sub = null; last = null;
         } else if (line.startsWith('### ')) {
@@ -85,18 +83,18 @@ function parseMarkdown(markdown) {
             if (last) last.link = t.slice(2).trim();
         } else if (t.startsWith('>')) {
             const d = t.replace(/^>\s?/, '');
-            const target = sub || folder || info;
+            const target = sub || folder || topic || info;
             target.description = target.description ? target.description + ' ' + d : d;
         } else if (!folder) {
             const im = t.match(/^!\[([^\]]*)\]\(([^)]+)\)/);
             if (im) { info.alt = im[1]; info.image = im[2]; }
         }
     });
-    return { intro: info, folders };
+    return { intro: info, folders, topics };
 }
 
 // ── Serialize back to markdown ───────────────────────────────────
-function serializeToMarkdown(folders, info) {
+function serializeToMarkdown(folders, info, topics) {
     const itemMd = it => `- **${it.name}**: ${it.description}\n` + (it.link ? `  - ${it.link}\n` : '');
     let md = '';
     if (info && (info.image || info.description)) {
@@ -104,7 +102,7 @@ function serializeToMarkdown(folders, info) {
         if (info.description) md += `> ${info.description}\n`;
         md += '\n';
     }
-    folders.forEach(f => {
+    const folderMd = f => {
         md += `## ${f.name}\n` + (f.description ? `> ${f.description}\n` : '') + '\n';
         f.items.forEach(it => { md += itemMd(it); });
         f.subfolders.forEach(sf => {
@@ -112,6 +110,13 @@ function serializeToMarkdown(folders, info) {
             sf.items.forEach(it => { md += itemMd(it); });
         });
         md += '\n';
+    };
+    topics = topics || [];
+    // sections that belong to no topic go first — after a "# Topic" line they would be read as part of it
+    folders.filter(f => !topics.some(t => t.name === f.topic)).forEach(folderMd);
+    topics.forEach(t => {
+        md += `# ${t.name}\n` + (t.description ? `> ${t.description}\n` : '') + '\n';
+        folders.filter(f => f.topic === t.name).forEach(folderMd);
     });
     return md;
 }
@@ -122,7 +127,7 @@ async function saveMd() {
         const res = await fetch(ROOT + 'admin/save-resource-md.php', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ file: mdFile, content: serializeToMarkdown(foldersData, intro) })
+            body: JSON.stringify({ file: mdFile, dir: FOLDER, content: serializeToMarkdown(foldersData, intro, topicsData) })
         }).then(r => r.json());
         if (!res.success) alert('Save error: ' + (res.error || 'unknown'));
     } catch (e) { alert('Network error — changes not saved.'); }
@@ -156,23 +161,28 @@ function isCurrent(cat) { return catSlug(cat.href) === PAGE; }
 function isExternal(u) { return /^(https?:)?\/\//i.test(u) || /^mailto:/i.test(u); }
 function pageTitle() {
     const h = document.querySelector('.page-title');
-    return h ? h.textContent.trim() : 'Resources';
+    return h ? h.textContent.trim() : SITE_SECTION;
 }
 function currentCategory() {
-    if (LEARNING) return { title: LEARNING_INFO.title, desc: LEARNING_INFO.desc, href: location.href };
     return categories.find(isCurrent) || { title: pageTitle(), desc: '', href: location.href };
 }
 
-// ── Categories: the hub's cards, in the hub's order — Guides & Tutorials always last ──
+function useTopics() { return !GUIDE && (topicsData.length > 0 || TOPIC_PAGES.includes(PAGE)); }
+// sections shown in the second column: the selected topic's (topic pages), or all of them
+function visibleFolders() {
+    if (!useTopics()) return foldersData.map((f, i) => [f, i]);
+    const t = topicsData[curTopic];
+    return t ? foldersData.map((f, i) => [f, i]).filter(([f]) => f.topic === t.name) : [];
+}
+
+// ── Categories: this group's cards from the hub, in the hub's order ──
 async function loadHub() {
     let data = [];
     try {
         const r = await fetch(HUB_DATA_URL + '?t=' + Date.now());
         data = r.ok ? await r.json() : [];
     } catch (e) { /* not there yet */ }
-    if (!Array.isArray(data) || !data.some(s => s.type === 'cards' && (s.items || []).length)) {
-        data = JSON.parse(JSON.stringify(DEFAULT_HUB));
-    }
+    data = HubData.normalize(data);
     data.forEach(s => (s.items || []).forEach(it => { if (!it.id) it.id = uid(); }));
     return data;
 }
@@ -180,25 +190,13 @@ async function loadHub() {
 function buildCategories() {
     const list = [];
     hubData.forEach((s, si) => {
-        if (s.type !== 'cards') return;
+        if (s.type !== 'cards' || HubData.isGuides(s) !== GUIDE) return;      // just this page's own group
         (s.items || []).forEach((it, ii) => {
             list.push({ title: it.title, desc: it.desc || '', href: new URL(it.href, new URL('../resources.html', location.href)).href, si, ii });
         });
     });
-    // Guides & Tutorials sits at the bottom of the list; add it if the hub doesn't have it yet
-    const t = list.findIndex(c => catSlug(c.href) === 'tutorials');
-    if (t >= 0) list.push(list.splice(t, 1)[0]);
-    else list.push({ title: TUTORIALS.title, desc: TUTORIALS.desc, href: new URL('tutorials.html', location.href).href, si: -1, ii: -1 });
     if (!list.some(isCurrent)) list.push({ title: pageTitle(), desc: '', href: location.href, si: -1, ii: -1 });
     return list;
-}
-
-// make sure Guides & Tutorials is a real card in hubData before the hub is saved
-function ensureTutorialsCard() {
-    if (hubData.some(s => s.type === 'cards' && (s.items || []).some(it => catSlug(new URL(it.href, new URL('../resources.html', location.href)).href) === 'tutorials'))) return;
-    let sec = hubData.find(s => s.type === 'cards');
-    if (!sec) { sec = { id: uid(), title: 'Categories', type: 'cards', intro: '', items: [] }; hubData.push(sec); }
-    sec.items.push({ id: uid(), title: TUTORIALS.title, href: TUTORIALS.href, desc: TUTORIALS.desc });
 }
 
 // ── Render ───────────────────────────────────────────────────────
@@ -234,19 +232,41 @@ function categoriesCol() {
       </div>`).join('');
     return `<div class="res-col res-col-cats">
         <div class="sidebar-section">
-          <a class="sidebar-link res-back" href="../resources.html">&lt; All Topics</a>
+          <a class="sidebar-link res-back" href="${HUB_PAGE}">&lt; ${HUB_BACK}</a>
         </div>
         <div class="sidebar-section">
-          <h3 class="res-head">Categories</h3>
+          <h3 class="res-head">${HUB_TITLE}</h3>
           <nav class="res-list">${rows}</nav>
           ${isAdmin ? '<button class="lnk-adm-add-row" onclick="openCategoryModal(null)">+ Add category</button>' : ''}
         </div>
       </div>`;
 }
 
+// First column of a topic page: the way back to the hub, then this category's topics
+function topicsCol() {
+    const rows = topicsData.map((t, i) => `<div class="res-row">
+        <a class="res-link${i === curTopic ? ' active' : ''}" href="#${slug(t.name)}" data-t="${i}">${esc(t.name)}</a>
+        ${isAdmin ? `<span class="res-adm">
+          <button class="lnk-adm-btn lnk-edit" onclick="renameTopic(${i})" title="Rename topic">✎</button>
+          <button class="lnk-adm-btn lnk-del"  onclick="deleteTopic(${i})" title="Delete topic and its sections">✕</button>
+        </span>` : ''}
+      </div>`).join('');
+    return `<div class="res-col res-col-cats">
+        <div class="sidebar-section">
+          <a class="sidebar-link res-back" href="${HUB_PAGE}">&lt; ${HUB_BACK}</a>
+        </div>
+        <div class="sidebar-section">
+          <h3 class="res-head">Topics</h3>
+          <nav class="res-list">${rows}</nav>
+          ${isAdmin ? '<button class="lnk-adm-add-row" onclick="addTopic()">+ Add topic</button>' : ''}
+        </div>
+      </div>`;
+}
+
 function sectionsCol() {
     const cat = currentCategory();
-    const rows = foldersData.map((f, i) => `<div class="res-row">
+    const topic = topicsData[curTopic];
+    const rows = visibleFolders().map(([f, i]) => `<div class="res-row">
         <a class="res-link${i === curSection ? ' active' : ''}" href="#${slug(f.name)}" data-i="${i}">${esc(f.name)}</a>
         ${isAdmin ? `<span class="res-adm">
           <button class="lnk-adm-btn lnk-edit" onclick="openFolderModal(${i})" title="Rename / describe">✎</button>
@@ -254,9 +274,9 @@ function sectionsCol() {
         </span>` : ''}
       </div>`).join('');
     return `<div class="res-col res-col-sections">
-        <div class="res-head"><h2 class="res-title">${esc(cat.title)}</h2>${cat.desc ? `<p class="res-sub">${esc(cat.desc)}</p>` : ''}</div>
+        <div class="res-head"><h2 class="res-title">${esc(topic ? topic.name : cat.title)}</h2>${(topic ? topic.description : cat.desc) ? `<p class="res-sub">${esc(topic ? topic.description : cat.desc)}</p>` : ''}</div>
         <nav class="res-list">${rows}</nav>
-        ${isAdmin ? '<button class="lnk-adm-add-row" onclick="openFolderModal(null)">+ Add section</button>' : ''}
+        ${isAdmin && (topic || !useTopics()) ? '<button class="lnk-adm-add-row" onclick="openFolderModal(null)">+ Add section</button>' : ''}
       </div>`;
 }
 
@@ -271,7 +291,9 @@ function introCol() {
                <path d="M14 14h20M14 14v44M14 36h20M14 58h20M34 14v0M52 14h26M52 36h40M52 58h30M34 36h18M34 58h18M34 14h18"/>
              </svg>
            </div>`;
-    const hint = foldersData.length
+    const hint = useTopics() && curTopic < 0
+        ? (topicsData.length ? 'Choose a topic to get started.' : (isAdmin ? 'Nothing in here yet — add a topic on the left to start.' : 'Nothing in here yet.'))
+        : foldersData.length
         ? 'Choose a section to see its links.'
         : (isAdmin ? 'Nothing in here yet — add a section on the left to start.' : 'Nothing in here yet.');
     return `<div class="res-col res-col-links res-intro">
@@ -308,8 +330,8 @@ function linksCol() {
 function rerender() {
     if (curSection >= foldersData.length) curSection = foldersData.length - 1;
     const tree = document.getElementById('res-tree');
-    tree.classList.toggle('res-tree-2col', LEARNING);
-    tree.innerHTML = (LEARNING ? '' : categoriesCol()) + sectionsCol() + linksCol();
+    tree.classList.toggle('res-tree-topics', useTopics());
+    tree.innerHTML = (useTopics() ? topicsCol() : categoriesCol()) + sectionsCol() + linksCol();
     // on a phone the two lists are scrolling chip rows — bring the current chip into view
     document.querySelectorAll('.res-list').forEach(list => {
         const a = list.querySelector('.res-link.active');
@@ -320,36 +342,82 @@ function rerender() {
     });
 }
 
-function selectSection(i) {
-    if (i === curSection) {           // clicking the open section closes it → back to the intro
-        curSection = -1;
-        history.replaceState(null, '', location.pathname + location.search);
-    } else {
-        curSection = i;
-        history.replaceState(null, '', location.pathname + location.search + '#' + slug(foldersData[i].name));
-    }
+function setHash() {
+    const t = topicsData[curTopic], f = foldersData[curSection];
+    const h = useTopics() ? (t ? slug(t.name) + (f ? '/' + slug(f.name) : '') : '') : (f ? slug(f.name) : '');
+    history.replaceState(null, '', location.pathname + location.search + (h ? '#' + h : ''));
+}
+
+function selectTopic(i) {
+    curTopic = i === curTopic ? -1 : i;         // clicking the open topic closes it → back to the intro
+    curSection = -1;
+    setHash();
     rerender();
 }
 
-// picking a section is client-side; category links are ordinary page links
+function selectSection(i) {
+    curSection = i === curSection ? -1 : i;     // clicking the open section closes it → back to the topic
+    setHash();
+    rerender();
+}
+
+// picking a topic or section is client-side; category links are ordinary page links
 document.addEventListener('click', e => {
-    const a = e.target.closest && e.target.closest('a.res-link[data-i]');
+    const a = e.target.closest && e.target.closest('a.res-link[data-i], a.res-link[data-t]');
     if (!a) return;
     e.preventDefault();
-    selectSection(parseInt(a.dataset.i, 10));
+    if (a.dataset.t !== undefined) selectTopic(parseInt(a.dataset.t, 10));
+    else selectSection(parseInt(a.dataset.i, 10));
 });
 
-function sectionFromHash() {
-    const h = location.hash.slice(1);
-    return foldersData.findIndex(f => slug(f.name) === h);      // -1 when there is no match → nothing selected
+// #topic/section on topic pages, #section elsewhere; no match → nothing selected
+function selectionFromHash() {
+    const parts = location.hash.slice(1).split('/');
+    if (useTopics()) {
+        curTopic = topicsData.findIndex(t => slug(t.name) === parts[0]);
+        const t = topicsData[curTopic];
+        curSection = t && parts[1] ? foldersData.findIndex(f => f.topic === t.name && slug(f.name) === parts[1]) : -1;
+    } else {
+        curTopic = -1;
+        curSection = foldersData.findIndex(f => slug(f.name) === parts[0]);
+    }
 }
-window.addEventListener('hashchange', () => { curSection = sectionFromHash(); rerender(); });
+window.addEventListener('hashchange', () => { selectionFromHash(); rerender(); });
 
 // ── Admin actions ─────────────────────────────────────────────────
 function deleteRow(fi, si, ii) {
     if (!confirm('Remove this link?')) return;
     (si === null ? foldersData[fi].items : foldersData[fi].subfolders[si].items).splice(ii, 1);
     saveMd().then(rerender);
+}
+
+function addTopic() {
+    const name = (prompt('Name of the new topic:') || '').trim();
+    if (!name) return;
+    if (topicsData.some(t => t.name === name)) { alert('There is already a topic with that name.'); return; }
+    topicsData.push({ name, description: '' });
+    curTopic = topicsData.length - 1; curSection = -1;
+    saveMd().then(() => { setHash(); rerender(); });
+}
+
+function renameTopic(i) {
+    const t = topicsData[i];
+    const name = (prompt('Rename topic:', t.name) || '').trim();
+    if (!name || name === t.name) return;
+    if (topicsData.some(x => x.name === name)) { alert('There is already a topic with that name.'); return; }
+    foldersData.forEach(f => { if (f.topic === t.name) f.topic = name; });
+    t.name = name;
+    saveMd().then(() => { setHash(); rerender(); });
+}
+
+function deleteTopic(i) {
+    const t = topicsData[i];
+    const n = foldersData.filter(f => f.topic === t.name).length;
+    if (!confirm(`Delete topic "${t.name}"${n ? ` and its ${n} section${n === 1 ? '' : 's'} with all their links` : ''}?`)) return;
+    foldersData = foldersData.filter(f => f.topic !== t.name);
+    topicsData.splice(i, 1);
+    curTopic = -1; curSection = -1;
+    saveMd().then(() => { setHash(); rerender(); });
 }
 
 function deleteFolder(fi) {
@@ -368,11 +436,9 @@ function deleteSubfolder(fi, si) {
 async function deleteCategory(i) {
     const c = categories[i];
     if (!confirm(`Remove the category "${c.title}" from the list?\n\nIts page and links stay on the server; only the entry in the category list is removed.`)) return;
-    ensureTutorialsCard();
     if (c.si >= 0) hubData[c.si].items.splice(c.ii, 1);
-    else if (catSlug(c.href) === 'tutorials') hubData.forEach(s => { s.items = (s.items || []).filter(it => catSlug(new URL(it.href, new URL('../resources.html', location.href)).href) !== 'tutorials'); });
     await saveHub();
-    if (isCurrent(c)) { location.href = '../resources.html'; return; }
+    if (isCurrent(c)) { location.href = HUB_PAGE; return; }
     categories = buildCategories(); rerender();
 }
 
@@ -433,7 +499,9 @@ function saveFolder() {
     } else if (fi !== null) {
         Object.assign(foldersData[fi], { name, description });
     } else {
-        foldersData.push({ name, description, subfolders: [], items: [] });
+        const t = useTopics() ? topicsData[curTopic] : null;
+        if (useTopics() && !t) { alert('Pick a topic on the left first.'); return; }
+        foldersData.push({ name, description, topic: t ? t.name : '', subfolders: [], items: [] });
         curSection = foldersData.length - 1;
     }
     saveMd().then(() => { closeModals(); rerender(); });
@@ -489,9 +557,9 @@ async function saveCategory() {
     } else {
         name = name || slug(title);
         if (categories.some(c => catSlug(c.href) === name)) { alert('A category with that page name already exists.'); return; }
-        let sec = hubData.find(s => s.type === 'cards');
-        if (!sec) { sec = { id: uid(), title: 'Categories', type: 'cards', intro: '', items: [] }; hubData.push(sec); }
-        sec.items.push({ id: uid(), title, href: 'resources/category.html?c=' + name, desc });
+        let sec = hubData.find(s => s.type === 'cards' && HubData.isGuides(s) === GUIDE);
+        if (!sec) { sec = { id: GUIDE ? 'guides' : uid(), title: HUB_TITLE, type: 'cards', intro: '', items: [] }; hubData.push(sec); }
+        sec.items.push({ id: uid(), title, href: FOLDER + '/category.html?c=' + name, desc });
     }
     await saveHub();
     closeModals();
@@ -605,7 +673,7 @@ async function fetchMarkdown() {
     for (const dir of ['markdown', 'seed']) {
         for (const n of names) {
             try {
-                const r = await fetch(`${MD_BASE}${dir}/${n}.md`);
+                const r = await fetch(`./${dir}/${n}.md`);
                 if (r.ok) {
                     const text = await r.text();
                     if (!/^\s*<(!doctype|html)/i.test(text)) { mdFile = names[0]; if (dir === 'markdown') mdFile = n; return text; }
@@ -619,27 +687,25 @@ async function fetchMarkdown() {
 async function loadResources() {
     const markdown = await fetchMarkdown();
     // no file yet = a new, empty category (the first section you add creates it)
-    if (markdown !== null) ({ intro, folders: foldersData } = parseMarkdown(markdown));
+    if (markdown !== null) ({ intro, folders: foldersData, topics: topicsData } = parseMarkdown(markdown));
 
     try {
         const s = await fetch(ROOT + 'admin/check-session.php').then(r => r.json());
         if (s.admin) { isAdmin = true; document.body.classList.add('admin-mode'); injectAdminUI(); }
     } catch (e) { /* not logged in */ }
 
-    if (!LEARNING) {
-        hubData = await loadHub();
-        categories = buildCategories();
-    }
+    hubData = await loadHub();
+    categories = buildCategories();
 
     // the page title follows the category list, so renaming a category renames its page too
-    const found = LEARNING ? null : categories.find(isCurrent);
+    const found = categories.find(isCurrent);
     if (found && found.si !== -1) {
         const h = document.querySelector('.page-title');
         if (h) h.textContent = found.title;
-        document.title = 'Resources - ' + found.title;
+        document.title = SITE_SECTION + ' - ' + found.title;
     }
 
-    curSection = sectionFromHash();
+    selectionFromHash();
     rerender();
 }
 

@@ -30,15 +30,15 @@ body.m2 .page-title { text-transform: uppercase; }
 
   /* ---------- Page shell ---------- */
 
-  html:has(body.m2) { width: 100% !important; }
+  html:has(body.m2) { width: 100% !important; scroll-padding-top: 101px; }
 
   body.m2 {
     width: 100% !important;
     max-width: 100%;
     box-sizing: border-box;
     margin: 0 !important;
-    /* 45px top bar, 84px tab bar (+ home-indicator inset) */
-    padding: 45px 0 calc(84px + env(safe-area-inset-bottom)) !important;
+    /* 45px wordmark bar + 56px tab bar, both fixed at the top */
+    padding: 101px 0 calc(24px + env(safe-area-inset-bottom)) !important;
     background: #f5f5f5;
     color: #666;
     font-family: 'Mulish', arial, sans-serif;
@@ -61,23 +61,24 @@ body.m2 .page-title { text-transform: uppercase; }
     color: #333;
   }
 
-  /* Bottom tab bar (replaces the top nav) */
+  /* Tab bar: fixed directly under the wordmark bar */
   body.m2 .navigation {
     position: fixed !important;
-    top: auto !important;
-    bottom: 0 !important;
+    top: 45px !important;
+    bottom: auto !important;
     left: 0;
     right: 0;
     width: 100% !important;
+    height: 56px;
     margin: 0 !important;
     box-sizing: border-box;
-    padding: 0 4px calc(20px + env(safe-area-inset-bottom)) !important;
+    padding: 0 4px !important;
     display: flex !important;
     align-items: flex-start;
     justify-content: stretch;
     background: #fff;
-    border-top: 1px solid #ddd;
-    border-bottom: none !important;
+    border-top: none;
+    border-bottom: 1px solid #ddd !important;
     z-index: 12;
   }
 
@@ -88,7 +89,7 @@ body.m2 .page-title { text-transform: uppercase; }
     flex-direction: column !important;
     justify-content: flex-start !important;
     gap: 4px;
-    padding: 12px 0 0 !important;
+    padding: 8px 0 0 !important;
     font: 400 11px/16px 'IBM Plex Mono', 'Courier New', monospace !important;
     letter-spacing: 0;
     text-transform: lowercase;
@@ -100,8 +101,10 @@ body.m2 .page-title { text-transform: uppercase; }
   body.m2 .nav-item::after { content: none !important; }
 
   body.m2 .nav-item[aria-current="page"] {
-    padding-top: 10px !important;
-    border-top: 2px solid #45a049;
+    /* the active marker sits on the bar's lower edge now that the bar is at the top */
+    height: 100%;
+    box-sizing: border-box;
+    border-bottom: 2px solid #45a049;
     color: #333 !important;
   }
 
@@ -121,7 +124,6 @@ body.m2 .page-title { text-transform: uppercase; }
 
   body.m2 .nav-item[href$="index.html"]::before     { -webkit-mask-image: url(icons/tab-home.svg);      mask-image: url(icons/tab-home.svg); }
   body.m2 .nav-item[href$="projects.html"]::before  { -webkit-mask-image: url(icons/tab-projects.svg);  mask-image: url(icons/tab-projects.svg); }
-  body.m2 .nav-item[href$="portfolio.html"]::before { -webkit-mask-image: url(icons/tab-portfolio.svg); mask-image: url(icons/tab-portfolio.svg); }
   body.m2 .nav-item[href$="resources.html"]::before { -webkit-mask-image: url(icons/tab-resources.svg); mask-image: url(icons/tab-resources.svg); }
   body.m2 .nav-item[href$="learning.html"]::before  { -webkit-mask-image: url(icons/tab-learning.svg);  mask-image: url(icons/tab-learning.svg); }
   body.m2 .nav-item[href$="about.html"]::before     { -webkit-mask-image: url(icons/tab-about.svg);     mask-image: url(icons/tab-about.svg); }
@@ -574,10 +576,27 @@ body.m2 .page-title { text-transform: uppercase; }
 
   body.m2 .projects-body { margin-top: 24px; gap: 8px; }
 
-  body.m2 .projects-rows {
+  body.m2 .projects-rows { display: block; }
+
+  body.m2 .proj-group-cards {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 20px 16px;
+  }
+
+  body.m2 .proj-group + .proj-group { margin-top: 28px; }
+  body.m2 .proj-group.is-filtered { display: none !important; }
+
+  /* category header: small caps label over a 2px rule, like the other section heads */
+  body.m2 .proj-group-title {
+    display: block;
+    margin: 0 0 16px;
+    padding: 0 0 8px;
+    font: 400 12px/16px 'Optima', 'Belleza', arial, sans-serif;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #333;
+    border-bottom: 2px solid #333;
   }
 
   body.m2 .proj-row { display: contents; }
@@ -615,13 +634,6 @@ body.m2 .page-title { text-transform: uppercase; }
     color: #333;
   }
 
-  body.m2 .proj-category {
-    font: 400 11px/16px 'IBM Plex Mono', 'Courier New', monospace;
-    letter-spacing: 0;
-    text-transform: none;
-    color: #888f8d;
-  }
-
   /* Sidebar blurb under the grid ("For more professional work") */
   body.m2 .sidebar-intro {
     margin: 0 0 8px;
@@ -644,6 +656,9 @@ body.m2 .page-title { text-transform: uppercase; }
     margin: 0 !important;
     padding: 24px 20px 0;
   }
+
+  /* the portfolio's panel now sits in the shared .content (20px gutters from the rule above) */
+  body.m2.p-portfolio > .content { padding-top: 24px; }
 
   body.m2 .container_inner {
     width: 100% !important;
@@ -687,6 +702,16 @@ body.m2 .page-title { text-transform: uppercase; }
 
   body.m2 .topics-list li:hover { background: #fff; }
 
+  /* each row's label is a link to that project's own page; the JS makes the whole row tappable */
+  body.m2 .topics-list li a {
+    flex: 1;
+    min-width: 0 !important;
+    min-height: 0 !important;
+    justify-content: flex-start !important;
+    color: inherit;
+    font: inherit;
+  }
+
   body.m2 .topics-list li::after {
     content: "";
     flex: none;
@@ -721,6 +746,8 @@ body.m2 .page-title { text-transform: uppercase; }
     font: 600 15px/24px 'Mulish', arial, sans-serif !important;
     color: #47649a;
   }
+
+  body.m2 .topics-list li[data-topic="resume"] a { flex: none; }
 
   body.m2 .topics-list li[data-topic="resume"]::after {
     width: 16px;
@@ -938,7 +965,9 @@ body.m2 .page-title { text-transform: uppercase; }
   body.m2 .res-col-sections .res-head { display: none; }
   /* the page title already names the category, so on a phone the categories column
      is just the way back to the full list */
-  body.m2 .res-col-cats .sidebar-section + .sidebar-section { display: none; }
+  body.m2 .res-tree:not(.res-tree-topics) .res-col-cats .sidebar-section + .sidebar-section { display: none; }
+  /* on a topic page that second part is the row of topic chips; the sections row appears once a topic is picked */
+  body.m2 .res-col-sections:not(:has(.res-row)) { display: none; }
   body.m2 .res-col-cats .sidebar-section { margin: 0; }
   body.m2 .res-back {
     display: inline-flex !important;
@@ -1273,7 +1302,7 @@ body.m2 .page-title { text-transform: uppercase; }
   body.m2 .preview-section {
     order: -1;
     position: sticky;
-    top: 57px;
+    top: 113px;   /* below the wordmark + tab bars */
     z-index: 5;
     display: flex;
     flex-direction: row;

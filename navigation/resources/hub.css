@@ -1,0 +1,128 @@
+/* Hub pages (navigation/resources.html, navigation/learning.html): admin controls + edit modals.
+   The cards themselves are styled in styles/categories.css. */
+
+#background-canvas { position: fixed; top: 30%; left: 0; z-index: -1; }
+
+/* width / margin come from the shared .content (styles/stylesheet.css) */
+.content { margin-bottom: 5%; }
+
+/* ── Admin controls ── */
+.admin-only { display: none; }
+body.admin-mode .admin-only { display: inline-flex; }
+
+.adm-btn {
+  background: none; border: none; cursor: pointer;
+  font-size: 13px; padding: 2px 6px; border-radius: 2px;
+  font-family: 'Optima', arial, sans-serif;
+  min-height: unset !important; min-width: unset !important;
+}
+.adm-add  { color: #1d60c0; border: 1px solid rgba(0,80,200,0.25); background: rgba(0,80,200,0.06); }
+.adm-add:hover  { background: rgba(0,80,200,0.14); }
+.adm-del  { color: #c00; border: 1px solid rgba(200,0,0,0.2); background: rgba(200,0,0,0.05); }
+.adm-del:hover  { background: rgba(200,0,0,0.14); }
+.adm-edit { color: #666; border: 1px solid #ddd; }
+.adm-edit:hover { background: #f0f0f0; }
+
+/* Inline icon controls */
+.adm-plus {
+  background: none; border: none; cursor: pointer;
+  color: #4caf50; font-size: 18px; line-height: 1;
+  padding: 0 2px; font-weight: 300;
+  min-height: unset !important; min-width: unset !important;
+}
+.adm-plus:hover { color: #2e7d32; }
+.adm-text-del {
+  background: none; border: none; cursor: pointer;
+  color: #c00; font-size: 11px; letter-spacing: 0.04em;
+  padding: 0; font-family: 'Optima', arial, sans-serif;
+  min-height: unset !important; min-width: unset !important;
+  opacity: 0.7;
+}
+.adm-text-del:hover { opacity: 1; text-decoration: underline; }
+
+.section-header-row {
+  display: flex; align-items: center; gap: 10px; margin-bottom: 10px;
+}
+.section-header-row .section-header { margin-bottom: 0; }
+
+.item-admin-btns {
+  display: none; gap: 4px; position: absolute; top: 6px; right: 6px;
+}
+body.admin-mode .category-card:hover .item-admin-btns,
+body.admin-mode .subcategory-item:hover .item-admin-btns { display: flex; }
+.category-card { position: relative; }
+.subcategory-item { position: relative; }
+
+.add-section-row {
+  display: none; margin-top: 30px; padding-top: 20px;
+  border-top: 1px dashed #ddd;
+}
+body.admin-mode .add-section-row { display: flex; gap: 10px; align-items: center; }
+
+/* ── Modal ── */
+.res-modal {
+  display: none; position: fixed; inset: 0;
+  background: rgba(0,0,0,0.4); z-index: 600;
+  align-items: center; justify-content: center;
+}
+.res-modal.active { display: flex; }
+.res-modal-box {
+  background: #fff; padding: 28px 32px 30px;
+  width: 420px; max-width: 94vw;
+  border: 1px solid #ddd;
+}
+.res-modal-box h3 { font-weight: 300; font-size: 19px; margin: 0 0 18px; color: #444; }
+.res-modal-box label { display: block; font-size: 12px; color: #999; margin: 12px 0 3px; }
+.res-modal-box input, .res-modal-box select, .res-modal-box textarea {
+  width: 100%; box-sizing: border-box;
+  border: 1px solid #ddd; padding: 7px 9px;
+  font-family: 'Optima', arial, sans-serif; font-size: 14px;
+  color: #444; background: #fafafa; outline: none;
+  min-height: unset !important;
+}
+.res-modal-box textarea { resize: vertical; min-height: 50px; }
+.res-modal-actions { display: flex; gap: 10px; margin-top: 18px; }
+.res-modal-save {
+  background: rgba(210,245,250,0.5); border: 1px solid rgba(143,97,77,0.35);
+  color: #1d60c0; font-family: 'Optima', arial, sans-serif;
+  font-size: 14px; padding: 8px 20px; cursor: pointer;
+  min-height: unset !important;
+}
+.res-modal-save:hover { background: #c2e2e787; }
+.res-modal-cancel {
+  background: none; border: 1px solid #ddd; color: #999;
+  font-family: 'Optima', arial, sans-serif;
+  font-size: 14px; padding: 8px 16px; cursor: pointer;
+  min-height: unset !important;
+}
+.res-modal-cancel:hover { border-color: #aaa; color: #555; }
+
+/* Resources → Learning pointer, where the Guides used to be */
+.learning-note {
+    display: block;
+    margin: 40px 0 0;
+    padding: 20px;
+    border: 1px solid #d5d5d5;
+    background: #f9f9f9;
+    border-radius: 4px;
+    text-decoration: none;
+    color: #414141;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    transition: all 0.2s ease;
+}
+.learning-note:hover {
+    background: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgb(210, 245, 250);
+}
+.learning-note-title {
+    display: block;
+    font-size: 20px;
+    font-family: 'Courier New', arial, sans-serif;
+}
+.learning-note-text {
+    display: block;
+    margin-top: 4px;
+    font-size: 17px;
+    color: #888f8d;
+}

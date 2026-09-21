@@ -531,13 +531,14 @@ body:not(.admin-mode) :is(
    SIDEBAR NAVIGATION — one design for the Blogs, Photos and Art sidebars and
    the two left-hand columns of the Resources tree (.res-*). Pages add
    class="has-sidebar" to their .content and class="sidebar" to the nav column;
-   they should not redefine any of this. The inset (20px) and the 40px gap are
-   what give every sidebar page the same left margin.
+   they should not redefine any of this. There is no side inset: the sidebar
+   starts exactly where the page title starts, and the 40px gap sits between
+   the columns.
    ========================================================================== */
 .content.has-sidebar {
     display: flex;
     gap: 40px;
-    padding: 0 20px;
+    padding: 0;
 }
 
 .sidebar {

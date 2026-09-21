@@ -10,7 +10,7 @@
 }
 .category-grid {
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));   /* four categories per line */
+    grid-template-columns: repeat(3, minmax(0, 1fr));   /* three categories per line */
     gap: 14px;
     margin-bottom: 40px;
 }

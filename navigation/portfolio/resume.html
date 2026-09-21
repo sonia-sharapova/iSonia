@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Portfolio - Resume</title>
+    <link rel="icon" href="/images/icons/heart3.png" />
+    <link rel="stylesheet" href="../../styles/stylesheet.css">
+    <link rel="stylesheet" href="../../styles/mobile.css">
+    <link rel="stylesheet" href="portfolio.css">
+    <script src="../../scripts/siteStyle/images.js"></script>
+    <script src="../../scripts/admin.js" defer></script>
+</head>
+<body class="m2 p-portfolio">
+<nav class="navigation">
+  <a href="../../index.html" class="nav-item">HOME</a>
+  <a href="../../creations/projects.html" class="nav-item" aria-current="page">PROJECTS</a>
+  <a href="../resources.html" class="nav-item">RESOURCES</a>
+  <a href="../learning.html" class="nav-item">LEARNING</a>
+  <a href="../about.html" class="nav-item">ABOUT</a>
+</nav>
+<div class="title-container">
+    <div class="nav-links">
+        <div class="tags-group">
+            <span class="sub-nav-item">SEE: </span>
+            <a href="../../creations/blogs.html" class="sub-nav-item">writing</a>
+            <a href="../../photos.html" class="sub-nav-item">photography</a>
+            <a href="../../creations/art.html" class="sub-nav-item">art</a>
+            <a href="../../personal/archives.html" class="sub-nav-item">archive</a>
+        </div>
+        <div id="admin-link-area"></div>
+    </div>
+    <h1 class="page-title" data-eyebrow="Selected work">Portfolio</h1>
+    <hr>
+</div>
+<div class="content">
+    <div class="container_inner">
+        <div class="header">
+            <h1>[ projectArchive ]</h1>
+        </div>
+
+        <!-- One page per project (so a refresh stays put); the list links between them -->
+        <div class="topics-box">
+            <ul class="topics-list" id="topicsList">
+                <li data-topic="imaging"><a href="imaging.html">Cardiac Imaging</a></li>
+                <li data-topic="tracing"><a href="tracing.html">Ray Tracing</a></li>
+                <li data-topic="nn"><a href="nn.html">Neural Network in C</a></li>
+                <li data-topic="os"><a href="os.html">ThinkPad Customizations</a></li>
+                <li data-topic="web"><a href="web.html">Web Design</a></li>
+                <li class="active" data-topic="resume"><a href="resume.html" aria-current="page">Resume</a></li>
+            </ul>
+        </div>
+
+        <div class="content">
+            <div class="section">
+                <div class="section-header" id="projectTitle">
+                    <h1>
+                        My Resume ^_^
+                    </h1>
+                    <hr>
+                </div>
+                <div class="section-content" id="projectContent">
+                    <div class="img_col" style="float: left;">
+                            <img src="../../images/projects/SoniaSharapovaResume.jpg" alt="Resume">
+                    </div>
+                    <p>
+                        My current (October 2025) resume. <br><br>
+                        Lists my experience and projects.<br><br>
+                        <a class="paper" style="position: unset" href="../../images/projects/SoniaSharapovaResume.pdf" target="_blank" rel="noopener noreferrer">VIEW FULL VERSION</a>
+
+                    </p>
+                </div>
+            </div>
+            <div id="admin-link-mobile"></div>
+        </div>
+    </div>
+</div>
+<div class="modal" id="imageModal">
+    <div class="modal-content">
+        <button class="modal-close">✕</button>
+        <img id="modalImage" src="" alt="Modal Image">
+    </div>
+</div>
+<footer>
+    <div class="socials">
+        <a href="https://github.com/sonia-sharapova">GitHub</a>|
+        <a href="https://www.linkedin.com/in/sonia-sharapova/">LinkedIn</a>|
+        <a href="https://www.instagram.com/sonia.s.ru/">Instagram</a>
+    </div>
+
+    <div>
+        Contact Links<br>
+        2026
+    </div>
+</footer>
+<script src="portfolio.js"></script>
+</body>
+</html>

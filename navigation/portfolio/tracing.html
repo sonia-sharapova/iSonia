@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Portfolio - Ray Tracing</title>
+    <link rel="icon" href="/images/icons/heart3.png" />
+    <link rel="stylesheet" href="../../styles/stylesheet.css">
+    <link rel="stylesheet" href="../../styles/mobile.css">
+    <link rel="stylesheet" href="portfolio.css">
+    <script src="../../scripts/siteStyle/images.js"></script>
+    <script src="../../scripts/admin.js" defer></script>
+</head>
+<body class="m2 p-portfolio">
+<nav class="navigation">
+  <a href="../../index.html" class="nav-item">HOME</a>
+  <a href="../../creations/projects.html" class="nav-item" aria-current="page">PROJECTS</a>
+  <a href="../resources.html" class="nav-item">RESOURCES</a>
+  <a href="../learning.html" class="nav-item">LEARNING</a>
+  <a href="../about.html" class="nav-item">ABOUT</a>
+</nav>
+<div class="title-container">
+    <div class="nav-links">
+        <div class="tags-group">
+            <span class="sub-nav-item">SEE: </span>
+            <a href="../../creations/blogs.html" class="sub-nav-item">writing</a>
+            <a href="../../photos.html" class="sub-nav-item">photography</a>
+            <a href="../../creations/art.html" class="sub-nav-item">art</a>
+            <a href="../../personal/archives.html" class="sub-nav-item">archive</a>
+        </div>
+        <div id="admin-link-area"></div>
+    </div>
+    <h1 class="page-title" data-eyebrow="Selected work">Portfolio</h1>
+    <hr>
+</div>
+<div class="content">
+    <div class="container_inner">
+        <div class="header">
+            <h1>[ projectArchive ]</h1>
+        </div>
+
+        <!-- One page per project (so a refresh stays put); the list links between them -->
+        <div class="topics-box">
+            <ul class="topics-list" id="topicsList">
+                <li data-topic="imaging"><a href="imaging.html">Cardiac Imaging</a></li>
+                <li class="active" data-topic="tracing"><a href="tracing.html" aria-current="page">Ray Tracing</a></li>
+                <li data-topic="nn"><a href="nn.html">Neural Network in C</a></li>
+                <li data-topic="os"><a href="os.html">ThinkPad Customizations</a></li>
+                <li data-topic="web"><a href="web.html">Web Design</a></li>
+                <li data-topic="resume"><a href="resume.html">Resume</a></li>
+            </ul>
+        </div>
+
+        <div class="content">
+            <div class="section">
+                <div class="section-header" id="projectTitle">
+                    <h1>
+                        Ray Tracing on a Sphere: CUDA Performance Analysis
+                    </h1>
+
+                    <hr>
+                </div>
+                <div class="section-content" id="projectContent">
+                    <p> Did you know that you can 3D shapes just by calculating the correct pixel intensiy?
+                    In this project, I implement a Ray Tracing algorithm to render sphere ^_^<br><br>
+                    Buut what is you want a really smooth sphere? That's a looooot of pixels and that's a
+                    loooot of math.. If your patience is running out, you are in luck! <br><br>
+                    In this project
+                    I outline how Ray Tracing algorithms compare across serial, parallel, and Cuda implementations.
+                    And across different CUDA GPUs nonetheless >:)
+                    <br><br>
+
+                    <div class="gallery" style="grid-template-columns: minmax(0, 1fr); width: 70%; margin-left: 15%;">
+                            <img src="../../images/projects/ray_tracing/spheres.png" alt="Ray Tracing">
+                    </div>
+                    <p style="font-size: 12px; margin-left: 20%;">Sphere rendering on NVIDIA’s V100 GPU on a 1000x1000 pixel grid vs. 100x100 pixel grid.<p>
+                    <br>
+                    <a href="../../images/projects/ray_tracing/RayTracing.pdf" target="_blank" rel="noopener noreferrer">READ PAPER</a><br>
+                    <br>
+                    <a class="paper" href="https://github.com/sonia-sharapova/RayTracing_HPC" target="_blank" rel="noopener noreferrer">CODE REPOSITORY</a>
+                    </p>
+                </div>
+            </div>
+            <div id="admin-link-mobile"></div>
+        </div>
+    </div>
+</div>
+<div class="modal" id="imageModal">
+    <div class="modal-content">
+        <button class="modal-close">✕</button>
+        <img id="modalImage" src="" alt="Modal Image">
+    </div>
+</div>
+<footer>
+    <div class="socials">
+        <a href="https://github.com/sonia-sharapova">GitHub</a>|
+        <a href="https://www.linkedin.com/in/sonia-sharapova/">LinkedIn</a>|
+        <a href="https://www.instagram.com/sonia.s.ru/">Instagram</a>
+    </div>
+
+    <div>
+        Contact Links<br>
+        2026
+    </div>
+</footer>
+<script src="portfolio.js"></script>
+</body>
+</html>

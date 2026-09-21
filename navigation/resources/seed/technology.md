@@ -1,11 +1,219 @@
-> Programming, computers and how they work.
+> The web, programming, privacy, hardware, operating systems and more.
+
+# Web
+> How the web works, and the corners of it worth knowing.
+
+## World Wide Web
+> How the internet and the web began.
+
+- **History of the Internet**: History of the internet
+  - https://www.youtube.com/watch?v=g-SL4ejpP94
+- **The History of the Web**: Comprehensive history of the web
+  - https://thehistoryoftheweb.com/
+- **W3 History**: History of the web, from the source
+  - https://www.w3.org/History/1989/proposal-msw.html
+
+## Alternative Search Engines
+
+- **4get**: An open-source metasearch engine for your privacy.
+  - https://4get.ca/
+- **All in One Search**: All major search engines in one
+  - https://all-io.net/
+- **Big List of Specialized Search Engines**: Comprehensive directory
+  - https://medium.com/@internetmoneyjournal/specializedsearchengines-d869c81b1be1
+- **Curlie**: Search Websites / source for any topic
+  - https://curlie.org/
+- **Kagi Search**: No ads, no tracking, no third parties
+  - https://kagi.com/
+- **LumpySoft**: Google Index Search (find files)
+  - https://lumpysoft.com/
+- **Marginalia Search**: An independent DIY search engine that focuses on non-commercial content, and attempts to show you sites you perhaps weren't aware of.
+  - https://marginalia-search.com/
+- **See random sites**: Search through / find old websites
+  - https://wiby.me/
+- **Shodan**: Search engine for internet-connected devices
+  - https://www.shodan.io/
+- **Start Page**: Private Search Engine
+  - https://www.startpage.com/
+
+## Search by Media Type
+
+- **Brave**: Private alternative
+  - https://search.brave.com/
+- **DuckDuckGo**: Internet Privacy
+  - https://duckduckgo.com/
+- **Gophie**: Open-source Gopher browser
+  - https://gophie.org/
+- **Marginalia Search**: a search engine favouring text-heavy websites
+  - https://search.marginalia.nu/
+- **Mojeek**: no tracking
+  - https://www.mojeek.com/
+- **Musgle**: Google for music, search music files
+  - http://musgle.com/
+- **Mwmbl**: Open Source Web Search Engine
+  - https://mwmbl.org/
+- **RFC Editor**: Contains technical and organizational documents about the Internet
+  - https://www.rfc-editor.org/
+- **Search My Site**: Search through personal sites, blogs, and the small web
+  - https://searchmysite.net/
+- **SearXNG**: open source meta search engine
+  - https://github.com/searxng/searxng
+- **Stract**: an open source, private search engine with a focus on privacy and customizability
+  - https://stract.com/
+- **TinyEye**: Reverse Image Search, Search by image and find where else it appears online. Sort images by size, appearance date, etc.
+  - https://tineye.com/
+- **YaCy**: open source distributed search engine
+  - https://yacy.net/
+
+## Indie & Small Web
+> Neocities, webrings and sites that fit in a few kilobytes.
+
+- **1 MB Club**: Sites under 1MB
+  - https://1mb.club/
+- **1k Club**: Sites under 1k
+  - https://1kb.club/
+- **250 KB Club**: Sites under 250KB
+  - https://250kb.club/
+- **512 KB Club**: Sites under 512KB
+  - https://512kb.club/
+- **Dead Simple Sites (DSS)**: Collection of simple websites
+  - https://deadsimplesites.com/
+- **Digital Gardeners**: Bunch-a-sites
+  - https://github.com/MaggieAppleton/digital-gardeners?tab=readme-ov-file
+- **End Of the Internet**: The End!
+  - https://hmpg.net/
+- **Geocities**: Digging through Geocities Torrent
+  - https://blog.geocities.institute/
+- **Geocities**: Largest Geocities Archive
+  - https://www.oocities.org/#gsc.tab=0
+- **Moonjump**: jump through random pages
+  - https://moonjump.app/
+- **Neocities**: Create your own free website
+  - https://neocities.org/
+- **Neocities Websites**: Browse Neocities Websites
+  - https://neocities.org/browse
+- **One Terabyte of Kilobyte Age**:
+  - https://blog.geocities.institute/about
+- **One Terabyte of Kilobyte Age**: oneterabyteofkilobyteage.tumblr.com
+  - http://oneterabyteofkilobyteage.tumblr.com
+- **Pretty website :)**: yes
+  - https://aliceinavocadoland.neocities.org/
+- **Prof Dr :)**: Prof Dr Sites
+  - https://contemporary-home-computing.org/prof-dr-style/
+- **Publish 4 the web**: Bunch-a-sites
+  - https://www.are.na/kristoffer-tjalve/publish-for-the-web
+- **The Webring**: List of members from the XXIIVV webring
+  - https://webring.xxiivv.com/
+- **The Whimsical Web**: List of fun creative sites
+  - https://whimsical.club/
+- **Tiny Awards**: Awards for handmade websites
+  - https://tinyawards.net/
+- **USB Club**:
+  - https://usb.club/
+
+## TOR & Dark Web
+
+
+## Hosting & Publishing
+> Free hosting, DNS and APIs for putting your own site online.
+
+- **321 Webmaster**: Webmaster resource guide
+  - https://www.321webmaster.com/
+- **Filezilla**: Free FTP client – the one I used to get this website up and running!
+  - https://filezilla-project.org/
+- **Free Web Hosting**: List of Web Hosts
+  - https://www.free-webhosts.com/webhosting-01.php
+- **Host Static Websites**: Host Static Websites
+  - https://tildepages.org/
+- **Land Chad**: Simple guides on how to set up your own website, email server, or other online service
+  - https://landchad.net/
+- **Mess With DNS**: Mess with your DNS Config
+  - https://messwithdns.net/
+- **Public APIs**: List of public APIs
+  - https://github.com/public-apis/public-apis
+- **The Site Wizard**: WebWizard Guide to the web
+  - https://www.thesitewizard.com/
+- **tiiny.host**:
+  - https://tiiny.host/
+- **Web APIs**: A list of all the APIs and interfaces (object types) that you may be able to use while developing your Web app or site
+  - https://developer.mozilla.org/en-US/docs/Web/API
+
+## Learn Web Development
+> Lives on the Learning page.
+
+- **Learn Web Development**: Tutorials, references and my own guides
+  - /navigation/resources/learning.html#learn-web-development
+
+## Sites & Blogs I Like
+> Collectives, communities and corners of the web I keep coming back to.
+
+- **anonicus.net/etc/links.html**:
+  - https://anonicus.net/etc/links.html
+- **AreByte**: Cool art community
+  - https://aos.arebyte.com/
+- **ChadNet**: Home of wiki, games and archives
+  - https://wiki.chadnet.org/
+- **Code Societies Blog**: School for Poetic Computation (SFPC)’s tutorials and discussions on computers
+  - https://sfpc.io/code-societies/blog/
+- **Creative Commons**: A home for technology efforts in the public interest
+  - https://commonsconservancy.org/
+- **cyberd.org/links.html**:
+  - https://cyberd.org/links.html
+- **digilord.neocities.org**:
+  - https://digilord.neocities.org/
+- **e-flux.com**:
+  - https://www.e-flux.com/
+- **grahamdowney.com/links.htm**:
+  - https://grahamdowney.com/links.htm
+- **hryjksn.com/links**:
+  - https://hryjksn.com/links
+- **lolwut.neocities.org/links**:
+  - https://lolwut.neocities.org/links
+- **mebious.neocities.org**:
+  - https://mebious.neocities.org/
+- **morefunz.com**:
+  - https://morefunz.com/
+- **Negative Land**: Multimedia Collective
+  - https://negativland.com/
+- **Nerdy Pleasures**: Lots of nerdy pleasures
+  - https://nerdlypleasures.blogspot.com/
+- **New Models - Networked Technology Forum**: Networked Technology Forum
+  - https://www.newmodels.io/
+- **Our Friend the Computer**: Cute podcast about technology
+  - https://www.ourfriendthe.computer/
+- **peelopaalu.neocities.org**:
+  - https://peelopaalu.neocities.org/
+- **Perfectly Imperfect**: Interviews with public figures
+  - https://www.pi.fyi/welcome
+- **protopage.com/edtechflynn**:
+  - https://protopage.com/edtechflynn
+- **protopage.com/mrman2001**:
+  - https://www.protopage.com/mrman2001#Home
+- **Read Only Memory**: Books on videogames and world building
+  - https://readonlymemory.com/
+- **Rhizome**: Digital Art and Culture
+  - https://rhizome.org/
+- **sadgrl.online/guides**:
+  - https://sadgrl.online/guides/
+- **sadgrl.online/guides/surf**:
+  - https://sadgrl.online/guides/surf/
+- **sadgrl.online/posts/internet-manifesto**:
+  - https://sadgrl.online/posts/internet-manifesto/
+- **sadgrl.online/posts/its-personal**:
+  - https://sadgrl.online/posts/its-personal/
+- **School for Poetic Computation**: School + community related to art and code and society
+  - https://sfpc.study/
+- **the-simple-site.neocities.org**:
+  - https://the-simple-site.neocities.org/
+
+# Computing
+> Programming, machines and the maths behind them.
 
 ## Programming
 > Languages, systems and free material for learning to code.
 
 
 ### Low-Level & Systems
-> C, C++, CUDA, parallel computing and the command line.
 
 - **Bash**: How-to guides and examples
   - https://ss64.com/bash/syntax.html
@@ -33,9 +241,8 @@
   - https://ptgmedia.pearsoncmg.com/images/9780321809469/samplepages/0321809467.pdf
 
 ### Learning Resources
-> Books, courses and references for learning to program.
 
-- **aplmooc.fi**: 
+- **aplmooc.fi**:
   - https://aplmooc.fi/
 - **Artful Code**: Resources and tips for dynamic, interactive languages
   - https://artfulcode.net/
@@ -43,13 +250,13 @@
   - https://mohitmishra786.github.io/chessman/
 - **CodeProg**: Programming books and courses
   - https://coderprog.com/
-- **colorforth.github.io**: 
+- **colorforth.github.io**:
   - https://colorforth.github.io/
 - **Computer Systems - A Programmers Perspective**: CSAPP by Randal E. Bryant, David R. O’Hallaron
   - https://www.cs.sfu.ca/~ashriram/Courses/CS295/assets/books/CSAPP_2016.pdf
 - **Destroy all software**: blog
   - https://www.destroyallsoftware.com/blog
-- **dyalog.tv/Dyalog24/?v=2wdtPPqdECo**: 
+- **dyalog.tv/Dyalog24/?v=2wdtPPqdECo**:
   - https://dyalog.tv/Dyalog24/?v=2wdtPPqdECo
 - **Free Code Camp**: Learn various coding concepts / programs
   - https://www.freecodecamp.org/learn/
@@ -61,9 +268,9 @@
   - https://gobyexample.com/
 - **Learn X in Y Minutes**: Cheat sheets for nearly every programming/markup language in existence
   - https://learnxinyminutes.com/
-- **Learning Ruby**: 
+- **Learning Ruby**:
   - https://github.com/gauthamchandra/learning-ruby-from-js?tab=readme-ov-file#topics
-- **Lisp**: 
+- **Lisp**:
   - http://verisimilitudes.net/lisp
 - **Markdown Guide**: Markdown file syntax
   - https://www.markdownguide.org/basic-syntax/
@@ -71,7 +278,7 @@
   - http://progopedia.com/
 - **Programming in 10y**: Teach Yourself Programming in Ten Years
   - https://norvig.com/21-days.html
-- **Programming in LUA**: 
+- **Programming in LUA**:
   - https://www.lua.org/pil/contents.html
 - **Programming Links**: Misc programming links
   - https://wiki.chadnet.org/programming
@@ -81,23 +288,21 @@
   - https://web.mit.edu/6.001/6.037/sicp.pdf
 - **TeachYourselfCS**: Teach yourself computer science
   - https://teachyourselfcs.com/
-- **ultratechnology.com**: 
+- **ultratechnology.com**:
   - https://www.ultratechnology.com/
 
 ### Challenges & Puzzles
-> Games and problem sets that teach you by doing.
 
 - **Deadlock Empire**: Game for Multithreading
   - https://deadlockempire.github.io/
 - **Nand Game**: Learning game about gates and components.
   - https://nandgame.com/
-- **projecteuler.net**: 
+- **projecteuler.net**:
   - https://projecteuler.net/
 - **Security practice games**: Games to develop security practices
   - https://overthewire.org/wargames/
 
 ### Projects & Ideas
-> Things to build, and people building them.
 
 - **A Garden of Computational Delights**: A list of places that collect or catalyze sources for being enraptured by the web, programming, and the wider world of computing
   - https://arbesman.net/computationaldelights/
@@ -111,7 +316,7 @@
   - https://github.com/codecrafters-io/build-your-own-x
 - **DIY Subwoofers**: Subwoofer/audio DIY
   - https://www.diysubwoofers.org/projects/
-- **Esoteric Codes**: 
+- **Esoteric Codes**:
   - https://esoteric.codes/
 - **Faz Jammer**: Bluetooth and wifi jammer
   - https://github.com/system-linux/FazJammer
@@ -133,74 +338,55 @@
   - https://screenshot-garden.neocities.org/build-your-own
 
 ### Video Tutorials
-> Talks and video series worth the time.
 
-- **Building a Bit-Packer (Low Byte Productions) — 2-part series.**: 
+- **Building a Bit-Packer (Low Byte Productions) — 2-part series.**:
   - https://www.youtube.com/watch?v=74co_YG39Bw&list=PLP29wDx6QmW5xJ6yz_MInDL_AnLbpafyL
-- **How Do Regular Expressions Really Work? (Low Byte Productions) — builds a simple regular expression engine from scratch.**: 
+- **How Do Regular Expressions Really Work? (Low Byte Productions) — builds a simple regular expression engine from scratch.**:
   - https://www.youtube.com/watch?v=u01jb8YN2Lw
-- **Low Byte Productions — great channel on low-level programming. Some of his videos are listed here.**: 
+- **Low Byte Productions — great channel on low-level programming. Some of his videos are listed here.**:
   - https://www.youtube.com/@LowByteProductions/videos
-- **Music With C**: 
+- **Music With C**:
   - https://www.youtube.com/watch?v=8r8wsvHUbCo&pp=ygVBQWxleGFuZGVyIFpvbG90b3YgLSBNdXNpYyBjcmVhdGVkIHdpdGggdGhlIEMgcHJvZ3JhbW1pbmcgbGFuZ3VhZ2U%3D
-- **Parser Combinators From Scratch (Low Byte Productions) — 8-part series.**: 
+- **Parser Combinators From Scratch (Low Byte Productions) — 8-part series.**:
   - https://www.youtube.com/watch?v=6oQLRhw5Ah0&list=PLP29wDx6QmW5yfO1LAgO8kU3aQEj8SIrU
-- **Source Dive (Low Byte Productions) — in-depth look at low-level open-source projects, e.g., an operating system.**: 
+- **Source Dive (Low Byte Productions) — in-depth look at low-level open-source projects, e.g., an operating system.**:
   - https://www.youtube.com/watch?v=KkenLT8S9Hs&list=PLP29wDx6QmW4Mw8mgvP87Zk33LRcKA9bl
-- **The Bits And Bytes of Binary (Low Byte Productions) — 6-part series.**: 
+- **The Bits And Bytes of Binary (Low Byte Productions) — 6-part series.**:
   - https://www.youtube.com/watch?v=pOM86M1pGb4&list=PLP29wDx6QmW47oPsNBFNEi_SYTOLDJXqQ
-- **Understanding AES Encryption Mechanics (Low Byte Productions)**: 
+- **Understanding AES Encryption Mechanics (Low Byte Productions)**:
   - https://www.youtube.com/watch?v=OnhtzFJW_4I
-- **Why GPU Programming is Chaotic**: 
+- **Why GPU Programming is Chaotic**:
   - https://www.youtube.com/watch?v=oaOxMdKlJTc&list=LL&index=14&t=5s&pp=gAQBiAQB
 
-## AI & Machine Learning
-> Textbooks, courses and tools for machine learning and generative AI.
+## Hardware & Electronics
+> Microcontrollers, DIY kits and the people who build with them.
 
-- **AI, A Modern Approach**: Full textbook for AI - A modern approach
-  - https://aima.cs.berkeley.edu/contents.html
-- **Cartography of Generative AI**: Cool graphic of the cartography of generative AI
-  - https://cartography-of-generative-ai.net/
-- **Economics of AI..**: 
-  - https://blog.samaltman.com/
-- **Generative tools**: are.na/serena-ho/generative-tools-48i6d9oltye
-  - https://www.are.na/serena-ho/generative-tools-48i6d9oltye
-- **Learn AI From Scratch**: Full guide to learning AI principles
-  - https://learnaifromscratch.github.io/
-- **Machine Learning Mastery**: ML Resources
-  - https://machinelearningmastery.com/machine-learning-in-python-step-by-step/
-- **Machine Learning Uni Research**: 
-  - https://www.are.na/nio/machine-learning-uni-research
-- **Machine Learning with Python**: Tutorial on learning how to use python for Machine Learning
-  - https://www.youtube.com/playlist?list=PLQVvvaa0QuDfKTOs3Keq_kaG2P55YRn5v
-- **Mathematical Foundations of Reinforcement Learning**: Shiyu Zhao's Course
-  - https://github.com/MathFoundationRL/Book-Mathematical-Foundation-of-Reinforcement-Learning
-- **Pharmapsychotic - Tools and Resources for AI art**: Tools and Resources for AI art
-  - https://pharmapsychotic.com/tools.html
-- **Working and Teaching**: Working and Teaching in the field of AI
-  - https://blog.mariusjopen.com/
-
-## Math
-> Calculus, linear algebra and the maths behind computing.
-
-- **Britney Spears Physics**: I like this site
-  - https://britneyspears.ac/lasers.htm
-- **Calculus**: Lectures on Calculus
-  - https://www.youtube.com/playlist?list=PL67C119EDA6BDE946
-- **Floating Point Arithmetic**: What Every Computer Scientist Should Know about Floating-Point Arithmetic
-  - https://docs.oracle.com/cd/E19957-01/806-3568/ncg_goldberg.html
-- **Floating Point Math**: On Floating point math
-  - https://0.30000000000000004.com/
-- **Intro to Fourier Transformations**: Understanding Fourier Transformations
-  - https://www.jezzamon.com/fourier/index.html
-- **Linear regression**: Tutorial on Linear Regression
-  - https://www.youtube.com/watch?v=MDBpBE3B-b8
-- **Matrix Calculus**: Matrix Calculus for ML
-  - https://ocw.mit.edu/courses/18-s096-matrix-calculus-for-machine-learning-and-beyond-january-iap-2023/
-- **Sundry Obscure Topics**: Collection of links to strange topics to explore
-  - http://tamivox.org/
-- **The Colossal Book of Mathematics**: The Colossal Book of Mathematics by Martin Gardner
-  - https://ia801004.us.archive.org/17/items/martingardnerthecolossalbookofmathematics/Martin%20Gardner%20-%20The%20Colossal%20Book%20Of%20Mathematics.pdf
+- **Adafruit**: Unique & fun DIY electronics and kits
+  - https://www.adafruit.com/
+- **Arduino**: Helpful references and library functions
+  - http://arduino.cc/
+- **EEV-blog**: Electrical Engineering links
+  - https://www.eevblog.com/wiki/index.php?title=Main_Page
+- **HDL Practice (Circuits)**: Verilog Hardware Description Language (HDL) practice
+  - https://hdlbits.01xz.net/wiki/Main_Page
+- **Logical Increments**: Everything to know about PC parts
+  - https://www.logicalincrements.com/
+- **Many here**:
+  - https://jim.rees.org/culture/
+- **Palm Pilot Stuff**: Palm Pilot resources
+  - https://jim.rees.org/pilot/
+- **Raspberry Pi Foundation**: Useful for updating your Raspberry Pi images
+  - http://www.raspberrypi.org/
+- **rpi-update**: Kernel updates for Raspberry Pi
+  - https://github.com/Hexxeh/rpi-update
+- **Smartcard**: Smartcard programming seminar (or how to hack an m card)
+  - http://www.citi.umich.edu/projects/smartcard/
+- **T-Line Speakers**: Build Transmission Line Speakers
+  - http://www.t-linespeakers.org/
+- **Total Hardware 99**: Archive of anything related to computers and tech
+  - http://www.uncreativelabs.de/th99/
+- **TubeData**: Electron Tubes Info
+  - http://tubedata.philipse.info/
 
 ## Operating Systems
 > Linux, the command line, and archives of old operating systems.
@@ -215,7 +401,7 @@
   - https://cheatography.com/davechild/cheat-sheets/linux-command-line/
 - **Bash Guide**: Reference to start scripting
   - http://mywiki.wooledge.org/BashGuide
-- **Bash Hackers Wiki**: 
+- **Bash Hackers Wiki**:
   - https://web.archive.org/web/20230406205817/https://wiki.bash-hackers.org/
 - **Bash in Windows**: Use linux in Windows10
   - https://www.geeksforgeeks.org/techtips/use-bash-shell-natively-windows-10/
@@ -256,36 +442,6 @@
 - **XFree86**: Open source X Windows System
   - https://www.xfree86.org/index.html
 
-## Hardware & Electronics
-> Microcontrollers, DIY kits and the people who build with them.
-
-- **Adafruit**: Unique & fun DIY electronics and kits
-  - https://www.adafruit.com/
-- **Arduino**: Helpful references and library functions
-  - http://arduino.cc/
-- **EEV-blog**: Electrical Engineering links
-  - https://www.eevblog.com/wiki/index.php?title=Main_Page
-- **HDL Practice (Circuits)**: Verilog Hardware Description Language (HDL) practice
-  - https://hdlbits.01xz.net/wiki/Main_Page
-- **Logical Increments**: Everything to know about PC parts
-  - https://www.logicalincrements.com/
-- **Many here**: 
-  - https://jim.rees.org/culture/
-- **Palm Pilot Stuff**: Palm Pilot resources
-  - https://jim.rees.org/pilot/
-- **Raspberry Pi Foundation**: Useful for updating your Raspberry Pi images
-  - http://www.raspberrypi.org/
-- **rpi-update**: Kernel updates for Raspberry Pi
-  - https://github.com/Hexxeh/rpi-update
-- **Smartcard**: Smartcard programming seminar (or how to hack an m card)
-  - http://www.citi.umich.edu/projects/smartcard/
-- **T-Line Speakers**: Build Transmission Line Speakers
-  - http://www.t-linespeakers.org/
-- **Total Hardware 99**: Archive of anything related to computers and tech
-  - http://www.uncreativelabs.de/th99/
-- **TubeData**: Electron Tubes Info
-  - http://tubedata.philipse.info/
-
 ## Networking & Servers
 > Routers, remote access and running your own infrastructure.
 
@@ -312,38 +468,84 @@
 - **WinSCP**: Secure copy client for Windows
   - http://winscp.net/eng/index.php
 
-## Security & Privacy
+## AI
+> Textbooks, courses and tools for machine learning and generative AI.
+
+- **AI, A Modern Approach**: Full textbook for AI - A modern approach
+  - https://aima.cs.berkeley.edu/contents.html
+- **Cartography of Generative AI**: Cool graphic of the cartography of generative AI
+  - https://cartography-of-generative-ai.net/
+- **Economics of AI..**:
+  - https://blog.samaltman.com/
+- **Generative tools**: are.na/serena-ho/generative-tools-48i6d9oltye
+  - https://www.are.na/serena-ho/generative-tools-48i6d9oltye
+- **Learn AI From Scratch**: Full guide to learning AI principles
+  - https://learnaifromscratch.github.io/
+- **Machine Learning Mastery**: ML Resources
+  - https://machinelearningmastery.com/machine-learning-in-python-step-by-step/
+- **Machine Learning Uni Research**:
+  - https://www.are.na/nio/machine-learning-uni-research
+- **Machine Learning with Python**: Tutorial on learning how to use python for Machine Learning
+  - https://www.youtube.com/playlist?list=PLQVvvaa0QuDfKTOs3Keq_kaG2P55YRn5v
+- **Mathematical Foundations of Reinforcement Learning**: Shiyu Zhao's Course
+  - https://github.com/MathFoundationRL/Book-Mathematical-Foundation-of-Reinforcement-Learning
+- **Pharmapsychotic - Tools and Resources for AI art**: Tools and Resources for AI art
+  - https://pharmapsychotic.com/tools.html
+- **Working and Teaching**: Working and Teaching in the field of AI
+  - https://blog.mariusjopen.com/
+
+## Math
+> Calculus, linear algebra and the maths behind computing.
+
+- **Britney Spears Physics**: I like this site
+  - https://britneyspears.ac/lasers.htm
+- **Calculus**: Lectures on Calculus
+  - https://www.youtube.com/playlist?list=PL67C119EDA6BDE946
+- **Floating Point Arithmetic**: What Every Computer Scientist Should Know about Floating-Point Arithmetic
+  - https://docs.oracle.com/cd/E19957-01/806-3568/ncg_goldberg.html
+- **Floating Point Math**: On Floating point math
+  - https://0.30000000000000004.com/
+- **Intro to Fourier Transformations**: Understanding Fourier Transformations
+  - https://www.jezzamon.com/fourier/index.html
+- **Linear regression**: Tutorial on Linear Regression
+  - https://www.youtube.com/watch?v=MDBpBE3B-b8
+- **Matrix Calculus**: Matrix Calculus for ML
+  - https://ocw.mit.edu/courses/18-s096-matrix-calculus-for-machine-learning-and-beyond-january-iap-2023/
+- **Sundry Obscure Topics**: Collection of links to strange topics to explore
+  - http://tamivox.org/
+- **The Colossal Book of Mathematics**: The Colossal Book of Mathematics by Martin Gardner
+  - https://ia801004.us.archive.org/17/items/martingardnerthecolossalbookofmathematics/Martin%20Gardner%20-%20The%20Colossal%20Book%20Of%20Mathematics.pdf
+
+# Privacy & Security
 > Learning to hack, staying private, and the tools for both.
 
-
-### Learn & Practice
-> Cryptography, hacking guides and places to practise legally.
+## Learn & Practice
 
 - **Bitsy**: mini video game maker
   - https://make.bitsy.org/
-- **captf.com/practice-ctf**: 
+- **captf.com/practice-ctf**:
   - http://captf.com/practice-ctf/
-- **crackmes.de**: 
+- **crackmes.de**:
   - http://crackmes.de/
 - **Crypto Museum**: Cryptography Museum
   - https://www.cryptomuseum.com/index.htm
 - **Dig Deeper**: site with articles on privacy, software, and other things.
   - https://digdeeper.neocities.org/index.xhtml
-- **essential privacy addons**: 
+- **essential privacy addons**:
   - https://digdeeper.neocities.org/articles/addons.xhtml
 - **Firefox Profilemaker**: This tool will help you to create a Firefox profile with the defaults you like.
   - https://ffprofile.com/
-- **free proxies**: 
+- **free proxies**:
   - https://her.st/usr/bin/unlimited-free-proxies.html
 - **Hacking Resources**: Everything on hacking
   - https://totseans.com/totse/en/hack/index.html
-- **How to choose browser**: 
+- **How to choose browser**:
   - https://digdeeper.neocities.org/articles/browsers.xhtml#ff
 - **N-Gate**: annotated digest of the top "Hacker" "News"
   - http://n-gate.com/
 - **PHRACK**: A Compilation of The Hackers Manifestos Of The 20th And 21st Century
   - https://phrack.org/issues/7/3
-- **.ssh power**: 
+- **.ssh power**:
   - https://her.st/usr/bin/ssh-is-power.html
 - **Surveillance self-defence**: Tips, tools, and hot-tos for safer online communications
   - https://ssd.eff.org/
@@ -351,15 +553,14 @@
   - https://www.petitcolas.net/steganography/
 - **Train Hacking Skills**: Develop your hacking skills
   - https://www.root-me.org/?lang=en
-- **webscrape urself**: 
+- **webscrape urself**:
   - https://inteltechniques.com/workbook.html
-- **wechall.net**: 
+- **wechall.net**:
   - http://www.wechall.net/
 - **Why to VPN**: How and why to VPNize your entire traffic
   - https://digdeeper.neocities.org/articles/vpn.xhtml
 
-### Security Tools
-> Scanners, databases and lookups.
+## Security Tools
 
 - **Exploit Database**: Archive of public exploits and corresponding vulnerable software
   - https://www.exploit-db.com/
@@ -375,11 +576,10 @@
   - https://anonymousplanet.org/guide/
 - **VirusTotal**: Check if a file or website has a virus
   - https://www.virustotal.com/gui/home/upload
-- **web-check.xyz**: 
+- **web-check.xyz**:
   - https://web-check.xyz/
 
-### Privacy & Anonymity
-> Protecting your data, identity and connection.
+## Privacy & Anonymity
 
 - **Awesome Piracy**: A curated list of arrrrrrrrr!
   - https://github.com/Igglybuff/awesome-piracy/blob/master/readme.md
@@ -408,47 +608,10 @@
 - **ZeroNet**: Open, free and uncensorable websites, using Bitcoin cryptography and BitTorrent network
   - https://zeronet.io/
 
-## Retro Computing & Emulation
-> Running old software on new machines, and the history behind it.
+# Reading & Communities
+> Where people write and talk about technology.
 
-- **Blog on Emulation**: Nerdly pleasures blog on emulation
-  - https://nerdlypleasures.blogspot.com/search/label/Emulation
-- **Blog on Mods**: Nerdly Pleasures on Mods
-  - https://nerdlypleasures.blogspot.com/search/label/Mods
-- **BoxedWine**: Emulator that runs Windows applications
-  - https://www.boxedwine.org/
-- **Cygwin**: A UNIX-like environment for Windows – quite useful for recompiling software for use in Windows and to use gcc to compile hobby C programs
-  - http://cygwin.com/
-- **DOS Haven**: DOS Games
-  - https://www.doshaven.eu/
-- **EmulationZone**: Website about retro emulation
-  - http://www.emulationzone.org/
-- **Flash Emulator**: Emulate Flash
-  - https://ruffle.rs/
-- **Floppy Disk Emulator**: Floppy disk drive emulator (for raspberry pi)
-  - https://cbm-pi1541.firebaseapp.com/
-- **Intro to Emulators**: Introduction to emulators
-  - https://macintoshgarden.org/guides
-- **Kernelloader Files**: Kernelloader Distributions
-  - https://sourceforge.net/projects/kernelloader/files/BlackRhino%20Linux%20Distribution/Live%20Linux%20DVD/
-- **Mod Archive**: World’s largest collection of music modules
-  - https://modarchive.org/index.php
-- **OldWebToday**: Browser Emulators
-  - https://oldweb.today/#19960101/http://geocities.com/
-- **PalmDB**: PalmDB is a community effort to preserve the work and history of Palm OS and its developers
-  - https://palmdb.net/about/
-- **Run Linux on PS2**: How to run linux on your PlayStation2
-  - https://kernelloader.sourceforge.net/linux.html
-- **SNES Emulator:(Super Nintendo) Emulator**: Super Nintendo Emulator
-  - https://zsnes.com/
-- **Software**: Installing software onto emulators
-  - https://macintoshgarden.org/installing-software-your-emulator
-- **The Macintosh Garden**: An abandonware archive, dedicated in particular to supporting the Macintosh computer platform
-  - https://macintoshgarden.org/
-- **x86 Machine**: X86 machine images with webassembly
-  - http://copy.sh/v86/
-
-## Computer Science Reading
+## Readings
 > Books, essays and reference collections on how computing came to be.
 
 - **Books for the Budding New Grad**: Computer science and technology books
@@ -463,7 +626,7 @@
   - https://www.compression.ru/index_en.htm
 - **Computational Structures**: An introductory course about the design and implementation of digital systems, emphasizing structural principles common to a wide range of technologies
   - https://computationstructures.org/
-- **Computer Programs**: 
+- **Computer Programs**:
   - https://lukesmith.xyz/programs/
 - **Computer Utopias**: teachings: computer utopia
   - https://chrisnovello.com/teaching/risd/computer-utopias/
@@ -471,7 +634,7 @@
   - https://archive.org/details/cybernetic-serendipity
 - **Data Hoarding in the Modern Age**: A Guide
   - https://dhitma.neocities.org/
-- **en.wikipedia.org/wiki/The_Mother_of_All_Demos**: 
+- **en.wikipedia.org/wiki/The_Mother_of_All_Demos**:
   - https://en.wikipedia.org/wiki/The_Mother_of_All_Demos
 - **Geek Girls**: Easy to understand computer tips
   - https://geekgirls.com/
@@ -504,46 +667,41 @@
 - **The Techno-Galactic Guide to Software Observation**: Observation Methods from the Techno-Galactic Software Observatory (Brussels, June 2017)
   - https://observatory.constantvzw.org/tgsoguide_1806051351.pdf
 
-## Blogs & Communities
-> Where people write and talk about technology.
-
-
-### Blogs & Essays
-> Personal blogs and long-form writing.
+## Blogs & Essays
 
 - **Andrew Karpathy**: Best ML/AI/Tech resource
   - https://karpathy.ai/
-- **BASICA Zen or Real Men Program in "C" (PC Extracts at Davar Web Site)**: 
+- **BASICA Zen or Real Men Program in "C" (PC Extracts at Davar Web Site)**:
   - http://davar.net/PC/EXTRACTS/BASICZEN.HTM
 - **Cacoveanu**: A blog about programming and the pleasure of figuring things out.
   - https://blog.cacoveanu.com/
-- **ceesjhay.org**: 
+- **ceesjhay.org**:
   - https://ceesjhay.org/
-- **classic computer collector called Terry Stewart**: 
+- **classic computer collector called Terry Stewart**:
   - https://www.classic-computers.org.nz/
-- **construction-physics.com/p/how-to-build-a-20-billion**: 
+- **construction-physics.com/p/how-to-build-a-20-billion**:
   - https://www.construction-physics.com/p/how-to-build-a-20-billion-semiconductor
-- **Contemporary Home Computing**: 
+- **Contemporary Home Computing**:
   - https://contemporary-home-computing.org/
 - **Cybernews**: Cybernews
   - https://cybernews.com/
-- **Davar Web Site**: 
+- **Davar Web Site**:
   - https://davar.net/
-- **eclecblog.live**: 
+- **eclecblog.live**:
   - https://eclecblog.live/
 - **FJGroups**: Networking and Security Research Group
   - https://vhosts.eecs.umich.edu/fjgroup/
 - **Fourmilab**: A variety of documents, images, software for various machines, and interactive Web resources
   - https://www.fourmilab.ch/
-- **Game of Life Cellular Automation**: 
+- **Game of Life Cellular Automation**:
   - https://writings.stephenwolfram.com/
 - **Gwern**: AI thoughts and writings;
   - https://gwern.net/
 - **Infrastructures**: Mutual Aid Tools
   - https://infrastructures.us/en/tools
-- **Internet Blog**: 
+- **Internet Blog**:
   - https://benjojo.co.uk/
-- **Links for Technology and Tech News**: 
+- **Links for Technology and Tech News**:
   - https://goughlui.com/interesting-links/
 - **Longevity FAQ**: Longevity Research
   - https://ldeming.com/longevityfaq
@@ -553,27 +711,27 @@
   - https://michaelnielsen.org/
 - **Nintil**: Running Discussion
   - https://nintil.com/categories
-- **Rotterdam’s Internet Cafes**: 
+- **Rotterdam’s Internet Cafes**:
   - https://contemporary-home-computing.org/still-there/belhuizen.html
-- **Sounds and Signals**: 
+- **Sounds and Signals**:
   - https://www.windytan.com/
-- **t.co**: 
+- **t.co**:
   - https://t.co/6cuZJSbbY8
-- **t.co**: 
+- **t.co**:
   - https://t.co/dEXOcOCJ5J
-- **taylor.town**: 
+- **taylor.town**:
   - https://taylor.town/
-- **Tech Essays**: 
+- **Tech Essays**:
   - https://www.construction-physics.com/
-- **Tech essays and reflections**: 
+- **Tech essays and reflections**:
   - https://dynomight.net/
 - **TechARP**: occasionally handy guides and information about new technology.
   - http://techarp.com/
-- **Temple OS**: 
+- **Temple OS**:
   - https://www.palladiummag.com/2022/04/01/palladium-is-now-templeos/
-- **The Joys of the Craft (Programming Extracts at Davar Web Site)**: 
+- **The Joys of the Craft (Programming Extracts at Davar Web Site)**:
   - http://davar.net/PROGRAM/EXTRACTS/CRAFTJOY.HTM
-- **The Woes of the Craft (Programming Extracts at Davar Web Site)**: 
+- **The Woes of the Craft (Programming Extracts at Davar Web Site)**:
   - http://davar.net/PROGRAM/EXTRACTS/CRAFTWOE.HTM
 - **Uncreative Labs**: On old computers
   - https://uncreativelabs.net/
@@ -586,8 +744,10 @@
 - **Yale CS**: Epigrams in Programming
   - https://www.cs.yale.edu/homes/perlis-alan/quotes.html
 
-### Forums
-> Hardware and general tech discussion boards.
+## Forums & Communities
+
+
+### Tech Forums
 
 - **λ**: Programming board
   - https://legacy.arisuchan.jp/%CE%BB/
@@ -597,7 +757,7 @@
   - https://forums.anandtech.com/
 - **Arch Linux32**: Everything you need to know about ArchLinux
   - https://archlinux32.org/
-- **Arisuchan**: 
+- **Arisuchan**:
   - https://legacy.arisuchan.jp/
 - **DistroWatch**: Go-to for anything OS related
   - https://distrowatch.com/
@@ -629,4 +789,17 @@
   - https://4chanarchives.com/board/g/thread/281340
 - **Tom's Hardware**: OS forums etc.
   - http://www.tomshardware.com/
+
+### Other Forums
+
+- **CCRU**: Cybernetics Culture Research Unit
+  - http://www.ccru.net/index.htm
+- **Japanese forum**:
+  - https://itest.5ch.io/topics/popular
+- **Job Resources**:
+  - https://www.reddit.com/r/kaidomac/comments/qqzjc2/job_resource_guides/
+- **lesswrong.com/wikitags/all**:
+  - https://www.lesswrong.com/wikitags/all
+- **ooh**: A collection of 2,397 blogs about every topic
+  - https://ooh.directory/
 

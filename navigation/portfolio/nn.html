@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Portfolio - Neural Network in C</title>
+    <link rel="icon" href="/images/icons/heart3.png" />
+    <link rel="stylesheet" href="../../styles/stylesheet.css">
+    <link rel="stylesheet" href="../../styles/mobile.css">
+    <link rel="stylesheet" href="portfolio.css">
+    <script src="../../scripts/siteStyle/images.js"></script>
+    <script src="../../scripts/admin.js" defer></script>
+</head>
+<body class="m2 p-portfolio">
+<nav class="navigation">
+  <a href="../../index.html" class="nav-item">HOME</a>
+  <a href="../../creations/projects.html" class="nav-item" aria-current="page">PROJECTS</a>
+  <a href="../resources.html" class="nav-item">RESOURCES</a>
+  <a href="../learning.html" class="nav-item">LEARNING</a>
+  <a href="../about.html" class="nav-item">ABOUT</a>
+</nav>
+<div class="title-container">
+    <div class="nav-links">
+        <div class="tags-group">
+            <span class="sub-nav-item">SEE: </span>
+            <a href="../../creations/blogs.html" class="sub-nav-item">writing</a>
+            <a href="../../photos.html" class="sub-nav-item">photography</a>
+            <a href="../../creations/art.html" class="sub-nav-item">art</a>
+            <a href="../../personal/archives.html" class="sub-nav-item">archive</a>
+        </div>
+        <div id="admin-link-area"></div>
+    </div>
+    <h1 class="page-title" data-eyebrow="Selected work">Portfolio</h1>
+    <hr>
+</div>
+<div class="content">
+    <div class="container_inner">
+        <div class="header">
+            <h1>[ projectArchive ]</h1>
+        </div>
+
+        <!-- One page per project (so a refresh stays put); the list links between them -->
+        <div class="topics-box">
+            <ul class="topics-list" id="topicsList">
+                <li data-topic="imaging"><a href="imaging.html">Cardiac Imaging</a></li>
+                <li data-topic="tracing"><a href="tracing.html">Ray Tracing</a></li>
+                <li class="active" data-topic="nn"><a href="nn.html" aria-current="page">Neural Network in C</a></li>
+                <li data-topic="os"><a href="os.html">ThinkPad Customizations</a></li>
+                <li data-topic="web"><a href="web.html">Web Design</a></li>
+                <li data-topic="resume"><a href="resume.html">Resume</a></li>
+            </ul>
+        </div>
+
+        <div class="content">
+            <div class="section">
+                <div class="section-header" id="projectTitle">
+                    <h1>
+                        Machine Learning for Image Classification (in parallel!)
+                    </h1>
+                    <hr>
+                </div>
+                <div class="section-content" id="projectContent">
+                    <p>
+                    You think you know a Neural Net until you have to build it in C...<br><br>
+                    Have you ever wondered why GPUs are extremely powerful when it comes to Deep Learning?
+                    If you wrote it out by hand (which you basically have to do for a C implementation anyways..,) you
+                    would see that passage through the neural network is just a series of matrix-matrix multiplications.
+                    And who loooooves matrix-matrix multiplications?? GPUs!! This is due to the fact that when you
+                    multiply together matrices, you end up recycling a lot of the computations, meaning a parallel system
+                    will eat it up no problem!<br>
+                    This project compares the performance of various strategies used for matrix-matrix multiplication:
+                    the naive approach (manual calculation), the cBLAS library for the CPU, and the CuBLAS library for a GPU implementation.
+
+                    For comparing performances accurately, the set of parameters remained constant with a learning rate of 0.1,
+                    a batch size of 200, and a total of 50 epochs.
+                    The data was split into 50,000 images for training and 10,000 images for validation.<br><br>
+                    If you couldn't guess already, the use of these libraries significantly improved the runtime of the program :D
+                    But you can still read about it if you want.
+                         <br><br><br>
+                        <a href="../../images/projects/nn/ParallelNeuralNet/NN.pdf" target="_blank" rel="noopener noreferrer">READ PAPER</a><br>
+                        <a class="paper" href="https://github.com/sonia-sharapova/ParallelNeuralNet" target="_blank" rel="noopener noreferrer">CODE REPOSITORY</a>
+                        </p>
+                </div>
+            </div>
+            <div id="admin-link-mobile"></div>
+        </div>
+    </div>
+</div>
+<div class="modal" id="imageModal">
+    <div class="modal-content">
+        <button class="modal-close">✕</button>
+        <img id="modalImage" src="" alt="Modal Image">
+    </div>
+</div>
+<footer>
+    <div class="socials">
+        <a href="https://github.com/sonia-sharapova">GitHub</a>|
+        <a href="https://www.linkedin.com/in/sonia-sharapova/">LinkedIn</a>|
+        <a href="https://www.instagram.com/sonia.s.ru/">Instagram</a>
+    </div>
+
+    <div>
+        Contact Links<br>
+        2026
+    </div>
+</footer>
+<script src="portfolio.js"></script>
+</body>
+</html>
