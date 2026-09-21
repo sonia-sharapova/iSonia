@@ -36,7 +36,7 @@ const PARAMS = new URLSearchParams(window.location.search);
 const PAGE = (PARAMS.get('c') || window.location.pathname.split('/').pop().replace('.html', '')).toLowerCase().replace(/[^a-z0-9-]/g, '');
 // technology.html has always read tech.md, the README says technology.md — accept either
 // (the topic-tree pages: creating, consuming, exploring, learning, misc, technology, open-source, get-involved)
-const TOPIC_PAGES = ['creating', 'consuming', 'exploring', 'learning', 'misc', 'technology', 'open-source', 'get-involved'];
+const TOPIC_PAGES = ['creating', 'consuming', 'exploring', 'learning', 'misc', 'technology', 'open-source', 'get-involved', 'careers'];
 const MD_NAMES = {};
 const HUB_DATA_URL = ROOT + 'data/resources.json';
 const HUB_SAVE_URL = ROOT + 'admin/save-resources.php';

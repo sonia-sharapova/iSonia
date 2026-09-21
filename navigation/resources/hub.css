@@ -1,5 +1,4 @@
-/* Hub pages (navigation/resources.html, navigation/learning.html): admin controls + edit modals.
-   The cards themselves are styled in styles/categories.css. */
+/* Hub pages (navigation/resources.html, navigation/learning.html): the icon tiles, admin controls and edit modals. */
 
 #background-canvas { position: fixed; top: 30%; left: 0; z-index: -1; }
 
@@ -49,8 +48,9 @@ body.admin-mode .admin-only { display: inline-flex; }
   display: none; gap: 4px; position: absolute; top: 6px; right: 6px;
 }
 body.admin-mode .category-card:hover .item-admin-btns,
+body.admin-mode .cat-tile:hover .item-admin-btns,
 body.admin-mode .subcategory-item:hover .item-admin-btns { display: flex; }
-.category-card { position: relative; }
+.category-card, .cat-tile { position: relative; }
 .subcategory-item { position: relative; }
 
 .add-section-row {
@@ -97,32 +97,133 @@ body.admin-mode .add-section-row { display: flex; gap: 10px; align-items: center
 }
 .res-modal-cancel:hover { border-color: #aaa; color: #555; }
 
-/* Resources → Learning pointer, where the Guides used to be */
+/* ── Layout of the groups (tablet and up) ──
+   The groups (By Function, By Topic, More) take 80% of the content width. The gap between the three is the same
+   everywhere; the gap after the page description is the largest of all. */
+@media (min-width: 769px) {
+    body.p-resources .content > #resources-body,
+    body.p-resources .content > .section-block { width: 80%; margin-left: 20px; }   /* indented under the description */
+
+    /* each group's rule runs the full width of the group, and its tiles are inset from the sides */
+    body.p-resources .section-header-row .section-header { flex: 1; }
+    body.p-resources .category-grid { padding: 0 16px; }
+    body.p-resources .learning-note { margin: 0 16px; }
+
+    .resources-intro { margin-bottom: 64px; }
+    .section-block { margin-top: 44px; margin-bottom: 0; }
+    .section-block .section-header { margin: 0; }
+    .section-header-row { margin-bottom: 22px; }
+}
+
+/* ── Hub tiles: plain text — icon + title, a bullet list under it.
+   Hover: the tile slides right, icon and title turn green, and an arrow slides in. ── */
+
+/* By Function: four to a row. By Topic: five, all on one line. (Two across on tablets, one on phones.) */
+.category-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 14px;
+    align-items: start;
+}
+.section-block[data-id="topics"] .category-grid { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+@media (max-width: 1000px) {
+    .category-grid,
+    .section-block[data-id="topics"] .category-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+.cat-tile {
+    display: block;
+    box-sizing: border-box;
+    padding: 10px 20px;
+    border: 1px solid transparent;
+    border-radius: 3px;
+    color: #444;
+    text-decoration: none;
+    font-family: 'Optima', arial, sans-serif;
+    transition: transform 0.28s ease, border-color 0.28s ease;
+}
+.cat-tile:hover,
+.cat-tile:focus-visible { transform: translateX(8px); border-color: #45a049; }
+
+.cat-head { display: flex; align-items: center; gap: 10px; }
+
+.cat-icon {
+    flex: none;
+    width: 24px;
+    height: 24px;
+    color: #888f8d;
+    transition: color 0.28s ease, transform 0.28s ease;
+}
+
+.cat-title {
+    font-size: 20px;
+    font-weight: 300;
+    line-height: 1.2;
+    color: #444;
+    transition: color 0.28s ease;
+}
+
+.cat-arrow {
+    margin-left: -2px;
+    font-size: 18px;
+    color: #45a049;
+    opacity: 0;
+    transform: translateX(-8px);
+    transition: opacity 0.28s ease, transform 0.28s ease;
+}
+
+.cat-tile:hover .cat-icon,
+.cat-tile:focus-visible .cat-icon,
+.cat-tile:hover .cat-title,
+.cat-tile:focus-visible .cat-title { color: #45a049; }
+.cat-tile:hover .cat-icon { transform: scale(1.08); }
+.cat-tile:hover .cat-arrow,
+.cat-tile:focus-visible .cat-arrow { opacity: 1; transform: translateX(0); }
+
+.cat-list {
+    margin: 8px 0 0;
+    padding-left: 25px;
+    list-style: disc;
+    font-size: 17px;
+    line-height: 1.4;
+    color: #888f8d;
+}
+.cat-list li { margin-bottom: 1px; }
+.cat-desc { margin: 8px 0 0; font-size: 17px; line-height: 1.4; color: #888f8d; }
+
+@media (min-width: 769px) {
+    /* five tiles across 80% of the page: a little less padding so the bullets don't wrap so much */
+    .section-block[data-id="topics"] .cat-tile { padding: 10px 10px; }
+    .section-block[data-id="topics"] .cat-head { gap: 8px; }
+    .section-block[data-id="topics"] .cat-list { padding-left: 22px; font-size: 16px; }
+
+    /* the first group, By Function: roomier tiles, no icons, and titles smaller than the "By Function" heading (24px) */
+    .section-block[data-id="cat"] .cat-tile { padding: 16px 14px 12px; }
+    .section-block[data-id="cat"] .cat-title { font-size: 20px; }
+    .section-block[data-id="cat"] .cat-arrow { font-size: 18px; }
+    .section-block[data-id="cat"] .cat-list { padding-left: 20px; font-size: 17px; margin-top: 10px; }
+}
+.section-block[data-id="cat"] .cat-icon { display: none; }
+
+/* "More" → the Learning page. Padded 20px like the tiles above, so its text lines up with theirs. */
 .learning-note {
     display: block;
-    margin: 40px 0 0;
-    padding: 20px;
-    border: 1px solid #d5d5d5;
-    background: #f9f9f9;
-    border-radius: 4px;
+    box-sizing: border-box;
+    padding: 10px 10px;
+    border: 1px solid transparent;
+    border-radius: 3px;
     text-decoration: none;
-    color: #414141;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-    transition: all 0.2s ease;
+    font-family: 'Optima', arial, sans-serif;
+    color: #444;
+    transition: border-color 0.28s ease;
 }
-.learning-note:hover {
-    background: #fff;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgb(210, 245, 250);
-}
-.learning-note-title {
-    display: block;
-    font-size: 20px;
-    font-family: 'Courier New', arial, sans-serif;
-}
-.learning-note-text {
-    display: block;
-    margin-top: 4px;
-    font-size: 17px;
-    color: #888f8d;
+.learning-note:hover { border-color: #45a049; }
+.learning-note-title { display: block; font-size: 20px; font-weight: 300; }
+.learning-note-text { display: block; margin-top: 2px; font-size: 17px; color: #888f8d; transition: color 0.2s ease; }
+.learning-note-arrow { display: inline-block; transition: transform 0.25s ease; }
+.learning-note:hover .learning-note-text { color: #45a049; }
+.learning-note:hover .learning-note-arrow { transform: translateX(6px); }
+
+@media (prefers-reduced-motion: reduce) {
+    .cat-tile, .cat-icon, .cat-arrow, .learning-note-arrow { transition: none; }
+    .cat-tile:hover { transform: none; }
 }

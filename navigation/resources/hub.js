@@ -61,12 +61,42 @@ function renderSection(sec) {
     </div>`;
 }
 
+// Line icons for the hub tiles, keyed by the page name (resources/<name>.html); anything else gets the generic page icon
+const HUB_ICONS = {
+  creating: '<path d="M4 20l4-1 11-11-3-3L5 16l-1 4z"/><path d="M14 6l3 3"/>',
+  consuming: '<circle cx="12" cy="12" r="9"/><path d="M10 8.5l6 3.5-6 3.5z"/>',
+  exploring: '<circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2 5-5 2 2-5z"/>',
+  learning: '<path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11.5V16c0 1.5 3 3 6 3s6-1.5 6-3v-4.5"/>',
+  technology: '<rect x="6" y="6" width="12" height="12" rx="1"/><rect x="9.5" y="9.5" width="5" height="5"/><path d="M9 3v3M15 3v3M9 18v3M15 18v3M3 9h3M3 15h3M18 9h3M18 15h3"/>',
+  'open-source': '<path d="M8 8l-4 4 4 4M16 8l4 4-4 4M13.5 5l-3 14"/>',
+  'get-involved': '<circle cx="9" cy="8" r="3"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><circle cx="17" cy="9" r="2.5"/><path d="M17 14c2.5 0 4.5 2 4.5 5"/>',
+  careers: '<rect x="3" y="7" width="18" height="13" rx="1.5"/><path d="M9 7V5h6v2M3 13h18"/>',
+  misc: '<path d="M12 3l2.5 6 6.5.5-5 4.3 1.6 6.4-5.6-3.4-5.6 3.4L8 13.8 3 9.5l6.5-.5z"/>',
+  'web-design': '<rect x="3" y="5" width="18" height="14" rx="1.5"/><path d="M3 9h18"/>',
+  algorithms: '<circle cx="6" cy="6" r="2"/><circle cx="18" cy="6" r="2"/><circle cx="12" cy="18" r="2"/><path d="M8 6h8M7 8l4 8M17 8l-4 8"/>',
+  'machine-learning': '<circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"/>',
+  hpc: '<rect x="4" y="4" width="16" height="6" rx="1"/><rect x="4" y="14" width="16" height="6" rx="1"/><path d="M8 7h.01M8 17h.01"/>',
+  privacy: '<rect x="5" y="11" width="14" height="9" rx="1.5"/><path d="M8 11V8a4 4 0 018 0v3"/>',
+  _page: '<path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4M9 12h6M9 16h6"/>'
+};
+function hubIcon(href) {
+  const name = String(href || '').split('?')[0].split('/').pop().replace('.html', '');
+  return `<svg class="cat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${HUB_ICONS[name] || HUB_ICONS._page}</svg>`;
+}
+
+// A tile: icon + title, then a short bullet list (or the description). On hover it slides right, turns green and shows an arrow.
 function renderCards(sec) {
   return `<div class="category-grid">` +
     (sec.items||[]).map(item => `
-      <a href="${esc(item.href)}" class="category-card">
-        <div class="category-title">${esc(item.title)}</div>
-        <div class="category-count">${esc(item.desc)}</div>
+      <a href="${esc(item.href)}" class="cat-tile">
+        <div class="cat-head">
+          ${hubIcon(item.href)}
+          <span class="cat-title">${esc(item.title)}</span>
+          <span class="cat-arrow" aria-hidden="true">→</span>
+        </div>
+        ${(item.bullets || []).length
+          ? `<ul class="cat-list">${item.bullets.map(b => `<li>${esc(b)}</li>`).join('')}</ul>`
+          : (item.desc ? `<p class="cat-desc">${esc(item.desc)}</p>` : '')}
         <span class="item-admin-btns admin-only">
           <button class="adm-btn adm-edit" onclick="event.preventDefault();openItemModal('${sec.id}','${item.id}')">✎</button>
           <button class="adm-btn adm-del"  onclick="event.preventDefault();deleteItem('${sec.id}','${item.id}')">✕</button>
@@ -116,6 +146,8 @@ function openItemModal(secId, itemId) {
   document.getElementById('item-title').value = item ? item.title : '';
   document.getElementById('item-href').value  = item ? item.href  : '';
   document.getElementById('item-desc').value  = item ? item.desc  : '';
+  const bl = document.getElementById('item-bullets');
+  if (bl) bl.value = item && item.bullets ? item.bullets.join('\n') : '';
   document.getElementById('item-modal').classList.add('active');
   setTimeout(() => document.getElementById('item-title').focus(), 60);
 }
@@ -125,14 +157,17 @@ document.getElementById('item-save').onclick = async () => {
   const title = document.getElementById('item-title').value.trim();
   const href  = document.getElementById('item-href').value.trim();
   const desc  = document.getElementById('item-desc').value.trim();
+  const bl = document.getElementById('item-bullets');
+  const bullets = bl ? bl.value.split('\n').map(x => x.trim()).filter(Boolean) : null;
   if (!title || !href) { alert('Title and URL are required.'); return; }
 
   const sec = sections.find(s => s.id === modalSectionId);
   if (modalItemId) {
     const item = sec.items.find(i => i.id === modalItemId);
     item.title = title; item.href = href; item.desc = desc;
+    if (bullets) item.bullets = bullets;
   } else {
-    sec.items.push({ id: uid(), title, href, desc });
+    sec.items.push(bullets && bullets.length ? { id: uid(), title, href, desc, bullets } : { id: uid(), title, href, desc });
   }
   await persist();
   closeItemModal();

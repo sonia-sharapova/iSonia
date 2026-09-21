@@ -46,11 +46,16 @@
 
   <div id="resources-body"></div>
 
-  <!-- the Guides moved to the Learning page -->
-  <a href="learning.html" class="learning-note">
-    <span class="learning-note-title">Interested in learning more from me?</span>
-    <span class="learning-note-text">Guides and tutorials are on the Learning page &rarr;</span>
-  </a>
+  <!-- the Guides live on the Learning page -->
+  <div class="section-block">
+    <div class="section-header-row">
+      <div class="section-header">More</div>
+    </div>
+    <a href="learning.html" class="learning-note">
+      <span class="learning-note-title">See my custom lessons and tutorials:</span>
+      <span class="learning-note-text">Check meow-t! <span class="learning-note-arrow">&rarr;</span></span>
+    </a>
+  </div>
 
   <div class="add-section-row">
     <button class="adm-btn adm-add" onclick="openSectionModal(null)">+ Add Section</button>
@@ -68,6 +73,8 @@
     <input type="text" id="item-href" placeholder="https://...">
     <label>Description</label>
     <input type="text" id="item-desc" placeholder="Short description">
+    <label>Bullets (one per line — shown on the hub tile instead of the description)</label>
+    <textarea id="item-bullets" rows="4" placeholder="Design Resources&#10;DIY and Projects"></textarea>
     <div class="res-modal-actions">
       <button class="res-modal-save" id="item-save">Save</button>
       <button class="res-modal-cancel" onclick="closeItemModal()">Cancel</button>

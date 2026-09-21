@@ -876,7 +876,7 @@ body.m2 .page-title { text-transform: uppercase; }
   }
 
   body.m2 .resources-intro p {
-    margin: 0 0 28px;
+    margin: 0 0 12px;
     font: 400 15px/24px 'Mulish', arial, sans-serif;
     color: #666;
   }
@@ -931,6 +931,44 @@ body.m2 .page-title { text-transform: uppercase; }
     font: 400 13px/20px 'Mulish', arial, sans-serif !important;
     color: #888f8d !important;
   }
+
+  /* hub tiles (resources.html / learning.html): icon + title with the bullets under it, one per row */
+  body.m2 .category-grid { align-items: stretch; }
+  body.m2 .cat-tile {
+    position: relative;
+    display: block !important;
+    min-height: 0 !important;
+    padding: 16px 40px 16px 10px !important;
+    border: 0;
+    border-radius: 0;
+    border-bottom: 1px solid #ddd;
+    font-family: 'Mulish', arial, sans-serif;
+    transform: none !important;
+  }
+  body.m2 .cat-tile:hover { border-color: transparent transparent #ddd; }
+  body.m2 .learning-note { border: 0; }
+  /* By Function has no icons, so its title and bullets start at the row's left edge */
+  body.m2 .section-block[data-id="cat"] .cat-list { padding-left: 20px; }
+  body.m2 .section-block[data-id="cat"] .cat-desc { margin-left: 0; }
+  body.m2 .cat-title { font: 400 18px/24px 'Optima', 'Belleza', arial, sans-serif; color: #333; }
+  body.m2 .cat-icon { width: 22px; height: 22px; }
+  body.m2 .cat-arrow { display: none; }
+  body.m2 .cat-list { margin-top: 6px; padding-left: 32px; font: 400 13px/20px 'Mulish', arial, sans-serif; color: #888f8d; }
+  body.m2 .cat-desc { margin: 6px 0 0 32px; font: 400 13px/20px 'Mulish', arial, sans-serif; color: #888f8d; }
+  body.m2 .cat-tile::after {
+    content: "";
+    position: absolute;
+    right: 10px;
+    top: 24px;
+    width: 18px;
+    height: 18px;
+    background: #888f8d;
+    -webkit-mask: url(icons/chevron-right.svg) center / contain no-repeat;
+    mask: url(icons/chevron-right.svg) center / contain no-repeat;
+  }
+  body.m2 .learning-note { display: block !important; margin: 28px 20px 0 10px; padding: 0; font-family: 'Mulish', arial, sans-serif; }
+  body.m2 .learning-note-title { font: 400 18px/24px 'Optima', 'Belleza', arial, sans-serif; color: #333; }
+  body.m2 .learning-note-text { font: 400 13px/20px 'Mulish', arial, sans-serif; }
 
   body.m2 .category-card::after {
     content: "";
