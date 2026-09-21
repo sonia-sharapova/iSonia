@@ -16,8 +16,8 @@
 // Signed in as admin you can edit every layer: categories, the intro, sections, sub-sections and links.
 // Categories can also be added without creating a page: category.html?c=<name> shows any category.
 
-// navigation/learning.html reuses this tree for the Learning section (Guides & Tutorials, which used to be a
-// Resources category): same sections → links layout, but no category column, no hub, and it lives one folder up.
+// navigation/learning.html reuses this tree for the Learning section (the Guides & Tutorials content, which is
+// also a Resources category): same sections → links layout, but no category column, no hub, and it lives one folder up.
 const LEARNING = /\/learning\.html$/.test(window.location.pathname);
 const ROOT = LEARNING ? '../' : '../../';                 // the site root, relative to this page
 const MD_BASE = LEARNING ? './resources/' : './';          // where markdown/ and seed/ are
@@ -28,8 +28,8 @@ const MD_NAMES = { technology: ['technology', 'tech'] };
 const HUB_DATA_URL = ROOT + 'data/resources.json';
 const HUB_SAVE_URL = ROOT + 'admin/save-resources.php';
 const LEARNING_INFO = { title: 'Learning', desc: "Guides, tutorials and step-by-step write-ups I've put together." };
-// Guides & Tutorials used to be a Resources category; it now lives in Learning, so the hub must never list it
-const isTutorialsCard = it => /(^|\/)tutorials\.html/.test(it.href || '');
+// Guides & Tutorials is the last Resources category; navigation/learning.html shows the same content
+const TUTORIALS = { title: 'Guides & Tutorials', desc: "Step-by-step write-ups and how-tos I've put together.", href: 'resources/tutorials.html' };
 
 // used until data/resources.json exists (the first category you add or edit creates it)
 const DEFAULT_HUB = [{
@@ -44,7 +44,8 @@ const DEFAULT_HUB = [{
         ['archives', 'Archives & Collections', "Libraries, museums and the internet's memory."],
         ['culture', 'Internet Culture', 'Forums, nostalgia and the strange.'],
         ['ideas', 'Ideas & People', 'The thinkers, arguments and theories behind it all.'],
-        ['life', 'Learning & Life', 'Everyday guides, free courses and life admin.']
+        ['life', 'Learning & Life', 'Everyday guides, free courses and life admin.'],
+        ['tutorials', TUTORIALS.title, TUTORIALS.desc]
     ].map(([slug, title, desc]) => ({ id: slug, title, href: 'resources/' + slug + '.html', desc }))
 }];
 
@@ -162,7 +163,7 @@ function currentCategory() {
     return categories.find(isCurrent) || { title: pageTitle(), desc: '', href: location.href };
 }
 
-// ── Categories: the hub's cards, in the hub's order ──
+// ── Categories: the hub's cards, in the hub's order — Guides & Tutorials always last ──
 async function loadHub() {
     let data = [];
     try {
@@ -172,7 +173,6 @@ async function loadHub() {
     if (!Array.isArray(data) || !data.some(s => s.type === 'cards' && (s.items || []).length)) {
         data = JSON.parse(JSON.stringify(DEFAULT_HUB));
     }
-    data.forEach(s => { if (s.type === 'cards') s.items = (s.items || []).filter(it => !isTutorialsCard(it)); });
     data.forEach(s => (s.items || []).forEach(it => { if (!it.id) it.id = uid(); }));
     return data;
 }
@@ -185,8 +185,20 @@ function buildCategories() {
             list.push({ title: it.title, desc: it.desc || '', href: new URL(it.href, new URL('../resources.html', location.href)).href, si, ii });
         });
     });
+    // Guides & Tutorials sits at the bottom of the list; add it if the hub doesn't have it yet
+    const t = list.findIndex(c => catSlug(c.href) === 'tutorials');
+    if (t >= 0) list.push(list.splice(t, 1)[0]);
+    else list.push({ title: TUTORIALS.title, desc: TUTORIALS.desc, href: new URL('tutorials.html', location.href).href, si: -1, ii: -1 });
     if (!list.some(isCurrent)) list.push({ title: pageTitle(), desc: '', href: location.href, si: -1, ii: -1 });
     return list;
+}
+
+// make sure Guides & Tutorials is a real card in hubData before the hub is saved
+function ensureTutorialsCard() {
+    if (hubData.some(s => s.type === 'cards' && (s.items || []).some(it => catSlug(new URL(it.href, new URL('../resources.html', location.href)).href) === 'tutorials'))) return;
+    let sec = hubData.find(s => s.type === 'cards');
+    if (!sec) { sec = { id: uid(), title: 'Categories', type: 'cards', intro: '', items: [] }; hubData.push(sec); }
+    sec.items.push({ id: uid(), title: TUTORIALS.title, href: TUTORIALS.href, desc: TUTORIALS.desc });
 }
 
 // ── Render ───────────────────────────────────────────────────────
@@ -356,7 +368,9 @@ function deleteSubfolder(fi, si) {
 async function deleteCategory(i) {
     const c = categories[i];
     if (!confirm(`Remove the category "${c.title}" from the list?\n\nIts page and links stay on the server; only the entry in the category list is removed.`)) return;
+    ensureTutorialsCard();
     if (c.si >= 0) hubData[c.si].items.splice(c.ii, 1);
+    else if (catSlug(c.href) === 'tutorials') hubData.forEach(s => { s.items = (s.items || []).filter(it => catSlug(new URL(it.href, new URL('../resources.html', location.href)).href) !== 'tutorials'); });
     await saveHub();
     if (isCurrent(c)) { location.href = '../resources.html'; return; }
     categories = buildCategories(); rerender();

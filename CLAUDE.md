@@ -85,8 +85,8 @@ Every page in this pattern should also have the `<hr>` title-underline — `blog
 - `index.html` — home
 - `navigation/portfolio.html`, `navigation/about.html`, `navigation/contact.html` — about/portfolio/contact
 - `navigation/resources.html` + `navigation/resources/*` — curated links archive (see above)
-- `navigation/learning.html` — the LEARNING top-nav page (formerly the Guides & Tutorials category of Resources). It reuses `navigation/resources/links.js`/`links.css` in a `LEARNING` mode (sections → links, no category column, no hub) and reads/saves `navigation/resources/{markdown,seed}/tutorials.md`, so the content file kept its old name. `links.js` also strips any leftover `tutorials.html` card from the Resources hub data.
-- `creations/projects.html`, `creations/blogs.html`, `creations/games.html`, `creations/art.html` — creative work sections (`creations/tutorials.html` and `navigation/resources/tutorials.html` now just redirect to `navigation/learning.html`)
+- `navigation/learning.html` — the LEARNING top-nav page. It shows the same Guides & Tutorials content that is also the last Resources category (`navigation/resources/tutorials.html`). It reuses `navigation/resources/links.js`/`links.css` in a `LEARNING` mode (sections → links, no category column, no hub) and reads/saves `navigation/resources/{markdown,seed}/tutorials.md`, so the content file kept its old name. `links.js` also strips any leftover `tutorials.html` card from the Resources hub data.
+- `creations/projects.html`, `creations/blogs.html`, `creations/games.html`, `creations/art.html` — creative work sections (`creations/tutorials.html` just redirects to `navigation/resources/tutorials.html`)
 - `photos.html` — photo galleries (backed by `data/albums.json`)
 - `personal/archives.html` — "See All" landing page for the personal archives; `personal/music.html`, `personal/movies.html`, `personal/books.html`, `personal/cards.html` — personal favorites/collections (backed by their respective `data/*.json`); `personal/electronics.html` — stub, no data file yet
 - `projects/` — standalone interactive projects (camera/ASCII effects, dots, bezier, screenshot garden, the synth app)
