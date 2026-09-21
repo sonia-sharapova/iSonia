@@ -123,6 +123,7 @@ body.m2 .page-title { text-transform: uppercase; }
   body.m2 .nav-item[href$="projects.html"]::before  { -webkit-mask-image: url(icons/tab-projects.svg);  mask-image: url(icons/tab-projects.svg); }
   body.m2 .nav-item[href$="portfolio.html"]::before { -webkit-mask-image: url(icons/tab-portfolio.svg); mask-image: url(icons/tab-portfolio.svg); }
   body.m2 .nav-item[href$="resources.html"]::before { -webkit-mask-image: url(icons/tab-resources.svg); mask-image: url(icons/tab-resources.svg); }
+  body.m2 .nav-item[href$="learning.html"]::before  { -webkit-mask-image: url(icons/tab-learning.svg);  mask-image: url(icons/tab-learning.svg); }
   body.m2 .nav-item[href$="about.html"]::before     { -webkit-mask-image: url(icons/tab-about.svg);     mask-image: url(icons/tab-about.svg); }
 
   /* ---------- Page head: eyebrow / title / rule ---------- */

@@ -19,6 +19,9 @@
     margin-top: 20px;      /* same as .sidebar on the other pages */
 }
 
+/* Learning: no categories column, so just sections → links */
+.res-tree.res-tree-2col { grid-template-columns: 240px minmax(0, 1fr); }
+
 .res-col { min-width: 0; }
 
 /* each column sits to the right of its parent, with a hairline between */
@@ -197,6 +200,7 @@
 /* Narrower desktop windows */
 @media (max-width: 1000px) {
     .res-tree { grid-template-columns: 180px 200px minmax(0, 1fr); }
+    .res-tree.res-tree-2col { grid-template-columns: 200px minmax(0, 1fr); }
     .res-col + .res-col { margin-left: 22px; padding-left: 22px; }
 }
 

@@ -205,14 +205,21 @@
     border-bottom: 1px solid #ddd;
 }
 
-.widget-heading a {
+.widget-heading a,
+.widget-heading a:visited,
+.widget-heading a:focus,
+.widget-heading a:active {
     color: inherit;
     text-decoration: none;
     transition: color 0.3s ease;
 }
 
-.widget-heading a:hover {
-    color: #45a049;
+/* only where hovering is real — on touch screens :hover sticks after a tap, which
+   left the heading green once you'd been to the archives and come back */
+@media (hover: hover) {
+    .widget-heading a:hover {
+        color: #45a049;
+    }
 }
 
 .widget-list {

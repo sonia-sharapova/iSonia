@@ -112,6 +112,7 @@
   <a href="../creations/projects.html" class="nav-item">PROJECTS</a>
   <a href="../navigation/portfolio.html" class="nav-item">PORTFOLIO</a>
   <a href="../navigation/resources.html" class="nav-item" aria-current="page">RESOURCES</a>
+  <a href="../navigation/learning.html" class="nav-item">LEARNING</a>
   <a href="../navigation/about.html" class="nav-item">ABOUT</a>
 </nav>
 
@@ -139,19 +140,6 @@
   </div>
 
   <div id="resources-body"></div>
-
-  <!-- Guides & Tutorials: the last category (it used to live at creations/tutorials.html) -->
-  <div class="section-block" id="guides-block">
-    <div class="section-header-row">
-      <div class="section-header">Guides</div>
-    </div>
-    <div class="category-grid">
-      <a href="resources/tutorials.html" class="category-card">
-        <div class="category-title">Guides &amp; Tutorials</div>
-        <div class="category-count">Step-by-step write-ups and how-tos I've put together.</div>
-      </a>
-    </div>
-  </div>
 
   <div class="add-section-row">
     <button class="adm-btn adm-add" onclick="openSectionModal(null)">+ Add Section</button>
@@ -217,6 +205,8 @@ async function init() {
     const r = await fetch(DATA_URL + '?t=' + Date.now());
     sections = r.ok ? await r.json() : [];
     if (!Array.isArray(sections)) sections = [];
+    // Guides & Tutorials moved to Learning — drop any leftover card for it in the saved list
+    sections.forEach(sec => { if (sec.type === 'cards') sec.items = (sec.items || []).filter(i => !/(^|\/)tutorials\.html/.test(i.href || '')); });
     // until data/resources.json exists, show the default categories (the first save creates the file)
     if (!sections.some(s => s.type === 'cards' && (s.items || []).length)) {
       sections = [{ id: 'cat', title: 'Categories', type: 'cards', intro: '', items: [
@@ -247,9 +237,6 @@ function esc(s) {
 function render() {
   const body = document.getElementById('resources-body');
   body.innerHTML = sections.map(sec => renderSection(sec)).join('');
-  // the fixed Guides card is only needed while the list itself has no Guides & Tutorials entry
-  const guides = document.getElementById('guides-block');
-  if (guides) guides.hidden = sections.some(sec => (sec.items || []).some(i => /tutorials\.html/.test(i.href || '')));
 }
 
 function renderSection(sec) {

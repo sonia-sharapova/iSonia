@@ -16,13 +16,20 @@
 // Signed in as admin you can edit every layer: categories, the intro, sections, sub-sections and links.
 // Categories can also be added without creating a page: category.html?c=<name> shows any category.
 
+// navigation/learning.html reuses this tree for the Learning section (Guides & Tutorials, which used to be a
+// Resources category): same sections → links layout, but no category column, no hub, and it lives one folder up.
+const LEARNING = /\/learning\.html$/.test(window.location.pathname);
+const ROOT = LEARNING ? '../' : '../../';                 // the site root, relative to this page
+const MD_BASE = LEARNING ? './resources/' : './';          // where markdown/ and seed/ are
 const PARAMS = new URLSearchParams(window.location.search);
-const PAGE = (PARAMS.get('c') || window.location.pathname.split('/').pop().replace('.html', '')).toLowerCase().replace(/[^a-z0-9-]/g, '');
+const PAGE = LEARNING ? 'tutorials' : (PARAMS.get('c') || window.location.pathname.split('/').pop().replace('.html', '')).toLowerCase().replace(/[^a-z0-9-]/g, '');
 // technology.html has always read tech.md, the README says technology.md — accept either
 const MD_NAMES = { technology: ['technology', 'tech'] };
-const HUB_DATA_URL = '../../data/resources.json';
-const HUB_SAVE_URL = '../../admin/save-resources.php';
-const TUTORIALS = { title: 'Guides & Tutorials', desc: "Step-by-step write-ups and how-tos I've put together.", href: 'resources/tutorials.html' };
+const HUB_DATA_URL = ROOT + 'data/resources.json';
+const HUB_SAVE_URL = ROOT + 'admin/save-resources.php';
+const LEARNING_INFO = { title: 'Learning', desc: "Guides, tutorials and step-by-step write-ups I've put together." };
+// Guides & Tutorials used to be a Resources category; it now lives in Learning, so the hub must never list it
+const isTutorialsCard = it => /(^|\/)tutorials\.html/.test(it.href || '');
 
 // used until data/resources.json exists (the first category you add or edit creates it)
 const DEFAULT_HUB = [{
@@ -37,8 +44,7 @@ const DEFAULT_HUB = [{
         ['archives', 'Archives & Collections', "Libraries, museums and the internet's memory."],
         ['culture', 'Internet Culture', 'Forums, nostalgia and the strange.'],
         ['ideas', 'Ideas & People', 'The thinkers, arguments and theories behind it all.'],
-        ['life', 'Learning & Life', 'Everyday guides, free courses and life admin.'],
-        ['tutorials', TUTORIALS.title, TUTORIALS.desc]
+        ['life', 'Learning & Life', 'Everyday guides, free courses and life admin.']
     ].map(([slug, title, desc]) => ({ id: slug, title, href: 'resources/' + slug + '.html', desc }))
 }];
 
@@ -112,7 +118,7 @@ function serializeToMarkdown(folders, info) {
 // ── Save ─────────────────────────────────────────────────────────
 async function saveMd() {
     try {
-        const res = await fetch('../../admin/save-resource-md.php', {
+        const res = await fetch(ROOT + 'admin/save-resource-md.php', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ file: mdFile, content: serializeToMarkdown(foldersData, intro) })
@@ -152,10 +158,11 @@ function pageTitle() {
     return h ? h.textContent.trim() : 'Resources';
 }
 function currentCategory() {
+    if (LEARNING) return { title: LEARNING_INFO.title, desc: LEARNING_INFO.desc, href: location.href };
     return categories.find(isCurrent) || { title: pageTitle(), desc: '', href: location.href };
 }
 
-// ── Categories: the hub's cards, in the hub's order — Guides & Tutorials always last ──
+// ── Categories: the hub's cards, in the hub's order ──
 async function loadHub() {
     let data = [];
     try {
@@ -165,6 +172,7 @@ async function loadHub() {
     if (!Array.isArray(data) || !data.some(s => s.type === 'cards' && (s.items || []).length)) {
         data = JSON.parse(JSON.stringify(DEFAULT_HUB));
     }
+    data.forEach(s => { if (s.type === 'cards') s.items = (s.items || []).filter(it => !isTutorialsCard(it)); });
     data.forEach(s => (s.items || []).forEach(it => { if (!it.id) it.id = uid(); }));
     return data;
 }
@@ -177,20 +185,8 @@ function buildCategories() {
             list.push({ title: it.title, desc: it.desc || '', href: new URL(it.href, new URL('../resources.html', location.href)).href, si, ii });
         });
     });
-    // Guides & Tutorials sits at the bottom of the list; add it if the hub doesn't have it yet
-    const t = list.findIndex(c => catSlug(c.href) === 'tutorials');
-    if (t >= 0) list.push(list.splice(t, 1)[0]);
-    else list.push({ title: TUTORIALS.title, desc: TUTORIALS.desc, href: new URL('tutorials.html', location.href).href, si: -1, ii: -1 });
     if (!list.some(isCurrent)) list.push({ title: pageTitle(), desc: '', href: location.href, si: -1, ii: -1 });
     return list;
-}
-
-// make sure Guides & Tutorials is a real card in hubData before the hub is saved
-function ensureTutorialsCard() {
-    if (hubData.some(s => s.type === 'cards' && (s.items || []).some(it => catSlug(new URL(it.href, new URL('../resources.html', location.href)).href) === 'tutorials'))) return;
-    let sec = hubData.find(s => s.type === 'cards');
-    if (!sec) { sec = { id: uid(), title: 'Categories', type: 'cards', intro: '', items: [] }; hubData.push(sec); }
-    sec.items.push({ id: uid(), title: TUTORIALS.title, href: TUTORIALS.href, desc: TUTORIALS.desc });
 }
 
 // ── Render ───────────────────────────────────────────────────────
@@ -299,7 +295,9 @@ function linksCol() {
 
 function rerender() {
     if (curSection >= foldersData.length) curSection = foldersData.length - 1;
-    document.getElementById('res-tree').innerHTML = categoriesCol() + sectionsCol() + linksCol();
+    const tree = document.getElementById('res-tree');
+    tree.classList.toggle('res-tree-2col', LEARNING);
+    tree.innerHTML = (LEARNING ? '' : categoriesCol()) + sectionsCol() + linksCol();
     // on a phone the two lists are scrolling chip rows — bring the current chip into view
     document.querySelectorAll('.res-list').forEach(list => {
         const a = list.querySelector('.res-link.active');
@@ -358,9 +356,7 @@ function deleteSubfolder(fi, si) {
 async function deleteCategory(i) {
     const c = categories[i];
     if (!confirm(`Remove the category "${c.title}" from the list?\n\nIts page and links stay on the server; only the entry in the category list is removed.`)) return;
-    ensureTutorialsCard();
     if (c.si >= 0) hubData[c.si].items.splice(c.ii, 1);
-    else if (catSlug(c.href) === 'tutorials') hubData.forEach(s => { s.items = (s.items || []).filter(it => catSlug(new URL(it.href, new URL('../resources.html', location.href)).href) !== 'tutorials'); });
     await saveHub();
     if (isCurrent(c)) { location.href = '../resources.html'; return; }
     categories = buildCategories(); rerender();
@@ -443,7 +439,7 @@ async function uploadIntroImage(input) {
     status.textContent = 'Uploading…';
     const fd = new FormData(); fd.append('image', file); fd.append('type', 'resources');
     try {
-        const up = await fetch('../../admin/upload-image.php', { method: 'POST', body: fd }).then(r => r.json());
+        const up = await fetch(ROOT + 'admin/upload-image.php', { method: 'POST', body: fd }).then(r => r.json());
         if (!up.success) { status.textContent = 'Upload failed: ' + (up.error || 'unknown error'); return; }
         document.getElementById('lnk-intro-image').value = up.display || up.path;
         status.textContent = 'Uploaded — press Save.';
@@ -472,7 +468,6 @@ async function saveCategory() {
     const desc = document.getElementById('lnk-cat-desc').value.trim();
     let name = document.getElementById('lnk-cat-slug').value.trim().toLowerCase().replace(/[^a-z0-9-]/g, '');
     if (!title) { alert('Title is required.'); return; }
-    ensureTutorialsCard();
     if (_cat !== null) {
         const c = categories[_cat];
         const hit = hubData.flatMap(s => s.items || []).find(it => catSlug(new URL(it.href, new URL('../resources.html', location.href)).href) === catSlug(c.href));
@@ -596,7 +591,7 @@ async function fetchMarkdown() {
     for (const dir of ['markdown', 'seed']) {
         for (const n of names) {
             try {
-                const r = await fetch(`./${dir}/${n}.md`);
+                const r = await fetch(`${MD_BASE}${dir}/${n}.md`);
                 if (r.ok) {
                     const text = await r.text();
                     if (!/^\s*<(!doctype|html)/i.test(text)) { mdFile = names[0]; if (dir === 'markdown') mdFile = n; return text; }
@@ -613,16 +608,18 @@ async function loadResources() {
     if (markdown !== null) ({ intro, folders: foldersData } = parseMarkdown(markdown));
 
     try {
-        const s = await fetch('../../admin/check-session.php').then(r => r.json());
+        const s = await fetch(ROOT + 'admin/check-session.php').then(r => r.json());
         if (s.admin) { isAdmin = true; document.body.classList.add('admin-mode'); injectAdminUI(); }
     } catch (e) { /* not logged in */ }
 
-    hubData = await loadHub();
-    categories = buildCategories();
+    if (!LEARNING) {
+        hubData = await loadHub();
+        categories = buildCategories();
+    }
 
     // the page title follows the category list, so renaming a category renames its page too
-    const found = categories.find(isCurrent);
-    if (found && found.si !== -1 || (found && catSlug(found.href) === 'tutorials')) {
+    const found = LEARNING ? null : categories.find(isCurrent);
+    if (found && found.si !== -1) {
         const h = document.querySelector('.page-title');
         if (h) h.textContent = found.title;
         document.title = 'Resources - ' + found.title;
