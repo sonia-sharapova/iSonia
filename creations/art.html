@@ -18,21 +18,89 @@
             left: 0;
             z-index: -1;
         }
-        .profile-images {
+
+        /* Matches photos.html's page layout: a fixed-width sidebar (category
+           jump-links here, in place of an album list) beside the main
+           content area, both direct children of the shared .content flex
+           row (styles/stylesheet.css). */
+        .content {
             display: flex;
-            gap: 20px;
-            justify-items: left;
+            gap: 40px;
+        }
+        .art-sidebar {
+            width: 140px;
+            flex-shrink: 0;
+            margin-top: 20px;
+        }
+        .art-main {
+            flex: 1;
+            min-width: 0;
+            margin-top: 20px;
+        }
+        .sidebar-link {
+            display: block;
+            padding: 8px 0 8px 10px;
+            color: #888f8d;
+            text-decoration: none;
+            font-size: 18px;
+            transition: all 0.3s ease;
+            border-left: 2px solid transparent;
+            white-space: nowrap;
+        }
+        .sidebar-link:hover, .sidebar-link.active {
+            color: #45a049;
+            border-left-color: #45a049;
+            padding-left: 13px;
         }
 
-        .profile-img {
-            /*background: #ddd;*/
-            opacity: 0;
-            animation: fadeIn 0.5s forwards;
-            width: 100%;
+        .art-category-title {
+            font-size: 20px;
+            font-weight: 300;
+            color: #666;
+            margin: 0 0 16px;
+            font-family: 'Optima', arial, sans-serif;
+            /* so jumping to #id from the sidebar doesn't hide the heading
+               behind the site's fixed nav bar */
+            scroll-margin-top: 100px;
+        }
+        .art-divider {
+            border: none;
+            border-top: 1px solid #e4e4e4;
+            margin: 30px 0;
         }
 
+        /* Justified gallery: every cell shares a fixed height, width follows
+           the source image's own aspect ratio — no cropping, so pieces keep
+           their original proportions instead of being forced into a square. */
+        .art-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .art-cell {
+            display: block;
+            height: 160px;
+            border: 1px solid #ddd;
+            border-radius: 1px;
+            overflow: hidden;
+            background: #f0f0f0;
+            cursor: pointer;
+        }
+        .art-cell img {
+            height: 100%;
+            width: auto;
+            object-fit: contain;
+            display: block;
+            animation: none;
+            transition: opacity 0.2s;
+        }
+        .art-cell:hover img { opacity: 0.86; }
 
+        @media (max-width: 900px) {
+            .art-sidebar { display: none; }
+        }
     </style>
+    <script src="https://mcp.figma.com/mcp/html-to-design/capture.js" async></script>
 </head>
 <body class="m2 p-art">
 <nav class="navigation">
@@ -57,123 +125,80 @@
   <hr>
 </div>
 <div class="content">
-        <h2>Paper</h2>
-        <div class="profile-images">
-            <div class="profile-img" style="animation-delay: 0.4s">
-                <img src="../images/personal/creative/paper/building.png" alt="Gallery Doll 1" style="width:80%">
-            </div>
-            <div class="profile-img" style="animation-delay: 0.6s">
-                <img src="../images/personal/creative/paper/rm1.jpeg" alt="Gallery Doll 2">
-            </div>
+  <div class="art-sidebar">
+    <a href="#paper" class="sidebar-link active">Paper</a>
+    <a href="#drawing" class="sidebar-link">Drawing</a>
+    <a href="#sewing" class="sidebar-link">Sewing</a>
+    <a href="#crafting" class="sidebar-link">Crafting</a>
+    <a href="#misc" class="sidebar-link">Misc.</a>
+  </div>
 
-            <div class="profile-img" style="animation-delay: 0.5s">
-                <img src="../images/personal/creative/paper/rm3.jpeg" alt="Gallery Doll 3">
-            </div>
-            <div class="profile-img" style="animation-delay: 0.3s">
-                <img src="../images/personal/creative/paper/rm4.jpeg" alt="Gallery Doll 4" >
-            </div>
-            <div class="profile-img" style="animation-delay: 0.3s">
-                <img src="../images/personal/creative/paper/rm5.jpeg" alt="Gallery Doll 5" >
-            </div>
-            <div class="profile-img" style="animation-delay: 0.3s">
-                <img src="../images/personal/creative/paper/rm6.jpeg" alt="Gallery Doll 5" >
-            </div>
-        </div>
-        <hr>
-        <h2>Drawing</h2>
-        <div class="profile-images">
-            <div class="profile-img" style="animation-delay: 0.4s">
-                <img src="../images/personal/creative/art/pc3.png" alt="Gallery item 1" style="width:100%">
-            </div>
-            <div class="profile-img" style="animation-delay: 0.6s">
-                <img src="../images/personal/creative/art/pc4.png" alt="Gallery item 2" style="width:100%">
-            </div>
-            <div class="profile-img" style="animation-delay: 0.7s">
-                <img src="../images/personal/creative/art/pc1.png" alt="Gallery item 3" style="width:100%">
-            </div>
-            <div class="profile-img" style="animation-delay: 0.5s">
-                <img src="../images/personal/creative/art/pc2.png" alt="Gallery item 4" style="width:100%">
-            </div>
-            <div class="profile-img" style="animation-delay: 0.3s">
-                <img src="../images/personal/creative/art/pc5.png" alt="All Together" style="width:100%">
-            </div>
-        </div>
+  <div class="art-main">
+    <section id="paper">
+      <h2 class="art-category-title">Paper</h2>
+      <div class="art-grid">
+        <a class="art-cell"><img src="../images/personal/creative/paper/building.png" alt="Gallery Doll 1"></a>
+        <a class="art-cell"><img src="../images/personal/creative/paper/rm1.jpeg" alt="Gallery Doll 2"></a>
+        <a class="art-cell"><img src="../images/personal/creative/paper/rm3.jpeg" alt="Gallery Doll 3"></a>
+        <a class="art-cell"><img src="../images/personal/creative/paper/rm4.jpeg" alt="Gallery Doll 4"></a>
+        <a class="art-cell"><img src="../images/personal/creative/paper/rm5.jpeg" alt="Gallery Doll 5"></a>
+        <a class="art-cell"><img src="../images/personal/creative/paper/rm6.jpeg" alt="Gallery Doll 5"></a>
+      </div>
+    </section>
+    <hr class="art-divider">
 
-        <hr>
+    <section id="drawing">
+      <h2 class="art-category-title">Drawing</h2>
+      <div class="art-grid">
+        <a class="art-cell"><img src="../images/personal/creative/art/pc3.png" alt="Gallery item 1"></a>
+        <a class="art-cell"><img src="../images/personal/creative/art/pc4.png" alt="Gallery item 2"></a>
+        <a class="art-cell"><img src="../images/personal/creative/art/pc1.png" alt="Gallery item 3"></a>
+        <a class="art-cell"><img src="../images/personal/creative/art/pc2.png" alt="Gallery item 4"></a>
+        <a class="art-cell"><img src="../images/personal/creative/art/pc5.png" alt="All Together"></a>
+      </div>
+    </section>
+    <hr class="art-divider">
 
-        <h2>Sewing</h2>
-        <div class="profile-images">
+    <section id="sewing">
+      <h2 class="art-category-title">Sewing</h2>
+      <div class="art-grid">
+        <a class="art-cell"><img src="../images/personal/creative/sew/doll2.png" alt="Gallery Doll 1"></a>
+        <a class="art-cell"><img src="../images/personal/creative/sew/sew1.png" alt="Gallery Doll 2"></a>
+        <a class="art-cell"><img src="../images/personal/creative/sew/sheeep.png" alt="Gallery Doll 3"></a>
+        <a class="art-cell"><img src="../images/personal/creative/sew/fly.png" alt="Gallery Doll 5"></a>
+        <a class="art-cell"><img src="../images/personal/creative/sew/marta.png" alt="Gallery Doll 4"></a>
+        <a class="art-cell"><img src="../images/personal/creative/sew/kitties.png" alt="Gallery Doll 3"></a>
+        <a class="art-cell"><img src="../images/personal/creative/sew/white_cat.png" alt="Gallery Doll 2"></a>
+        <a class="art-cell"><img src="../images/personal/creative/sew/black_cat.png" alt="Gallery Doll 1"></a>
+        <a class="art-cell"><img src="../images/personal/creative/sew/bear.png" alt="Gallery Doll 5"></a>
+      </div>
+    </section>
+    <hr class="art-divider">
 
-            <div class="profile-img" style="animation-delay: 0.4s">
-                <img src="../images/personal/creative/sew/doll2.png" alt="Gallery Doll 1" >
-            </div>
-            <div class="profile-img" style="animation-delay: 0.6s">
-                <img src="../images/personal/creative/sew/sew1.png" alt="Gallery Doll 2">
-            </div>
+    <section id="crafting">
+      <h2 class="art-category-title">Crafting</h2>
+      <div class="art-grid">
+        <a class="art-cell"><img src="../images/personal/creative/craft/bathroom.png" alt="Gallery item 1"></a>
+        <a class="art-cell"><img src="../images/personal/creative/craft/house-removebg.png" alt="Gallery item 2"></a>
+        <a class="art-cell"><img src="../images/personal/creative/craft/house2-removebg.png" alt="Gallery item 2"></a>
+        <a class="art-cell"><img src="../images/personal/creative/craft/clayman.png" alt="Gallery item 3"></a>
+      </div>
+    </section>
+    <hr class="art-divider">
 
-            <div class="profile-img" style="animation-delay: 0.5s">
-                <img src="../images/personal/creative/sew/sheeep.png" alt="Gallery Doll 3">
-            </div>
-            <div class="profile-img" style="animation-delay: 0.3s">
-                <img src="../images/personal/creative/sew/fly.png" alt="Gallery Doll 5" >
-            </div>
-            <div class="profile-img" style="animation-delay: 0.3s">
-                <img src="../images/personal/creative/sew/marta.png" alt="Gallery Doll 4" >
-            </div>
+    <section id="misc">
+      <h2 class="art-category-title">Misc.</h2>
+      <div class="art-grid">
+        <a class="art-cell"><img src="../images/personal/creative/art/dragon.png" alt="Gallery item 3"></a>
+        <a class="art-cell"><img src="../images/personal/creative/art/landscape.png" alt="Kitty"></a>
+        <a class="art-cell"><img src="../images/personal/creative/art/woods.png" alt="Gallery item 1"></a>
+        <a class="art-cell"><img src="../images/personal/creative/art/tunnel.png" alt="Gallery item 2"></a>
+        <a class="art-cell"><img src="../images/cat.png" alt="Kitty"></a>
+      </div>
+    </section>
+  </div>
 
-        </div>
-        <div class="profile-images">
-            <div class="profile-img" style="animation-delay: 0.5s">
-                <img src="../images/personal/creative/sew/kitties.png" alt="Gallery Doll 3" style="margin-top:20px">
-            </div>
-            <div class="profile-img" style="animation-delay: 0.6s">
-                <img src="../images/personal/creative/sew/white_cat.png" alt="Gallery Doll 2" style="width:90%">
-            </div>
-            <div class="profile-img" style="animation-delay: 0.4s">
-                <img src="../images/personal/creative/sew/black_cat.png" alt="Gallery Doll 1" style="width:70%" >
-            </div>
-            <div class="profile-img" style="animation-delay: 0.3s">
-                <img src="../images/personal/creative/sew/bear.png" alt="Gallery Doll 5" >
-            </div>
-        </div>
-        <hr>
-        <h2>Crafting</h2>
-        <div class="profile-images">
-            <div class="profile-img" style="animation-delay: 0.4s">
-                <img src="../images/personal/creative/craft/bathroom.png" alt="Gallery item 1" style="width:110%">
-            </div>
-            <div class="profile-img" style="animation-delay: 0.6s">
-                <img src="../images/personal/creative/craft/house-removebg.png" alt="Gallery item 2" style="width:100%">
-            </div>
-            <div class="profile-img" style="animation-delay: 0.6s">
-                <img src="../images/personal/creative/craft/house2-removebg.png" alt="Gallery item 2" style="width:100%">
-            </div>
-            <div class="profile-img" style="animation-delay: 0.7s">
-                <img src="../images/personal/creative/craft/clayman.png" alt="Gallery item 3" style="width:60%">
-            </div>
-        </div>
-        <hr>
-        <h2>Misc.</h2>
-        <div class="profile-images">
-            <div class="profile-img" style="animation-delay: 0.7s">
-                <img src="../images/personal/creative/art/dragon.png" alt="Gallery item 3" style="width:85%">
-            </div>
-            <div class="profile-img" style="animation-delay: 0.2s">
-                <img src="../images/personal/creative/art/landscape.png" alt="Kitty" style="width:75%">
-            </div>
-            <div class="profile-img" style="animation-delay: 0.4s">
-                <img src="../images/personal/creative/art/woods.png" alt="Gallery item 1" style="width:100%">
-            </div>
-            <div class="profile-img" style="animation-delay: 0.6s">
-                <img src="../images/personal/creative/art/tunnel.png" alt="Gallery item 2" style="width:100%">
-            </div>
-            <div class="profile-img" style="animation-delay: 0.2s">
-                <img src="../images/cat.png" alt="Kitty" style="width:90%">
-            </div>
-        </div>
-        <hr>
-
-        <div id="admin-link-mobile"></div>
+  <div id="admin-link-mobile"></div>
 </div>
 
 <div class="modal" id="imageModal">
@@ -199,7 +224,36 @@
 </footer>
 
 <script>
-    cycleImages();
+    // Click a piece to enlarge it in the existing #imageModal (previously
+    // unwired — .profile-img never had a click handler attached to it).
+    document.querySelectorAll('.art-cell').forEach(function (cell) {
+        cell.addEventListener('click', function (e) {
+            e.preventDefault();
+            document.getElementById('modalImage').src = cell.querySelector('img').src;
+            document.getElementById('imageModal').classList.add('active');
+        });
+    });
+    document.querySelector('#imageModal .modal-close').addEventListener('click', function () {
+        document.getElementById('imageModal').classList.remove('active');
+    });
+    document.getElementById('imageModal').addEventListener('click', function (e) {
+        if (e.target.id === 'imageModal') this.classList.remove('active');
+    });
+
+    // Sidebar highlights whichever category section is currently in view.
+    const artSidebarLinks = document.querySelectorAll('.art-sidebar .sidebar-link');
+    const artSections = [...document.querySelectorAll('.art-main section')];
+    if ('IntersectionObserver' in window && artSections.length) {
+        const spy = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+                if (!entry.isIntersecting) return;
+                artSidebarLinks.forEach(function (link) {
+                    link.classList.toggle('active', link.getAttribute('href') === '#' + entry.target.id);
+                });
+            });
+        }, { rootMargin: '-40% 0px -50% 0px' });
+        artSections.forEach(function (section) { spy.observe(section); });
+    }
 </script>
 </body>
 </html>
