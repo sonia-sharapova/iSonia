@@ -49,6 +49,7 @@ let foldersData = [];       // [{ name, description, topic, items, subfolders: [
 let hubData = [];           // the hub's raw sections (data/resources.json)
 let categories = [];        // [{ title, desc, href, si, ii }]  — si/ii point back into hubData
 let curSection = -1;        // -1 = nothing selected
+let curSub = -1;            // topic pages: the selected sub-section of curSection, -1 = show them all
 let isAdmin = false;
 
 // ── Parse markdown ───────────────────────────────────────────────
@@ -242,15 +243,24 @@ function categoriesCol() {
       </div>`;
 }
 
-// First column of a topic page: the way back to the hub, then this category's topics
+// First column of a topic page: the way back to the hub, then this category's topics. The open topic lists its
+// sections nested underneath it.
 function topicsCol() {
+    const nested = t => `<div class="res-sublist">` + visibleFolders().map(([f, i]) => `<div class="res-row">
+            <a class="res-link res-sublink${i === curSection ? ' active' : ''}" href="#${slug(t.name)}/${slug(f.name)}" data-i="${i}">${esc(f.name)}</a>
+            ${isAdmin ? `<span class="res-adm">
+              <button class="lnk-adm-btn lnk-edit" onclick="openFolderModal(${i})" title="Rename / describe">✎</button>
+              <button class="lnk-adm-btn lnk-del"  onclick="deleteFolder(${i})" title="Delete section">✕</button>
+            </span>` : ''}
+          </div>`).join('') +
+        (isAdmin ? '<button class="lnk-adm-add-row" onclick="openFolderModal(null)">+ Add section</button>' : '') + `</div>`;
     const rows = topicsData.map((t, i) => `<div class="res-row">
         <a class="res-link${i === curTopic ? ' active' : ''}" href="#${slug(t.name)}" data-t="${i}">${esc(t.name)}</a>
         ${isAdmin ? `<span class="res-adm">
           <button class="lnk-adm-btn lnk-edit" onclick="renameTopic(${i})" title="Rename topic">✎</button>
           <button class="lnk-adm-btn lnk-del"  onclick="deleteTopic(${i})" title="Delete topic and its sections">✕</button>
         </span>` : ''}
-      </div>`).join('');
+      </div>${i === curTopic ? nested(t) : ''}`).join('');
     return `<div class="res-col res-col-cats">
         <div class="sidebar-section">
           <a class="sidebar-link res-back" href="${HUB_PAGE}">&lt; ${HUB_BACK}</a>
@@ -273,10 +283,29 @@ function sectionsCol() {
           <button class="lnk-adm-btn lnk-del"  onclick="deleteFolder(${i})" title="Delete section">✕</button>
         </span>` : ''}
       </div>`).join('');
-    return `<div class="res-col res-col-sections">
+    // on a topic page the sections are nested in the first column; this list is only for phones, where they become chips
+    return `<div class="res-col res-col-sections${useTopics() ? ' res-phone-only' : ''}">
         <div class="res-head"><h2 class="res-title">${esc(topic ? topic.name : cat.title)}</h2>${(topic ? topic.description : cat.desc) ? `<p class="res-sub">${esc(topic ? topic.description : cat.desc)}</p>` : ''}</div>
         <nav class="res-list">${rows}</nav>
         ${isAdmin && (topic || !useTopics()) ? '<button class="lnk-adm-add-row" onclick="openFolderModal(null)">+ Add section</button>' : ''}
+      </div>`;
+}
+
+// Second column of a topic page: the selected section's sub-sections (only there when it has some, or for the admin)
+function subsCol() {
+    const f = foldersData[curSection];
+    if (!useTopics() || !f || !(f.subfolders.length || isAdmin)) return '';
+    const rows = f.subfolders.map((sf, si) => `<div class="res-row">
+        <a class="res-link${si === curSub ? ' active' : ''}" href="#${slug(f.topic)}/${slug(f.name)}/${slug(sf.name)}" data-s="${si}">${esc(sf.name)}</a>
+        ${isAdmin ? `<span class="res-adm">
+          <button class="lnk-adm-btn lnk-edit" onclick="openSubfolderModal(${curSection},${si})" title="Rename / describe">✎</button>
+          <button class="lnk-adm-btn lnk-del"  onclick="deleteSubfolder(${curSection},${si})" title="Delete sub-section">✕</button>
+        </span>` : ''}
+      </div>`).join('');
+    return `<div class="res-col res-col-sections res-col-subs">
+        <div class="res-head"><h2 class="res-title">${esc(f.name)}</h2>${f.description ? `<p class="res-sub">${esc(f.description)}</p>` : ''}</div>
+        <nav class="res-list">${rows}</nav>
+        ${isAdmin ? '<button class="lnk-adm-add-row" onclick="openSubfolderModal(' + curSection + ',null)">+ Add sub-section</button>' : ''}
       </div>`;
 }
 
@@ -308,9 +337,17 @@ function introCol() {
 function linksCol() {
     const f = foldersData[curSection];
     if (!f) return introCol();
+    const sel = useTopics() ? f.subfolders[curSub] : null;
+    if (sel) {          // one sub-section picked in the second column: just its links
+        let h = `<div class="res-head"><h2 class="res-section-title">${esc(sel.name)}</h2>${sel.description ? `<p class="res-sub">${esc(sel.description)}</p>` : ''}</div>`;
+        h += linkList(sel.items, curSection, curSub);
+        if (isAdmin) h += `<button class="lnk-adm-add-row" onclick="openRowModal(${curSection},${curSub},null)">+ Add link</button>`;
+        return `<div class="res-col res-col-links">${h}</div>`;
+    }
     let html = `<div class="res-head"><h2 class="res-section-title">${esc(f.name)}</h2>${f.description ? `<p class="res-sub">${esc(f.description)}</p>` : ''}</div>`;
     html += linkList(f.items, curSection, null);
     if (isAdmin) html += `<button class="lnk-adm-add-row" onclick="openRowModal(${curSection},null,null)">+ Add link</button>`;
+    if (useTopics()) return `<div class="res-col res-col-links">${html}</div>`;     // the sub-sections are listed in the second column
 
     // sub-sections break the links with a header of their own
     f.subfolders.forEach((sf, si) => {
@@ -330,8 +367,11 @@ function linksCol() {
 function rerender() {
     if (curSection >= foldersData.length) curSection = foldersData.length - 1;
     const tree = document.getElementById('res-tree');
+    if (curSub >= (foldersData[curSection] ? foldersData[curSection].subfolders.length : 0)) curSub = -1;
+    const subs = subsCol();
     tree.classList.toggle('res-tree-topics', useTopics());
-    tree.innerHTML = (useTopics() ? topicsCol() : categoriesCol()) + sectionsCol() + linksCol();
+    tree.classList.toggle('res-tree-2col', useTopics() && !subs);       // no sub-sections to list → no second column
+    tree.innerHTML = (useTopics() ? topicsCol() : categoriesCol()) + sectionsCol() + subs + linksCol();
     // on a phone the two lists are scrolling chip rows — bring the current chip into view
     document.querySelectorAll('.res-list').forEach(list => {
         const a = list.querySelector('.res-link.active');
@@ -344,39 +384,57 @@ function rerender() {
 
 function setHash() {
     const t = topicsData[curTopic], f = foldersData[curSection];
-    const h = useTopics() ? (t ? slug(t.name) + (f ? '/' + slug(f.name) : '') : '') : (f ? slug(f.name) : '');
+    const sf = f && f.subfolders[curSub];
+    const h = useTopics() ? (t ? slug(t.name) + (f ? '/' + slug(f.name) + (sf ? '/' + slug(sf.name) : '') : '') : '') : (f ? slug(f.name) : '');
     history.replaceState(null, '', location.pathname + location.search + (h ? '#' + h : ''));
 }
 
 function selectTopic(i) {
     curTopic = i === curTopic ? -1 : i;         // clicking the open topic closes it → back to the intro
-    curSection = -1;
+    curSection = -1; curSub = -1;
     setHash();
     rerender();
 }
 
+// Topic pages show one sub-section's links at a time. Opening a section that has sub-sections picks its first one
+// (unless the section has links of its own, which show until a sub-section is chosen).
+function defaultSub(fi) {
+    const f = foldersData[fi];
+    return f && f.subfolders.length && !f.items.length ? 0 : -1;
+}
+
 function selectSection(i) {
     curSection = i === curSection ? -1 : i;     // clicking the open section closes it → back to the topic
+    curSub = useTopics() ? defaultSub(curSection) : -1;
+    setHash();
+    rerender();
+}
+
+function selectSub(i) {
+    curSub = i === curSub ? defaultSub(curSection) : i;   // clicking the open one goes back to the section's own links
     setHash();
     rerender();
 }
 
 // picking a topic or section is client-side; category links are ordinary page links
 document.addEventListener('click', e => {
-    const a = e.target.closest && e.target.closest('a.res-link[data-i], a.res-link[data-t]');
+    const a = e.target.closest && e.target.closest('a.res-link[data-i], a.res-link[data-t], a.res-link[data-s]');
     if (!a) return;
     e.preventDefault();
     if (a.dataset.t !== undefined) selectTopic(parseInt(a.dataset.t, 10));
+    else if (a.dataset.s !== undefined) selectSub(parseInt(a.dataset.s, 10));
     else selectSection(parseInt(a.dataset.i, 10));
 });
 
-// #topic/section on topic pages, #section elsewhere; no match → nothing selected
+// #topic/section/sub-section on topic pages, #section elsewhere; no match → nothing selected
 function selectionFromHash() {
     const parts = location.hash.slice(1).split('/');
     if (useTopics()) {
         curTopic = topicsData.findIndex(t => slug(t.name) === parts[0]);
         const t = topicsData[curTopic];
         curSection = t && parts[1] ? foldersData.findIndex(f => f.topic === t.name && slug(f.name) === parts[1]) : -1;
+        const f = foldersData[curSection];
+        curSub = f && parts[2] ? f.subfolders.findIndex(sf => slug(sf.name) === parts[2]) : defaultSub(curSection);
     } else {
         curTopic = -1;
         curSection = foldersData.findIndex(f => slug(f.name) === parts[0]);

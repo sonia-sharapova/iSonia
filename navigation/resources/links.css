@@ -1,6 +1,7 @@
-/* Resource category pages — three-column tree:
-   categories → this category's sections → the section's links.
-   The two left columns follow the sidebars on the Photos and Blog pages. */
+/* Resource category pages — a tree:
+   topics (each open topic lists its sections nested under it) → the section's sub-sections → their links.
+   Guides / older pages keep: categories → sections → links.
+   The left columns follow the sidebars on the Photos and Blog pages. */
 
 .content {
     /* width / margin / max-width come from the shared .content (styles/stylesheet.css), so the
@@ -14,6 +15,24 @@
     align-items: start;
     margin-top: 20px;      /* same as .sidebar on the other pages */
 }
+
+/* the tree takes 80% of the content width, like the groups on the Resources page */
+@media (min-width: 769px) {
+    .res-tree-topics { width: 80%; grid-template-columns: 190px 190px minmax(0, 1fr); }
+    .res-tree-topics.res-tree-2col { grid-template-columns: 190px minmax(0, 1fr); }
+    .res-tree-topics .res-col + .res-col { margin-left: 24px; padding-left: 24px; }
+}
+
+/* the sections list is only for phones on a topic page (on desktop it is nested in the first column) */
+.res-phone-only { display: none; }
+
+/* sections nested under the open topic */
+.res-sublist {
+    margin: 2px 0 10px 12px;
+    border-left: 1px solid #e4e4e4;
+}
+.res-sublist .res-link { font-size: 16px; padding-top: 6px; padding-bottom: 6px; }
+.res-sublist .lnk-adm-add-row { margin-left: 10px; }
 
 .res-col { min-width: 0; }
 
