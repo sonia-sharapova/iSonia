@@ -64,6 +64,12 @@ h2 {
     transform: translateY(-3px);
 }
 
+.nav-item[aria-current="page"] {
+    color: #45a049;
+    font-weight: 500;
+    border-bottom: 2px solid #45a049;
+}
+
 .nav-item::after {
     content: '';
     position: absolute;
@@ -564,6 +570,8 @@ footer {
 @media (max-width: 1000px) {
     .sidebar-link,
     .res-link { font-size: 16px; }
+    .sidebar { width: 170px; }
+    .content.has-sidebar { gap: 24px; }
 }
 
 @media (max-width: 768px) {
