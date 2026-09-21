@@ -21,14 +21,6 @@
       .photos-main { margin-top: 10px; }
     }
 
-    #back-btn {
-      position: static !important;
-      width: auto !important; height: auto !important;
-      min-height: unset !important; min-width: unset !important;
-      background: none !important; border-radius: 0 !important;
-      display: inline !important;
-    }
-
     /* ── Admin toolbar ── */
     .admin-toolbar {
       display: none;
@@ -167,12 +159,6 @@
       display: flex; align-items: center; gap: 14px;
       margin-bottom: 22px; flex-wrap: wrap;
     }
-    .back-btn {
-      background: none; border: none; font-size: 12px; color: #999; cursor: pointer;
-      padding: 0; letter-spacing: 0.07em; font-family: 'Optima', arial, sans-serif;
-      min-height: unset !important; min-width: unset !important;
-    }
-    .back-btn:hover { color: #333; }
     .album-view-title { font-size: 21px; font-weight: 200; color: #444; letter-spacing: 0.04em; }
 
     /* ── All-photos filter bar ── */
@@ -190,20 +176,31 @@
     .photo-filter-select:hover { border-color: #bbb; }
 
     /* ── All-photos flat grid ── */
-    /* Index of group covers — original proportions kept, all scaled to the
-       same height (no cropping), like a justified gallery. */
-    .covers-flow { display: flex; flex-wrap: wrap; gap: 10px; align-items: flex-start; }
+    /* Index of group covers — uniform tiles, all the same size, like a
+       contact-sheet / logo grid. */
+    .covers-flow {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 16px;
+    }
     .cover-flow-cell {
-      height: 140px; flex: 0 0 auto;
-      overflow: hidden; background: #f0f0f0; cursor: pointer;
+      aspect-ratio: 4 / 3;
+      overflow: hidden; background: #fff; cursor: pointer;
       border: 1px solid #ddd;
+      border-radius: 4px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.08);
       position: relative;
+      transition: box-shadow 0.15s ease, transform 0.15s ease;
+    }
+    .cover-flow-cell:hover {
+      box-shadow: 0 3px 10px rgba(0,0,0,0.14);
+      transform: translateY(-1px);
     }
     .cover-flow-cell img {
-      height: 100%; width: auto; object-fit: contain; display: block;
+      width: 100%; height: 100%; object-fit: cover; display: block;
       animation: none; transition: opacity 0.2s; min-height: unset !important;
     }
-    .cover-flow-cell:hover img { opacity: 0.86; }
+    .cover-flow-cell:hover img { opacity: 0.9; }
     .cover-flow-label {
       position: absolute; left: 0; right: 0; bottom: 0;
       background: rgba(0,0,0,0.5); color: #fff;
@@ -212,7 +209,9 @@
       opacity: 0; transition: opacity 0.15s ease;
     }
     .cover-flow-cell:hover .cover-flow-label { opacity: 1; }
-    @media (max-width: 640px) { .cover-flow-cell { height: 90px; } }
+    @media (max-width: 640px) {
+      .covers-flow { grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 10px; }
+    }
 
     /* ── Catalog layout (album index) ── */
     .catalog-layout {
@@ -494,15 +493,16 @@
       margin-bottom: 18px; padding-bottom: 12px; border-bottom: 1px solid #eee;
       white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
     }
-    /* Flow layout, like the album-view row and All Photos: fixed height,
-       each tile's width follows its own photo's aspect ratio (as uploaded),
-       nothing cropped. Wraps into new rows once it runs out of width.
+    /* Flow layout, like the album-view row: fixed height, each tile's width
+       follows its own photo's aspect ratio (as uploaded), nothing cropped.
+       Wraps into new rows once it runs out of width.
        No wrapper div around the img — a plain block element with width:auto
        fills its container instead of shrinking to the image's natural size,
        which is what previously made every tile render at a uniform width
-       regardless of the photo's real proportions. flex:0 0 auto (matching
-       .cover-flow-cell, which never had this bug) guarantees the tile only
-       ever sizes to its content. */
+       regardless of the photo's real proportions. flex:0 0 auto guarantees
+       the tile only ever sizes to its content.
+       (Unlike this grid, the All Photos index uses uniform, cropped tiles —
+       see .cover-flow-cell.) */
     .detail-grid { --tile-h: clamp(108px, 9vw, 140px); display: flex; flex-wrap: wrap; gap: 8px; }
     .detail-tile {
       position: relative;
@@ -876,8 +876,6 @@
     <!-- Single album view -->
     <div id="album-view">
       <div class="album-view-header">
-        <button class="back-btn" id="back-btn">← All Photos</button>
-        <span style="color:#ddd;font-size:13px;">|</span>
         <span class="album-view-title" id="album-view-title"></span>
         <button class="sidebar-icon-btn" id="album-view-edit-btn" style="display:none;color:#aaa;font-size:15px;" title="Edit album">✎</button>
       </div>
@@ -1790,7 +1788,6 @@ document.addEventListener('keydown', e => {
 });
 
 // ── Back ──────────────────────────────────────────────────────────
-document.getElementById('back-btn').onclick = renderAlbumList;
 document.getElementById('album-view-edit-btn').onclick = () => openAlbumModal(currentAlbumId);
 
 
