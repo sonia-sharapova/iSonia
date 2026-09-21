@@ -269,20 +269,140 @@
         if (e.target.id === 'imageModal') this.classList.remove('active');
     });
 
-    // Sidebar highlights whichever category section is currently in view.
-    const artSidebarLinks = document.querySelectorAll('.art-sidebar .sidebar-link');
-    const artSections = [...document.querySelectorAll('.art-main section')];
-    if ('IntersectionObserver' in window && artSections.length) {
-        const spy = new IntersectionObserver(function (entries) {
-            entries.forEach(function (entry) {
-                if (!entry.isIntersecting) return;
-                artSidebarLinks.forEach(function (link) {
-                    link.classList.toggle('active', link.getAttribute('href') === '#' + entry.target.id);
-                });
-            });
-        }, { rootMargin: '-40% 0px -50% 0px' });
-        artSections.forEach(function (section) { spy.observe(section); });
+    // ── Section switching — Highlights (a few pieces from every category)
+    // by default; picking a sidebar category shows only that section. ────
+    const artSidebar = document.getElementById('art-sidebar');
+    const artSections = {};
+    document.querySelectorAll('.art-main .art-section').forEach(function (s) { artSections[s.id] = s; });
+
+    function showArtSection(id) {
+        if (!artSections[id]) id = 'highlights';
+        Object.keys(artSections).forEach(function (key) {
+            artSections[key].classList.toggle('active', key === id);
+        });
+        artSidebar.querySelectorAll('.sidebar-link').forEach(function (link) {
+            link.classList.toggle('active', link.dataset.section === id);
+        });
     }
+
+    artSidebar.addEventListener('click', function (e) {
+        const link = e.target.closest('.sidebar-link');
+        if (link) { e.preventDefault(); showArtSection(link.dataset.section); }
+    });
+
+    // ── Admin: add / rename categories ────────────────────────────────
+    // Scope is deliberately light — admin can add a new (empty) category
+    // section or rename an existing one; individual pieces still get added
+    // by hand-editing this file's <section> markup, same as today.
+    const CATEGORIES_URL = '../data/art-categories.json';
+    const SAVE_CATEGORIES_URL = '../admin/save-art-categories.php';
+    let artCategories = []; // [{id, label}] — only entries ever added/renamed via admin
+
+    function slugify(s) {
+        return s.toLowerCase().trim().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || ('cat-' + Date.now());
+    }
+
+    function ensureSectionExists(id, label) {
+        if (document.getElementById(id)) return;
+        const section = document.createElement('section');
+        section.className = 'art-section';
+        section.id = id;
+        const h2 = document.createElement('h2');
+        h2.className = 'art-category-title';
+        h2.textContent = label;
+        const grid = document.createElement('div');
+        grid.className = 'art-grid';
+        section.appendChild(h2);
+        section.appendChild(grid);
+        document.querySelector('.art-main').appendChild(section);
+        artSections[id] = section;
+    }
+
+    function ensureSidebarLinkExists(id, label) {
+        if (artSidebar.querySelector('.sidebar-link[data-section="' + id + '"]')) return;
+        const row = document.createElement('div');
+        row.className = 'sidebar-link-row';
+        row.dataset.categoryRow = id;
+        const renameBtn = document.createElement('button');
+        renameBtn.type = 'button';
+        renameBtn.className = 'art-rename-btn';
+        renameBtn.title = 'Rename';
+        renameBtn.innerHTML = '&#9998;';
+        const a = document.createElement('a');
+        a.href = '#' + id;
+        a.className = 'sidebar-link';
+        a.dataset.section = id;
+        a.textContent = label;
+        row.appendChild(renameBtn);
+        row.appendChild(a);
+        document.getElementById('art-add-category').insertAdjacentElement('beforebegin', row);
+    }
+
+    function applyCategoryLabels() {
+        artCategories.forEach(function (cat) {
+            const link = artSidebar.querySelector('.sidebar-link[data-section="' + cat.id + '"]');
+            if (link) link.textContent = cat.label;
+            const heading = document.querySelector('#' + cat.id + ' .art-category-title');
+            if (heading) heading.textContent = cat.label;
+        });
+    }
+
+    function saveCategories() {
+        fetch(SAVE_CATEGORIES_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(artCategories)
+        }).catch(function () { alert('Could not save — network error.'); });
+    }
+
+    document.getElementById('art-add-category').addEventListener('click', function () {
+        const label = prompt('New category name:');
+        if (!label || !label.trim()) return;
+        const id = slugify(label);
+        if (artSidebar.querySelector('.sidebar-link[data-section="' + id + '"]')) { alert('A category with that name already exists.'); return; }
+        artCategories.push({ id: id, label: label.trim() });
+        ensureSidebarLinkExists(id, label.trim());
+        ensureSectionExists(id, label.trim());
+        saveCategories();
+        showArtSection(id);
+    });
+
+    artSidebar.addEventListener('click', function (e) {
+        const renameBtn = e.target.closest('.art-rename-btn');
+        if (!renameBtn) return;
+        const link = renameBtn.closest('.sidebar-link-row').querySelector('.sidebar-link');
+        const id = link.dataset.section;
+        const current = link.textContent.trim();
+        const label = prompt('Rename category:', current);
+        if (!label || !label.trim() || label.trim() === current) return;
+        link.textContent = label.trim();
+        const heading = document.querySelector('#' + id + ' .art-category-title');
+        if (heading) heading.textContent = label.trim();
+        const existing = artCategories.find(function (c) { return c.id === id; });
+        if (existing) existing.label = label.trim(); else artCategories.push({ id: id, label: label.trim() });
+        saveCategories();
+    });
+
+    // Persisted categories (renames + admin-added ones) — absent/failed
+    // fetch just leaves the hardcoded defaults above untouched.
+    fetch(CATEGORIES_URL)
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .then(function (data) {
+            if (!Array.isArray(data)) return;
+            artCategories = data;
+            data.forEach(function (cat) {
+                ensureSidebarLinkExists(cat.id, cat.label);
+                ensureSectionExists(cat.id, cat.label);
+            });
+            applyCategoryLabels();
+        })
+        .catch(function () {});
+
+    // ── Admin mode (reveals the add/rename controls above) ─────────────
+    fetch('../admin/check-session.php')
+        .then(function (r) { return r.json(); })
+        .then(function (data) { if (data.admin) document.body.classList.add('admin-mode'); })
+        .catch(function () {});
 </script>
 </body>
 </html>

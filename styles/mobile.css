@@ -177,16 +177,6 @@ body.m2 .page-title { text-transform: uppercase; }
 
   body.m2 .tags-group { gap: 14px; }
 
-  /* .archives-nav is a standalone row (sibling of .nav-links, not nested
-     inside it) — order it right after .nav-links instead of drifting
-     between .page-title (order:-1) and .nav-links (order:1) at its
-     default order:0. */
-  body.m2 .archives-nav {
-    order: 2;
-    flex-wrap: wrap;
-    margin: 0 0 16px;
-  }
-
   body.m2 .sub-nav-item {
     min-width: 0 !important;
     min-height: 0 !important;
@@ -1062,8 +1052,34 @@ body.m2 .page-title { text-transform: uppercase; }
     gap: 0 !important;
   }
 
-  /* Sidebar category jump-links are hidden below 900px already (see
-     art.html's own @media rule) — sections just stack in page order. */
+  /* Unlike other .has-sidebar pages, art.html's sidebar is the only way to
+     switch which section is visible (only one .art-section shows at a
+     time) — so, unlike the shared .sidebar{display:none} rule, it has to
+     stay visible here, just reflowed into a horizontal chip row. */
+  body.m2.p-art .sidebar {
+    display: flex !important;
+    flex-wrap: wrap;
+    gap: 8px;
+    width: 100%;
+    margin: 0 0 16px;
+  }
+  body.m2.p-art .sidebar-section,
+  body.m2.p-art .sidebar-link-row {
+    margin-bottom: 0;
+  }
+  body.m2.p-art .sidebar-link {
+    padding: 6px 12px;
+    border: 1px solid #ddd;
+    border-radius: 14px;
+    background: #fff;
+    font-size: 14px;
+  }
+  body.m2.p-art .sidebar-link:hover,
+  body.m2.p-art .sidebar-link.active {
+    padding: 6px 12px;
+    border-color: #45a049;
+  }
+  body.m2.p-art .art-add-category { width: 100%; }
 
   body.m2.p-art .art-category-title {
     margin: 24px 0 12px;
@@ -1340,4 +1356,69 @@ body.m2 .page-title { text-transform: uppercase; }
     width: auto !important;
     padding: 16px 20px 30px !important;
   }
+}
+
+/* Art: the sidebar is the only way to reach a category, so on phones it becomes a
+   row of scrolling chips (the shared rule would otherwise hide it and leave only
+   "Highlights"). Same chip look as the Projects filters. */
+@media (max-width: 768px) {
+  body.m2.p-art .art-sidebar {
+    display: flex !important;
+    gap: 8px;
+    width: auto;
+    margin: 8px 0 20px;
+    padding-bottom: 2px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  body.m2.p-art .art-sidebar::-webkit-scrollbar { display: none; }
+
+  body.m2.p-art .sidebar-link-row { flex: none; }
+
+  body.m2.p-art .art-sidebar .sidebar-link {
+    display: block !important;
+    min-width: 0 !important;
+    min-height: 0 !important;
+    padding: 5px 12px !important;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 2px;
+    font: 400 15px/24px 'Mulish', arial, sans-serif;
+    color: #333;
+    white-space: nowrap;
+  }
+
+  body.m2.p-art .art-sidebar .sidebar-link.active {
+    background: #333;
+    border-color: #333;
+    color: #f5f5f5;
+    font-weight: 400;
+  }
+
+  /* admin-only controls: stylesheet.css forces every <button> to display:flex on phones */
+  body.m2.p-art .art-rename-btn,
+  body.m2.p-art .art-add-category { display: none !important; }
+
+  body.m2.p-art.admin-mode .art-rename-btn {
+    display: flex !important;
+    min-width: 0 !important;
+    min-height: 0 !important;
+    width: 22px;
+    height: 32px;
+    align-items: center;
+    justify-content: center;
+  }
+
+  body.m2.p-art.admin-mode .art-add-category {
+    display: block !important;
+    flex: none;
+    min-width: 0 !important;
+    min-height: 0 !important;
+    margin: 0;
+    padding: 5px 12px;
+  }
+
+  body.m2.p-art .art-sidebar { flex-wrap: nowrap; align-items: center; }
+  body.m2.p-art .sidebar-link-row { align-items: center; }
 }

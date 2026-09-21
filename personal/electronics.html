@@ -9,9 +9,14 @@
     <link rel="stylesheet" href="../styles/mobile.css">
     <script src="../scripts/admin.js" defer></script>
     <style>
+        /* Layout/sidebar is the shared .content.has-sidebar / .sidebar system
+           (styles/stylesheet.css) — same as Photos, Blogs and Art. */
+        .archive-main {
+            flex: 1;
+            min-width: 0;
+            margin-top: 20px;
+        }
         .placeholder-note {
-            width: 80%;
-            margin: 60px auto 100px;
             color: #888f8d;
             font-size: 16px;
             line-height: 1.6;
@@ -37,19 +42,23 @@
         </div>
         <div id="admin-link-area"></div>
     </div>
-    <div class="tags-group archives-nav">
-        <span class="sub-nav-item">ARCHIVES: </span>
-        <a href="movies.html" class="sub-nav-item">movies</a>
-        <a href="music.html" class="sub-nav-item">music</a>
-        <a href="books.html" class="sub-nav-item">books</a>
-        <a href="electronics.html" class="sub-nav-item" aria-current="page">electronics</a>
-        <a href="cards.html" class="sub-nav-item">cards</a>
-    </div>
     <h1 class="page-title">Electronics</h1>
     <hr>
 </div>
 
-<p class="placeholder-note">This collection is still being put together — check back soon.</p>
+<div class="content has-sidebar">
+    <div class="sidebar">
+        <a href="movies.html" class="sidebar-link">Movies</a>
+        <a href="music.html" class="sidebar-link">Music</a>
+        <a href="books.html" class="sidebar-link">Books</a>
+        <a href="electronics.html" class="sidebar-link active">Electronics</a>
+        <a href="cards.html" class="sidebar-link">Pok&eacute;mon Cards</a>
+    </div>
+    <div class="archive-main">
+        <p class="placeholder-note">This collection is still being put together — check back soon.</p>
+    </div>
+    <div id="admin-link-mobile"></div>
+</div>
 
 <footer>
     <div class="socials">

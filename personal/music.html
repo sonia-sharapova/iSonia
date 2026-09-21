@@ -9,13 +9,18 @@
     <link rel="stylesheet" href="../styles/mobile.css">
     <script src="../scripts/admin.js" defer></script>
     <style>
+        /* Layout/sidebar is the shared .content.has-sidebar / .sidebar system
+           (styles/stylesheet.css) — same as Photos, Blogs and Art. */
+        .archive-main {
+            flex: 1;
+            min-width: 0;
+            margin-top: 20px;
+        }
+
         .grid {
             display: grid;
-            grid-template-columns: repeat(8, 1fr);
+            grid-template-columns: repeat(6, 1fr);
             gap: 10px;
-            width: 80%;
-            margin: 0 auto;
-            padding-right: 10px;
         }
 
         .item {
@@ -172,19 +177,23 @@
         </div>
         <div id="admin-link-area"></div>
     </div>
-    <div class="tags-group archives-nav">
-        <span class="sub-nav-item">ARCHIVES: </span>
-        <a href="movies.html" class="sub-nav-item">movies</a>
-        <a href="music.html" class="sub-nav-item" aria-current="page">music</a>
-        <a href="books.html" class="sub-nav-item">books</a>
-        <a href="electronics.html" class="sub-nav-item">electronics</a>
-        <a href="cards.html" class="sub-nav-item">cards</a>
-    </div>
     <h1 class="page-title">Albums</h1>
     <hr>
 </div>
 
-<div class="grid" id="grid"></div>
+<div class="content has-sidebar">
+    <div class="sidebar">
+        <a href="movies.html" class="sidebar-link">Movies</a>
+        <a href="music.html" class="sidebar-link active">Music</a>
+        <a href="books.html" class="sidebar-link">Books</a>
+        <a href="electronics.html" class="sidebar-link">Electronics</a>
+        <a href="cards.html" class="sidebar-link">Pok&eacute;mon Cards</a>
+    </div>
+    <div class="archive-main">
+        <div class="grid" id="grid"></div>
+    </div>
+    <div id="admin-link-mobile"></div>
+</div>
 
 <!-- Popup description -->
 <div class="description" id="popup">

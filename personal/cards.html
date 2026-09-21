@@ -8,12 +8,20 @@
     <link rel="stylesheet" href="../styles/stylesheet.css">
     <link rel="stylesheet" href="../styles/mobile.css">
     <style>
+        /* Layout/sidebar is the shared .content.has-sidebar / .sidebar system
+           (styles/stylesheet.css) — same as Photos, Blogs and Art. */
+        .archive-main {
+            flex: 1;
+            min-width: 0;
+            margin-top: 20px;
+        }
+
         /* ── Internal navigation ── */
         .cards-nav {
             display: flex;
             gap: 0;
-            width: 80%;
-            margin: 18px auto 0;
+            width: 100%;
+            margin-top: 18px;
             border-bottom: 2px solid #ddd;
         }
         .cards-nav button {
@@ -32,7 +40,7 @@
         .cards-nav button.active { color: #333; border-bottom-color: #881010; }
 
         /* ── Sections ── */
-        .cards-section { display: none; width: 80%; margin: 0 auto; padding: 30px 0 50px; }
+        .cards-section { display: none; width: 100%; padding: 30px 0 50px; }
         .cards-section.visible { display: block; }
 
         /* ── About ── */
@@ -293,17 +301,19 @@
         </div>
         <div id="admin-link-area"></div>
     </div>
-    <div class="tags-group archives-nav">
-        <span class="sub-nav-item">ARCHIVES: </span>
-        <a href="movies.html" class="sub-nav-item">movies</a>
-        <a href="music.html" class="sub-nav-item">music</a>
-        <a href="books.html" class="sub-nav-item">books</a>
-        <a href="electronics.html" class="sub-nav-item">electronics</a>
-        <a href="cards.html" class="sub-nav-item" aria-current="page">cards</a>
-    </div>
     <h1 class="page-title">Pokémon Cards</h1>
     <hr>
 </div>
+
+<div class="content has-sidebar">
+    <div class="sidebar">
+        <a href="movies.html" class="sidebar-link">Movies</a>
+        <a href="music.html" class="sidebar-link">Music</a>
+        <a href="books.html" class="sidebar-link">Books</a>
+        <a href="electronics.html" class="sidebar-link">Electronics</a>
+        <a href="cards.html" class="sidebar-link active">Pok&eacute;mon Cards</a>
+    </div>
+    <div class="archive-main">
 
 <!-- Internal navigation -->
 <div class="cards-nav">
@@ -450,6 +460,10 @@
 
     </div>
 </section>
+
+    </div>
+    <div id="admin-link-mobile"></div>
+</div>
 
 <footer>
     <div class="socials">

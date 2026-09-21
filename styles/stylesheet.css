@@ -82,17 +82,6 @@ h2 {
     gap: 20px;
 }
 
-/* Second cross-page nav row (e.g. "ARCHIVES: movies / music / books / ...")
-   sitting below the SEE: row inside .title-container. */
-.archives-nav {
-    margin-top: 8px;
-}
-
-.sub-nav-item[aria-current="page"] {
-    color: #45a049;
-    font-weight: bold;
-}
-
 .sub-navigation {
     display: flex;
     gap: 20px;
