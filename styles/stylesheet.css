@@ -80,6 +80,10 @@ h2 {
     background: #999;
 }
 
+.nav-item[aria-current="page"]::after {
+    display: none;
+}
+
 /* Groups the SEE: label + category links together so the admin link
    can sit on the far right of .nav-links without crowding them. */
 .tags-group {
@@ -126,6 +130,13 @@ a.sub-nav-item:hover {
 .tags-group .sub-nav-item:not(:first-child):hover {
     letter-spacing: 0;
     font-size: 16px;
+}
+
+/* Current SEE: tab (writing / photography / art / archive) */
+a.sub-nav-item[aria-current="page"] {
+    color: #45a049 !important;
+    text-decoration: underline;
+    text-underline-offset: 4px;
 }
 
 .title-container {
@@ -454,16 +465,25 @@ footer {
 }
 
 /* ============================================================
-   Admin login / logout link — shared across every page header.
-   Wide screens:  rendered inline in #admin-link-area,
-                  sitting to the right of the SEE: tags.
-   Narrow (<1000px): #admin-link-area is hidden and
-                  #admin-link-mobile is shown instead, below
-                  the profile section.
+   Admin login / logout link — one placement on every page and width:
+   #admin-link-area, the last item in the header's .nav-links row, pushed to
+   the right edge (drops onto its own right-aligned line when the SEE: links
+   fill the row). #admin-link-mobile is legacy markup some pages still carry;
+   it is never shown.
    ============================================================ */
 
-#admin-link-area a,
-#admin-link-mobile a {
+.nav-links {
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+#admin-link-area {
+    margin-left: auto;
+    margin-top: 0;
+    flex: 0 0 auto;
+}
+
+#admin-link-area a {
     white-space: nowrap;
     display: inline-block;
     font-size: 13px;
@@ -473,38 +493,38 @@ footer {
     font-family: 'Optima', arial, sans-serif;
 }
 
-#admin-link-area a:hover,
-#admin-link-mobile a:hover {
+#admin-link-area a:hover {
     color: #45a049 !important;
     font-style: italic;
 }
 
-/* Wide screens: admin link sits inline next to the SEE: tags */
-#admin-link-area {
-    margin-top: 5px;
-}
-
-/* Narrow screens: swap which one is visible */
 #admin-link-mobile {
-    display: none;
+    display: none !important;
 }
 
 @media only screen and (max-width: 1000px) {
-    #admin-link-area {
-        display: none !important;
-    }
-    #admin-link-mobile {
-        display: block !important;
-        margin-top: 16px;
+    /* the blanket phone rule (a{min-height:44px;display:flex}) would make the
+       link a full-width 44px bar */
+    #admin-link-area a {
+        min-height: 0 !important;
+        min-width: 0 !important;
+        display: inline-block !important;
+        padding: 4px 0;
     }
 }
 
-/* On wide screens, spread the SEE: tags and the admin link apart. */
-@media only screen and (min-width: 1001px) {
-    .nav-links {
-        justify-content: space-between;
-        align-items: center;
-    }
+/* Admin-only controls stay hidden for visitors at every width. The phone rule
+   above (button, a { display: flex !important }) would otherwise un-hide them;
+   this out-specifies it. Admins get them back through body.admin-mode. */
+body:not(.admin-mode) :is(
+    .admin-only, .adm-plus, .adm-btn, .adm-text-del,
+    .art-rename-btn, .art-add-category,
+    .thumb-edit-btn, .item-admin-btns, .photo-admin-btns, .album-admin-btns,
+    .sidebar-icon-btn, .sidebar-new-album, .select-check, .row-edit-icon,
+    .row-color-input, .detail-tile-del, .catalog-new-row, .add-section-row,
+    .admin-toolbar
+) {
+    display: none !important;
 }
 
 /* ==========================================================================
@@ -569,7 +589,13 @@ footer {
 
 @media (max-width: 1000px) {
     .sidebar-link,
-    .res-link { font-size: 16px; }
+    .res-link {
+        font-size: 16px;
+        /* the blanket phone rule (a { display:flex; justify-content:center })
+           would otherwise centre the label inside the link */
+        justify-content: flex-start !important;
+        text-align: left;
+    }
     .sidebar { width: 170px; }
     .content.has-sidebar { gap: 24px; }
 }

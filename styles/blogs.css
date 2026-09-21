@@ -73,10 +73,6 @@
 
 @media (max-width: 1000px) {
 
-    .content {
-        width: 90%;
-        margin-left: 60px;
-    }
     .blog-list {
         margin-top: 10px;
     }
@@ -106,12 +102,6 @@
 }
 /* Mobile adjustments */
 @media (max-width: 768px) {
-    .content {
-        flex-direction: column;
-        width: 100%;
-        margin-left: unset;
-
-    }
     .blog-entry {
         padding: 20px;
     }

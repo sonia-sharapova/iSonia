@@ -95,9 +95,15 @@
             background: #d9e5ff;
         }
 
-        .content {
+        /* The panel's right-hand column. It is a .content, but not the page's
+           main column, so undo the shared 80%-wide / centred box: as a block
+           formatting context it then simply fills the space beside the
+           floated topics list. */
+        .container_inner .content {
             display: flex;
-            margin-left: 50px;
+            width: auto;
+            max-width: none;
+            margin: 0;
             padding: 10px;
             border-left: 1px solid #3b5998;
         }
@@ -144,19 +150,19 @@
                 width: 100%;
             }
             .section-header h1 {
-                font-size: 15px;
+                font-size: 18px;
             }
             .section-content p {
-                font-size: 12px;
+                font-size: 14px;
             }
             .topics-box {
-                width: 100px;
+                width: 130px;
             }
             .topics-list {
                 grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
             }
             .topics-list li {
-                font-size: 12px;
+                font-size: 13px;
                 padding: 10px;
             }
 

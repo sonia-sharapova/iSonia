@@ -137,6 +137,20 @@ body.m2 .page-title { text-transform: uppercase; }
 
   body.m2 .title-container > hr { display: none; }
 
+  /* Every page's main column gets the same 20px gutter as the title above it,
+     whatever width/margin/max-width the page's own stylesheet gives .content
+     (blogs.css, display.css…). Kept low-specificity so the
+     per-page blocks below can still refine it. */
+  body.m2 .content {
+    width: auto;
+    max-width: none;
+    margin-left: 0;
+    margin-right: 0;
+    padding-left: 20px;
+    padding-right: 20px;
+    box-sizing: border-box;
+  }
+
   /* "INTERACTIVE PROJECTS" reads just "Projects" on mobile */
   body.m2 .pt-long { display: none; }
 
@@ -188,6 +202,11 @@ body.m2 .page-title { text-transform: uppercase; }
 
   body.m2 .nav-links .sub-nav-item:first-child,
   body.m2 .tags-group .sub-nav-item:first-child { color: #888f8d !important; }
+  body.m2 a.sub-nav-item[aria-current="page"] {
+    color: #45a049 !important;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
 
   /* ---------- Footer ---------- */
 
@@ -1365,7 +1384,12 @@ body.m2 .page-title { text-transform: uppercase; }
   body.m2.p-art .art-sidebar {
     display: flex !important;
     gap: 8px;
+    /* align-self: the shared .sidebar is flex-start, which would let the chip
+       row grow to its content width and push the page sideways */
+    align-self: stretch;
     width: auto;
+    max-width: 100%;
+    min-width: 0;
     margin: 8px 0 20px;
     padding-bottom: 2px;
     overflow-x: auto;
@@ -1373,6 +1397,10 @@ body.m2 .page-title { text-transform: uppercase; }
   }
 
   body.m2.p-art .art-sidebar::-webkit-scrollbar { display: none; }
+
+  /* the sidebar's "Categories" heading/rule has no place in the chip row */
+  body.m2.p-art .art-sidebar .sidebar-section { display: contents; }
+  body.m2.p-art .art-sidebar .sidebar-title { display: none; }
 
   body.m2.p-art .sidebar-link-row { flex: none; }
 

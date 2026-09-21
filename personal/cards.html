@@ -175,8 +175,8 @@
             border-radius: 5px;
         }
 
-        /* ── Sidebar ── */
-        .sidebar {
+        /* ── Viewer info panel (not the page nav — that is the shared .sidebar) ── */
+        .viewer-side {
             width: 220px;
             flex-shrink: 0;
             background: #f9f9f9;
@@ -184,7 +184,7 @@
             border-radius: 5px;
             padding: 16px;
         }
-        .sidebar h3 {
+        .viewer-side h3 {
             font-size: 14px;
             font-weight: normal;
             color: #881010;
@@ -255,7 +255,7 @@
         @media (max-width: 1000px) {
             .viewer-layout { flex-direction: column; }
             .viewer-content { order: 1; }
-            .sidebar { order: 2; width: 100%; box-sizing: border-box; }
+            .viewer-side { order: 2; width: 100%; box-sizing: border-box; }
 
             /* Flipbook: center spread */
             .flipbook { gap: 2px; justify-content: center; }
@@ -285,7 +285,7 @@
 <body class="m2 p-cards">
 <nav class="navigation">
   <a href="../index.html" class="nav-item">HOME</a>
-  <a href="../creations/projects.html" class="nav-item" aria-current="page">PROJECTS</a>
+  <a href="../creations/projects.html" class="nav-item">PROJECTS</a>
   <a href="../navigation/portfolio.html" class="nav-item">PORTFOLIO</a>
   <a href="../navigation/resources.html" class="nav-item">RESOURCES</a>
   <a href="../navigation/about.html" class="nav-item">ABOUT</a>
@@ -298,7 +298,7 @@
             <a href="../creations/blogs.html" class="sub-nav-item">writing</a>
             <a href="../photos.html" class="sub-nav-item">photography</a>
             <a href="../creations/art.html" class="sub-nav-item">art</a>
-            <a href="archives.html" class="sub-nav-item">archive</a>
+            <a href="archives.html" class="sub-nav-item" aria-current="page">archive</a>
         </div>
         <div id="admin-link-area"></div>
     </div>
@@ -308,12 +308,17 @@
 
 <div class="content has-sidebar">
     <div class="sidebar">
-        <a href="archives.html" class="sidebar-link">See All</a>
-        <a href="movies.html" class="sidebar-link">Movies</a>
-        <a href="music.html" class="sidebar-link">Music</a>
-        <a href="books.html" class="sidebar-link">Books</a>
-        <a href="electronics.html" class="sidebar-link">Electronics</a>
-        <a href="cards.html" class="sidebar-link active">Pok&eacute;mon Cards</a>
+        <div class="sidebar-section">
+            <a href="archives.html" class="sidebar-link">See All</a>
+        </div>
+        <div class="sidebar-section">
+            <h3 class="sidebar-title">Archives</h3>
+            <a href="movies.html" class="sidebar-link">Movies</a>
+            <a href="music.html" class="sidebar-link">Music</a>
+            <a href="books.html" class="sidebar-link">Books</a>
+            <a href="electronics.html" class="sidebar-link">Electronics</a>
+            <a href="cards.html" class="sidebar-link active">Pok&eacute;mon Cards</a>
+        </div>
     </div>
     <div class="archive-main">
 
@@ -392,7 +397,7 @@
             <div class="spread-counter" id="col-counter"></div>
         </div>
         <!-- Hidden for now (right sidebar) -->
-        <div class="sidebar" id="col-sidebar" style="display:none">
+        <div class="viewer-side" id="col-sidebar" style="display:none">
             <h3>Who do we have here?</h3>
             <div class="sidebar-pokemon" id="sidebar-content">
                 <span class="sidebar-empty">Select a spread to see Pokémon info</span>
@@ -417,7 +422,7 @@
             <div class="spread-counter" id="rare-counter"></div>
         </div>
         <!-- Hidden for now (right sidebar) -->
-        <div class="sidebar" style="display:none">
+        <div class="viewer-side" style="display:none">
             <h3>Card info</h3>
             <div id="rare-sidebar-content">
                 <ul style="padding-left:16px; font-size:13px; color:#555; line-height:1.8;">
