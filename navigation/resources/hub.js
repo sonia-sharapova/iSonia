@@ -70,8 +70,10 @@ function esc(s) {
 function render() {
   const body = document.getElementById('resources-body');
   // resources.html shows the Saved Links (the Guides live on learning.html, which it links to), minus the
-  // By Function tags (Create/Consume/Explore/Learn — no longer shown on the hub); learning.html shows only the Guides
-  const shown = HUB_ONLY === 'guides' ? sections.filter(HubData.isGuides) : sections.filter(s => !HubData.isGuides(s) && s.id !== 'cat');
+  // By Function tags (Create/Consume/Explore/Learn — no longer shown on the hub); learning.html shows only the
+  // Guides. My Favourites isn't rendered as its own top-level block here any more — it's nested inside the tree's
+  // description column instead (treeHubIntroCol), under the hub's intro text.
+  const shown = HUB_ONLY === 'guides' ? sections.filter(HubData.isGuides) : sections.filter(s => !HubData.isGuides(s) && s.id !== 'cat' && s.id !== 'favourites');
   body.innerHTML = shown.map(sec => renderSection(sec)).join('');
   fitReducedColumns();
   // every column narrows once it's no longer the one you're actively choosing from (hub.css/fitReducedColumns) —
@@ -282,10 +284,14 @@ function treeOpenLink(href, label) {
 }
 
 // The hub's own intro blurb (the two lines above "My Links" — moved into #hub-intro, hidden, in resources.html)
-// fills this same right-hand position before any page is picked, instead of leaving it empty.
+// fills this same right-hand position before any page is picked, instead of leaving it empty. My Favourites (the
+// hub's hand-picked shortcuts) sits right under it, in the same column — reusing renderSection so it keeps its
+// header, admin +/delete controls and .fav-list markup exactly as it had them as a standalone section, just
+// relocated to the right of the page picker instead of below the whole tree.
 function treeHubIntroCol() {
   const src = document.getElementById('hub-intro');
-  return `<div class="res-col res-col-links res-intro">${src ? src.innerHTML : ''}</div>`;
+  const favSec = sections.find(s => s.id === 'favourites');
+  return `<div class="res-col res-col-links res-intro">${src ? src.innerHTML : ''}${favSec ? renderSection(favSec) : ''}</div>`;
 }
 
 // The rightmost column while nothing with actual links is picked yet: the page's own picture (pages are the only

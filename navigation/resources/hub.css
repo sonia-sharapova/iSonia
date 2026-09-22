@@ -364,6 +364,12 @@ body.admin-mode .add-section-row { display: flex; gap: 10px; align-items: center
 .res-tree-hub .res-intro-placeholder svg { width: 90px; height: 60px; }
 .res-tree-hub .res-intro-text { margin: 10px 0 0; font-size: 17px; line-height: 1.6; color: #666666; }
 
+/* My Favourites, nested under the intro text in this same column (treeHubIntroCol) — its .section-block still
+   gets the standard 36px top margin (separating it from the description above), but .fav-list's own left/right
+   padding (tuned for when it was a full-width standalone section) is dropped in favour of the column's own
+   padding, and it's held to a readable measure instead of stretching the full remaining width. */
+.res-tree-hub .res-intro .fav-list { max-width: 420px; padding: 0; }
+
 /* the final column: the selected section's (or sub-section's) own links. The header is a flex row so the title
    and the "open page" link sit inline (side by side) instead of the link falling to its own line under the
    title — flex lays out h2.res-section-title + .res-open horizontally regardless of the h2's own block display.
