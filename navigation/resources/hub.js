@@ -9,7 +9,7 @@ const HUB_ONLY = document.body.dataset.hub || '';
 
 let sections = [];
 let isAdmin = false;
-let treeData = {};   // page slug -> { intro, folders, topics } for the inline folder tree (Quick Links pages)
+let treeData = {};   // page slug -> { intro, folders, topics } for the inline folder tree (the My Links category pages)
 
 // current modal state
 let modalSectionId = null;
@@ -33,7 +33,7 @@ async function init() {
   render();
 }
 
-// ── Inline folder tree (the Quick Links pages' real content, browsable without leaving the hub) ──
+// ── Inline folder tree (the My Links pages' real content, browsable without leaving the hub) ──
 async function fetchCategoryMarkdown(name) {
   for (const dir of ['markdown', 'seed']) {
     try {
@@ -76,7 +76,7 @@ function render() {
 }
 
 function renderSection(sec) {
-  // "topics" (Quick Links) is shown as the inline folder tree of its pages' real content
+  // "topics" (My Links) is shown as the inline folder tree of its pages' real content
   const items = sec.id === 'topics' ? renderTree()
     : sec.type === 'cards' ? renderMenu(sec) : renderLinks(sec);
   return `
@@ -92,7 +92,7 @@ function renderSection(sec) {
     </div>`;
 }
 
-// The Quick Links pages' full contents, as one expandable folder tree: Group > Page > Topic > Section > Sub-section > links.
+// The My Links pages' full contents, as one expandable folder tree: Group > Page > Topic > Section > Sub-section > links.
 const GROUPS = [['professional', 'Professional'], ['misc', 'Misc.']];
 
 function renderTree() {
@@ -153,7 +153,7 @@ function slugify(s) {
   return String(s || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
 }
 
-// A standard menu list: title only, no description — Quick Links and any other card group besides Guides/By Function.
+// A standard menu list: title only, no description — Guides (and any other card group besides By Function).
 function renderMenu(sec) {
   return `<ul class="menu-list">` +
     (sec.items||[]).map(item => `
@@ -167,7 +167,7 @@ function renderMenu(sec) {
     `</ul>`;
 }
 
-// My Favourites (a hand-picked links list): title only, no description.
+// Quick Links (the hub's hand-picked shortcuts): title only, no description.
 function renderLinks(sec) {
   return `<ul class="menu-list">` +
     (sec.items||[]).map(item => `

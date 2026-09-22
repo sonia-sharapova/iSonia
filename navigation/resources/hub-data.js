@@ -1,21 +1,20 @@
 // The hub list behind navigation/resources.html, navigation/learning.html and every category page.
-// It lives in data/resources.json as sections of "cards", and has three groups:
+// It lives in data/resources.json as sections of "cards"/"links", and has four groups:
 //
-//   By Function (id "cat")    → Create, Consume, Explore, Learn                    (navigation/resources/*.html;
-//                                kept in the saved data for hasNewTree()'s detection, but no longer shown on the
-//                                hub — hub.js filters this section out of render())
-//   Quick Links (id "topics") → the 11 category pages: Technology, Web, Design, Careers & Opportunities,
-//                                Software & Tools, Media, Music & Audio, Archives & Collections, Internet Culture,
-//                                Ideas & People, Learning & Life  (navigation/resources/*.html)
-//   Guides      (id "guides") → the tutorial categories in navigation/learning/*.html
-//
-// The hub's own hand-picked shortcuts (Wayback Machine, Lainchan, …) are a separate "My Favourites" links section,
-// kept as-is in data/resources.json.
+//   By Function (id "cat")       → Create, Consume, Explore, Learn                 (navigation/resources/*.html;
+//                                   kept in the saved data for hasNewTree()'s detection, but no longer shown on the
+//                                   hub — hub.js filters this section out of render())
+//   My Links    (id "topics")    → the 11 category pages: Technology, Web, Design, Careers & Opportunities,
+//                                   Software & Tools, Media, Music & Audio, Archives & Collections, Internet Culture,
+//                                   Ideas & People, Learning & Life  (navigation/resources/*.html)
+//   Quick Links (id "favourites")→ Wayback Machine, Lainchan, LookMovie, Land Chad, Human Clock — a plain links
+//                                   list, always reset to this exact set by normalize() (see favouritesSection())
+//   Guides      (id "guides")    → the tutorial categories in navigation/learning/*.html
 //
 // Each Resources page is a topic tree (title → topics → sections → links), see links.js.
 //
 // normalize() is what every page runs the saved list through, so older saved copies still work: a list from
-// before the current topic trees (no "Create" + "Career Resources" cards) gets the new Categories + Quick Links groups, and the Guides group
+// before the current topic trees (no "Create" + "Career Resources" cards) gets the new Categories + My Links groups, and the Guides group
 // is added if the saved list doesn't have one yet (the next admin save writes it out).
 
 const HubData = (() => {

@@ -775,7 +775,7 @@ body.m2 .page-title { text-transform: uppercase; }
     border-radius: 0 0 2px 2px;
   }
 
-  body.m2 .section-header { display: none; }
+  body.m2:not(.p-resources) .section-header { display: none; }
 
   body.m2 .section-content {
     min-height: 0;
