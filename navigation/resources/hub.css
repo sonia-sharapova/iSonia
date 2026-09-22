@@ -141,88 +141,150 @@ body.admin-mode .add-section-row { display: flex; gap: 10px; align-items: center
 .menu-link:hover,
 .menu-link:focus-visible { color: #45a049; padding-left: 12px; }
 
-/* ── Inline folder tree: the Quick Links pages' real content, expandable without leaving the hub. ── */
-.res-tree-wrap { font-family: 'Optima', arial, sans-serif; }
-
-.res-tree-node { margin: 0; }
-.res-tree-node > summary {
+/* ── Inline column tree: the My Links pages' real content, browsable without leaving the hub — the same shape and
+   look as a category page's own tree (navigation/resources/links.js + links.css's .res-tree/.res-col), just with
+   an extra first column for picking a page (grouped Professional / Misc.). Re-declared here rather than pulled in
+   from links.css so this page isn't also carrying that file's category-page-only rules (the fixed 3-column grid,
+   the picture-and-description intro, admin row buttons, …).
+   Column count varies (3 to 5 — Page → Topic? → Section → Sub-section? → Links), so this uses flex instead of the
+   category pages' fixed grid, with the last (links) column taking whatever space is left. */
+.res-tree-hub {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 10px;
-    list-style: none;
-    cursor: pointer;
-    padding: 7px 6px;
-    border-radius: 2px;
+    align-items: flex-start;
+    margin-top: 4px;
+    overflow-x: auto;
+    scroll-behavior: smooth;
 }
-.res-tree-node > summary::-webkit-details-marker { display: none; }
-.res-tree-node > summary .res-tree-name::before {
-    content: '▸';
-    display: inline-block;
-    width: 14px;
-    margin-right: 6px;
-    font-size: 12px;
-    color: #999;
-    transition: transform 0.15s ease;
+.res-tree-hub > .res-col { flex: 0 0 190px; min-width: 0; }
+.res-tree-hub > .res-col-links { flex: 1 1 300px; }
+.res-tree-hub .res-col + .res-col {
+    margin-left: 28px;
+    padding-left: 28px;
+    border-left: 1px solid #ececec;
 }
-.res-tree-node[open] > summary .res-tree-name::before { transform: rotate(90deg); }
-.res-tree-node > summary:hover { background: rgba(69,160,73,0.06); }
+.res-tree-hub .res-list { display: flex; flex-direction: column; }
+.res-tree-hub .res-row { position: relative; }
+.res-tree-hub .sidebar-section { margin-bottom: 22px; }
+.res-tree-hub .sidebar-section:last-child { margin-bottom: 0; }
 
-.res-tree-children { margin-left: 20px; padding-left: 12px; border-left: 1px solid #e2e2e2; }
-
-/* Professional / Misc. — the tree's top level */
-.res-tree-group { margin-bottom: 18px; }
-.res-tree-group:last-child { margin-bottom: 0; }
-.res-tree-group > summary {
-    padding: 8px 6px;
-    border-bottom: 1px solid #ccc;
-}
-.res-tree-group > summary .res-tree-name {
+/* Once something's picked in a list, its other options shrink so the pick reads as the focus. */
+.res-tree-hub .res-list:has(.res-link.active) .res-link {
     font-size: 15px;
+    transition: font-size 0.2s ease, color 0.2s ease;
+}
+.res-tree-hub .res-list:has(.res-link.active) .res-link.active {
+    font-size: 19px;
+    font-weight: 500;
+}
+
+/* Column 1's group headers ("Professional" / "Misc.") — a small-caps label, distinct from every other column's
+   (bigger, title-case) header, so they read as a light grouping rather than a page/section title. */
+.res-tree-hub .res-col-cats .res-head {
+    font-size: 12px;
     font-weight: 400;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: #888f8d;
+    color: #999999;
+    border-bottom: 1px solid #e4e4e4;
+    padding-bottom: 8px;
+    margin-bottom: 12px;
 }
-.res-tree-group > .res-tree-children { margin-left: 0; padding-left: 0; border-left: none; margin-top: 4px; }
 
-.res-tree-page > summary .res-tree-name { font-size: 19px; font-weight: 400; color: #333; }
-.res-tree-topic > summary .res-tree-name { font-size: 17px; font-weight: 300; color: #444; }
-.res-tree-folder > summary .res-tree-name,
-.res-tree-sub > summary .res-tree-name { font-size: 16px; font-weight: 300; color: #555; }
-
-.res-tree-leaf {
-    display: flex; align-items: center;
-    padding: 7px 6px 7px 6px;
-}
-.res-tree-leaf .res-tree-name { font-size: 16px; font-weight: 300; color: #555; padding-left: 20px; }
-
-.res-tree-open {
-    flex: none;
+/* column 2/3 headers (a page's or topic's name) — .res-head/.res-title's own size+weight are inherited from the
+   shared .res-head rule in stylesheet.css, same as a category page's sectionsCol/subsCol */
+.res-tree-hub .res-title { margin: 0; font-size: inherit; font-weight: inherit; color: inherit; }
+.res-tree-hub .res-open {
+    display: inline-block;
+    margin-left: 8px;
+    font-size: 12px;
     color: #aaa;
     text-decoration: none;
-    font-size: 14px;
-    padding: 2px 4px;
+}
+.res-tree-hub .res-open:hover, .res-tree-hub .res-open:focus-visible { color: #45a049; }
+
+/* Nothing with real links picked yet: the page's (or, once picked, its topic's) picture and description — same
+   look as a category page's own introCol (links.css), reproduced here for the same reason as the rest of this
+   block (see the top-of-section note). */
+.res-tree-hub .res-intro-image {
+    width: 100%;
+    max-width: 420px;
+    aspect-ratio: 16 / 9;
+    margin-bottom: 18px;
+    overflow: hidden;
     border-radius: 2px;
-    opacity: 0;
-    transition: opacity 0.15s ease, color 0.15s ease;
+    background: #e6e6e6;
 }
-.res-tree-node > summary:hover .res-tree-open { opacity: 1; }
-.res-tree-open:hover, .res-tree-open:focus-visible { color: #45a049; opacity: 1; }
-
-a.res-tree-link { color: inherit; text-decoration: none; }
-a.res-tree-link:hover, a.res-tree-link:focus-visible { color: #45a049; }
-
-.res-tree-links {
-    list-style: none;
-    margin: 2px 0 6px;
-    padding: 0;
+.res-tree-hub .res-intro-image img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.res-tree-hub .res-intro-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    color: #bdbdbd;
 }
-.res-tree-links li { padding: 4px 6px; font-size: 15px; }
-.res-tree-links a.res-tree-link { color: #666; }
-.res-tree-links a.res-tree-link:hover { color: #45a049; }
+.res-tree-hub .res-intro-placeholder svg { width: 90px; height: 60px; }
+.res-tree-hub .res-intro-text { max-width: 420px; margin: 10px 0 0; font-size: 15px; line-height: 1.6; color: #666666; }
 
-.res-tree-wrap > .res-tree-page + .res-tree-page { margin-top: 6px; border-top: 1px solid #e2e2e2; padding-top: 6px; }
+/* the final column: the selected section's (or sub-section's) own links. The header is a flex row so the title
+   and the "open page" link sit inline (side by side) instead of the link falling to its own line under the
+   title — flex lays out h2.res-section-title + .res-open horizontally regardless of the h2's own block display.
+   The description (when there is one) still gets its own full-width line underneath. */
+.res-tree-hub .res-col-links .res-head {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    column-gap: 10px;
+    padding-bottom: 0;
+    margin-bottom: 16px;
+    border-bottom: none;
+}
+.res-tree-hub .res-col-links .res-head .res-sub { flex-basis: 100%; }
+.res-tree-hub .res-section-title { margin: 0; font-size: 26px; font-weight: 300; color: #444444; }
+.res-tree-hub .res-sub { margin: 6px 0 0; font-size: 13px; font-style: italic; color: #888f8d; }
+.res-tree-hub .res-links { list-style: none; margin: 0; padding: 0; }
+.res-tree-hub .res-links li { padding: 6px 0; font-size: 16px; color: #666666; }
+.res-tree-hub .res-links a {
+    color: #47649a;
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: color 0.2s ease, border-color 0.2s ease;
+}
+.res-tree-hub .res-links a:hover { color: #45a049; border-bottom-color: currentColor; }
+
+.res-tree-hub .res-subgroup { margin-top: 22px; }
+.res-tree-hub .res-subhead {
+    margin: 0 0 8px;
+    padding-bottom: 6px;
+    font-size: 12px;
+    font-weight: normal;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #666666;
+    border-bottom: 1px solid #e4e4e4;
+}
+
+.res-tree-hub .res-hint,
+.res-tree-hub .res-empty { margin: 4px 0; font-size: 13px; color: #aaa; }
+
+@media (max-width: 1000px) {
+    .res-tree-hub > .res-col { flex-basis: 160px; }
+    .res-tree-hub .res-col + .res-col { margin-left: 20px; padding-left: 20px; }
+}
+
+/* Phones: mobile.css's shared .res-tree rules (stacking, chip rows, active-state theming) already cover this
+   tree too, since it reuses the same class names — except two rules assume a category page's own title already
+   names the current page/section, which isn't true here (the hub's title never changes), so both need to stay
+   visible instead of collapsing away. */
+@media (max-width: 768px) {
+    body.m2 .res-tree-hub .res-col-cats .res-head,
+    body.m2 .res-tree-hub .res-col-sections .res-head {
+        display: block !important;
+    }
+    body.m2 .res-tree-hub .res-col-cats .sidebar-section + .sidebar-section {
+        display: block !important;
+    }
+}
 
 /* "More" → the Learning page. Padded 20px like the tiles above, so its text lines up with theirs. */
 .learning-note {

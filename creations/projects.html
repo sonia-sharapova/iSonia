@@ -11,12 +11,12 @@
   <script src="../scripts/admin.js" defer></script>
 
   <style>
-    /* Two sections side by side: what I've built for fun, and my portfolio. Each is a
-       header, a "See all" link straight under it, then the projects as a plain link list. */
+    /* The two groups (Interactive Projects, Portfolio) follow one another down the page,
+       rather than sitting side by side — each is full width. */
     .proj-hub {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 44px;
       margin-top: 30px;
       margin-bottom: 5%;
     }
@@ -30,9 +30,14 @@
       border-bottom: 1px solid #bcbcbc;
     }
 
+    /* "See all" sits under the row of highlights, flush right */
     .proj-see-all {
-      display: inline-block;
-      margin: 12px 0 8px;
+      display: block !important;
+      min-height: 0 !important;
+      min-width: 0 !important;
+      justify-content: flex-end !important;
+      margin: 16px 0 0;
+      text-align: right;
       font-size: 13px;
       letter-spacing: 0.08em;
       text-transform: uppercase;
@@ -42,53 +47,96 @@
 
     .proj-see-all:hover { text-decoration: underline; }
 
-    .proj-list {
-      list-style: none;
-      margin: 0;
-      padding: 0;
+    /* ── Highlight cards: a thumbnail (the site's usual bordered .proj-thumb look), a title,
+       then a short description — four to a row, divided by a hairline between each, the same
+       divider treatment as the Resources tree's columns. ── */
+    .proj-preview-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 0;
+      margin-top: 14px;
     }
 
-    .proj-list li {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      padding: 10px 0;
-      border-bottom: 1px solid #e4e4e4;
-    }
-
-    .proj-list a {
-      font-size: 19px;
-      color: #666666;
+    .proj-preview {
+      display: block !important;
+      min-height: 0 !important;
+      min-width: 0 !important;
+      align-items: normal !important;
+      justify-content: normal !important;
+      box-sizing: border-box;
+      padding: 0 22px;
+      color: inherit;
       text-decoration: none;
+    }
+
+    .proj-preview:first-child { padding-left: 0; }
+    .proj-preview:last-child { padding-right: 0; }
+    .proj-preview + .proj-preview { border-left: 1px solid #e4e4e4; }
+
+    .proj-preview-thumb {
+      height: 140px;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      border: 1px solid #ddd;
+      border-radius: 2px;
+      background: #eee;
+      transition: border-color 0.2s ease;
+    }
+
+    .proj-preview-thumb img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+
+    .proj-preview:hover .proj-preview-thumb { border-color: #aaa; }
+
+    /* same title treatment as the project cards elsewhere on the site (.proj-title in
+       interactive.html): Optima, light weight, sentence case — not the bold small-caps label
+       this was before. */
+    .proj-preview-title {
+      margin: 0 0 4px;
+      font-family: 'Optima', arial, sans-serif;
+      font-size: 19px;
+      font-weight: 300;
+      color: #666666;
       transition: color 0.3s ease;
     }
 
-    .proj-list a:hover { color: #45a049; }
+    .proj-preview:hover .proj-preview-title { color: #45a049; }
 
-    /* the category is a header over its projects, with a line under it, not a tag on every row */
-    .proj-cat { margin-top: 24px; }
-
-    /* display: table makes the category header exactly as wide as its text, so its underline is the text's width */
-    .proj-cat-title {
-      display: table;
+    .proj-preview-desc {
       margin: 0;
-      padding-bottom: 8px;
-      font-size: 13px;
-      font-weight: normal;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: #999;
-      border-bottom: 1px solid #bcbcbc;
+      font-size: 14px;
+      line-height: 1.55;
+      color: #777;
+    }
+
+    @media (max-width: 1000px) {
+      .proj-preview-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      /* two columns now — the vertical rule only makes sense between the pair sharing a row */
+      .proj-preview { padding: 0 22px 22px; border-left: none !important; }
+      .proj-preview:nth-child(odd) { padding-left: 0; border-right: 1px solid #e4e4e4; }
+      .proj-preview:nth-child(even) { padding-right: 0; }
     }
 
     @media (max-width: 900px) {
-      .proj-hub {
-        grid-template-columns: 1fr;
-        gap: 32px;
-        margin-top: 20px;
+      .proj-hub { gap: 32px; margin-top: 20px; }
+    }
+
+    @media (max-width: 480px) {
+      .proj-preview-grid { grid-template-columns: 1fr; }
+      .proj-preview {
+        padding: 0 0 20px !important;
+        border: none !important;
+        border-bottom: 1px solid #e4e4e4 !important;
+        margin-bottom: 20px;
       }
-      /* the blanket phone rule makes every <a> a 44px-tall flex row; that is the row height here */
-      .proj-list li { padding: 0; }
+      .proj-preview:last-child { border-bottom: none !important; margin-bottom: 0; padding-bottom: 0 !important; }
     }
   </style>
 </head>
@@ -120,58 +168,56 @@
   <div class="proj-hub">
     <section class="proj-group" id="interactive">
       <h2 class="proj-group-title">Interactive Projects</h2>
+      <div class="proj-preview-grid">
+        <a href="../projects/camera/drawASCII.html" class="proj-preview">
+          <div class="proj-preview-thumb"><img src="../images/projects/preview/prev_star.png" alt="Draw ASCII Art"></div>
+          <h4 class="proj-preview-title">Draw ASCII Art</h4>
+          <p class="proj-preview-desc">Convert your drawings into ASCII art!</p>
+        </a>
+        <a href="../game/riverPass/riverPass.html" class="proj-preview">
+          <div class="proj-preview-thumb"><img src="../game/riverPass/images/bckg.png" alt="River Crossing"></div>
+          <h4 class="proj-preview-title">River Crossing</h4>
+          <p class="proj-preview-desc">A sheep, a wolf, and a cabbage walk into a bar..</p>
+        </a>
+        <a href="../projects/camera/ghostLines.html" class="proj-preview">
+          <div class="proj-preview-thumb"><img src="../images/projects/preview/motion5.png" alt="Ghost Lines"></div>
+          <h4 class="proj-preview-title">Ghost Lines</h4>
+          <p class="proj-preview-desc">BOO! Your traces!</p>
+        </a>
+        <a href="../projects/bezier.html" target="_blank" class="proj-preview">
+          <div class="proj-preview-thumb"><img src="../images/projects/preview/curve.png" alt="Plotting Bezier Curves"></div>
+          <h4 class="proj-preview-title">Plotting Bezier Curves</h4>
+          <p class="proj-preview-desc">Play with de Casteljau's algorithm.</p>
+        </a>
+      </div>
       <a href="interactive.html" class="proj-see-all">See all &rarr;</a>
-      <div class="proj-cat">
-        <h3 class="proj-cat-title">Webcam Fun</h3>
-        <ul class="proj-list">
-            <li><a href="../projects/camera/ghostLines.html">Ghost Lines</a></li>
-            <li><a href="../projects/camera/ascii_cam.html">ASCII Cam</a></li>
-            <li><a href="../projects/camera/shapePhotos.html">Web Shape Maker</a></li>
-            <li><a href="../projects/camera/recognition.html">Identification Camera</a></li>
-        </ul>
-      </div>
-      <div class="proj-cat">
-        <h3 class="proj-cat-title">Creative</h3>
-        <ul class="proj-list">
-            <li><a href="../projects/dots/dots.html">Connect the Dots</a></li>
-            <li><a href="../projects/camera/drawASCII.html">Draw ASCII Art</a></li>
-        </ul>
-      </div>
-      <div class="proj-cat">
-        <h3 class="proj-cat-title">Tools</h3>
-        <ul class="proj-list">
-            <li><a href="../projects/design/poster.html" target="_blank">Poster Design</a></li>
-            <li><a href="../projects/bezier.html" target="_blank">Plotting Bezier Curves</a></li>
-        </ul>
-      </div>
-      <div class="proj-cat">
-        <h3 class="proj-cat-title">Games</h3>
-        <ul class="proj-list">
-            <li><a href="../game/riverPass/riverPass.html">River Crossing</a></li>
-            <li><a href="../game/shatter/shatter.html">Break Glass</a></li>
-            <li><a href="../projects/synth.html">Synthesizer</a></li>
-        </ul>
-      </div>
-      <div class="proj-cat">
-        <h3 class="proj-cat-title">Misc.</h3>
-        <ul class="proj-list">
-            <li><a href="../game/cones.html">Cones</a></li>
-            <li><a href="../game/object.html">Graphics Playground</a></li>
-        </ul>
-      </div>
     </section>
 
     <section class="proj-group" id="portfolio">
       <h2 class="proj-group-title">Portfolio</h2>
+      <div class="proj-preview-grid">
+        <a href="../navigation/portfolio/imaging.html" class="proj-preview">
+          <div class="proj-preview-thumb"><img src="../images/projects/imaging/scan2.gif" alt="Cardiac Imaging"></div>
+          <h4 class="proj-preview-title">Cardiac Imaging</h4>
+          <p class="proj-preview-desc">A parallel processing pipeline for analyzing motion in cardiac MRI scans.</p>
+        </a>
+        <a href="../navigation/portfolio/tracing.html" class="proj-preview">
+          <div class="proj-preview-thumb"><img src="../images/projects/ray_tracing/spheres.png" alt="Ray Tracing"></div>
+          <h4 class="proj-preview-title">Ray Tracing</h4>
+          <p class="proj-preview-desc">A ray tracer built from scratch to render 3D spheres from pixel math.</p>
+        </a>
+        <a href="../navigation/portfolio/os.html" class="proj-preview">
+          <div class="proj-preview-thumb"><img src="../images/projects/os/tp.png" alt="ThinkPad Customizations"></div>
+          <h4 class="proj-preview-title">ThinkPad Customizations</h4>
+          <p class="proj-preview-desc">Modding an old ThinkPad's firmware and internals for fun.</p>
+        </a>
+        <a href="../navigation/portfolio/web.html" class="proj-preview">
+          <div class="proj-preview-thumb"><img src="../images/projects/web/martagirl.png" alt="Web Design"></div>
+          <h4 class="proj-preview-title">Web Design</h4>
+          <p class="proj-preview-desc">Some of my other websites.</p>
+        </a>
+      </div>
       <a href="../navigation/portfolio.html" class="proj-see-all">See all &rarr;</a>
-      <ul class="proj-list">
-          <li><a href="../navigation/portfolio/imaging.html">Cardiac Imaging</a></li>
-          <li><a href="../navigation/portfolio/tracing.html">Ray Tracing</a></li>
-          <li><a href="../navigation/portfolio/nn.html">Neural Network in C</a></li>
-          <li><a href="../navigation/portfolio/os.html">ThinkPad Customizations</a></li>
-          <li><a href="../navigation/portfolio/web.html">Web Design</a></li>
-          <li><a href="../navigation/portfolio/resume.html">Resume</a></li>
-      </ul>
     </section>
   </div>
   <div id="admin-link-mobile"></div>

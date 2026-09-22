@@ -31,13 +31,15 @@ body.m2 .page-title { text-transform: uppercase; }
   /* ---------- Page shell ---------- */
 
   html:has(body.m2) { width: 100% !important; scroll-padding-top: 101px; }
+  html:has(body.m2.p-home), html:has(body.m2.p-about) { scroll-padding-top: 56px; }
 
   body.m2 {
     width: 100% !important;
     max-width: 100%;
     box-sizing: border-box;
     margin: 0 !important;
-    /* 45px wordmark bar + 56px tab bar, both fixed at the top */
+    /* tab bar (56px) fixed at the very top; the wordmark bar (45px) sits below it — except on
+       Home and About, which already show the name in the page itself, so the wordmark bar is skipped */
     padding: 101px 0 calc(24px + env(safe-area-inset-bottom)) !important;
     background: #f5f5f5;
     color: #666;
@@ -45,26 +47,10 @@ body.m2 .page-title { text-transform: uppercase; }
     overflow-x: hidden;
   }
 
-  /* Top bar: just the wordmark */
-  body.m2::before {
-    content: "Sonia Sharapova";
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 11;
-    box-sizing: border-box;
-    padding: 8px 20px 12px;
-    background: #f5f5f5;
-    border-bottom: 1px solid #ddd;
-    font: 400 18px/24px 'Optima', 'Belleza', arial, sans-serif;
-    color: #333;
-  }
-
-  /* Tab bar: fixed directly under the wordmark bar */
+  /* Tab bar: fixed at the very top */
   body.m2 .navigation {
     position: fixed !important;
-    top: 45px !important;
+    top: 0 !important;
     bottom: auto !important;
     left: 0;
     right: 0;
@@ -81,6 +67,25 @@ body.m2 .page-title { text-transform: uppercase; }
     border-bottom: 1px solid #ddd !important;
     z-index: 12;
   }
+
+  /* Wordmark bar: fixed directly under the tab bar. Skipped on Home and About, which already
+     show "Sonia Sharapova" in the page itself — so nothing repeats it, and the tab bar alone is 56px. */
+  body.m2:not(.p-home):not(.p-about)::before {
+    content: "Sonia Sharapova";
+    position: fixed;
+    top: 56px;
+    left: 0;
+    right: 0;
+    z-index: 11;
+    box-sizing: border-box;
+    padding: 8px 20px 12px;
+    background: #f5f5f5;
+    border-bottom: 1px solid #ddd;
+    font: 400 18px/24px 'Optima', 'Belleza', arial, sans-serif;
+    color: #333;
+  }
+
+  body.m2.p-home, body.m2.p-about { padding-top: 56px !important; }
 
   body.m2 .nav-item {
     flex: 1 1 0;
@@ -1343,7 +1348,7 @@ body.m2 .page-title { text-transform: uppercase; }
   body.m2 .preview-section {
     order: -1;
     position: sticky;
-    top: 113px;   /* below the wordmark + tab bars */
+    top: 113px;   /* below the tab bar + wordmark bar */
     z-index: 5;
     display: flex;
     flex-direction: row;
