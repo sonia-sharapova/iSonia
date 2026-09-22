@@ -58,8 +58,7 @@ body.admin-mode .admin-only { display: inline-flex; }
 .item-admin-btns {
   display: none; gap: 4px; position: absolute; top: 6px; right: 6px;
 }
-body.admin-mode .menu-item:hover .item-admin-btns,
-body.admin-mode .tag-chip:hover .item-admin-btns { display: flex; }
+body.admin-mode .menu-item:hover .item-admin-btns { display: flex; }
 
 .add-section-row {
   display: none; margin-top: 30px; padding-top: 20px;
@@ -106,8 +105,8 @@ body.admin-mode .add-section-row { display: flex; gap: 10px; align-items: center
 .res-modal-cancel:hover { border-color: #aaa; color: #555; }
 
 /* ── Layout of the groups (tablet and up) ──
-   The groups (By Function, Quick Links, My Favourites, More) take the full width of the container. The gap
-   between them is the same everywhere; the gap after the page description is the largest of all. */
+   The groups (Quick Links, My Favourites, More) take the full width of the container. The gap between them is
+   the same everywhere; the gap after the page description is the largest of all. */
 @media (min-width: 769px) {
     body.p-resources .section-header-row .section-header { flex: 1; }
     body.p-resources .learning-note { margin: 0 16px; }
@@ -117,31 +116,6 @@ body.admin-mode .add-section-row { display: flex; gap: 10px; align-items: center
     .section-block .section-header { margin: 0; }
     .section-header-row { margin-bottom: 18px; }
 }
-
-/* ── By Function tags: plain static labels (Create/Consume/Explore/Learn), not links. ── */
-.tag-row {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-}
-.tag-chip {
-    position: relative;
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 6px 16px;
-    border: 1px solid #ccc;
-    border-radius: 20px;
-    font-family: 'Optima', arial, sans-serif;
-    font-size: 15px;
-    font-weight: 300;
-    letter-spacing: 0.02em;
-    color: #666;
-    background: #fff;
-    cursor: default;
-    transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
-}
-.tag-chip:hover { border-color: #45a049; color: #2e7d32; background: rgba(69,160,73,0.06); }
 
 /* ── Standard menu list: title only, nested by indent. Used for Quick Links, My Favourites and Guides. ── */
 .menu-list {
@@ -195,6 +169,22 @@ body.admin-mode .add-section-row { display: flex; gap: 10px; align-items: center
 .res-tree-node > summary:hover { background: rgba(69,160,73,0.06); }
 
 .res-tree-children { margin-left: 20px; padding-left: 12px; border-left: 1px solid #e2e2e2; }
+
+/* Professional / Misc. — the tree's top level */
+.res-tree-group { margin-bottom: 18px; }
+.res-tree-group:last-child { margin-bottom: 0; }
+.res-tree-group > summary {
+    padding: 8px 6px;
+    border-bottom: 1px solid #ccc;
+}
+.res-tree-group > summary .res-tree-name {
+    font-size: 15px;
+    font-weight: 400;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #888f8d;
+}
+.res-tree-group > .res-tree-children { margin-left: 0; padding-left: 0; border-left: none; margin-top: 4px; }
 
 .res-tree-page > summary .res-tree-name { font-size: 19px; font-weight: 400; color: #333; }
 .res-tree-topic > summary .res-tree-name { font-size: 17px; font-weight: 300; color: #444; }

@@ -51,11 +51,12 @@ async function loadTree() {
   const topicsSec = sections.find(s => s.id === 'topics');
   const pages = (topicsSec ? topicsSec.items : []).map(it => ({
     title: it.title,
+    group: it.group || 'misc',
     slug: it.href.split('/').pop().replace('.html', '')
   }));
   const entries = await Promise.all(pages.map(async p => {
     const md = await fetchCategoryMarkdown(p.slug);
-    return [p.slug, md ? { title: p.title, slug: p.slug, ...HubData.parseMarkdown(md) } : null];
+    return [p.slug, md ? { title: p.title, group: p.group, slug: p.slug, ...HubData.parseMarkdown(md) } : null];
   }));
   treeData = Object.fromEntries(entries.filter(([, v]) => v));
 }
@@ -68,17 +69,15 @@ function esc(s) {
 // ── Render ───────────────────────────────────────────────────────
 function render() {
   const body = document.getElementById('resources-body');
-  // resources.html shows the Saved Links (the Guides live on learning.html, which it links to);
-  // learning.html shows only the Guides
-  const shown = HUB_ONLY === 'guides' ? sections.filter(HubData.isGuides) : sections.filter(s => !HubData.isGuides(s));
+  // resources.html shows the Saved Links (the Guides live on learning.html, which it links to), minus the
+  // By Function tags (Create/Consume/Explore/Learn — no longer shown on the hub); learning.html shows only the Guides
+  const shown = HUB_ONLY === 'guides' ? sections.filter(HubData.isGuides) : sections.filter(s => !HubData.isGuides(s) && s.id !== 'cat');
   body.innerHTML = shown.map(sec => renderSection(sec)).join('');
 }
 
 function renderSection(sec) {
-  // "cat" (By Function: Create/Consume/Explore/Learn) is shown as plain tags, not a browsable group
   // "topics" (Quick Links) is shown as the inline folder tree of its pages' real content
-  const items = sec.id === 'cat' ? renderTags(sec)
-    : sec.id === 'topics' ? renderTree()
+  const items = sec.id === 'topics' ? renderTree()
     : sec.type === 'cards' ? renderMenu(sec) : renderLinks(sec);
   return `
     <div class="section-block" data-id="${sec.id}">
@@ -93,11 +92,18 @@ function renderSection(sec) {
     </div>`;
 }
 
-// The Quick Links pages' full contents, as one expandable folder tree: Page > Topic > Section > Sub-section > links.
+// The Quick Links pages' full contents, as one expandable folder tree: Group > Page > Topic > Section > Sub-section > links.
+const GROUPS = [['professional', 'Professional'], ['misc', 'Misc.']];
+
 function renderTree() {
   const pages = Object.values(treeData);
   if (!pages.length) return '';
-  return `<div class="res-tree-wrap">` + pages.map(renderTreePage).join('') + `</div>`;
+  const groups = GROUPS.map(([id, label]) => [label, pages.filter(p => p.group === id)]).filter(([, ps]) => ps.length);
+  return `<div class="res-tree-wrap">` + groups.map(([label, ps]) => `
+      <details class="res-tree-node res-tree-group" open>
+        <summary><span class="res-tree-name">${esc(label)}</span></summary>
+        <div class="res-tree-children">${ps.map(renderTreePage).join('')}</div>
+      </details>`).join('') + `</div>`;
 }
 
 function renderTreePage(page) {
@@ -145,20 +151,6 @@ function renderTreeLinks(items) {
 
 function slugify(s) {
   return String(s || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
-}
-
-// By Function (Create/Consume/Explore/Learn): plain static tags — a label, not a link.
-function renderTags(sec) {
-  return `<div class="tag-row">` +
-    (sec.items||[]).map(item => `
-      <span class="tag-chip">
-        ${esc(item.title)}
-        <span class="item-admin-btns admin-only">
-          <button class="adm-btn adm-edit" onclick="openItemModal('${sec.id}','${item.id}')">✎</button>
-          <button class="adm-btn adm-del"  onclick="deleteItem('${sec.id}','${item.id}')">✕</button>
-        </span>
-      </span>`).join('') +
-    `</div>`;
 }
 
 // A standard menu list: title only, no description — Quick Links and any other card group besides Guides/By Function.
