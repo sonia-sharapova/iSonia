@@ -73,22 +73,45 @@ function render() {
   // By Function tags (Create/Consume/Explore/Learn — no longer shown on the hub); learning.html shows only the Guides
   const shown = HUB_ONLY === 'guides' ? sections.filter(HubData.isGuides) : sections.filter(s => !HubData.isGuides(s) && s.id !== 'cat');
   body.innerHTML = shown.map(sec => renderSection(sec)).join('');
-  // the tree can grow wider than the page (Page > Topic > Section > Sub-section > Links); keep the newest,
-  // rightmost column in view instead of leaving it to scroll off unnoticed. Setting scrollLeft directly (rather
-  // than the newest column's scrollIntoView) only scrolls the tree itself — scrollIntoView also nudges whichever
-  // ancestor(s) don't fully contain the column, which included the whole page.
+  fitReducedColumns();
+  // every column narrows once it's no longer the one you're actively choosing from (hub.css/fitReducedColumns) —
+  // this just keeps the newest, rightmost column in view on the rare window narrow enough that it still doesn't
+  // all fit. Setting scrollLeft directly (rather than the newest column's scrollIntoView) only scrolls the tree
+  // itself — scrollIntoView also nudges whichever ancestor(s) don't fully contain the column, which included the
+  // whole page.
   const tree = document.querySelector('.res-tree-hub');
   if (tree) tree.scrollLeft = tree.scrollWidth;
+}
+
+// A reduced column's CSS width (116px, hub.css) is just a fallback — it's re-measured here to whatever its own
+// widest item actually needs (never narrower), so a longer name like "Networking & Servers" still gets truncated
+// only as a last resort instead of routinely. scrollWidth reports an element's full unwrapped content width even
+// while overflow:hidden is clipping it on screen, so this works without having to temporarily un-clip anything.
+// Set as an inline flex-basis (not left to CSS) so it participates in the same width transition as everything
+// else, easing from the @starting-style "before" size to this column's own real target instead of the shared
+// 116px one.
+function fitReducedColumns() {
+  document.querySelectorAll('.res-tree-hub > .res-col-reduced').forEach(col => {
+    let max = 0;
+    col.querySelectorAll('.res-link, .res-title, .res-chevron-label').forEach(el => {
+      max = Math.max(max, el.scrollWidth);
+    });
+    if (max > 0) col.style.flexBasis = Math.max(max + 2, 90) + 'px';
+  });
 }
 
 function renderSection(sec) {
   // "topics" (My Links) is shown as the inline folder tree of its pages' real content
   const items = sec.id === 'topics' ? renderTree()
     : sec.type === 'cards' ? renderMenu(sec) : renderLinks(sec);
+  // "My Links" itself is a link back to the tree's original (nothing-picked) view, wherever you've drilled to
+  const header = sec.id === 'topics'
+    ? `<a href="#" class="section-header section-header-link" onclick="event.preventDefault();resetTree()" title="Back to My Links">${esc(sec.title)}</a>`
+    : `<div class="section-header">${esc(sec.title)}</div>`;
   return `
     <div class="section-block" data-id="${sec.id}">
       <div class="section-header-row">
-        <div class="section-header">${esc(sec.title)}</div>
+        ${header}
         <button class="adm-plus admin-only" onclick="openItemModal('${sec.id}',null)" title="Add item">+</button>
       </div>
       ${items}
@@ -96,6 +119,12 @@ function renderSection(sec) {
         <button class="adm-text-del" onclick="deleteSection('${sec.id}')">delete section</button>
       </div>
     </div>`;
+}
+
+// "My Links" heading's own click target: back to the tree's very first view, from anywhere in it.
+function resetTree() {
+  treeSelPage = null; treeSelTopic = -1; treeSelSection = -1; treeSelSub = -1;
+  render();
 }
 
 // The My Links pages' full contents, as an inline column tree — the same shape as a category page's own tree
@@ -110,6 +139,10 @@ let treeSelPage = null;     // slug of the page open in the tree, or null
 let treeSelTopic = -1;      // index into that page's topics, -1 = none picked
 let treeSelSection = -1;    // index into that page's (or topic's) sections, -1 = none picked
 let treeSelSub = -1;        // index into the selected section's sub-sections, -1 = none / not applicable
+
+// [{kind, reduced}, ...] for the picker columns as of the last render, positionally — so a column whose kind and
+// reduced/full state haven't actually changed since last time can skip re-animating (see renderTree/res-col-static).
+let treePrevCols = [];
 
 function treeVisibleFolders(page) {
   if (!page.topics.length) return page.folders.map((f, i) => [f, i]);
@@ -145,11 +178,46 @@ function selectTreeSub(i) {
   render();
 }
 
-// Column 1: pick a page, grouped Professional / Misc. — always shown, this is the tree's starting point.
-function treePagesCol() {
+// A column's header: a "‹" and the title, both wired to back out of that column's own pick and up to the
+// previous one — the whole header is the click target, not just the small chevron. tabindex+role+keydown make it
+// a real (keyboard-reachable) button, since it's a <div> rather than an <a> — it holds a heading, not link text.
+function treeBackHead(action, titleText) {
+  return `<div class="res-head res-head-back" tabindex="0" role="button" onclick="event.preventDefault();${action}" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();${action}}" title="Back">
+      <span class="res-back-chevron">‹</span><h2 class="res-title">${esc(titleText)}</h2>
+    </div>`;
+}
+
+// A column's opening <div>: the reduced/static modifier classes, plus — for a column whose reduced/full state
+// just changed (i.e. not "same") — a transition-delay so that when more than one column changes at once, they
+// settle right to left (the newest/rightmost first) instead of all shifting together. `delay` is in ms.
+function treeColOpen(baseClass, reduced, same, delay) {
+  const cls = baseClass + (reduced ? ' res-col-reduced' : '') + (same ? ' res-col-static' : '');
+  const style = same ? '' : ` style="transition-delay:${delay}ms"`;
+  return `<div class="${cls}"${style}>`;
+}
+
+// Column 1: pick a page, grouped Professional / Misc. — this is the tree's starting point, full size until a
+// page is actually picked. Once one is, it reduces like any other column (smaller, shared width — see
+// .res-col-reduced in hub.css) rather than disappearing: its own pages stay listed, just smaller, so you can
+// still jump straight to a different one in the same group. The group header becomes a link back to the full
+// picker (selectTreePage toggles the open page back off), and the other group — not part of what's open — is
+// dropped rather than also shown reduced. `same`/`delay`: see treeColOpen and renderTree.
+function treePagesCol(reduced, same, delay) {
   const pages = Object.values(treeData);
-  const groups = GROUPS.map(([id, label]) => [label, pages.filter(p => p.group === id)]).filter(([, ps]) => ps.length);
-  return `<div class="res-col res-col-cats">` + groups.map(([label, ps]) => `
+  const groups = GROUPS.map(([id, label]) => [id, label, pages.filter(p => p.group === id)]).filter(([, , ps]) => ps.length);
+  if (reduced) {
+    const cur = treeData[treeSelPage];
+    const [, label, ps] = groups.find(([id]) => id === (cur && cur.group)) || [null, '', []];
+    return `${treeColOpen('res-col res-col-cats', true, same, delay)}
+        <div class="sidebar-section">
+          <a href="#" class="res-chevron-label" onclick="event.preventDefault();selectTreePage('${treeSelPage}')" title="Back to ${esc(label)}"><span>${esc(label)}</span></a>
+          <nav class="res-list">${ps.map(p => `<div class="res-row">
+              <a class="res-link${p.slug === treeSelPage ? ' active' : ''}" href="#" onclick="event.preventDefault();selectTreePage('${p.slug}')">${esc(p.title)}</a>
+            </div>`).join('')}</nav>
+        </div>
+      </div>`;
+  }
+  return treeColOpen('res-col res-col-cats', false, same, delay) + groups.map(([, label, ps]) => `
       <div class="sidebar-section">
         <h3 class="res-head">${esc(label)}</h3>
         <nav class="res-list">${ps.map(p => `<div class="res-row">
@@ -158,39 +226,45 @@ function treePagesCol() {
       </div>`).join('') + `</div>`;
 }
 
-// Column 2 on a page with topics: that page's Topics.
-function treeTopicsCol(page) {
+// Column 2 on a page with topics: that page's Topics. `reduced` (a later column is now the one you're choosing
+// from) narrows this one down to a shared width, its items all one (smaller) size — see the .res-col-reduced
+// rules in hub.css — rather than shrinking further with every extra level the way it used to. Its "‹" backs out
+// to the page picker (same as the reduced pages column's own back-link).
+function treeTopicsCol(page, reduced, same, delay) {
   const rows = page.topics.map((t, i) => `<div class="res-row">
       <a class="res-link${i === treeSelTopic ? ' active' : ''}" href="#" onclick="event.preventDefault();selectTreeTopic(${i})">${esc(t.name)}</a>
     </div>`).join('');
-  return `<div class="res-col res-col-sections">
-      <div class="res-head"><h2 class="res-title">${esc(page.title)}</h2></div>
+  return `${treeColOpen('res-col res-col-sections', reduced, same, delay)}
+      ${treeBackHead(`selectTreePage('${treeSelPage}')`, page.title)}
       <nav class="res-list">${rows}</nav>
     </div>`;
 }
 
-// Column 2 (no topics) or column 3 (a topic picked): that page's or topic's Sections.
-function treeSectionsCol(page) {
+// Column 2 (no topics) or column 3 (a topic picked): that page's or topic's Sections. See treeTopicsCol re:
+// reduced/same/delay. Its header backs out to the topic picker when there is one, otherwise to the page picker.
+function treeSectionsCol(page, reduced, same, delay) {
   const topic = page.topics[treeSelTopic];
   const rows = treeVisibleFolders(page).map(([f, i]) => `<div class="res-row">
       <a class="res-link${i === treeSelSection ? ' active' : ''}" href="#" onclick="event.preventDefault();selectTreeSection(${i})">${esc(f.name)}</a>
     </div>`).join('');
-  return `<div class="res-col res-col-sections">
-      <div class="res-head"><h2 class="res-title">${esc(topic ? topic.name : page.title)}</h2></div>
+  const back = topic ? `selectTreeTopic(${treeSelTopic})` : `selectTreePage('${treeSelPage}')`;
+  return `${treeColOpen('res-col res-col-sections', reduced, same, delay)}
+      ${treeBackHead(back, topic ? topic.name : page.title)}
       <nav class="res-list">${rows}</nav>
     </div>`;
 }
 
 // Sub-sections get their own column only on a page with topics (matching that page's own tree); see treeLinksCol
-// for the other pages, where sub-sections break the links column with a header instead.
-function treeSubsCol(page) {
+// for the other pages, where sub-sections break the links column with a header instead. Its header backs out to
+// the section picker.
+function treeSubsCol(page, reduced, same, delay) {
   const f = page.folders[treeSelSection];
   if (!f || !f.subfolders.length) return '';
   const rows = f.subfolders.map((sf, si) => `<div class="res-row">
       <a class="res-link${si === treeSelSub ? ' active' : ''}" href="#" onclick="event.preventDefault();selectTreeSub(${si})">${esc(sf.name)}</a>
     </div>`).join('');
-  return `<div class="res-col res-col-sections res-col-subs">
-      <div class="res-head"><h2 class="res-title">${esc(f.name)}</h2></div>
+  return `${treeColOpen('res-col res-col-sections res-col-subs', reduced, same, delay)}
+      ${treeBackHead(`selectTreeSection(${treeSelSection})`, f.name)}
       <nav class="res-list">${rows}</nav>
     </div>`;
 }
@@ -207,13 +281,20 @@ function treeOpenLink(href, label) {
   return `<a href="${esc(href)}" class="res-open" title="Open ${esc(label)} on its own page">↗ open page</a>`;
 }
 
+// The hub's own intro blurb (the two lines above "My Links" — moved into #hub-intro, hidden, in resources.html)
+// fills this same right-hand position before any page is picked, instead of leaving it empty.
+function treeHubIntroCol() {
+  const src = document.getElementById('hub-intro');
+  return `<div class="res-col res-col-links res-intro">${src ? src.innerHTML : ''}</div>`;
+}
+
 // The rightmost column while nothing with actual links is picked yet: the page's own picture (pages are the only
-// level with one) plus a description — the page's own, until a topic is picked, then that topic's. Shown as soon
-// as a page is picked (before any topic/section), and again at every level after that until a "child" — a
+// level with one) plus its own description — just the page's, not a topic's (topics, sections and sub-sections
+// are all "child nodes" and don't get description text, to keep the tree dense — see treeLinksCol too). Shown as
+// soon as a page is picked (before any topic/section), and again at every level after that until a "child" — a
 // section (or sub-section) that itself has links — takes over and shows those instead (treeLinksCol).
 function treeIntroCol(page, useTopics) {
   const topic = page.topics[treeSelTopic];
-  const desc = topic ? topic.description : page.intro.description;
   const picture = page.intro.image
     ? `<img src="${esc(page.intro.image)}" alt="${esc(page.intro.alt || page.title)}">`
     : `<div class="res-intro-placeholder" aria-hidden="true">
@@ -225,12 +306,13 @@ function treeIntroCol(page, useTopics) {
   return `<div class="res-col res-col-links res-intro">
       <div class="res-intro-image">${picture}</div>
       <h2 class="res-section-title">${esc(topic ? topic.name : page.title)}</h2>
-      ${desc ? `<p class="res-intro-text">${esc(desc)}</p>` : ''}
+      ${!topic && page.intro.description ? `<p class="res-intro-text">${esc(page.intro.description)}</p>` : ''}
       <p class="res-hint">${esc(hint)}</p>
     </div>`;
 }
 
 // The final column: the selected section's (or sub-section's) links — the "child" treeIntroCol hands off to.
+// No description text here either (see treeIntroCol) — just the title and the links themselves.
 function treeLinksCol(page, useTopics) {
   const f = page.folders[treeSelSection];
   if (useTopics) {
@@ -240,18 +322,17 @@ function treeLinksCol(page, useTopics) {
     const hash = slugify(topic.name) + '/' + slugify(f.name) + (sel ? '/' + slugify(sel.name) : '');
     const open = treeOpenLink(`resources/${page.slug}.html#${hash}`, target.name);
     return `<div class="res-col res-col-links">
-        <div class="res-head"><h2 class="res-section-title">${esc(target.name)}</h2>${open}${target.description ? `<p class="res-sub">${esc(target.description)}</p>` : ''}</div>
+        <div class="res-head"><h2 class="res-section-title">${esc(target.name)}</h2>${open}</div>
         ${treeLinkList(target.items)}
       </div>`;
   }
   // no topics: sub-sections break the list with their own header, inline in this column (same as that page itself)
   const open = treeOpenLink(`resources/${page.slug}.html#${slugify(f.name)}`, f.name);
-  let html = `<div class="res-head"><h2 class="res-section-title">${esc(f.name)}</h2>${open}${f.description ? `<p class="res-sub">${esc(f.description)}</p>` : ''}</div>`;
+  let html = `<div class="res-head"><h2 class="res-section-title">${esc(f.name)}</h2>${open}</div>`;
   html += treeLinkList(f.items);
   f.subfolders.forEach(sf => {
     html += `<div class="res-subgroup">
         <h3 class="res-subhead">${esc(sf.name)}</h3>
-        ${sf.description ? `<p class="res-sub">${esc(sf.description)}</p>` : ''}
         ${treeLinkList(sf.items)}
       </div>`;
   });
@@ -262,17 +343,45 @@ function renderTree() {
   const pages = Object.values(treeData);
   if (!pages.length) return '';
   const page = treeSelPage ? treeData[treeSelPage] : null;
-  let cols = treePagesCol();
+
+  // Work out which picker columns are actually open (pages, then topics?/sections/subs? as applicable) before
+  // rendering any of them. Every one of them reduces once something has opened up to its direct right — another
+  // picker column, or (unlike before) the last picker itself once its own pick is what's now showing real links
+  // rather than just a "choose one to continue" hint (hasSelection) — so the tree keeps narrowing all the way
+  // down to whatever you're actually looking at, not just down to the last list you clicked in.
+  const pickers = ['pages'];
+  let useTopics = false;
   if (page) {
-    const useTopics = page.topics.length > 0;
-    cols += useTopics ? treeTopicsCol(page) : treeSectionsCol(page);
-    if (useTopics && treeSelTopic >= 0) cols += treeSectionsCol(page);
-    if (useTopics) cols += treeSubsCol(page);
-    cols += page.folders[treeSelSection] ? treeLinksCol(page, useTopics) : treeIntroCol(page, useTopics);
+    useTopics = page.topics.length > 0;
+    pickers.push(useTopics ? 'topics' : 'sections');
+    if (useTopics && treeSelTopic >= 0) pickers.push('sections');
+    if (useTopics && page.folders[treeSelSection] && page.folders[treeSelSection].subfolders.length) pickers.push('subs');
   }
+  const last = pickers.length - 1;
+  const hasSelection = !!(page && page.folders[treeSelSection]);
+  const reducedAt = pickers.map((kind, i) => i !== last || hasSelection);
+  // A column whose kind and reduced/full state match what was there last time (position for position) skips the
+  // resize transition entirely — picking a different item in an already-reduced (or already-full) list, or
+  // backing out through one, shouldn't replay a "shrink"/"grow" that isn't actually happening. See res-col-static.
+  // A column that IS actually changing gets a transition-delay based on its distance from the last (rightmost)
+  // picker, so when more than one column changes at once they settle right to left instead of all shifting
+  // together — the newest change first, each one further left following a beat after.
+  const cols = pickers.map((kind, i) => {
+    const reduced = reducedAt[i];
+    const prev = treePrevCols[i];
+    const same = !!(prev && prev.kind === kind && prev.reduced === reduced);
+    const delay = (last - i) * 45;
+    if (kind === 'pages') return treePagesCol(reduced, same, delay);
+    if (kind === 'topics') return treeTopicsCol(page, reduced, same, delay);
+    if (kind === 'subs') return treeSubsCol(page, reduced, same, delay);
+    return treeSectionsCol(page, reduced, same, delay);
+  }).join('');
+  treePrevCols = pickers.map((kind, i) => ({ kind, reduced: reducedAt[i] }));
+  const terminal = page ? (page.folders[treeSelSection] ? treeLinksCol(page, useTopics) : treeIntroCol(page, useTopics)) : treeHubIntroCol();
+
   // "res-tree" (not just "res-tree-hub") so this also picks up mobile.css's shared phone treatment for the
   // category pages' own tree — stacking, chip rows, active-state theming — since it targets that class name
-  return `<div class="res-tree res-tree-hub">${cols}</div>`;
+  return `<div class="res-tree res-tree-hub">${cols}${terminal}</div>`;
 }
 
 function slugify(s) {
@@ -293,12 +402,13 @@ function renderMenu(sec) {
     `</ul>`;
 }
 
-// Quick Links (the hub's hand-picked shortcuts): title only, no description.
+// My Favourites (the hub's hand-picked shortcuts): smaller and narrower than a Guides-style menu (its own
+// .fav-list, not .menu-list), title only, no description.
 function renderLinks(sec) {
-  return `<ul class="menu-list">` +
+  return `<ul class="fav-list">` +
     (sec.items||[]).map(item => `
-      <li class="menu-item">
-        <a href="${esc(item.href)}" class="menu-link">${esc(item.title)}</a>
+      <li class="fav-item">
+        <a href="${esc(item.href)}" class="fav-link">${esc(item.title)}</a>
         <span class="item-admin-btns admin-only">
           <button class="adm-btn adm-edit" onclick="openItemModal('${sec.id}','${item.id}')">✎</button>
           <button class="adm-btn adm-del"  onclick="deleteItem('${sec.id}','${item.id}')">✕</button>

@@ -516,7 +516,7 @@
 - **The Colossal Book of Mathematics**: The Colossal Book of Mathematics by Martin Gardner
   - https://ia801004.us.archive.org/17/items/martingardnerthecolossalbookofmathematics/Martin%20Gardner%20-%20The%20Colossal%20Book%20Of%20Mathematics.pdf
 
-# Privacy & Security
+# Privacy
 > Learning to hack, staying private, and the tools for both.
 
 ## Learn & Practice
@@ -608,7 +608,7 @@
 - **ZeroNet**: Open, free and uncensorable websites, using Bitcoin cryptography and BitTorrent network
   - https://zeronet.io/
 
-# Reading & Communities
+# Reading
 > Where people write and talk about technology.
 
 ## Readings

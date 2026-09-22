@@ -463,7 +463,7 @@
 - **We Work Remotely**:
   - https://weworkremotely.com/#job-listings
 
-# Film & Art
+# Arts
 > Festivals, screenings, platforms and grants for experimental film and artists.
 
 ## Festivals: Open Now

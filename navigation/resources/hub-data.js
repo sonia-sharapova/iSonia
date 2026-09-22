@@ -4,10 +4,9 @@
 //   By Function (id "cat")       → Create, Consume, Explore, Learn                 (navigation/resources/*.html;
 //                                   kept in the saved data for hasNewTree()'s detection, but no longer shown on the
 //                                   hub — hub.js filters this section out of render())
-//   My Links    (id "topics")    → the 11 category pages: Technology, Web, Design, Careers & Opportunities,
-//                                   Software & Tools, Media, Music & Audio, Archives & Collections, Internet Culture,
-//                                   Ideas & People, Learning & Life  (navigation/resources/*.html)
-//   Quick Links (id "favourites")→ Wayback Machine, Lainchan, LookMovie, Land Chad, Human Clock — a plain links
+//   My Links    (id "topics")    → the 11 category pages: Technology, Web, Design, Careers, Software, Media,
+//                                   Music, Archives, Culture, Ideas, Life (navigation/resources/*.html)
+//   My Favourites (id "favourites") → Wayback Machine, Lainchan, LookMovie, Land Chad, Human Clock — a plain links
 //                                   list, always reset to this exact set by normalize() (see favouritesSection())
 //   Guides      (id "guides")    → the tutorial categories in navigation/learning/*.html
 //
@@ -41,19 +40,21 @@ const HubData = (() => {
     ]);
 
     // The 11 real category pages (navigation/resources/seed/<slug>.md) — Tutorials/Guides stay on the Learning page.
-    // Each carries a "group" so the hub's tree nests them under Professional / Misc.
+    // Each carries a "group" so the hub's tree nests them under Professional / Misc. Titles are kept to 1-2 words
+    // (an "&"-joined pair condensed down to the more central one) so they read on one line even in the tree's
+    // narrower, reduced columns — the description still carries the fuller meaning.
     const topics = () => groupedCards('resources', [
         ['technology', 'Technology', 'Programming, computers and how they work.', 'professional'],
         ['web', 'Web', 'How the web works, how to build for it, and the corners worth exploring.', 'professional'],
         ['design', 'Design', 'Inspiration, tools and assets for design work.', 'professional'],
-        ['careers', 'Careers & Opportunities', 'Jobs, studios, festivals and open calls.', 'professional'],
-        ['software', 'Software & Tools', 'Free software, alternatives and handy online tools.', 'professional'],
+        ['careers', 'Careers', 'Jobs, studios, festivals and open calls.', 'professional'],
+        ['software', 'Software', 'Free software, alternatives and handy online tools.', 'professional'],
         ['media', 'Media', 'Film, video, anime, games and things to read.', 'misc'],
-        ['music', 'Music & Audio', 'Free sound, radio, discovery and learning.', 'misc'],
-        ['archives', 'Archives & Collections', "Libraries, museums and the internet's memory.", 'misc'],
-        ['culture', 'Internet Culture', 'Personal sites, forums, nostalgia and the strange.', 'misc'],
-        ['ideas', 'Ideas & People', 'The thinkers, arguments and theories behind it all.', 'misc'],
-        ['life', 'Learning & Life', 'Everyday guides, free courses and life admin.', 'misc']
+        ['music', 'Music', 'Free sound, radio, discovery and learning.', 'misc'],
+        ['archives', 'Archives', "Libraries, museums and the internet's memory.", 'misc'],
+        ['culture', 'Culture', 'Personal sites, forums, nostalgia and the strange.', 'misc'],
+        ['ideas', 'Ideas', 'The thinkers, arguments and theories behind it all.', 'misc'],
+        ['life', 'Life', 'Everyday guides, free courses and life admin.', 'misc']
     ]);
 
     const guides = () => cards('learning', [
@@ -76,7 +77,7 @@ const HubData = (() => {
     const savedSection = () => ({ id: 'cat', title: 'By Function', type: 'cards', intro: '', items: saved() });
     const topicsSection = () => ({ id: 'topics', title: 'My Links', type: 'cards', intro: '', items: topics() });
     const guidesSection = () => ({ id: 'guides', title: 'Guides', type: 'cards', intro: "Step-by-step write-ups and how-tos I've put together.", items: guides() });
-    const favouritesSection = () => ({ id: 'favourites', title: 'Quick Links', type: 'links', intro: '', items: favourites() });
+    const favouritesSection = () => ({ id: 'favourites', title: 'My Favourites', type: 'links', intro: '', items: favourites() });
 
     const isGuides = sec => sec.id === 'guides';
     const isTutorialsCard = it => /(^|\/)tutorials\.html/.test(it.href || '');

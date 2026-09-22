@@ -55,10 +55,16 @@ body.admin-mode .admin-only { display: inline-flex; }
 }
 .section-header-row .section-header { margin-bottom: 0; }
 
+/* "My Links" is a link back to the tree's original view (resetTree in hub.js) — same look as the plain
+   (non-link) section headers elsewhere, just with a hover colour so it reads as clickable. */
+.section-header-link { display: block; color: inherit; text-decoration: none; cursor: pointer; transition: color 0.2s ease; }
+.section-header-link:hover, .section-header-link:focus-visible { color: #45a049; }
+
 .item-admin-btns {
   display: none; gap: 4px; position: absolute; top: 6px; right: 6px;
 }
-body.admin-mode .menu-item:hover .item-admin-btns { display: flex; }
+body.admin-mode .menu-item:hover .item-admin-btns,
+body.admin-mode .fav-item:hover .item-admin-btns { display: flex; }
 
 .add-section-row {
   display: none; margin-top: 30px; padding-top: 20px;
@@ -105,19 +111,19 @@ body.admin-mode .add-section-row { display: flex; gap: 10px; align-items: center
 .res-modal-cancel:hover { border-color: #aaa; color: #555; }
 
 /* ── Layout of the groups (tablet and up) ──
-   The groups (Quick Links, My Favourites, More) take the full width of the container. The gap between them is
-   the same everywhere; the gap after the page description is the largest of all. */
+   The groups (Quick Links, My Favourites, More) take the full width of the container, evenly spaced. The page's
+   own intro text (#hub-intro) isn't one of them — it's read out of the DOM and shown inside the tree instead
+   (treeHubIntroCol), so the element it lives in here stays hidden. */
 @media (min-width: 769px) {
     body.p-resources .section-header-row .section-header { flex: 1; }
     body.p-resources .learning-note { margin: 0 16px; }
 
-    .resources-intro { margin-bottom: 40px; }
     .section-block { margin-top: 36px; margin-bottom: 0; }
     .section-block .section-header { margin: 0; }
     .section-header-row { margin-bottom: 18px; }
 }
 
-/* ── Standard menu list: title only, nested by indent. Used for Quick Links, My Favourites and Guides. ── */
+/* ── Standard menu list: title only, nested by indent. Used for Guides. ── */
 .menu-list {
     list-style: none;
     margin: 0;
@@ -141,6 +147,47 @@ body.admin-mode .add-section-row { display: flex; gap: 10px; align-items: center
 .menu-link:hover,
 .menu-link:focus-visible { color: #45a049; padding-left: 12px; }
 
+/* ── My Favourites: smaller and set in from both sides than a Guides-style .menu-list, each item marked off by a
+   short faint rule (fixed-width, narrower than the text) instead of a full-width border. ── */
+.fav-list {
+    list-style: none;
+    margin: 0;
+    padding: 0 14% 0 20px;
+}
+.fav-item { position: relative; padding: 7px 6px; }
+.fav-item + .fav-item::before {
+    content: "";
+    display: block;
+    width: 26px;
+    height: 1px;
+    margin: 0 0 7px 6px;
+    background: #ddd;
+}
+.fav-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-family: 'Optima', arial, sans-serif;
+    font-size: 14px;
+    font-weight: 300;
+    color: #666666;
+    text-decoration: underline;
+    text-decoration-color: #ccc;
+    text-underline-offset: 3px;
+    transition: color 0.2s ease, text-decoration-color 0.2s ease;
+}
+.fav-link::after {
+    content: "\2192";
+    opacity: 0;
+    transform: translateX(-4px);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+.fav-link:hover, .fav-link:focus-visible {
+    color: #45a049;
+    text-decoration-color: currentColor;
+}
+.fav-link:hover::after, .fav-link:focus-visible::after { opacity: 1; transform: translateX(0); }
+
 /* ── Inline column tree: the My Links pages' real content, browsable without leaving the hub — the same shape and
    look as a category page's own tree (navigation/resources/links.js + links.css's .res-tree/.res-col), just with
    an extra first column for picking a page (grouped Professional / Misc.). Re-declared here rather than pulled in
@@ -152,30 +199,113 @@ body.admin-mode .add-section-row { display: flex; gap: 10px; align-items: center
     display: flex;
     align-items: flex-start;
     margin-top: 4px;
+    padding-left: 6px;
     overflow-x: auto;
     scroll-behavior: smooth;
 }
 .res-tree-hub > .res-col { flex: 0 0 190px; min-width: 0; }
-.res-tree-hub > .res-col-links { flex: 1 1 300px; }
+.res-tree-hub > .res-col-links { flex: 1 1 auto; padding-left: 14px; }
 .res-tree-hub .res-col + .res-col {
-    margin-left: 28px;
-    padding-left: 28px;
+    margin-left: 12px;
+    padding-left: 12px;
     border-left: 1px solid #ececec;
 }
+/* the gap between columns narrows a little at each further level too, not just the columns themselves — so a
+   full 5-column tree (Page > Topic > Section > Sub-section > Links) fits without falling back to scrolling */
+.res-tree-hub > .res-col:nth-child(3) { margin-left: 9px; padding-left: 9px; }
+.res-tree-hub > .res-col:nth-child(4) { margin-left: 7px; padding-left: 7px; }
+.res-tree-hub > .res-col:nth-child(5) { margin-left: 6px; padding-left: 6px; }
+
+/* Column headers and list items stay on one line rather than wrapping — a long name is more legible truncated
+   with an ellipsis than broken across two or three lines, especially once a column's reduced. */
+.res-tree-hub .res-link,
+.res-tree-hub .res-title,
+.res-tree-hub .res-col-cats .res-head {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.res-tree-hub .res-chevron-label span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
+
+/* Only the column you're actively choosing from stays full size — every column with something open to its
+   direct right reduces, once, to a shared narrower width (not progressively narrower with each further level) —
+   including, now, the column you just picked from, once that pick is showing real links rather than just a
+   "choose one to continue" hint (hub.js's hasSelection). The pages column reduces the same way as the rest (its
+   own pages stay listed, just smaller — see treePagesCol in hub.js), just with its header swapped for a
+   "‹ Professional" / "‹ Misc." link back to the full picker. The links column just takes whatever's left over —
+   no minimum width — since the picker columns ahead of it are already narrow enough that it's never short of room.
+   Both directions — shrinking (going deeper) and growing back (backing out through a "‹") — transition, each
+   easing from a "before" state supplied by @starting-style: every column is a freshly-inserted element on every
+   render (the tree redraws wholesale each click), so a plain transition alone has nothing of its own to
+   interpolate from. This only fires for a column whose reduced/full state actually changed since the last render
+   (hub.js marks anything unchanged .res-col-static, with no transition-delay either): picking a different item
+   in an already-reduced list, or backing out through one, doesn't resize that column at all, so it shouldn't
+   replay a resize transition that isn't really happening. When more than one column's state changes at once,
+   hub.js staggers their transition-delay right to left — the newest/rightmost change settles first, each column
+   further left starting a little after — instead of the whole row shifting all together. */
+@media (min-width: 769px) {
+    .res-tree-hub > .res-col:not(.res-col-static) { transition: flex-basis 0.32s cubic-bezier(0.3, 0.1, 0.2, 1); }
+
+    .res-tree-hub > .res-col-reduced { flex-basis: 116px; }
+    @starting-style {
+        .res-tree-hub > .res-col-reduced:not(.res-col-static) { flex-basis: 190px; }
+        .res-tree-hub > .res-col:not(.res-col-reduced):not(.res-col-static):not(.res-col-links) { flex-basis: 116px; }
+    }
+}
+
+/* The reduced pages column's header: a link back to the full picker (clicking it re-selects the open page, which
+   toggles it back off) instead of the plain, non-interactive group label the full column uses — but in the same
+   position, with the same underline, as that full-column header (.res-col-cats .res-head just above); only the
+   leading chevron and the click/hover behaviour are new. */
+.res-tree-hub .res-chevron-label {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #999999;
+    text-decoration: none;
+    border-bottom: 1px solid #e4e4e4;
+    padding-bottom: 8px;
+    margin-bottom: 12px;
+    transition: color 0.2s ease;
+}
+.res-tree-hub .res-chevron-label::before { content: "\2039"; flex: none; font-size: 16px; line-height: 1; color: #bbb; }
+.res-tree-hub .res-chevron-label:hover, .res-tree-hub .res-chevron-label:focus-visible { color: #45a049; }
+.res-tree-hub .res-chevron-label:hover::before, .res-tree-hub .res-chevron-label:focus-visible::before { color: #45a049; }
+
 .res-tree-hub .res-list { display: flex; flex-direction: column; }
 .res-tree-hub .res-row { position: relative; }
 .res-tree-hub .sidebar-section { margin-bottom: 22px; }
 .res-tree-hub .sidebar-section:last-child { margin-bottom: 0; }
 
-/* Once something's picked in a list, its other options shrink so the pick reads as the focus. */
-.res-tree-hub .res-list:has(.res-link.active) .res-link {
-    font-size: 15px;
-    transition: font-size 0.2s ease, color 0.2s ease;
+/* A reduced column's items all read at one (smaller) size — no per-item size difference, just the pick coloured
+   (the shared .active rule already does that; .res-link's own colour transition stays on unconditionally, so
+   the highlight still eases from one item to another even in a .res-col-static column). Both directions —
+   shrinking down to that size and growing back out of it — transition, the same way and for the same reason the
+   column width does above (see that comment); a .res-col-static column's items are excluded, same as its width. */
+.res-tree-hub .res-link { transition: color 0.2s ease; }
+.res-tree-hub > .res-col:not(.res-col-static) .res-link { transition: font-size 0.32s cubic-bezier(0.3, 0.1, 0.2, 1), color 0.2s ease; }
+.res-tree-hub .res-col-reduced .res-link { font-size: 14px; }
+.res-tree-hub .res-col-reduced .res-head { font-size: 14px; padding-bottom: 6px; margin-bottom: 8px; }
+@starting-style {
+    .res-tree-hub > .res-col-reduced:not(.res-col-static) .res-link { font-size: 18px; }
+    .res-tree-hub > .res-col-reduced:not(.res-col-static) .res-head { font-size: 18px; }
+    .res-tree-hub > .res-col:not(.res-col-reduced):not(.res-col-static):not(.res-col-links) .res-link { font-size: 14px; }
+    .res-tree-hub > .res-col:not(.res-col-reduced):not(.res-col-static):not(.res-col-links) .res-head { font-size: 14px; }
 }
-.res-tree-hub .res-list:has(.res-link.active) .res-link.active {
-    font-size: 19px;
-    font-weight: 500;
-}
+
+/* Whichever column is currently full-size still reads a bit smaller the deeper it is — column 1's default (18px,
+   from the shared .res-link rule in stylesheet.css) is the biggest, each column after it a step down — rather
+   than every full column looking exactly the same regardless of how far into the tree it is. Reduced columns
+   already have their own single smaller size (above) and are unaffected. */
+.res-tree-hub > .res-col:nth-child(2):not(.res-col-reduced) .res-link { font-size: 16px; }
+.res-tree-hub > .res-col:nth-child(3):not(.res-col-reduced) .res-link { font-size: 15px; }
+.res-tree-hub > .res-col:nth-child(4):not(.res-col-reduced) .res-link { font-size: 14px; }
+.res-tree-hub > .res-col:nth-child(5):not(.res-col-reduced) .res-link { font-size: 13px; }
+
 
 /* Column 1's group headers ("Professional" / "Misc.") — a small-caps label, distinct from every other column's
    (bigger, title-case) header, so they read as a light grouping rather than a page/section title. */
@@ -190,9 +320,17 @@ body.admin-mode .add-section-row { display: flex; gap: 10px; align-items: center
     margin-bottom: 12px;
 }
 
-/* column 2/3 headers (a page's or topic's name) — .res-head/.res-title's own size+weight are inherited from the
-   shared .res-head rule in stylesheet.css, same as a category page's sectionsCol/subsCol */
+/* Topics/Sections/Sub-sections headers (a page's, topic's or section's name): the "‹" back-chevron and the title
+   sit on one line, and the whole header — not just the chevron — is the click target (treeBackHead in hub.js), so
+   the title itself works as the same back button. .res-head/.res-title's own size+weight are otherwise inherited
+   from the shared .res-head rule in stylesheet.css, same as a category page's sectionsCol/subsCol. */
+.res-tree-hub .res-col-sections .res-head { display: flex; align-items: baseline; gap: 6px; }
 .res-tree-hub .res-title { margin: 0; font-size: inherit; font-weight: inherit; color: inherit; }
+.res-tree-hub .res-head-back { cursor: pointer; transition: color 0.2s ease; }
+.res-tree-hub .res-head-back:hover, .res-tree-hub .res-head-back:focus-visible { color: #45a049; }
+.res-tree-hub .res-back-chevron { flex: none; font-size: 16px; line-height: 1; color: #bbb; }
+.res-tree-hub .res-head-back:hover .res-back-chevron,
+.res-tree-hub .res-head-back:focus-visible .res-back-chevron { color: #45a049; }
 .res-tree-hub .res-open {
     display: inline-block;
     margin-left: 8px;
@@ -202,12 +340,12 @@ body.admin-mode .add-section-row { display: flex; gap: 10px; align-items: center
 }
 .res-tree-hub .res-open:hover, .res-tree-hub .res-open:focus-visible { color: #45a049; }
 
-/* Nothing with real links picked yet: the page's (or, once picked, its topic's) picture and description — same
-   look as a category page's own introCol (links.css), reproduced here for the same reason as the rest of this
-   block (see the top-of-section note). */
+/* Nothing with real links picked yet: the page's (or, once picked, its topic's) picture and description, filling
+   80% of the space after the picker column(s) — centred, via padding (not width) so it doesn't fight this
+   column's own flex-basis sizing above — with some room above it. */
+.res-tree-hub .res-col-links.res-intro { padding: 32px 3% 0 6%; }
 .res-tree-hub .res-intro-image {
     width: 100%;
-    max-width: 420px;
     aspect-ratio: 16 / 9;
     margin-bottom: 18px;
     overflow: hidden;
@@ -224,7 +362,7 @@ body.admin-mode .add-section-row { display: flex; gap: 10px; align-items: center
     color: #bdbdbd;
 }
 .res-tree-hub .res-intro-placeholder svg { width: 90px; height: 60px; }
-.res-tree-hub .res-intro-text { max-width: 420px; margin: 10px 0 0; font-size: 15px; line-height: 1.6; color: #666666; }
+.res-tree-hub .res-intro-text { margin: 10px 0 0; font-size: 17px; line-height: 1.6; color: #666666; }
 
 /* the final column: the selected section's (or sub-section's) own links. The header is a flex row so the title
    and the "open page" link sit inline (side by side) instead of the link falling to its own line under the
@@ -267,19 +405,20 @@ body.admin-mode .add-section-row { display: flex; gap: 10px; align-items: center
 .res-tree-hub .res-hint,
 .res-tree-hub .res-empty { margin: 4px 0; font-size: 13px; color: #aaa; }
 
-@media (max-width: 1000px) {
-    .res-tree-hub > .res-col { flex-basis: 160px; }
-    .res-tree-hub .res-col + .res-col { margin-left: 20px; padding-left: 20px; }
-}
-
 /* Phones: mobile.css's shared .res-tree rules (stacking, chip rows, active-state theming) already cover this
    tree too, since it reuses the same class names — except two rules assume a category page's own title already
    names the current page/section, which isn't true here (the hub's title never changes), so both need to stay
    visible instead of collapsing away. */
 @media (max-width: 768px) {
-    body.m2 .res-tree-hub .res-col-cats .res-head,
-    body.m2 .res-tree-hub .res-col-sections .res-head {
+    body.m2 .res-tree-hub .res-col-cats .res-head {
         display: block !important;
+    }
+    /* Sections/Topics/Sub-sections headers keep their flex layout here (not display:block like the rule above) —
+       they pair a back-chevron with the title, and block would drop that "‹" onto its own line. */
+    body.m2 .res-tree-hub .res-col-sections .res-head {
+        display: flex !important;
+        align-items: baseline;
+        gap: 6px;
     }
     body.m2 .res-tree-hub .res-col-cats .sidebar-section + .sidebar-section {
         display: block !important;
@@ -300,9 +439,9 @@ body.admin-mode .add-section-row { display: flex; gap: 10px; align-items: center
 }
 .learning-note:hover { border-color: #45a049; }
 .learning-note-title { display: block; font-size: 20px; font-weight: 300; }
-.learning-note-text { display: block; margin-top: 2px; font-size: 17px; color: #888f8d; transition: color 0.2s ease; }
+.learning-note-text { display: block; margin-top: 2px; font-size: 17px; color: #45a049; text-decoration: none; }
 .learning-note-arrow { display: inline-block; transition: transform 0.25s ease; }
-.learning-note:hover .learning-note-text { color: #45a049; }
+.learning-note:hover .learning-note-text { text-decoration: underline; }
 .learning-note:hover .learning-note-arrow { transform: translateX(6px); }
 
 @media (prefers-reduced-motion: reduce) {
