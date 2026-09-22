@@ -1,14 +1,18 @@
 // The hub list behind navigation/resources.html, navigation/learning.html and every category page.
 // It lives in data/resources.json as sections of "cards", and has three groups:
 //
-//   By Function (id "cat")   → Create, Consume, Explore, Learn                    (navigation/resources/*.html)
-//   By Topic   (id "topics") → Tech, Open Source, Community, Career Resources, Misc.  (navigation/resources/*.html)
-//   Guides     (id "guides") → the tutorial categories in navigation/learning/*.html
+//   By Function (id "cat")    → Create, Consume, Explore, Learn                    (navigation/resources/*.html;
+//                                shown on the hub as plain tags, not a browsable card group — see hub.js)
+//   Quick Links (id "topics") → Tech, Open Source, Community, Career Resources, Misc.  (navigation/resources/*.html)
+//   Guides      (id "guides") → the tutorial categories in navigation/learning/*.html
+//
+// The hub's own hand-picked shortcuts (Wayback Machine, Lainchan, …) are a separate "My Favourites" links section,
+// kept as-is in data/resources.json.
 //
 // Each Resources page is a topic tree (title → topics → sections → links), see links.js.
 //
 // normalize() is what every page runs the saved list through, so older saved copies still work: a list from
-// before the current topic trees (no "Create" + "Career Resources" cards) gets the new Categories + By Topic groups, and the Guides group
+// before the current topic trees (no "Create" + "Career Resources" cards) gets the new Categories + Quick Links groups, and the Guides group
 // is added if the saved list doesn't have one yet (the next admin save writes it out).
 
 const HubData = (() => {
@@ -52,7 +56,7 @@ const HubData = (() => {
     ]);
 
     const savedSection = () => ({ id: 'cat', title: 'By Function', type: 'cards', intro: '', items: saved() });
-    const topicsSection = () => ({ id: 'topics', title: 'By Topic', type: 'cards', intro: '', items: topics() });
+    const topicsSection = () => ({ id: 'topics', title: 'Quick Links', type: 'cards', intro: '', items: topics() });
     const guidesSection = () => ({ id: 'guides', title: 'Guides', type: 'cards', intro: "Step-by-step write-ups and how-tos I've put together.", items: guides() });
 
     const isGuides = sec => sec.id === 'guides';
@@ -66,18 +70,65 @@ const HubData = (() => {
     function normalize(data) {
         if (!Array.isArray(data)) data = [];
         if (!hasNewTree(data)) {
-            // an older list of link categories: swap its cards for the new groups, keep every other section (Quick Links…)
+            // an older list of link categories: swap its cards for the new groups, keep every other section (My Favourites…)
             const rest = data.filter(s => !(s.type === 'cards' && !isGuides(s)));
             data = [savedSection(), topicsSection()].concat(rest);
         }
         data.forEach(s => {
             if (s.type !== 'cards') return;
             if (s.id === 'cat' && (s.title === 'Categories' || s.title === 'Saved Links')) s.title = 'By Function';
+            if (s.id === 'topics' && s.title === 'By Topic') s.title = 'Quick Links';
+            // the hub's original hand-curated links section (Wayback Machine, Lainchan, …) — give it its name
+            if (s.type === 'links' && s.id !== 'topics' && (s.title === 'Quick Links' || s.title === 'Categories')) s.title = 'My Favourites';
             s.items = (s.items || []).filter(it => !isTutorialsCard(it));
         });
         if (!data.some(isGuides)) data.push(guidesSection());
         return data;
     }
 
-    return { normalize, isGuides };
+    // Parses a category's markdown (see links.js's file-format comment) into
+    // { intro: {image, alt, description}, folders: [section...], topics: [topic...] }.
+    // Shared by links.js (the category tree pages) and hub.js (the hub's inline folder tree).
+    function parseMarkdown(markdown) {
+        const folders = [], topics = [];
+        const info = { image: '', alt: '', description: '' };
+        let folder = null, sub = null, last = null, topic = null;
+
+        markdown.split('\n').forEach(raw => {
+            const line = raw.replace(/\r$/, '');
+            const t = line.trim();
+            if (line.startsWith('# ')) {
+                topic = { name: line.slice(2).trim(), description: '' };
+                topics.push(topic);
+                folder = null; sub = null; last = null;
+            } else if (line.startsWith('## ')) {
+                folder = { name: line.slice(3).trim(), description: '', topic: topic ? topic.name : '', subfolders: [], items: [] };
+                folders.push(folder);
+                sub = null; last = null;
+            } else if (line.startsWith('### ')) {
+                if (!folder) return;
+                sub = { name: line.slice(4).trim(), description: '', items: [] };
+                folder.subfolders.push(sub);
+                last = null;
+            } else if (t.startsWith('- **')) {
+                const m = t.match(/^- \*\*(.+?)\*\*:?\s*(.*)/);
+                if (m && folder) {
+                    last = { name: m[1], description: m[2], link: '' };
+                    (sub ? sub.items : folder.items).push(last);
+                }
+            } else if (/^- (https?:|\/|\.\.?\/|mailto:)/i.test(t)) {
+                if (last) last.link = t.slice(2).trim();
+            } else if (t.startsWith('>')) {
+                const d = t.replace(/^>\s?/, '');
+                const target = sub || folder || topic || info;
+                target.description = target.description ? target.description + ' ' + d : d;
+            } else if (!folder) {
+                const im = t.match(/^!\[([^\]]*)\]\(([^)]+)\)/);
+                if (im) { info.alt = im[1]; info.image = im[2]; }
+            }
+        });
+        return { intro: info, folders, topics };
+    }
+
+    return { normalize, isGuides, parseMarkdown };
 })();

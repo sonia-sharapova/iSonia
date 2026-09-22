@@ -9,6 +9,7 @@ const HUB_ONLY = document.body.dataset.hub || '';
 
 let sections = [];
 let isAdmin = false;
+let treeData = {};   // page slug -> { intro, folders, topics } for the inline folder tree (Quick Links pages)
 
 // current modal state
 let modalSectionId = null;
@@ -28,7 +29,35 @@ async function init() {
     sections = HubData.normalize(sections);
   } catch(e) { sections = HubData.normalize([]); }
 
+  if (HUB_ONLY !== 'guides') await loadTree();
   render();
+}
+
+// ── Inline folder tree (the Quick Links pages' real content, browsable without leaving the hub) ──
+async function fetchCategoryMarkdown(name) {
+  for (const dir of ['markdown', 'seed']) {
+    try {
+      const r = await fetch(`resources/${dir}/${name}.md`);
+      if (r.ok) {
+        const text = await r.text();
+        if (!/^\s*<(!doctype|html)/i.test(text)) return text;
+      }
+    } catch (e) { /* try the next one */ }
+  }
+  return null;
+}
+
+async function loadTree() {
+  const topicsSec = sections.find(s => s.id === 'topics');
+  const pages = (topicsSec ? topicsSec.items : []).map(it => ({
+    title: it.title,
+    slug: it.href.split('/').pop().replace('.html', '')
+  }));
+  const entries = await Promise.all(pages.map(async p => {
+    const md = await fetchCategoryMarkdown(p.slug);
+    return [p.slug, md ? { title: p.title, slug: p.slug, ...HubData.parseMarkdown(md) } : null];
+  }));
+  treeData = Object.fromEntries(entries.filter(([, v]) => v));
 }
 
 function uid() { return Math.random().toString(36).slice(2,9) + Date.now().toString(36); }
@@ -46,14 +75,17 @@ function render() {
 }
 
 function renderSection(sec) {
-  const items = sec.type === 'cards' ? renderCards(sec) : renderLinks(sec);
+  // "cat" (By Function: Create/Consume/Explore/Learn) is shown as plain tags, not a browsable group
+  // "topics" (Quick Links) is shown as the inline folder tree of its pages' real content
+  const items = sec.id === 'cat' ? renderTags(sec)
+    : sec.id === 'topics' ? renderTree()
+    : sec.type === 'cards' ? renderMenu(sec) : renderLinks(sec);
   return `
     <div class="section-block" data-id="${sec.id}">
       <div class="section-header-row">
         <div class="section-header">${esc(sec.title)}</div>
         <button class="adm-plus admin-only" onclick="openItemModal('${sec.id}',null)" title="Add item">+</button>
       </div>
-      ${sec.intro ? `<div class="resources-intro"><p>${esc(sec.intro)}</p></div>` : ''}
       ${items}
       <div class="admin-only" style="margin-top:6px;">
         <button class="adm-text-del" onclick="deleteSection('${sec.id}')">delete section</button>
@@ -61,58 +93,95 @@ function renderSection(sec) {
     </div>`;
 }
 
-// Line icons for the hub tiles, keyed by the page name (resources/<name>.html); anything else gets the generic page icon
-const HUB_ICONS = {
-  creating: '<path d="M4 20l4-1 11-11-3-3L5 16l-1 4z"/><path d="M14 6l3 3"/>',
-  consuming: '<circle cx="12" cy="12" r="9"/><path d="M10 8.5l6 3.5-6 3.5z"/>',
-  exploring: '<circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2 5-5 2 2-5z"/>',
-  learning: '<path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11.5V16c0 1.5 3 3 6 3s6-1.5 6-3v-4.5"/>',
-  technology: '<rect x="6" y="6" width="12" height="12" rx="1"/><rect x="9.5" y="9.5" width="5" height="5"/><path d="M9 3v3M15 3v3M9 18v3M15 18v3M3 9h3M3 15h3M18 9h3M18 15h3"/>',
-  'open-source': '<path d="M8 8l-4 4 4 4M16 8l4 4-4 4M13.5 5l-3 14"/>',
-  'get-involved': '<circle cx="9" cy="8" r="3"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><circle cx="17" cy="9" r="2.5"/><path d="M17 14c2.5 0 4.5 2 4.5 5"/>',
-  careers: '<rect x="3" y="7" width="18" height="13" rx="1.5"/><path d="M9 7V5h6v2M3 13h18"/>',
-  misc: '<path d="M12 3l2.5 6 6.5.5-5 4.3 1.6 6.4-5.6-3.4-5.6 3.4L8 13.8 3 9.5l6.5-.5z"/>',
-  'web-design': '<rect x="3" y="5" width="18" height="14" rx="1.5"/><path d="M3 9h18"/>',
-  algorithms: '<circle cx="6" cy="6" r="2"/><circle cx="18" cy="6" r="2"/><circle cx="12" cy="18" r="2"/><path d="M8 6h8M7 8l4 8M17 8l-4 8"/>',
-  'machine-learning': '<circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"/>',
-  hpc: '<rect x="4" y="4" width="16" height="6" rx="1"/><rect x="4" y="14" width="16" height="6" rx="1"/><path d="M8 7h.01M8 17h.01"/>',
-  privacy: '<rect x="5" y="11" width="14" height="9" rx="1.5"/><path d="M8 11V8a4 4 0 018 0v3"/>',
-  _page: '<path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4M9 12h6M9 16h6"/>'
-};
-function hubIcon(href) {
-  const name = String(href || '').split('?')[0].split('/').pop().replace('.html', '');
-  return `<svg class="cat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${HUB_ICONS[name] || HUB_ICONS._page}</svg>`;
+// The Quick Links pages' full contents, as one expandable folder tree: Page > Topic > Section > Sub-section > links.
+function renderTree() {
+  const pages = Object.values(treeData);
+  if (!pages.length) return '';
+  return `<div class="res-tree-wrap">` + pages.map(renderTreePage).join('') + `</div>`;
 }
 
-// A tile: icon + title, then a short bullet list (or the description). On hover it slides right, turns green and shows an arrow.
-function renderCards(sec) {
-  return `<div class="category-grid">` +
+function renderTreePage(page) {
+  const body = page.topics.length
+    ? page.topics.map(t => renderTreeTopic(page, t)).join('')
+    : page.folders.map(f => renderTreeFolder(page, f)).join('');
+  return `<details class="res-tree-node res-tree-page">
+      <summary><span class="res-tree-name">${esc(page.title)}</span></summary>
+      <div class="res-tree-children">${body}</div>
+    </details>`;
+}
+
+function renderTreeTopic(page, topic) {
+  const folders = page.folders.filter(f => f.topic === topic.name);
+  return `<details class="res-tree-node res-tree-topic">
+      <summary><span class="res-tree-name">${esc(topic.name)}</span></summary>
+      <div class="res-tree-children">${folders.map(f => renderTreeFolder(page, f)).join('')}</div>
+    </details>`;
+}
+
+function renderTreeFolder(page, folder) {
+  const anchor = `resources/${page.slug}.html#${slugify(folder.name)}`;
+  const openLink = `<a href="${esc(anchor)}" class="res-tree-open" title="Open ${esc(folder.name)} on its own page" onclick="event.stopPropagation()">↗</a>`;
+  const linksHtml = renderTreeLinks(folder.items);
+  const subsHtml = folder.subfolders.map(sf => `
+      <details class="res-tree-node res-tree-sub">
+        <summary><span class="res-tree-name">${esc(sf.name)}</span>${openLink}</summary>
+        <div class="res-tree-children">${renderTreeLinks(sf.items)}</div>
+      </details>`).join('');
+  const hasChildren = folder.items.length || folder.subfolders.length;
+  if (!hasChildren) return `<div class="res-tree-leaf"><span class="res-tree-name">${esc(folder.name)}</span></div>`;
+  return `<details class="res-tree-node res-tree-folder">
+      <summary><span class="res-tree-name">${esc(folder.name)}</span>${openLink}</summary>
+      <div class="res-tree-children">${linksHtml}${subsHtml}</div>
+    </details>`;
+}
+
+function renderTreeLinks(items) {
+  if (!items || !items.length) return '';
+  return `<ul class="res-tree-links">` + items.map(it => it.link
+    ? `<li><a href="${esc(it.link)}" class="res-tree-link"${/^https?:/i.test(it.link) ? ' target="_blank" rel="noopener"' : ''}>${esc(it.name)}</a></li>`
+    : `<li>${esc(it.name)}</li>`
+  ).join('') + `</ul>`;
+}
+
+function slugify(s) {
+  return String(s || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+}
+
+// By Function (Create/Consume/Explore/Learn): plain static tags — a label, not a link.
+function renderTags(sec) {
+  return `<div class="tag-row">` +
     (sec.items||[]).map(item => `
-      <a href="${esc(item.href)}" class="cat-tile">
-        <div class="cat-head">
-          ${hubIcon(item.href)}
-          <span class="cat-title">${esc(item.title)}</span>
-          <span class="cat-arrow" aria-hidden="true">→</span>
-        </div>
-        ${(item.bullets || []).length
-          ? `<ul class="cat-list">${item.bullets.map(b => `<li>${esc(b)}</li>`).join('')}</ul>`
-          : (item.desc ? `<p class="cat-desc">${esc(item.desc)}</p>` : '')}
+      <span class="tag-chip">
+        ${esc(item.title)}
+        <span class="item-admin-btns admin-only">
+          <button class="adm-btn adm-edit" onclick="openItemModal('${sec.id}','${item.id}')">✎</button>
+          <button class="adm-btn adm-del"  onclick="deleteItem('${sec.id}','${item.id}')">✕</button>
+        </span>
+      </span>`).join('') +
+    `</div>`;
+}
+
+// A standard menu list: title only, no description — Quick Links and any other card group besides Guides/By Function.
+function renderMenu(sec) {
+  return `<ul class="menu-list">` +
+    (sec.items||[]).map(item => `
+      <li class="menu-item">
+        <a href="${esc(item.href)}" class="menu-link">${esc(item.title)}</a>
         <span class="item-admin-btns admin-only">
           <button class="adm-btn adm-edit" onclick="event.preventDefault();openItemModal('${sec.id}','${item.id}')">✎</button>
           <button class="adm-btn adm-del"  onclick="event.preventDefault();deleteItem('${sec.id}','${item.id}')">✕</button>
         </span>
-      </a>`).join('') +
-    `</div>`;
+      </li>`).join('') +
+    `</ul>`;
 }
 
+// My Favourites (a hand-picked links list): title only, no description.
 function renderLinks(sec) {
-  return `<ul class="subcategory-list">` +
+  return `<ul class="menu-list">` +
     (sec.items||[]).map(item => `
-      <li class="subcategory-item">
-        <a href="${esc(item.href)}" class="subcategory-link">
-          <span><span style="font-weight:bold">${esc(item.title)}:</span> ${esc(item.desc)}<hr></span>
-        </a>
-        <span class="item-admin-btns admin-only" style="top:8px;">
+      <li class="menu-item">
+        <a href="${esc(item.href)}" class="menu-link">${esc(item.title)}</a>
+        <span class="item-admin-btns admin-only">
           <button class="adm-btn adm-edit" onclick="openItemModal('${sec.id}','${item.id}')">✎</button>
           <button class="adm-btn adm-del"  onclick="deleteItem('${sec.id}','${item.id}')">✕</button>
         </span>

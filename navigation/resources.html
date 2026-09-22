@@ -37,30 +37,32 @@
 </div>
 
 <div class="content">
-  <div class="resources-intro">
-    <p>
-      My internet library!! Here are my webpages, guides, and everything else I have collected over the years ^_^<br><br>
-      Everything from educational resources to hacking tutorials, with fun collections and useful tools to explore.
-    </p>
-  </div>
-
-  <div id="resources-body"></div>
-
-  <!-- the Guides live on the Learning page -->
-  <div class="section-block">
-    <div class="section-header-row">
-      <div class="section-header">More</div>
+  <div class="resources-container">
+    <div class="resources-intro">
+      <p>
+        My internet library!! Here are my webpages, guides, and everything else I have collected over the years ^_^<br><br>
+        Everything from educational resources to hacking tutorials, with fun collections and useful tools to explore.
+      </p>
     </div>
-    <a href="learning.html" class="learning-note">
-      <span class="learning-note-title">See my custom lessons and tutorials:</span>
-      <span class="learning-note-text">Check meow-t! <span class="learning-note-arrow">&rarr;</span></span>
-    </a>
-  </div>
 
-  <div class="add-section-row">
-    <button class="adm-btn adm-add" onclick="openSectionModal(null)">+ Add Section</button>
+    <div id="resources-body"></div>
+
+    <!-- the Guides live on the Learning page -->
+    <div class="section-block">
+      <div class="section-header-row">
+        <div class="section-header">More</div>
+      </div>
+      <a href="learning.html" class="learning-note">
+        <span class="learning-note-title">See my custom lessons and tutorials:</span>
+        <span class="learning-note-text">Check meow-t! <span class="learning-note-arrow">&rarr;</span></span>
+      </a>
+    </div>
+
+    <div class="add-section-row">
+      <button class="adm-btn adm-add" onclick="openSectionModal(null)">+ Add Section</button>
+    </div>
+    <div id="admin-link-mobile"></div>
   </div>
-  <div id="admin-link-mobile"></div>
 </div>
 
 <!-- Item Modal -->
@@ -71,9 +73,9 @@
     <input type="text" id="item-title" placeholder="e.g. GitHub">
     <label>URL *</label>
     <input type="text" id="item-href" placeholder="https://...">
-    <label>Description</label>
+    <label>Description (kept with the item, not shown on this menu)</label>
     <input type="text" id="item-desc" placeholder="Short description">
-    <label>Bullets (one per line — shown on the hub tile instead of the description)</label>
+    <label>Bullets (kept with the item, not shown on this menu)</label>
     <textarea id="item-bullets" rows="4" placeholder="Design Resources&#10;DIY and Projects"></textarea>
     <div class="res-modal-actions">
       <button class="res-modal-save" id="item-save">Save</button>

@@ -308,45 +308,6 @@
 - **YouTube Royalty Free**: YouTube Free Music
   - https://www.youtube.com/channel/UCht8qITGkBvXKsR1Byln-wA
 
-# Gaming
-> Classic games to play in the browser, or download.
-
-## Video Games
-> Play classic games in the browser, or download them.
-
-- **ClassicReload**:
-  - https://classicreload.com/
-- **Emulator**:
-  - http://emulator.online/
-- **Emulator.games**:
-  - https://emulator.games/
-- **Free80sArcard**:
-  - https://www.free80sarcade.com/
-- **GamesHaha**:
-  - https://www.gameshaha.net/
-- **Gamulator**:
-  - https://www.gamulator.com/roms
-- **HAUNTED PS1 DEMO DISC**: indie horror video game demos that are all somewhat styled with a PS1 aesthetic
-  - https://hauntedps1.itch.io/demodisc2020
-- **MyAbandonWare**: Download or play abandonware games (1978 - 2010)
-  - https://www.myabandonware.com/
-- **PlayClassicGames**:
-  - https://playclassic.games/
-- **PlayRetroGames**:
-  - https://www.playretrogames.com/
-- **ps1Fun**:
-  - http://www.ps1fun.com/
-- **PS2 Games**: PS2 on steam
-  - https://store.steampowered.com/curator/42604691/
-- **psxui**: appreciation of user interface design in PlayStation 1 games.
-  - https://psxui.tumblr.com/
-- **RetroGames**:
-  - https://www.retrogames.cz/
-- **SubServ**: Send subtitles displayed by mpv to your web-browser
-  - https://github.com/kaervin/subserv-mpv-plugin
-- **vimms lair**: The best archival site for games, manuals, reviews, and more.
-  - https://vimm.net/
-
 # Retro Computing & Emulation
 > Running old software on new machines, and the history behind it.
 

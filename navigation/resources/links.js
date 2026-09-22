@@ -53,46 +53,8 @@ let curSub = -1;            // topic pages: the selected sub-section of curSecti
 let isAdmin = false;
 
 // ── Parse markdown ───────────────────────────────────────────────
-function parseMarkdown(markdown) {
-    const folders = [], topics = [];
-    const info = { image: '', alt: '', description: '' };
-    let folder = null, sub = null, last = null, topic = null;
-
-    markdown.split('\n').forEach(raw => {
-        const line = raw.replace(/\r$/, '');
-        const t = line.trim();
-        if (line.startsWith('# ')) {
-            topic = { name: line.slice(2).trim(), description: '' };
-            topics.push(topic);
-            folder = null; sub = null; last = null;
-        } else if (line.startsWith('## ')) {
-            folder = { name: line.slice(3).trim(), description: '', topic: topic ? topic.name : '', subfolders: [], items: [] };
-            folders.push(folder);
-            sub = null; last = null;
-        } else if (line.startsWith('### ')) {
-            if (!folder) return;
-            sub = { name: line.slice(4).trim(), description: '', items: [] };
-            folder.subfolders.push(sub);
-            last = null;
-        } else if (t.startsWith('- **')) {
-            const m = t.match(/^- \*\*(.+?)\*\*:?\s*(.*)/);
-            if (m && folder) {
-                last = { name: m[1], description: m[2], link: '' };
-                (sub ? sub.items : folder.items).push(last);
-            }
-        } else if (/^- (https?:|\/|\.\.?\/|mailto:)/i.test(t)) {
-            if (last) last.link = t.slice(2).trim();
-        } else if (t.startsWith('>')) {
-            const d = t.replace(/^>\s?/, '');
-            const target = sub || folder || topic || info;
-            target.description = target.description ? target.description + ' ' + d : d;
-        } else if (!folder) {
-            const im = t.match(/^!\[([^\]]*)\]\(([^)]+)\)/);
-            if (im) { info.alt = im[1]; info.image = im[2]; }
-        }
-    });
-    return { intro: info, folders, topics };
-}
+// Shared with the hub's inline folder tree — see HubData.parseMarkdown in hub-data.js (loaded before this file).
+const parseMarkdown = HubData.parseMarkdown;
 
 // ── Serialize back to markdown ───────────────────────────────────
 function serializeToMarkdown(folders, info, topics) {
