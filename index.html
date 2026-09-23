@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="styles/clock.css">
   <link rel="stylesheet" href="styles/homepage.css">
   <link rel="stylesheet" href="styles/blogs.css">
+  <link rel="stylesheet" href="styles/forum.css">
   <link rel="stylesheet" href="styles/mobile.css">
 
 
@@ -241,18 +242,40 @@
   <a href="navigation/about.html" class="nav-item">ABOUT</a>
 </nav>
 
-<div class="title-container">
-  <div class="nav-links">
-      <div class="tags-group">
-        <span class="sub-nav-item">SEE: </span>
-        <a href="./creations/blogs.html" class="sub-nav-item">writing</a>
-        <a href="./photos.html" class="sub-nav-item">photography</a>
-        <a href="./creations/art.html" class="sub-nav-item">art</a>
-        <a href="./personal/archives.html" class="sub-nav-item">archive</a>
+<!-- 4chan-style board bar — homepage-only replacement for the "SEE:" sub-nav every other page
+     keeps. Full-bleed like .navigation above it (not nested in .title-container, which is
+     already 80%-width itself); .board-bar-inner reuses .content's own 80%/max-width centering
+     directly, the same one application every other page's .content gets. Each code is a real
+     imageboard board code, pointed at whichever page its actual definition (see the title on
+     each) is the closest match for. -->
+<div class="board-bar">
+  <div class="content board-bar-inner">
+      <div class="board-list">
+        [
+        <a href="navigation/resources.html" title="Links archive">li</a> <span class="board-sep">/</span>
+        <a href="navigation/resources/media.html" title="/a/ Anime &amp; Manga &rarr; Film, anime, games &amp; reading">a</a> <span class="board-sep">/</span>
+        <a href="creations/blogs.html" title="/b/ Random &rarr; Blog">b</a> <span class="board-sep">/</span>
+        <a href="navigation/resources/technology.html" title="/g/ Technology">g</a> <span class="board-sep">/</span>
+        <a href="photos.html" title="/p/ Photography">p</a> <span class="board-sep">/</span>
+        <a href="navigation/resources/software.html" title="/t/ Torrents &rarr; Software &amp; tools">t</a> <span class="board-sep">/</span>
+        <a href="creations/games.html" title="/v/ Video Games">v</a> <span class="board-sep">/</span>
+        <a href="navigation/portfolio.html" title="/vip/ Very Important Posts &rarr; Portfolio">vip</a> <span class="board-sep">/</span>
+        <a href="creations/interactive.html" title="/diy/ Do It Yourself &rarr; Interactive projects">diy</a> <span class="board-sep">/</span>
+        <a href="navigation/resources/culture.html" title="/fa/ Fashion &rarr; Culture">fa</a> <span class="board-sep">/</span>
+        <a href="navigation/resources/design.html" title="/gd/ Graphic Design">gd</a> <span class="board-sep">/</span>
+        <a href="personal/books.html" title="/lit/ Literature &rarr; Books">lit</a> <span class="board-sep">/</span>
+        <a href="personal/music.html" title="/mu/ Music">mu</a> <span class="board-sep">/</span>
+        <a href="personal/electronics.html" title="/po/ Papercraft &amp; Origami &rarr; Electronics">po</a> <span class="board-sep">/</span>
+        <a href="personal/movies.html" title="/tv/ Television &amp; Film &rarr; Movies">tv</a> <span class="board-sep">/</span>
+        <a href="personal/cards.html" title="/vp/ Pok&eacute;mon &rarr; Pok&eacute;mon Cards">vp</a> <span class="board-sep">/</span>
+        ]
+        <span class="board-admin">[<span id="admin-link-area"></span>]</span>
       </div>
-      <div id="admin-link-area"></div>
+      <div class="board-socials">
+        [<a href="https://github.com/sonia-sharapova" target="_blank" rel="noopener">github</a>][<a href="https://www.linkedin.com/in/sonia-sharapova/" target="_blank" rel="noopener">linkedin</a>][<a href="navigation/about.html">about</a>]
+      </div>
+    </div>
   </div>
-</div>
 
 <main class="content">
   <div class="left-column">
@@ -293,13 +316,14 @@
       </div>
 
 
-      <div class="blog-section">
-        <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px;">
-          <h2 class="blog-title" style="margin:0;">Recent Thoughts</h2>
-          <a href="creations/blogs.html" class="see-all-link" style="font-size:12px;margin:0;">SEE ALL</a>
+      <div class="forum-board blog-section">
+        <div class="forum-board-head">
+          <h2 class="forum-board-title">/blog/ - Recent Thoughts</h2>
+          <a href="creations/blogs.html" class="forum-catalogue-link">[Catalogue]</a>
         </div>
-        <div id="recent-posts"></div>
-        <a href="creations/blogs.html" class="see-all-link">SEE ALL</a>
+        <a href="#" class="forum-message-link" onclick="event.preventDefault();openContactModal()">[Message Me]</a>
+        <div class="forum-thread-list" id="recent-posts"></div>
+        <a href="creations/blogs.html" class="forum-see-all">[See All]</a>
       </div>
     </div>
 
@@ -374,97 +398,42 @@
   </div>
 </div>
 
-<!-- Contact Modal -->
-<style>
-  /* Contact form: centred intro, labelled fields on light-grey boxes, black SUBMIT */
-  #contactModal .cm-box {
-    width: 92%; max-width: 680px; max-height: 92vh; overflow-y: auto;
-    box-sizing: border-box; padding: 44px 48px 48px;
-    background: #fff; border-radius: 3px; box-shadow: 0 4px 14px rgba(0,0,0,0.18);
-    pointer-events: auto;
-  }
-  #contactModal .cm-intro {
-    margin: 0 0 34px; text-align: center; font-size: 16px; line-height: 1.55;
-    letter-spacing: 0.06em; color: #555;
-  }
-  #contactModal .cm-group { margin-bottom: 26px; }
-  #contactModal .cm-label {
-    display: block; margin-bottom: 6px; font-size: 16px; letter-spacing: 0.08em; color: #45a049;
-  }
-  #contactModal .cm-sub { display: block; margin-bottom: 4px; font-size: 13px; letter-spacing: 0.06em; color: #333; }
-  #contactModal .cm-req { font-size: 0.8em; color: #888; letter-spacing: 0.04em; }
-  #contactModal .cm-label .cm-req { color: #8fcf94; }
-  #contactModal .cm-row { display: flex; gap: 10px; }
-  #contactModal .cm-row > div { flex: 1; min-width: 0; }
-  #contactModal input[type="text"],
-  #contactModal input[type="email"],
-  #contactModal textarea {
-    display: block; width: 100%; box-sizing: border-box; padding: 10px 12px;
-    background: #f9f9f9; border: 1px solid #999; border-radius: 0;
-    font: 16px 'Optima', arial, sans-serif; color: #333;
-  }
-  #contactModal input[type="text"],
-  #contactModal input[type="email"] { height: 40px; }
-  #contactModal textarea { min-height: 100px; resize: vertical; }
-  #contactModal input:focus, #contactModal textarea:focus { outline: none; border-color: #45a049; background: #fff; }
-  #contactModal .cm-submit {
-    display: block; margin: 34px auto 0; min-width: 144px; padding: 17px 32px;
-    background: #222; color: #fff; border: none; border-radius: 0; cursor: pointer;
-    font: 700 15px 'Optima', arial, sans-serif; letter-spacing: 0.1em; text-transform: uppercase;
-    transition: background 0.2s;
-  }
-  #contactModal .cm-submit:hover { background: #45a049; }
-  #contactModal .cm-submit:disabled { opacity: 0.6; cursor: default; }
-  #contactModal .modal-close { top: 10px; right: 14px; color: #888 !important; z-index: 1; pointer-events: auto; }
-  #contactModal .cm-wrap { position: relative; pointer-events: auto; width: 92%; max-width: 680px; }
-  #contactModal .cm-wrap .cm-box { width: 100%; }
-  @media (max-width: 560px) {
-    #contactModal .cm-box { padding: 56px 20px 32px; }
-    #contactModal .cm-row { flex-direction: column; gap: 14px; }
-  }
-</style>
+<!-- Contact Modal — new-thread-style posting form (styles/forum.css's #contactModal .nt-*
+     rules), trimmed to the fields that actually apply to a contact message: Name, Email,
+     Subject (+ Post button, same row), Comment. No file/spoiler/wrap/password fields — those
+     only mean something on an actual image board. -->
 <div class="modal" id="contactModal" style="z-index: 2000; background: rgba(27,27,27,0.36);">
-  <div class="cm-wrap">
+  <div class="cm-wrap nt-wrap">
     <button class="modal-close" id="closeContactModal" aria-label="Close">✕</button>
-    <div class="cm-box">
-      <p class="cm-intro">
+    <div class="nt-box">
+      <p class="nt-intro">
         I'd love to hear from anybody &mdash; questions, ideas, or a project to work on together.
-        Feel free to get in touch!
       </p>
 
       <form id="mobile-contact-form">
-        <div class="cm-group">
-          <span class="cm-label">Name</span>
-          <div class="cm-row">
-            <div>
-              <label class="cm-sub" for="cm-first">First Name <span class="cm-req">(required)</span></label>
-              <input type="text" id="cm-first" name="first" required autocomplete="given-name">
-            </div>
-            <div>
-              <label class="cm-sub" for="cm-last">Last Name <span class="cm-req">(optional)</span></label>
-              <input type="text" id="cm-last" name="last" autocomplete="family-name">
-            </div>
-          </div>
-        </div>
+        <table class="nt-table">
+          <tr>
+            <td class="nt-label"><label for="mobile-name">Name</label></td>
+            <td class="nt-field"><input type="text" id="mobile-name" name="name" required autocomplete="name"></td>
+          </tr>
+          <tr>
+            <td class="nt-label"><label for="mobile-email">Email</label></td>
+            <td class="nt-field"><input type="email" id="mobile-email" name="email" required autocomplete="email"></td>
+          </tr>
+          <tr>
+            <td class="nt-label"><label for="mobile-subject">Subject</label></td>
+            <td class="nt-field nt-subject-row">
+              <input type="text" id="mobile-subject" name="subject" required>
+              <button type="submit" class="nt-post-btn">Post</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="nt-label"><label for="mobile-message">Comment</label></td>
+            <td class="nt-field"><textarea id="mobile-message" name="message" rows="6" required></textarea></td>
+          </tr>
+        </table>
 
-        <div class="cm-group">
-          <label class="cm-label" for="mobile-email">Email <span class="cm-req">(required)</span></label>
-          <input type="email" id="mobile-email" name="email" required autocomplete="email">
-        </div>
-
-        <div class="cm-group">
-          <label class="cm-label" for="mobile-subject">Subject <span class="cm-req">(required)</span></label>
-          <input type="text" id="mobile-subject" name="subject" required>
-        </div>
-
-        <div class="cm-group">
-          <label class="cm-label" for="mobile-message">Message <span class="cm-req">(required)</span></label>
-          <textarea id="mobile-message" name="message" rows="4" required></textarea>
-        </div>
-
-        <button type="submit" class="cm-submit">Submit</button>
-
-        <div id="mobile-form-message" style="margin-top: 16px; text-align: center; font-size: 14px; color: #666; display: none;"></div>
+        <div id="mobile-form-message" style="display: none;"></div>
       </form>
     </div>
   </div>
@@ -499,13 +468,11 @@
     e.preventDefault();
 
     const formData = new FormData(this);
-    // send_email.php takes a single name field
-    formData.set('name', (formData.get('first') + ' ' + formData.get('last')).trim());
     const messageDiv = document.getElementById('mobile-form-message');
     const submitButton = this.querySelector('button[type="submit"]');
 
     submitButton.disabled = true;
-    submitButton.textContent = 'Sending...';
+    submitButton.textContent = 'Posting...';
 
     fetch('send_email.php', {
       method: 'POST',
@@ -516,16 +483,16 @@
               messageDiv.style.display = 'block';
 
               if (data.success) {
-                messageDiv.style.color = 'green';
+                messageDiv.style.color = '#45a049';
                 messageDiv.textContent = data.message;
                 document.getElementById('mobile-contact-form').reset();
               } else {
-                messageDiv.style.color = 'red';
+                messageDiv.style.color = '#ff6b6b';
                 messageDiv.textContent = data.message;
               }
 
               submitButton.disabled = false;
-              submitButton.textContent = 'Submit';
+              submitButton.textContent = 'Post';
 
               setTimeout(() => {
                 messageDiv.style.display = 'none';
@@ -533,44 +500,100 @@
             })
             .catch(error => {
               messageDiv.style.display = 'block';
-              messageDiv.style.color = 'red';
+              messageDiv.style.color = '#ff6b6b';
               messageDiv.textContent = 'An error occurred. Please try again.';
               submitButton.disabled = false;
-              submitButton.textContent = 'Submit';
+              submitButton.textContent = 'Post';
             });
   });
 </script>
 
 
 <footer>
-  <div class="socials">
-    <a href="https://github.com/sonia-sharapova">GitHub</a>|
-    <a href="https://www.linkedin.com/in/sonia-sharapova/">LinkedIn</a>|
-    <a href="https://www.instagram.com/sonia.s.ru/">Instagram</a>
-  </div>
-
-  <div>
-    Contact Links<br>
-    2026
+  <!-- Same board bar as the header (see the comment up there for what each code links to and
+       why), repeated here per the Figma reference's footer. footer-board-bar strips the
+       header-only bits (the 80px clearance for the fixed nav, the border/bottom-margin) that
+       don't apply down here. -->
+  <div class="board-bar footer-board-bar">
+    <div class="content board-bar-inner">
+      <div class="board-list">
+        [2026] [
+        <a href="navigation/resources.html" title="Links archive">li</a> <span class="board-sep">/</span>
+        <a href="navigation/resources/media.html" title="/a/ Anime &amp; Manga &rarr; Film, anime, games &amp; reading">a</a> <span class="board-sep">/</span>
+        <a href="creations/blogs.html" title="/b/ Random &rarr; Blog">b</a> <span class="board-sep">/</span>
+        <a href="navigation/resources/technology.html" title="/g/ Technology">g</a> <span class="board-sep">/</span>
+        <a href="photos.html" title="/p/ Photography">p</a> <span class="board-sep">/</span>
+        <a href="navigation/resources/software.html" title="/t/ Torrents &rarr; Software &amp; tools">t</a> <span class="board-sep">/</span>
+        <a href="creations/games.html" title="/v/ Video Games">v</a> <span class="board-sep">/</span>
+        <a href="navigation/portfolio.html" title="/vip/ Very Important Posts &rarr; Portfolio">vip</a> <span class="board-sep">/</span>
+        <a href="creations/interactive.html" title="/diy/ Do It Yourself &rarr; Interactive projects">diy</a> <span class="board-sep">/</span>
+        <a href="navigation/resources/culture.html" title="/fa/ Fashion &rarr; Culture">fa</a> <span class="board-sep">/</span>
+        <a href="navigation/resources/design.html" title="/gd/ Graphic Design">gd</a> <span class="board-sep">/</span>
+        <a href="personal/books.html" title="/lit/ Literature &rarr; Books">lit</a> <span class="board-sep">/</span>
+        <a href="personal/music.html" title="/mu/ Music">mu</a> <span class="board-sep">/</span>
+        <a href="personal/electronics.html" title="/po/ Papercraft &amp; Origami &rarr; Electronics">po</a> <span class="board-sep">/</span>
+        <a href="personal/movies.html" title="/tv/ Television &amp; Film &rarr; Movies">tv</a> <span class="board-sep">/</span>
+        <a href="personal/cards.html" title="/vp/ Pok&eacute;mon &rarr; Pok&eacute;mon Cards">vp</a> <span class="board-sep">/</span>
+        ]
+        <span class="board-admin">[<span id="admin-link-footer"></span>]</span>
+      </div>
+      <div class="board-socials">
+        [<a href="https://github.com/sonia-sharapova" target="_blank" rel="noopener">github</a>][<a href="https://www.linkedin.com/in/sonia-sharapova/" target="_blank" rel="noopener">linkedin</a>][<a href="navigation/about.html">about</a>]
+      </div>
+    </div>
   </div>
 </footer>
 
 <script>
+  // Renders the "/blog/ - Recent Thoughts" list as imageboard-style threads: a checkbox, the
+  // title/date/post-number row, a "File:" line and thumbnail when the post has an image
+  // (data/posts.json's image/imageMeta — see admin/save-blog.php and admin/list-posts.php,
+  // which extract the post's first markdown image and, when it's a real local file, its real
+  // size/dimensions), then the excerpt with any greentext ("> ...") line the post led with.
+  function escHtml(s) {
+    return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+
+  // A stable, imageboard-flavored "No.XXXXXX" for a post — not a real sequential ID (posts.json
+  // doesn't have one), just a deterministic hash of the slug so the same post always shows the
+  // same number rather than a giveaway 1/2/3.
+  function postNo(slug) {
+    let h = 0;
+    for (let i = 0; i < slug.length; i++) h = (h * 31 + slug.charCodeAt(i)) >>> 0;
+    return String(100000 + (h % 900000));
+  }
+
+  function threadHtml(p) {
+    const fileLine = p.image
+      ? `<p class="forum-thread-file">File: ${escHtml(p.image.split('/').pop())}${p.imageMeta ? ` (${escHtml(p.imageMeta)})` : ''}</p>`
+      : '';
+    const image = p.image
+      ? `<div class="forum-thread-image"><img src="${escHtml(p.image)}" alt=""></div>`
+      : '';
+    return `
+      <div class="forum-thread">
+        <input type="checkbox" class="forum-thread-check" tabindex="-1" aria-hidden="true">
+        <div class="forum-thread-head">
+          <a href="creations/blogs/entry.html?post=${escHtml(p.slug)}" class="forum-thread-title">${escHtml(p.title)}</a>
+          <span class="forum-thread-meta">${escHtml(p.date)} No.${postNo(p.slug)}</span>
+        </div>
+        ${fileLine}
+        <div class="forum-thread-body">
+          ${image}
+          <div class="forum-thread-comment">
+            ${p.excerpt ? `<p>${escHtml(p.excerpt)}</p>` : ''}
+            ${p.greentext ? `<p class="forum-thread-greentext">&gt;${escHtml(p.greentext)}</p>` : ''}
+          </div>
+        </div>
+      </div>`;
+  }
+
   fetch('data/posts.json')
     .then(r => r.json())
     .then(posts => {
       const container = document.getElementById('recent-posts');
       if (!posts.length) return;
-      container.innerHTML = posts.slice(0, 3).map(p => `
-        <a href="creations/blogs/entry.html?post=${p.slug}" style="text-decoration:none">
-          <div class="blog-entry">
-            <div class="blog-entry-header">
-              <h2 class="blog-entry-title">${p.title}</h2>
-              <span class="blog-entry-date">${p.date}</span>
-            </div>
-            ${p.excerpt ? `<p class="blog-entry-excerpt">${p.excerpt}</p>` : ''}
-          </div>
-        </a>`).join('');
+      container.innerHTML = posts.slice(0, 3).map(threadHtml).join('');
     })
     .catch(() => {});
 </script>

@@ -30,10 +30,11 @@
       margin-top: 30px;
     }
 
-    /* Justified-gallery flow instead of a fixed grid: every thumb shares the
-       same height, but its width follows the source image's own aspect
-       ratio (no cropping) — roughly 4 land per row at this column's width,
-       exactly like this. */
+    /* A uniform card grid: every card is the same fixed footprint (width and
+       thumb height both fixed, image cropped to fill via object-fit: cover)
+       rather than the old justified-gallery flow where width followed each
+       source image's own aspect ratio — roughly 4 land per row at this
+       column's width, same as before, just all identically sized now. */
     .projects-rows {
       grid-column: span 3;
       min-width: 0;
@@ -77,12 +78,13 @@
 
     /* Border and padding sit on the card itself so the whole card — image, border and text together — scales up as
        one unit on hover, instead of just the image zooming inside its
-       clipped thumb box. */
+       clipped thumb box. Now a plain container (not a link itself) — only the thumbnail is a
+       hyperlink (.proj-thumb-link below); the title is static text, same as the previews on
+       projects.html. */
     .proj-card {
       display: flex;
       flex-direction: column;
-      flex: 0 0 auto;
-      text-decoration: none;
+      flex: 0 0 200px;
       color: inherit;
       border: 1px solid #d5d5d5;
       border-radius: 2px;
@@ -99,13 +101,26 @@
       z-index: 2;
     }
 
-    /* Fixed height, width left to size itself from the image's own
-       intrinsic aspect ratio (align-self: flex-start opts out of the
-       column flex's default stretch-to-card-width behavior) — this keeps
-       every thumb the same height without cropping any of them. */
+    /* The actual link — just the image. Needs the same !important resets as
+       .proj-preview-thumb-link on projects.html, to fight the site's blanket mobile
+       a{display:flex;min-height:44px;…} rule. */
+    .proj-thumb-link {
+      display: block !important;
+      min-height: 0 !important;
+      min-width: 0 !important;
+      align-items: normal !important;
+      justify-content: normal !important;
+      color: inherit;
+      text-decoration: none;
+    }
+
+    /* Fixed width and height — every thumb is the exact same box, the
+       source image cropped to fill it (object-fit: cover) rather than
+       shown at its own aspect ratio, so cards line up as a uniform grid
+       instead of a justified/masonry flow of different widths. */
     .proj-thumb {
+      width: 100%;
       height: 132px;
-      align-self: flex-start;
       border-radius: 1px;
       overflow: hidden;
       background: #eee;
@@ -113,10 +128,10 @@
     }
 
     .proj-thumb img {
+      width: 100%;
       height: 100%;
-      width: auto;
       display: block;
-      object-fit: contain;
+      object-fit: cover;
     }
 
     .proj-text {
@@ -126,26 +141,17 @@
       text-align: left;
       gap: 4px;
       margin-top: 10px;
-      /* width:0 + min-width:100% keeps the title's own text length from
-         contributing to the card's shrink-to-fit width calc (which should
-         come from the thumb alone) — it still stretches to match whatever
-         width the thumb ends up at, wrapping onto a second line if needed. */
-      width: 0;
-      min-width: 100%;
+      width: 100%;
       box-sizing: border-box;
     }
 
+    /* Plain text now (not a link), so no hover color change. */
     .proj-title {
       font-size: 19px;
       font-weight: 300;
       margin: 0;
       color: #666666;
       font-family: 'Optima', arial, sans-serif;
-      transition: color 0.3s ease;
-    }
-
-    .proj-card:hover .proj-title {
-      color: #45a049;
     }
 
     .projects-sidebar {
@@ -212,6 +218,7 @@
     }
 
     @media (max-width: 700px) {
+      .proj-card { flex-basis: 150px; }
       .proj-thumb {
         height: 100px;
       }
@@ -257,100 +264,126 @@
         <section class="proj-group" data-category="Webcam Fun">
           <h2 class="proj-group-title">Webcam Fun</h2>
           <div class="proj-group-cards">
-          <a href="../projects/camera/ghostLines.html" class="proj-card">
-            <div class="proj-thumb"><img src="../images/projects/preview/motion5.png" alt="Ghost Lines"></div>
+          <div class="proj-card">
+            <a href="../projects/camera/ghostLines.html" class="proj-thumb-link">
+              <div class="proj-thumb"><img src="../images/projects/preview/motion5.png" alt="Ghost Lines"></div>
+            </a>
             <div class="proj-text">
               <h2 class="proj-title">Ghost Lines</h2>
             </div>
-          </a>
-          <a href="../projects/camera/ascii_cam.html" class="proj-card">
-            <div class="proj-thumb"><img src="../images/projects/preview/emilioAndrew.png" alt="ASCII Cam"></div>
+          </div>
+          <div class="proj-card">
+            <a href="../projects/camera/ascii_cam.html" class="proj-thumb-link">
+              <div class="proj-thumb"><img src="../images/projects/preview/emilioAndrew.png" alt="ASCII Cam"></div>
+            </a>
             <div class="proj-text">
               <h2 class="proj-title">ASCII Cam</h2>
             </div>
-          </a>
-          <a href="../projects/camera/shapePhotos.html" class="proj-card">
-            <div class="proj-thumb"><img src="../images/projects/preview/heartShape.jpeg" alt="Web Shape Maker"></div>
+          </div>
+          <div class="proj-card">
+            <a href="../projects/camera/shapePhotos.html" class="proj-thumb-link">
+              <div class="proj-thumb"><img src="../images/projects/preview/heartShape.jpeg" alt="Web Shape Maker"></div>
+            </a>
             <div class="proj-text">
               <h2 class="proj-title">Web Shape Maker</h2>
             </div>
-          </a>
-          <a href="../projects/camera/recognition.html" class="proj-card">
-            <div class="proj-thumb"><img src="../images/projects/preview/person.png" alt="Identification Camera"></div>
+          </div>
+          <div class="proj-card">
+            <a href="../projects/camera/recognition.html" class="proj-thumb-link">
+              <div class="proj-thumb"><img src="../images/projects/preview/person.png" alt="Identification Camera"></div>
+            </a>
             <div class="proj-text">
               <h2 class="proj-title">Identification Camera</h2>
             </div>
-          </a>
+          </div>
           </div>
         </section>
         <section class="proj-group" data-category="Creative">
           <h2 class="proj-group-title">Creative</h2>
           <div class="proj-group-cards">
-          <a href="../projects/dots/dots.html" class="proj-card">
-            <div class="proj-thumb"><img src="../images/projects/preview/dots1.png" alt="Connect the Dots"></div>
+          <div class="proj-card">
+            <a href="../projects/dots/dots.html" class="proj-thumb-link">
+              <div class="proj-thumb"><img src="../images/projects/preview/dots1.png" alt="Connect the Dots"></div>
+            </a>
             <div class="proj-text">
               <h2 class="proj-title">Connect the Dots</h2>
             </div>
-          </a>
-          <a href="../projects/camera/drawASCII.html" class="proj-card">
-            <div class="proj-thumb"><img src="../images/projects/preview/prev_star.png" alt="Draw ASCII Art"></div>
+          </div>
+          <div class="proj-card">
+            <a href="../projects/camera/drawASCII.html" class="proj-thumb-link">
+              <div class="proj-thumb"><img src="../images/projects/preview/prev_star.png" alt="Draw ASCII Art"></div>
+            </a>
             <div class="proj-text">
               <h2 class="proj-title">Draw ASCII Art</h2>
             </div>
-          </a>
-          <a href="../game/riverPass/riverPass.html" class="proj-card">
-            <div class="proj-thumb"><img src="../game/riverPass/images/bckg.png" alt="River Crossing"></div>
+          </div>
+          <div class="proj-card">
+            <a href="../game/riverPass/riverPass.html" class="proj-thumb-link">
+              <div class="proj-thumb"><img src="../game/riverPass/images/bckg.png" alt="River Crossing"></div>
+            </a>
             <div class="proj-text">
               <h2 class="proj-title">River Crossing</h2>
             </div>
-          </a>
-          <a href="../game/shatter/shatter.html" class="proj-card">
-            <div class="proj-thumb"><img src="../images/projects/preview/glass_shattered.png" alt="Break Glass"></div>
+          </div>
+          <div class="proj-card">
+            <a href="../game/shatter/shatter.html" class="proj-thumb-link">
+              <div class="proj-thumb"><img src="../images/projects/preview/glass_shattered.png" alt="Break Glass"></div>
+            </a>
             <div class="proj-text">
               <h2 class="proj-title">Break Glass</h2>
             </div>
-          </a>
-          <a href="../projects/synth.html" class="proj-card">
-            <div class="proj-thumb"><img src="../images/projects/preview/synth.png" alt="Synthesizer"></div>
+          </div>
+          <div class="proj-card">
+            <a href="../projects/synth.html" class="proj-thumb-link">
+              <div class="proj-thumb"><img src="../images/projects/preview/synth.png" alt="Synthesizer"></div>
+            </a>
             <div class="proj-text">
               <h2 class="proj-title">Synthesizer</h2>
             </div>
-          </a>
+          </div>
           </div>
         </section>
         <section class="proj-group" data-category="Tools">
           <h2 class="proj-group-title">Tools</h2>
           <div class="proj-group-cards">
-          <a href="../projects/design/poster.html" class="proj-card" target="_blank">
-            <div class="proj-thumb"><img src="../images/projects/preview/poster.png" alt="Poster Design"></div>
+          <div class="proj-card">
+            <a href="../projects/design/poster.html" class="proj-thumb-link" target="_blank">
+              <div class="proj-thumb"><img src="../images/projects/preview/poster.png" alt="Poster Design"></div>
+            </a>
             <div class="proj-text">
               <h2 class="proj-title">Poster Design</h2>
             </div>
-          </a>
+          </div>
           </div>
         </section>
 
         <section class="proj-group" data-category="Misc.">
           <h2 class="proj-group-title">Misc.</h2>
           <div class="proj-group-cards">
-          <a href="../game/cones.html" class="proj-card">
-            <div class="proj-thumb"><img src="../images/projects/preview/cones.png" alt="Cones"></div>
+          <div class="proj-card">
+            <a href="../game/cones.html" class="proj-thumb-link">
+              <div class="proj-thumb"><img src="../images/projects/preview/cones.png" alt="Cones"></div>
+            </a>
             <div class="proj-text">
               <h2 class="proj-title">Cones</h2>
             </div>
-          </a>
-          <a href="../game/object.html" class="proj-card">
-            <div class="proj-thumb"><img src="../images/projects/preview/obj2.png" alt="Graphics Playground"></div>
+          </div>
+          <div class="proj-card">
+            <a href="../game/object.html" class="proj-thumb-link">
+              <div class="proj-thumb"><img src="../images/projects/preview/obj2.png" alt="Graphics Playground"></div>
+            </a>
             <div class="proj-text">
               <h2 class="proj-title">Graphics Playground</h2>
             </div>
-          </a>
-          <a href="../projects/bezier.html" class="proj-card" target="_blank">
-            <div class="proj-thumb"><img src="../images/projects/preview/curve.png" alt="Plotting Bezier Curves"></div>
+          </div>
+          <div class="proj-card">
+            <a href="../projects/bezier.html" class="proj-thumb-link" target="_blank">
+              <div class="proj-thumb"><img src="../images/projects/preview/curve.png" alt="Plotting Bezier Curves"></div>
+            </a>
             <div class="proj-text">
               <h2 class="proj-title">Plotting Bezier Curves</h2>
             </div>
-          </a>
+          </div>
           </div>
         </section>
       </div>

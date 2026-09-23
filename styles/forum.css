@@ -1,0 +1,389 @@
+/* Homepage forum reformat — imageboard-style board bar, thread list and posting modal.
+   Scoped to index.html only. Reuses the site's existing palette (styles/stylesheet.css:
+   #f5f5f5 background, #666/#888f8d muted text, #45a049 accent, #47649a link blue, #ddd
+   borders) rather than inventing new colors, except where the new-thread modal deliberately
+   breaks from it to match the dark imageboard posting-form reference it was modeled on.
+   Courier New carries every forum-specific piece of type — a font already in the site's own
+   vocabulary (the digital clock, styleguide code blocks) and one that reads as "forum/BBS"
+   without loading anything new. */
+
+/* ── Board bar — replaces the "SEE: writing / photography / art / archive" sub-nav on the
+   homepage only (every other page keeps that bar as-is). Same position/border as
+   .title-container normally holds. ── */
+.board-bar {
+  /* .board-bar replaces .title-container on this page, so it needs that same 80px top margin
+     to clear the fixed .navigation bar (stylesheet.css) — nothing pushes content down otherwise. */
+  margin-top: 80px;
+  border-bottom: 2px solid #333;
+  padding: 8px 0;
+  margin-bottom: 22px;
+}
+
+/* .board-bar-inner also carries .content (for the shared 80%/max-width centering) — index.html's
+   own inline <style> sets .content { display:flex; gap:30px } for the two-column layout further
+   down the page, same specificity as a plain .board-bar-inner rule and later in source, so it
+   would win a tie. ".board-bar .board-bar-inner" outranks it instead of depending on source order. */
+.board-bar .board-bar-inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 6px 20px;
+  font-family: 'Courier New', monospace;
+  font-size: 13px;
+  letter-spacing: 0.02em;
+  color: #888f8d;
+}
+
+.board-list {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+/* stylesheet.css forces every <a> to display:flex !important with a 44px min size at
+   <=1000px width (its blanket "better tap targets" rule) — fine for nav items and buttons, but
+   it breaks a run of inline text links like this one into a tall stack of oversized boxes.
+   Reset back to plain inline text, same fix used for .proj-group-title a on projects.html. */
+.board-list a,
+.board-socials a,
+.board-admin a {
+  display: inline !important;
+  min-height: 0 !important;
+  min-width: 0 !important;
+  color: #47649a;
+  text-decoration: none;
+}
+
+.board-list a:hover,
+.board-socials a:hover,
+.board-admin a:hover {
+  color: #45a049;
+  text-decoration: underline;
+}
+
+.board-list .board-sep { color: #bbb; }
+
+.board-admin { white-space: nowrap; }
+
+.board-socials {
+  white-space: nowrap;
+  flex: 0 0 auto;
+}
+
+.board-socials a + a { margin-left: 4px; }
+
+/* Footer instance — same board list, but it isn't clearing a fixed nav or leading the page, so
+   the header-only spacing/border don't apply. footer's own border-top (stylesheet.css) already
+   separates it from the content above. Sized to its own content (not the shared 80%/1200px
+   .content width the header uses) and centered, matching the rest of the footer's compact,
+   centered look (.socials is a fixed 300px block, same idea). */
+.footer-board-bar {
+  margin-top: 0;
+  margin-bottom: 0;
+  padding: 0;
+  border-bottom: none;
+}
+
+.footer-board-bar .board-bar-inner {
+  display: inline-flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: baseline;
+  gap: 4px 14px;
+  width: auto;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+}
+
+@media (max-width: 768px) {
+  /* body.m2's own top padding (mobile.css) already clears the fixed tab bar on phones — same
+     reason mobile.css zeroes .title-container's margin-top there instead of stacking on top of it. */
+  .board-bar { margin-top: 0; }
+}
+
+@media (max-width: 700px) {
+  .board-bar-inner { font-size: 12px; gap: 6px 14px; }
+}
+
+/* ── Forum thread list ("/blog/ - Recent Thoughts") ──
+   Keeps the .blog-section class too, purely for the layout it already had (flex sizing, the
+   width:100%/order:-1 mobile rules in homepage.css) — but strips that class's card chrome
+   (background/border/radius/padding), since individual threads carry their own border now and
+   the Figma reference has no outer box wrapping the whole list. */
+.forum-board.blog-section {
+  background: none;
+  border: none;
+  border-radius: 0;
+  padding: 0;
+}
+
+.forum-board { font-family: 'Courier New', monospace; }
+
+.forum-board-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.forum-board-title {
+  margin: 0;
+  font-size: 26px;
+  font-weight: normal;
+  color: #47649a;
+}
+
+/* display/min-*: !important resets against stylesheet.css's blanket <=1000px "every a is
+   display:flex, 44px min" rule — see the .board-list a comment above for the full reason. */
+.forum-catalogue-link {
+  display: inline !important;
+  min-height: 0 !important;
+  min-width: 0 !important;
+  font-size: 15px;
+  color: #888f8d;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.forum-catalogue-link:hover { color: #45a049; text-decoration: underline; }
+
+.forum-message-link {
+  display: inline-block !important;
+  min-height: 0 !important;
+  min-width: 0 !important;
+  margin: 6px 0 14px;
+  font-size: 19px;
+  color: #45a049;
+  text-decoration: none;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.forum-message-link:hover { text-decoration: underline; }
+
+.forum-thread-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.forum-thread {
+  position: relative;
+  border: 1px solid #ccc;
+  padding: 12px 14px 14px 34px;
+}
+
+.forum-thread + .forum-thread { border-top: none; }
+
+.forum-thread-check {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  margin: 0;
+}
+
+.forum-thread-head {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 4px 10px;
+  margin-bottom: 2px;
+}
+
+.forum-thread-title {
+  display: inline !important;
+  min-height: 0 !important;
+  min-width: 0 !important;
+  font-size: 18px;
+  color: #45a049;
+  text-decoration: none;
+}
+
+.forum-thread-title:hover { text-decoration: underline; }
+
+.forum-thread-meta {
+  font-size: 13px;
+  color: #9e9e9e;
+}
+
+.forum-thread-file {
+  margin: 2px 0 8px;
+  font-size: 13px;
+  color: #9e9e9e;
+}
+
+.forum-thread-body::after { content: ""; display: block; clear: both; }
+
+.forum-thread-image {
+  float: left;
+  max-width: 140px;
+  max-height: 140px;
+  margin: 0 16px 8px 0;
+  overflow: hidden;
+  background: #eee;
+  border: 1px solid #ddd;
+}
+
+.forum-thread-image img {
+  display: block;
+  max-width: 140px;
+  max-height: 140px;
+  object-fit: contain;
+}
+
+.forum-thread-comment p {
+  margin: 0 0 8px;
+  font-size: 15px;
+  line-height: 1.5;
+  color: #333;
+}
+
+.forum-thread-comment p:last-child { margin-bottom: 0; }
+
+.forum-thread-greentext { color: #a5a138; }
+
+.forum-see-all {
+  display: block !important;
+  min-height: 0 !important;
+  min-width: 0 !important;
+  margin-top: 14px;
+  text-align: right;
+  font-size: 15px;
+  color: #888f8d;
+  text-decoration: none;
+}
+
+.forum-see-all:hover { color: #45a049; text-decoration: underline; }
+
+@media (max-width: 600px) {
+  .forum-thread { padding: 10px 10px 12px 30px; }
+  .forum-thread-image { max-width: 100px; max-height: 100px; }
+  .forum-thread-image img { max-width: 100px; max-height: 100px; }
+}
+
+/* ── New-thread posting modal — deliberately follows the dark imageboard "new reply" form
+   this was modeled on (not the site's light palette), trimmed to the fields that actually
+   apply to a contact message: Name / Email / Subject+Post / Comment. No file upload, spoiler,
+   wrap or password fields — those don't mean anything outside an actual image board. ── */
+#contactModal .nt-wrap {
+  position: relative;
+  pointer-events: auto;
+  width: 92%;
+  max-width: 560px;
+}
+
+#contactModal .nt-box {
+  background: #1e1e1e;
+  border: 1px solid #444;
+  border-radius: 3px;
+  overflow: hidden;
+  font-family: 'Courier New', monospace;
+  font-size: 14px;
+}
+
+#contactModal .nt-intro {
+  margin: 0;
+  padding: 14px 16px;
+  background: #262626;
+  border-bottom: 1px solid #3a3a3a;
+  color: #999;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+#contactModal .nt-table {
+  width: 100%;
+  /* Without this, the table sizes to its inputs' intrinsic width (browsers give a bare
+     <input> a default ~20-character size) instead of its 92%-wide container, overflowing the
+     modal off narrow screens. */
+  table-layout: fixed;
+  border-collapse: collapse;
+}
+
+#contactModal .nt-table tr + tr td { border-top: 1px solid #333; }
+
+#contactModal .nt-label {
+  width: 90px;
+  padding: 10px 12px;
+  background: #2b2b2b;
+  color: #ccc;
+  font-weight: bold;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+#contactModal .nt-field {
+  padding: 8px 10px;
+  background: #1e1e1e;
+}
+
+#contactModal .nt-subject-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+#contactModal input[type="text"],
+#contactModal input[type="email"],
+#contactModal textarea {
+  flex: 1;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 6px 8px;
+  background: #0f0f0f;
+  border: 1px solid #555;
+  border-radius: 2px;
+  color: #eee;
+  font-family: 'Courier New', monospace;
+  font-size: 14px;
+}
+
+#contactModal textarea { min-height: 130px; resize: vertical; }
+
+#contactModal input:focus,
+#contactModal textarea:focus {
+  outline: none;
+  border-color: #45a049;
+}
+
+#contactModal .nt-post-btn {
+  flex: 0 0 auto;
+  padding: 7px 18px;
+  background: #d8d8d8;
+  color: #111;
+  border: 1px solid #888;
+  border-radius: 2px;
+  font-family: 'Courier New', monospace;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+#contactModal .nt-post-btn:hover { background: #45a049; color: #fff; border-color: #45a049; }
+#contactModal .nt-post-btn:disabled { opacity: 0.6; cursor: default; }
+
+#contactModal .modal-close {
+  top: 10px;
+  right: 14px;
+  color: #aaa !important;
+  z-index: 1;
+  pointer-events: auto;
+}
+
+#contactModal .modal-close:hover { color: #fff !important; }
+
+#contactModal #mobile-form-message {
+  padding: 0 16px 14px;
+  background: #1e1e1e;
+  font-size: 13px;
+  text-align: center;
+}
+
+@media (max-width: 560px) {
+  #contactModal .nt-label { width: 74px; font-size: 13px; padding: 8px 8px; }
+  #contactModal .nt-subject-row { flex-wrap: wrap; }
+  #contactModal .nt-post-btn { flex: 1 1 100%; }
+}

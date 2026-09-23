@@ -5,7 +5,7 @@
       ? '/admin/logout.php'
       : '/admin/login.html?redirect=' + encodeURIComponent(window.location.pathname + window.location.search);
 
-    ['admin-link-area', 'admin-link-mobile'].forEach(function (id) {
+    ['admin-link-area', 'admin-link-mobile', 'admin-link-footer'].forEach(function (id) {
       var area = document.getElementById(id);
       if (!area) return;
       var a = document.createElement('a');
