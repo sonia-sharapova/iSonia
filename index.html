@@ -245,31 +245,27 @@
 <!-- 4chan-style board bar — homepage-only replacement for the "SEE:" sub-nav every other page
      keeps. Full-bleed like .navigation above it (not nested in .title-container, which is
      already 80%-width itself); .board-bar-inner reuses .content's own 80%/max-width centering
-     directly, the same one application every other page's .content gets. Each code is a real
-     imageboard board code, pointed at whichever page its actual definition is the closest match
-     for; the full destination name shows above the link on hover (data-name, styles/forum.css)
-     instead of a native title tooltip. The four personal-media codes (a/lit/mu/tv) all point at
-     personal/archives.html rather than the specific movies/music/books/anime page directly —
-     they lead to the archive, not straight into one person's media. -->
+     directly, the same one application every other page's .content gets. The full destination
+     name shows above the link on hover (data-name, styles/forum.css) instead of a native title
+     tooltip. /fa/ has no destination yet (.board-empty — plain text, not a link). -->
 <div class="board-bar">
   <div class="content board-bar-inner">
       <div class="board-list">
         [
-        <a href="personal/archives.html" data-name="Anime">a</a> <span class="board-sep">/</span>
-        <a href="creations/blogs.html" data-name="Blog">b</a> <span class="board-sep">/</span>
-        <a href="navigation/resources/technology.html" data-name="Technology">g</a> <span class="board-sep">/</span>
+        <a href="personal/anime.html" data-name="Anime">a</a> <span class="board-sep">/</span>
+        <a href="creations/blogs.html" data-name="Random">b</a> <span class="board-sep">/</span>
+        <a href="navigation/portfolio.html" data-name="Tech">g</a> <span class="board-sep">/</span>
         <a href="photos.html" data-name="Photography">p</a> <span class="board-sep">/</span>
-        <a href="navigation/resources/software.html" data-name="Software">t</a> <span class="board-sep">/</span>
+        <a href="learning/web/privacy-checklist.html" data-name="Torrents">t</a> <span class="board-sep">/</span>
         <a href="creations/games.html" data-name="Games">v</a> <span class="board-sep">/</span>
-        <a href="navigation/portfolio.html" data-name="Portfolio">vip</a> <span class="board-sep">/</span>
-        <a href="creations/interactive.html" data-name="Interactive">diy</a> <span class="board-sep">/</span>
-        <a href="navigation/resources/culture.html" data-name="Culture">fa</a> <span class="board-sep">/</span>
-        <a href="navigation/resources/design.html" data-name="Design">gd</a> <span class="board-sep">/</span>
-        <a href="personal/archives.html" data-name="Books">lit</a> <span class="board-sep">/</span>
-        <a href="personal/archives.html" data-name="Music">mu</a> <span class="board-sep">/</span>
-        <a href="personal/electronics.html" data-name="Electronics">po</a> <span class="board-sep">/</span>
-        <a href="personal/archives.html" data-name="Movies">tv</a> <span class="board-sep">/</span>
-        <a href="personal/cards.html" data-name="Pok&eacute;mon Cards">vp</a> <span class="board-sep">/</span>
+        <a href="navigation/learning.html" data-name="Do It Yourself">diy</a> <span class="board-sep">/</span>
+        <span class="board-empty" data-name="Fashion">fa</span> <span class="board-sep">/</span>
+        <a href="navigation/resources/design.html" data-name="Graphic Design">gd</a> <span class="board-sep">/</span>
+        <a href="personal/books.html" data-name="Literature">lit</a> <span class="board-sep">/</span>
+        <a href="personal/music.html" data-name="Music">mu</a> <span class="board-sep">/</span>
+        <a href="creations/art.html" data-name="Papercraft &amp; Origami">po</a> <span class="board-sep">/</span>
+        <a href="personal/movies.html" data-name="Television &amp; Film">tv</a> <span class="board-sep">/</span>
+        <a href="personal/cards.html" data-name="Pok&eacute;mon">vp</a> <span class="board-sep">/</span>
         ]
         <span class="board-admin">[<span id="admin-link-area"></span>]</span>
       </div>

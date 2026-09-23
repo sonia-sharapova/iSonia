@@ -64,10 +64,20 @@
 
 .board-list .board-sep { color: #bbb; }
 
-/* Full destination name, shown above a board-topic link on hover/focus (data-name on the
-   anchor) instead of the browser's native title tooltip — a visitor unfamiliar with imageboard
-   codes can see where "mu" or "vp" actually leads before clicking. */
-.board-list a[data-name]::after {
+/* /fa/ — no destination yet, so it's plain text (not a link): same position/tooltip behavior
+   as every other code, just muted and non-interactive instead of blue. */
+.board-list .board-empty {
+  position: relative;
+  color: #999;
+  cursor: default;
+}
+
+/* Full destination name, shown above a board-topic link (or, for the linkless /fa/, the plain
+   .board-empty span) on hover/focus (data-name) instead of the browser's native title tooltip —
+   a visitor unfamiliar with imageboard codes can see where "mu" or "vp" actually leads before
+   clicking. */
+.board-list a[data-name]::after,
+.board-list .board-empty[data-name]::after {
   content: attr(data-name);
   position: absolute;
   bottom: 100%;
@@ -88,7 +98,8 @@
 }
 
 .board-list a[data-name]:hover::after,
-.board-list a[data-name]:focus-visible::after {
+.board-list a[data-name]:focus-visible::after,
+.board-list .board-empty[data-name]:hover::after {
   opacity: 1;
   visibility: visible;
 }
