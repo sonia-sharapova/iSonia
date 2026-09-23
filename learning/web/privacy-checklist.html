@@ -3,18 +3,87 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Privacy Checklist</title>
+    <title>privacy4all</title>
     <link rel="icon" href="/images/icons/heart3.png" />
     <link rel="stylesheet" href="../../styles/stylesheet.css">
     <link rel="stylesheet" href="../../styles/mobile.css">
+    <link rel="stylesheet" href="../../styles/forum.css">
+    <script src="../../scripts/admin.js" defer></script>
+
     <style>
-        .placeholder-note {
-            width: 80%;
-            margin: 60px auto 100px;
-            color: #888f8d;
+        .redirect-note {
+            max-width: 640px;
+            margin: 36px 0 28px;
+            color: #666666;
             font-size: 16px;
             line-height: 1.6;
         }
+        .redirect-note strong { color: #444444; font-weight: 500; }
+
+        .redirect-preview {
+            max-width: 900px;
+            border: 1px solid #ddd;
+            background: #fff;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+        .redirect-preview-bar {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 14px;
+            border-bottom: 1px solid #e4e4e4;
+            background: #f5f5f5;
+        }
+        .redirect-preview-dot {
+            width: 9px; height: 9px; border-radius: 50%;
+            background: #ddd;
+        }
+        .redirect-preview-url {
+            margin-left: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            color: #999;
+        }
+        .redirect-preview-frame-wrap {
+            position: relative;
+            width: 100%;
+            height: 460px;
+            overflow: hidden;
+            background: #fafafa;
+        }
+        .redirect-preview-frame-wrap iframe {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+            pointer-events: none;   /* a preview, not a second way to browse the page */
+        }
+
+        .redirect-actions {
+            margin: 26px 0 60px;
+            display: flex;
+            align-items: center;
+            gap: 18px;
+        }
+        .redirect-continue {
+            display: inline-block;
+            padding: 11px 22px;
+            background: #414141;
+            color: #fff;
+            text-decoration: none;
+            font-size: 15px;
+            letter-spacing: 0.02em;
+            transition: background 0.2s ease;
+        }
+        .redirect-continue:hover { background: #45a049; }
+        .redirect-back {
+            color: #888f8d;
+            text-decoration: none;
+            font-size: 14px;
+            border-bottom: 1px solid transparent;
+        }
+        .redirect-back:hover { color: #45a049; border-bottom-color: currentColor; }
     </style>
 </head>
 <body class="m2 p-learning">
@@ -26,6 +95,47 @@
   <a href="../../navigation/about.html" class="nav-item">ABOUT</a>
 </nav>
 
+<div class="board-bar">
+  <div class="content board-bar-inner">
+      <div class="board-list">
+        [
+        <a href="../../personal/anime.html" data-name="Anime">a</a>
+        <span class="board-sep">/</span>
+        <a href="../../creations/blogs.html" data-name="Random">b</a>
+        <span class="board-sep">/</span>
+        <a href="../../learning/web/privacy-checklist.html" data-name="Tech">g</a>
+        <span class="board-sep">/</span>
+        <a href="../../photos.html" data-name="Photography">p</a>
+        <span class="board-sep">/</span>
+        <a href="../../navigation/resources/torrents.html" data-name="Torrents &amp; Streaming">t</a>
+        <span class="board-sep">/</span>
+        <a href="../../creations/games.html" data-name="Games">v</a>
+        <span class="board-sep">/</span>
+        <a href="../../navigation/learning.html" data-name="Do It Yourself">diy</a>
+        <span class="board-sep">/</span>
+        <span class="board-empty" data-name="Fashion">fa</span>
+        <span class="board-sep">/</span>
+        <a href="../../navigation/resources/design.html" data-name="Graphic Design">gd</a>
+        <span class="board-sep">/</span>
+        <a href="../../personal/books.html" data-name="Literature">lit</a>
+        <span class="board-sep">/</span>
+        <a href="../../personal/music.html" data-name="Music">mu</a>
+        <span class="board-sep">/</span>
+        <a href="../../creations/art.html" data-name="Papercraft &amp; Origami">po</a>
+        <span class="board-sep">/</span>
+        <a href="../../personal/movies.html" data-name="Television &amp; Film">tv</a>
+        <span class="board-sep">/</span>
+        <a href="../../personal/cards.html" data-name="Pok&eacute;mon">vp</a>
+        <span class="board-sep">/</span>
+        ]
+        <span class="board-admin">[<span id="admin-link-area"></span>]</span>
+      </div>
+      <div class="board-socials">
+        [<a href="https://github.com/sonia-sharapova" target="_blank" rel="noopener">github</a>][<a href="https://www.linkedin.com/in/sonia-sharapova/" target="_blank" rel="noopener">linkedin</a>][<a href="../../navigation/about.html">about</a>]
+      </div>
+  </div>
+</div>
+
 <div class="title-container">
     <div class="nav-links">
         <a href="../../index.html" class="sub-nav-item">SEE: </a>
@@ -34,20 +144,53 @@
         <a href="../../creations/art.html" class="sub-nav-item">art</a>
       <div id="admin-link-area"></div>
     </div>
-    <h1 class="page-title">Privacy Checklist</h1>
+    <h1 class="page-title">privacy4all</h1>
     <hr>
 </div>
 
-<p class="placeholder-note">A working checklist for locking down your digital footprint — coming soon.</p>
+<div class="content">
+    <p class="redirect-note">
+        You're leaving this site's main pages for <strong>privacy4all</strong> — a standalone guide to
+        privacy, security, and digital protection I've put together separately, with its own look and navigation.
+    </p>
 
-<footer>
-    <div class="socials">
-        <a href="https://github.com/sonia-sharapova">GitHub</a>|
-        <a href="https://www.linkedin.com/in/sonia-sharapova/">LinkedIn</a>|
-        <a href="https://www.instagram.com/sonia.s.ru/">Instagram</a>
+    <div class="redirect-preview" aria-hidden="true">
+        <div class="redirect-preview-bar">
+            <span class="redirect-preview-dot"></span>
+            <span class="redirect-preview-dot"></span>
+            <span class="redirect-preview-dot"></span>
+            <span class="redirect-preview-url">soniapolis.com/privacy4all/</span>
+        </div>
+        <div class="redirect-preview-frame-wrap">
+            <iframe src="../../privacy4all/index.html" tabindex="-1" title="Preview of privacy4all"></iframe>
+        </div>
     </div>
-    <div>Contact Links<br>2026</div>
+
+    <div class="redirect-actions">
+        <a href="../../privacy4all/index.html" class="redirect-continue">Continue to privacy4all &rarr;</a>
+        <a href="../../navigation/learning.html" class="redirect-back">&larr; Back to Learning</a>
+    </div>
+
+    <div id="admin-link-mobile"></div>
+</div>
+
+<script src="../../scripts/siteStyle/bck.js"></script>
+<script>
+  if (typeof animate === 'function') {
+    animate();
+  }
+</script>
+
+<footer class="mini-footer">
+  <div class="content mini-footer-inner">
+    <div class="mini-footer-row">
+      [<a href="../../index.html">soniapolis</a>][2026][<span id="admin-link-footer"></span>]
+    </div>
+    <div class="mini-footer-row">
+      [<a href="mailto:sonia@soniapolis.com">email</a>][<a href="../../navigation/about.html">about</a>][<a href="../../index.html?contact=1">message</a>]
+    </div>
+  </div>
 </footer>
-<script src="../../scripts/admin.js"></script>
+
 </body>
 </html>
