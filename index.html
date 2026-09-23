@@ -445,6 +445,12 @@
   const openModalBtn = document.getElementById('open-contact-modal');
   if (openModalBtn) openModalBtn.addEventListener('click', openContactModal);
 
+  // Every other page's mini-footer [message] link (no contact modal of its own) sends visitors
+  // here with ?contact=1 instead — open the modal automatically when that's present.
+  if (new URLSearchParams(location.search).get('contact') === '1') {
+    openContactModal();
+  }
+
   // Close contact modal
   document.getElementById('closeContactModal').addEventListener('click', closeContactModal);
 

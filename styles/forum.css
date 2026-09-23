@@ -11,18 +11,28 @@
    homepage only (every other page keeps that bar as-is). Same position/border as
    .title-container normally holds. ── */
 .board-bar {
-  /* .board-bar replaces .title-container on this page, so it needs that same 80px top margin
-     to clear the fixed .navigation bar (stylesheet.css) — nothing pushes content down otherwise. */
+  /* On the homepage .board-bar replaces .title-container outright, so it needs that same 80px
+     top margin to clear the fixed .navigation bar (stylesheet.css) — nothing pushes content
+     down otherwise. On every other page .title-container still follows right after (now holding
+     just the h1/hr), and its own unconditional margin-top:80px would double up on this same
+     clearance — the adjacent-sibling rule below cancels that out. */
   margin-top: 80px;
   border-bottom: 2px solid #333;
   padding: 8px 0;
   margin-bottom: 22px;
 }
 
+.board-bar + .title-container { margin-top: 24px; }
+
 /* .board-bar-inner also carries .content (for the shared 80%/max-width centering) — index.html's
    own inline <style> sets .content { display:flex; gap:30px } for the two-column layout further
    down the page, same specificity as a plain .board-bar-inner rule and later in source, so it
    would win a tie. ".board-bar .board-bar-inner" outranks it instead of depending on source order. */
+/* border/background/padding/box-shadow: none — .board-bar-inner also carries .content, reused
+   purely for its shared width/centering, but several pages (e.g. navigation/about.html) give
+   .content its own card-like border/background/padding for their actual page content. Without
+   resetting those here, that per-page styling leaks into the board bar and makes it look like an
+   indented card instead of the plain full-bleed bar every other page shows. */
 .board-bar .board-bar-inner {
   display: flex;
   flex-wrap: wrap;
@@ -33,6 +43,10 @@
   font-size: 13px;
   letter-spacing: 0.02em;
   color: #888f8d;
+  border: none;
+  background: none;
+  padding: 0;
+  box-shadow: none;
 }
 
 .board-list {
@@ -140,6 +154,9 @@
   max-width: none;
   margin: 0;
   padding: 0;
+  border: none;
+  background: none;
+  box-shadow: none;
 }
 
 .mini-footer-row {

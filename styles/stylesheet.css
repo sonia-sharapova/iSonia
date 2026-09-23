@@ -46,7 +46,11 @@ h3 {
     right: 0;
     border-bottom: 2px solid #ddd;
     transition: opacity 0.3s, visibility 0.3s;
-    z-index: 2;
+    /* Comfortably above normal in-page content (the webcam project pages' own camera/canvas
+       overlays go up to z-index:3, and a handful of other absolute-positioned page elements
+       go as high as 20-30) so this fixed header never scrolls behind something on the page —
+       but still well under any real modal/lightbox (those start at 500+ sitewide). */
+    z-index: 40;
 }
 
 .navigation.dimmed {

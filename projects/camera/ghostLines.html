@@ -71,6 +71,7 @@
     @media (max-width: 1200px) { .left-panel { display: none !important; } }
     @media (max-width: 768px)  { .modal-mosaic { grid-template-columns: repeat(2,1fr); } }
   </style>
+  <link rel="stylesheet" href="../../styles/forum.css">
 </head>
 <body>
 <nav class="navigation">
@@ -81,16 +82,49 @@
   <a href="../../navigation/about.html" class="nav-item">ABOUT</a>
 </nav>
 
+<div class="board-bar">
+  <div class="content board-bar-inner">
+      <div class="board-list">
+        [
+        <a href="../../personal/anime.html" data-name="Anime">a</a>
+        <span class="board-sep">/</span>
+        <a href="../../creations/blogs.html" data-name="Random">b</a>
+        <span class="board-sep">/</span>
+        <a href="../../navigation/portfolio.html" data-name="Tech">g</a>
+        <span class="board-sep">/</span>
+        <a href="../../photos.html" data-name="Photography">p</a>
+        <span class="board-sep">/</span>
+        <a href="../../learning/web/privacy-checklist.html" data-name="Torrents">t</a>
+        <span class="board-sep">/</span>
+        <a href="../../creations/games.html" data-name="Games">v</a>
+        <span class="board-sep">/</span>
+        <a href="../../navigation/learning.html" data-name="Do It Yourself">diy</a>
+        <span class="board-sep">/</span>
+        <span class="board-empty" data-name="Fashion">fa</span>
+        <span class="board-sep">/</span>
+        <a href="../../navigation/resources/design.html" data-name="Graphic Design">gd</a>
+        <span class="board-sep">/</span>
+        <a href="../../personal/books.html" data-name="Literature">lit</a>
+        <span class="board-sep">/</span>
+        <a href="../../personal/music.html" data-name="Music">mu</a>
+        <span class="board-sep">/</span>
+        <a href="../../creations/art.html" data-name="Papercraft &amp; Origami">po</a>
+        <span class="board-sep">/</span>
+        <a href="../../personal/movies.html" data-name="Television &amp; Film">tv</a>
+        <span class="board-sep">/</span>
+        <a href="../../personal/cards.html" data-name="Pok&eacute;mon">vp</a>
+        <span class="board-sep">/</span>
+        ]
+        <span class="board-admin">[<span id="admin-link-area"></span>]</span>
+      </div>
+      <div class="board-socials">
+        [<a href="https://github.com/sonia-sharapova" target="_blank" rel="noopener">github</a>][<a href="https://www.linkedin.com/in/sonia-sharapova/" target="_blank" rel="noopener">linkedin</a>][<a href="../../navigation/about.html">about</a>]
+      </div>
+  </div>
+</div>
+
 <div class="title-container">
-    <div class="nav-links">
-        <div class="tags-group">
-            <span class="sub-nav-item">SEE: </span>
-            <a href="../creations/blogs.html" class="sub-nav-item">writing</a>
-            <a href="../photos.html" class="sub-nav-item">photography</a>
-            <a href="../creations/art.html" class="sub-nav-item">art</a>
-        </div>
-        <div id="admin-link-area"></div>
-    </div>
+    
   <h1 class="page-title">GHOSTLINES DETECTOR</h1>
   <hr>
   <a href="../../creations/interactive.html" style="text-decoration: none; font-size: 18px; color: #881010">← BACK TO ALL PROJECTS</a>
@@ -218,15 +252,14 @@
   });
 </script>
 
-<footer>
-  <div class="socials">
-    <a href="https://github.com/sonia-sharapova">GitHub</a>|
-    <a href="https://www.linkedin.com/in/sonia-sharapova/">LinkedIn</a>|
-    <a href="https://www.instagram.com/sonia.s.ru/">Instagram</a>
-  </div>
-  <div>
-    Contact Links<br>
-    2026
+<footer class="mini-footer">
+  <div class="content mini-footer-inner">
+    <div class="mini-footer-row">
+      [<a href="../../index.html">soniapolis</a>][2026][<span id="admin-link-footer"></span>]
+    </div>
+    <div class="mini-footer-row">
+      [<a href="mailto:sonia@soniapolis.com">email</a>][<a href="../../navigation/about.html">about</a>][<a href="../../index.html?contact=1">message</a>]
+    </div>
   </div>
 </footer>
 </body>
