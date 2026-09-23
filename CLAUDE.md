@@ -22,11 +22,10 @@ npm run build    # production build
 npm run lint     # eslint
 ```
 
-**Deployment**: no CI. Deploys are manual, via `rsync` to the production server, e.g.:
+**Deployment**: no CI, git only — commit and push locally, then `git pull` in `/var/www/iSonia` on the server (`root@soniapolis.com`). Never rsync code *onto* the server: the old `deploy.sh` did that, which left the server's checkout with "local changes" that blocked every `git pull`, so it was removed. Server-managed content (`data/*.json`, `images/`, `creations/blogs/*.md`, `navigation/resources/markdown/`, and their `backups/`) is gitignored, so a pull never touches it. Copying that content *down* for a local look is fine, e.g.:
 ```bash
 rsync -avz root@soniapolis.com:/var/www/iSonia/images/photos/ ./images/photos/
 ```
-`images/`, `data/backups/`, and `creations/blogs/backups/` are gitignored — they're managed directly on the server, not synced through git.
 
 ## Architecture
 

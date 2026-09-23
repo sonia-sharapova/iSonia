@@ -5,7 +5,7 @@
 admin/config.local.php
 
 # Live-edited on server via the admin panel — code that writes to these
-# paths ships via deploy.sh; the content itself is never git-tracked.
+# paths ships via git (push, then `git pull` on the server); the content itself is never git-tracked.
 data/*.json
 data/backups/
 creations/blogs/*.md
