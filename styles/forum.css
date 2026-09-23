@@ -40,7 +40,7 @@
   justify-content: space-between;
   gap: 6px 20px;
   font-family: 'Courier New', monospace;
-  font-size: 13px;
+  font-size: 15px;
   letter-spacing: 0.02em;
   color: #888f8d;
   border: none;
@@ -134,7 +134,7 @@
 }
 
 @media (max-width: 700px) {
-  .board-bar-inner { font-size: 12px; gap: 6px 14px; }
+  .board-bar-inner { font-size: 14px; gap: 6px 14px; }
 }
 
 /* ── Minimal footer — replaces the board-bar-in-the-footer version. Two bracketed rows,
@@ -258,12 +258,21 @@
    so a short post reads as a small box rather than being stretched to a uniform width. max-width
    is 100% (not a fixed cap) — the box grows to fit an unfinished line rather than wrapping it
    early, only actually wrapping once it would need more than the full column width. */
+/* Outer box — title, [Message Me]/[Catalogue] and the posts themselves all live inside this one
+   bordered container now; .forum-posts (below) holds just the post cards so the JS that
+   re-renders them (innerHTML on #recent-posts) doesn't wipe out the title/actions above it. */
 .forum-thread-list {
   display: flex;
   flex-direction: column;
   gap: 14px;
   border: 1px solid #ccc;
   padding: 14px;
+}
+
+.forum-posts {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
 }
 
 .forum-thread {
