@@ -3,15 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Sonia's Movies</title>
+    <title>Sonia's Anime</title>
     <link rel="icon" href="/images/icons/heart3.png" />
     <link rel="stylesheet" href="../styles/stylesheet.css">
     <link rel="stylesheet" href="../styles/mobile.css">
     <script src="../scripts/admin.js" defer></script>
     <style>
-        /* No sidebar here — this page (and Music/Books/Anime) lives under the Media Archives
+        /* No sidebar here — this page (and Movies/Music/Books) lives under the Media Archives
            hub (archives.html) instead, reached via the SEE: "archive" tab. Gallery + the
-           right-hand preview panel (updates to whichever film is selected) sit side by side. */
+           right-hand preview panel (updates to whichever title is selected) sit side by side,
+           same 2-column layout as Films/Books. */
         .archive-main {
             margin-top: 20px;
             display: grid;
@@ -269,9 +270,8 @@
 
         .modal-status { font-size: 12px; color: #888; }
     </style>
-    <script src="https://mcp.figma.com/mcp/html-to-design/capture.js" async></script>
 </head>
-<body class="m2 p-movies">
+<body class="m2 p-anime">
 <nav class="navigation">
   <a href="../index.html" class="nav-item">HOME</a>
   <a href="../creations/projects.html" class="nav-item">PROJECTS</a>
@@ -291,7 +291,7 @@
         </div>
         <div id="admin-link-area"></div>
     </div>
-    <h1 class="page-title">Films</h1>
+    <h1 class="page-title">Anime</h1>
     <hr>
 </div>
 
@@ -312,18 +312,18 @@
     <div id="admin-link-mobile"></div>
 </div>
 
-<!-- Edit / Add Movie Modal -->
+<!-- Edit / Add Anime Modal -->
 <div class="modal-overlay" id="movie-modal">
     <div class="modal-box">
-        <h2 id="modal-heading">Edit Film</h2>
+        <h2 id="modal-heading">Edit Anime</h2>
 
         <label>Title</label>
-        <input type="text" id="edit-title" placeholder="Film title">
+        <input type="text" id="edit-title" placeholder="Series or film title">
 
         <div class="modal-row">
             <div>
-                <label>Director (optional)</label>
-                <input type="text" id="edit-director" placeholder="Director name">
+                <label>Studio (optional)</label>
+                <input type="text" id="edit-director" placeholder="Studio name">
             </div>
             <div>
                 <label>Year (optional)</label>
@@ -335,13 +335,13 @@
         <input type="text" id="edit-link" placeholder="https://… where this is publicly watchable/listed">
 
         <label>Description (optional)</label>
-        <textarea id="edit-description" placeholder="A note about this film…" style="width:100%;padding:8px;border:1px solid #d5d5d5;font-family:'Courier New',monospace;font-size:13px;box-sizing:border-box;resize:vertical;height:80px;"></textarea>
+        <textarea id="edit-description" placeholder="A note about this…" style="width:100%;padding:8px;border:1px solid #d5d5d5;font-family:'Courier New',monospace;font-size:13px;box-sizing:border-box;resize:vertical;height:80px;"></textarea>
 
         <label>Cover Image</label>
         <div style="display:flex;gap:8px;align-items:center;margin-bottom:4px;">
             <input type="file" id="edit-image-file" accept="image/*" style="font-family:'Courier New',monospace;font-size:12px;flex:1;">
         </div>
-        <input type="text" id="edit-image" placeholder="/images/movies/filename.jpg" style="margin-top:4px;">
+        <input type="text" id="edit-image" placeholder="/images/anime/filename.jpg" style="margin-top:4px;">
         <div style="margin-top:6px;">
             <img id="image-preview" src="" alt="" style="display:none;max-height:100px;max-width:70px;object-fit:contain;border:1px solid #d5d5d5;">
         </div>
@@ -373,7 +373,7 @@
     const movieTitle = document.getElementById('movie-title');
     const movieDescription = document.getElementById('movie-description');
 
-    fetch('../data/movies.json')
+    fetch('../data/anime.json')
         .then(r => r.json())
         .then(data => {
             movies = data;
@@ -381,7 +381,7 @@
             if (movies.length) showPreview(0);
         })
         .catch(() => {
-            document.getElementById('gallery').innerHTML = '<p style="color:#888;">Could not load films.</p>';
+            document.getElementById('gallery').innerHTML = '<p style="color:#888;">Could not load anime.</p>';
         });
 
     function renderGallery() {
@@ -456,7 +456,7 @@
         if (document.getElementById('add-movie-btn')) return;
         const btn = document.createElement('button');
         btn.id = 'add-movie-btn';
-        btn.textContent = '+ Add Film';
+        btn.textContent = '+ Add Anime';
         btn.onclick = openAdd;
         btn.style.cssText = 'position:fixed;bottom:30px;right:30px;padding:10px 18px;background:#414141;color:white;border:none;font-family:"Courier New",monospace;font-size:12px;text-transform:uppercase;letter-spacing:1px;cursor:pointer;z-index:500;';
         document.body.appendChild(btn);
@@ -465,7 +465,7 @@
     function openEdit(i) {
         editingIndex = i;
         const m = movies[i];
-        document.getElementById('modal-heading').textContent = 'Edit Film';
+        document.getElementById('modal-heading').textContent = 'Edit Anime';
         document.getElementById('edit-title').value = m.title;
         document.getElementById('edit-director').value = m.director || '';
         document.getElementById('edit-year').value = m.year || '';
@@ -481,7 +481,7 @@
 
     function openAdd() {
         editingIndex = -1;
-        document.getElementById('modal-heading').textContent = 'Add Film';
+        document.getElementById('modal-heading').textContent = 'Add Anime';
         document.getElementById('edit-title').value = '';
         document.getElementById('edit-director').value = '';
         document.getElementById('edit-year').value = '';
@@ -570,7 +570,7 @@
         const status = document.getElementById('modal-status');
         const formData = new FormData();
         formData.append('image', file);
-        formData.append('type', 'movies');
+        formData.append('type', 'anime');
         try {
             const res = await fetch('../admin/upload-image.php', { method: 'POST', body: formData });
             const data = await res.json();
@@ -585,7 +585,7 @@
     async function persistMovies(silent = false) {
         const status = document.getElementById('modal-status');
         try {
-            const res = await fetch('../admin/save-movies.php', {
+            const res = await fetch('../admin/save-anime.php', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(movies)

@@ -246,28 +246,30 @@
      keeps. Full-bleed like .navigation above it (not nested in .title-container, which is
      already 80%-width itself); .board-bar-inner reuses .content's own 80%/max-width centering
      directly, the same one application every other page's .content gets. Each code is a real
-     imageboard board code, pointed at whichever page its actual definition (see the title on
-     each) is the closest match for. -->
+     imageboard board code, pointed at whichever page its actual definition is the closest match
+     for; the full destination name shows above the link on hover (data-name, styles/forum.css)
+     instead of a native title tooltip. The four personal-media codes (a/lit/mu/tv) all point at
+     personal/archives.html rather than the specific movies/music/books/anime page directly —
+     they lead to the archive, not straight into one person's media. -->
 <div class="board-bar">
   <div class="content board-bar-inner">
       <div class="board-list">
         [
-        <a href="navigation/resources.html" title="Links archive">li</a> <span class="board-sep">/</span>
-        <a href="navigation/resources/media.html" title="/a/ Anime &amp; Manga &rarr; Film, anime, games &amp; reading">a</a> <span class="board-sep">/</span>
-        <a href="creations/blogs.html" title="/b/ Random &rarr; Blog">b</a> <span class="board-sep">/</span>
-        <a href="navigation/resources/technology.html" title="/g/ Technology">g</a> <span class="board-sep">/</span>
-        <a href="photos.html" title="/p/ Photography">p</a> <span class="board-sep">/</span>
-        <a href="navigation/resources/software.html" title="/t/ Torrents &rarr; Software &amp; tools">t</a> <span class="board-sep">/</span>
-        <a href="creations/games.html" title="/v/ Video Games">v</a> <span class="board-sep">/</span>
-        <a href="navigation/portfolio.html" title="/vip/ Very Important Posts &rarr; Portfolio">vip</a> <span class="board-sep">/</span>
-        <a href="creations/interactive.html" title="/diy/ Do It Yourself &rarr; Interactive projects">diy</a> <span class="board-sep">/</span>
-        <a href="navigation/resources/culture.html" title="/fa/ Fashion &rarr; Culture">fa</a> <span class="board-sep">/</span>
-        <a href="navigation/resources/design.html" title="/gd/ Graphic Design">gd</a> <span class="board-sep">/</span>
-        <a href="personal/books.html" title="/lit/ Literature &rarr; Books">lit</a> <span class="board-sep">/</span>
-        <a href="personal/music.html" title="/mu/ Music">mu</a> <span class="board-sep">/</span>
-        <a href="personal/electronics.html" title="/po/ Papercraft &amp; Origami &rarr; Electronics">po</a> <span class="board-sep">/</span>
-        <a href="personal/movies.html" title="/tv/ Television &amp; Film &rarr; Movies">tv</a> <span class="board-sep">/</span>
-        <a href="personal/cards.html" title="/vp/ Pok&eacute;mon &rarr; Pok&eacute;mon Cards">vp</a> <span class="board-sep">/</span>
+        <a href="personal/archives.html" data-name="Anime">a</a> <span class="board-sep">/</span>
+        <a href="creations/blogs.html" data-name="Blog">b</a> <span class="board-sep">/</span>
+        <a href="navigation/resources/technology.html" data-name="Technology">g</a> <span class="board-sep">/</span>
+        <a href="photos.html" data-name="Photography">p</a> <span class="board-sep">/</span>
+        <a href="navigation/resources/software.html" data-name="Software">t</a> <span class="board-sep">/</span>
+        <a href="creations/games.html" data-name="Games">v</a> <span class="board-sep">/</span>
+        <a href="navigation/portfolio.html" data-name="Portfolio">vip</a> <span class="board-sep">/</span>
+        <a href="creations/interactive.html" data-name="Interactive">diy</a> <span class="board-sep">/</span>
+        <a href="navigation/resources/culture.html" data-name="Culture">fa</a> <span class="board-sep">/</span>
+        <a href="navigation/resources/design.html" data-name="Design">gd</a> <span class="board-sep">/</span>
+        <a href="personal/archives.html" data-name="Books">lit</a> <span class="board-sep">/</span>
+        <a href="personal/archives.html" data-name="Music">mu</a> <span class="board-sep">/</span>
+        <a href="personal/electronics.html" data-name="Electronics">po</a> <span class="board-sep">/</span>
+        <a href="personal/archives.html" data-name="Movies">tv</a> <span class="board-sep">/</span>
+        <a href="personal/cards.html" data-name="Pok&eacute;mon Cards">vp</a> <span class="board-sep">/</span>
         ]
         <span class="board-admin">[<span id="admin-link-area"></span>]</span>
       </div>
@@ -294,11 +296,6 @@
           <br>
         </p>
         <div class="hero-actions">
-          <div class="msg-btn-col">
-            <button class="msg-btn msg-btn-inline" onclick="openContactModal()">
-              <span class="msg-full">Send me a msg</span><span class="msg-short">msg me</span> <img src="images/icons/paper_plane.svg" alt="" style="width:15px;opacity:0.7;">
-            </button>
-          </div>
           <a href="navigation/about.html" class="about-link">about me &rarr;</a>
         </div>
       </div>
@@ -317,13 +314,12 @@
 
 
       <div class="forum-board blog-section">
-        <div class="forum-board-head">
-          <h2 class="forum-board-title">/blog/ - Recent Thoughts</h2>
+        <a href="creations/blogs.html" class="forum-board-title">/blog/ - Recent Thoughts</a>
+        <div class="forum-board-actions">
+          <a href="#" class="forum-message-link" onclick="event.preventDefault();openContactModal()">[Message Me]</a>
           <a href="creations/blogs.html" class="forum-catalogue-link">[Catalogue]</a>
         </div>
-        <a href="#" class="forum-message-link" onclick="event.preventDefault();openContactModal()">[Message Me]</a>
         <div class="forum-thread-list" id="recent-posts"></div>
-        <a href="creations/blogs.html" class="forum-see-all">[See All]</a>
       </div>
     </div>
 
@@ -338,7 +334,7 @@
     <div class="widgets-container">
 
       <div class="widget-block">
-        <h3 class="widget-heading"><a href="personal/archives.html">My Media Archives</a></h3>
+        <h3 class="widget-heading"><a href="personal/physical-collections.html">My Collections</a></h3>
         <div class="widget-list">
           <a href="personal/movies.html" class="widget-list-item">Movies</a>
           <a href="personal/music.html" class="widget-list-item">Music</a>
@@ -509,83 +505,98 @@
 </script>
 
 
-<footer>
-  <!-- Same board bar as the header (see the comment up there for what each code links to and
-       why), repeated here per the Figma reference's footer. footer-board-bar strips the
-       header-only bits (the 80px clearance for the fixed nav, the border/bottom-margin) that
-       don't apply down here. -->
-  <div class="board-bar footer-board-bar">
-    <div class="content board-bar-inner">
-      <div class="board-list">
-        [2026] [
-        <a href="navigation/resources.html" title="Links archive">li</a> <span class="board-sep">/</span>
-        <a href="navigation/resources/media.html" title="/a/ Anime &amp; Manga &rarr; Film, anime, games &amp; reading">a</a> <span class="board-sep">/</span>
-        <a href="creations/blogs.html" title="/b/ Random &rarr; Blog">b</a> <span class="board-sep">/</span>
-        <a href="navigation/resources/technology.html" title="/g/ Technology">g</a> <span class="board-sep">/</span>
-        <a href="photos.html" title="/p/ Photography">p</a> <span class="board-sep">/</span>
-        <a href="navigation/resources/software.html" title="/t/ Torrents &rarr; Software &amp; tools">t</a> <span class="board-sep">/</span>
-        <a href="creations/games.html" title="/v/ Video Games">v</a> <span class="board-sep">/</span>
-        <a href="navigation/portfolio.html" title="/vip/ Very Important Posts &rarr; Portfolio">vip</a> <span class="board-sep">/</span>
-        <a href="creations/interactive.html" title="/diy/ Do It Yourself &rarr; Interactive projects">diy</a> <span class="board-sep">/</span>
-        <a href="navigation/resources/culture.html" title="/fa/ Fashion &rarr; Culture">fa</a> <span class="board-sep">/</span>
-        <a href="navigation/resources/design.html" title="/gd/ Graphic Design">gd</a> <span class="board-sep">/</span>
-        <a href="personal/books.html" title="/lit/ Literature &rarr; Books">lit</a> <span class="board-sep">/</span>
-        <a href="personal/music.html" title="/mu/ Music">mu</a> <span class="board-sep">/</span>
-        <a href="personal/electronics.html" title="/po/ Papercraft &amp; Origami &rarr; Electronics">po</a> <span class="board-sep">/</span>
-        <a href="personal/movies.html" title="/tv/ Television &amp; Film &rarr; Movies">tv</a> <span class="board-sep">/</span>
-        <a href="personal/cards.html" title="/vp/ Pok&eacute;mon &rarr; Pok&eacute;mon Cards">vp</a> <span class="board-sep">/</span>
-        ]
-        <span class="board-admin">[<span id="admin-link-footer"></span>]</span>
-      </div>
-      <div class="board-socials">
-        [<a href="https://github.com/sonia-sharapova" target="_blank" rel="noopener">github</a>][<a href="https://www.linkedin.com/in/sonia-sharapova/" target="_blank" rel="noopener">linkedin</a>][<a href="navigation/about.html">about</a>]
-      </div>
+<footer class="mini-footer">
+  <div class="content mini-footer-inner">
+    <div class="mini-footer-row">
+      [<a href="index.html">soniapolis</a>][2026][<span id="admin-link-footer"></span>]
+    </div>
+    <div class="mini-footer-row">
+      [<a href="mailto:sonia@soniapolis.com">email</a>][<a href="navigation/about.html">about</a>][<a href="#" onclick="event.preventDefault();openContactModal()">message</a>]
     </div>
   </div>
 </footer>
 
 <script>
-  // Renders the "/blog/ - Recent Thoughts" list as imageboard-style threads: a checkbox, the
-  // title/date/post-number row, a "File:" line and thumbnail when the post has an image
-  // (data/posts.json's image/imageMeta — see admin/save-blog.php and admin/list-posts.php,
+  // Renders the "/blog/ - Recent Thoughts" list as imageboard-style threads: a [-] collapse
+  // toggle, the title/date/post-number row, a "File:" line and thumbnail when the post has an
+  // image (data/posts.json's image/imageMeta — see admin/save-blog.php and admin/list-posts.php,
   // which extract the post's first markdown image and, when it's a real local file, its real
   // size/dimensions), then the excerpt with any greentext ("> ...") line the post led with.
   function escHtml(s) {
     return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
   }
 
-  // A stable, imageboard-flavored "No.XXXXXX" for a post — not a real sequential ID (posts.json
-  // doesn't have one), just a deterministic hash of the slug so the same post always shows the
-  // same number rather than a giveaway 1/2/3.
-  function postNo(slug) {
-    let h = 0;
-    for (let i = 0; i < slug.length; i++) h = (h * 31 + slug.charCodeAt(i)) >>> 0;
-    return String(100000 + (h % 900000));
+  // "2025-10-14" -> { short: "10-14-25" (line 1's date), code: "101425" (line 2's 6-digit
+  // display filename, m-d-y digits with no separators — the "000000.png" pattern populated
+  // from the post's date instead of a literal sequential upload id).
+  function dateParts(dateStr) {
+    const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(dateStr || '');
+    if (!m) return { short: dateStr || '', code: '000000' };
+    const [, yyyy, mm, dd] = m;
+    const yy = yyyy.slice(2);
+    return { short: `${mm}-${dd}-${yy}`, code: `${mm}${dd}${yy}` };
   }
 
-  function threadHtml(p) {
-    const fileLine = p.image
-      ? `<p class="forum-thread-file">File: ${escHtml(p.image.split('/').pop())}${p.imageMeta ? ` (${escHtml(p.imageMeta)})` : ''}</p>`
-      : '';
+  // Binary "No.###" — not a hash, an actual chronological index (oldest post is No.001, in
+  // binary) computed once from the full post list before it's sliced down to the homepage's
+  // top 3, so the numbering stays stable no matter how many posts are shown at once.
+  function chronologicalRanks(posts) {
+    const ranks = {};
+    [...posts].sort((a, b) => (a.date || '').localeCompare(b.date || ''))
+      .forEach((p, i) => { ranks[p.slug] = i + 1; });
+    return ranks;
+  }
+  function toBinaryNo(rank) {
+    return rank.toString(2).padStart(3, '0');
+  }
+
+  function threadHtml(p, rank) {
+    const { short, code } = dateParts(p.date);
+    let fileLine = '';
+    if (p.image) {
+      const ext = (p.image.split('.').pop() || 'png').toLowerCase();
+      const realName = escHtml(p.image.split('/').pop());
+      const meta = p.imageMeta ? `${escHtml(p.imageMeta)}, ` : '';
+      // imgops/iqdb need a publicly-reachable host+path — works once deployed (soniapolis.com);
+      // on localhost the links themselves still build correctly, they just won't resolve.
+      const hostPath = location.host + p.image;
+      fileLine = `
+        <p class="forum-thread-file">
+          File: <span class="forum-thread-filename">${code}.${ext}</span>
+          (${meta}${realName})
+          <a href="http://imgops.com/${hostPath}" target="_blank" rel="noopener" class="forum-tool-link">ImgOps</a>
+          <a href="http://iqdb.org/?url=${hostPath}" target="_blank" rel="noopener" class="forum-tool-link">iqdb</a>
+        </p>`;
+    }
     const image = p.image
       ? `<div class="forum-thread-image"><img src="${escHtml(p.image)}" alt=""></div>`
       : '';
     return `
       <div class="forum-thread">
-        <input type="checkbox" class="forum-thread-check" tabindex="-1" aria-hidden="true">
         <div class="forum-thread-head">
+          <button type="button" class="forum-thread-toggle" aria-expanded="true" onclick="toggleThread(this)">[-]</button>
           <a href="creations/blogs/entry.html?post=${escHtml(p.slug)}" class="forum-thread-title">${escHtml(p.title)}</a>
-          <span class="forum-thread-meta">${escHtml(p.date)} No.${postNo(p.slug)}</span>
+          <span class="forum-thread-meta">${short} No.${toBinaryNo(rank)}</span>
         </div>
-        ${fileLine}
-        <div class="forum-thread-body">
-          ${image}
-          <div class="forum-thread-comment">
-            ${p.excerpt ? `<p>${escHtml(p.excerpt)}</p>` : ''}
-            ${p.greentext ? `<p class="forum-thread-greentext">&gt;${escHtml(p.greentext)}</p>` : ''}
+        <div class="forum-thread-collapsible">
+          ${fileLine}
+          <div class="forum-thread-body">
+            ${image}
+            <div class="forum-thread-comment">
+              ${p.excerpt ? `<p>${escHtml(p.excerpt)}</p>` : ''}
+              ${p.greentext ? `<p class="forum-thread-greentext"><a href="creations/blogs/entry.html?post=${escHtml(p.slug)}">&gt;${escHtml(p.greentext)}</a></p>` : ''}
+            </div>
           </div>
         </div>
       </div>`;
+  }
+
+  // [-] collapses a thread down to just its title line (line 1); [+] brings it back.
+  function toggleThread(btn) {
+    const thread = btn.closest('.forum-thread');
+    const collapsed = thread.classList.toggle('collapsed');
+    btn.textContent = collapsed ? '[+]' : '[-]';
+    btn.setAttribute('aria-expanded', String(!collapsed));
   }
 
   fetch('data/posts.json')
@@ -593,7 +604,8 @@
     .then(posts => {
       const container = document.getElementById('recent-posts');
       if (!posts.length) return;
-      container.innerHTML = posts.slice(0, 3).map(threadHtml).join('');
+      const ranks = chronologicalRanks(posts);
+      container.innerHTML = posts.slice(0, 3).map(p => threadHtml(p, ranks[p.slug])).join('');
     })
     .catch(() => {});
 </script>
