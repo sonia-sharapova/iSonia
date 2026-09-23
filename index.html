@@ -54,17 +54,23 @@
       min-height: 25vh;
     }
 
+    /* Fluid sizing (clamp: min, viewport-relative preferred, max) instead of the old fixed
+       sizes + stepped per-breakpoint overrides below — scales smoothly with the actual
+       viewport width instead of jumping between fixed sizes, and never needs truncating or
+       hiding to fit. */
     .description h1 {
       font-weight: unset;
-      font-size: 35px;
+      font-size: clamp(20px, 4vw, 35px);
       text-transform: uppercase;
     }
 
+    .description p { font-size: clamp(13px, 1.6vw, 16px); }
+
     #note {
       color: #47649a;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+      font-size: clamp(12px, 1.5vw, 16px);
+      white-space: normal;
+      overflow-wrap: break-word;
     }
 
     /* Message button - hidden by default, shown on mobile */
@@ -138,15 +144,12 @@
 
     @media only screen and (max-width: 1200px) {
       .preview-image { width: 220px; height: 220px; }
-      .description h1 { font-size: 30px; }
-      .description p { font-size: 16px; }
       img#chip { display: none; }
     }
 
     @media only screen and (max-width: 1000px) {
       .content { gap: 0; }
       .preview-image { width: 200px; height: 200px; }
-      .description h1 { font-size: 22px; }
       /* remove vertical separator */
       .content > hr { display: none; }
       /* tighter profile spacing */
@@ -163,15 +166,9 @@
       .description {
         margin-left: 5px;
       }
-      .description h1 {
-        font-size: 20px;
-      }
       .description a {
         font-weight: unset;
         font-size: 18px;
-      }
-      #note {
-        display: none;
       }
 
       .preview-image {
@@ -202,7 +199,6 @@
     }
     @media only screen and (max-width: 500px) {
       #note {
-        font-size: 11px;
         margin-bottom: 0;
       }
       .nav-message-btn {

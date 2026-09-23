@@ -275,9 +275,10 @@ body.m2 .page-title { text-transform: uppercase; }
   body.m2 .profile-section {
     display: grid !important;
     grid-template-columns: 165px 1fr;
-    grid-template-rows: auto 1fr auto;
+    grid-template-rows: auto auto 1fr auto;
     grid-template-areas:
       "photo name"
+      "photo note"
       "photo eyebrow"
       "actions actions";
     column-gap: 15px;
@@ -315,7 +316,13 @@ body.m2 .page-title { text-transform: uppercase; }
     color: #333;
   }
 
-  body.m2 .description #note { display: none; }
+  body.m2 .description #note {
+    grid-area: note;
+    margin: 4px 0 0 !important;
+    font-size: clamp(11px, 3vw, 14px) !important;
+    white-space: normal;
+    overflow-wrap: break-word;
+  }
 
   body.m2 .description > p:not(#note) {
     grid-area: eyebrow;
