@@ -149,6 +149,57 @@
     color: #aaa;
 }
 
+/* ── Optional picture on a topic/section/sub-section header ── */
+.res-folder-head {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+}
+.res-folder-head-text { min-width: 0; }
+.res-folder-head-img {
+    width: 56px;
+    height: 56px;
+    flex-shrink: 0;
+    object-fit: cover;
+    border-radius: 3px;
+    background: #e6e6e6;
+}
+.res-subhead-img {
+    width: 22px;
+    height: 22px;
+    object-fit: cover;
+    border-radius: 2px;
+    background: #e6e6e6;
+}
+
+/* ── Admin: a leaf folder's links edited as one markdown blob ── */
+.res-leaf-editor { margin-bottom: 6px; }
+.res-leaf-textarea {
+    width: 100%;
+    box-sizing: border-box;
+    min-height: 140px;
+    padding: 10px 12px;
+    border: 1px solid #ddd;
+    background: #fafafa;
+    color: #444;
+    font-family: 'Courier New', monospace;
+    font-size: 13px;
+    line-height: 1.6;
+    resize: vertical;
+}
+.res-leaf-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 8px;
+}
+.res-leaf-actions code {
+    font-family: 'Courier New', monospace;
+    background: #f0f0f0;
+    padding: 1px 4px;
+    border-radius: 2px;
+}
+
 
 /* ── Nothing selected yet: the category's picture and description ── */
 .res-intro-image {

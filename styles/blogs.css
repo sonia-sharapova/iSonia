@@ -15,8 +15,17 @@
     min-width: 0;
 }
 
+.blog-list-heading {
+    font-size: 18px;
+    font-weight: 500;
+    color: #666666;
+    margin: 20px 0 15px 0;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #ddd;
+}
+
 .blog-list {
-    margin-top: 40px;
+    margin-top: 20px;
 }
 
 .blog-entry {

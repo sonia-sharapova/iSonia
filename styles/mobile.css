@@ -1186,6 +1186,38 @@ body.m2 .page-title { text-transform: uppercase; }
   }
   body.m2.p-art .art-add-category { width: 100%; }
 
+  /* Physical Collections: the hub and every collection page share one sidebar, which is the
+     way between collections — keep it visible on phones too, as the same chip row as art.html. */
+  :is(body.m2.p-physical-collections, body.m2.p-movies, body.m2.p-music, body.m2.p-books,
+      body.m2.p-anime, body.m2.p-electronics, body.m2.p-cards) .sidebar {
+    display: flex !important;
+    flex-wrap: wrap;
+    gap: 8px;
+    width: 100%;
+    margin: 0 0 16px;
+  }
+  :is(body.m2.p-physical-collections, body.m2.p-movies, body.m2.p-music, body.m2.p-books,
+      body.m2.p-anime, body.m2.p-electronics, body.m2.p-cards) .sidebar-section {
+    display: contents;
+  }
+  :is(body.m2.p-physical-collections, body.m2.p-movies, body.m2.p-music, body.m2.p-books,
+      body.m2.p-anime, body.m2.p-electronics, body.m2.p-cards) .sidebar-title {
+    display: none;
+  }
+  :is(body.m2.p-physical-collections, body.m2.p-movies, body.m2.p-music, body.m2.p-books,
+      body.m2.p-anime, body.m2.p-electronics, body.m2.p-cards) .sidebar-link {
+    padding: 6px 12px;
+    border: 1px solid #ddd;
+    border-radius: 14px;
+    background: #fff;
+    font-size: 14px;
+  }
+  :is(body.m2.p-physical-collections, body.m2.p-movies, body.m2.p-music, body.m2.p-books,
+      body.m2.p-anime, body.m2.p-electronics, body.m2.p-cards) :is(.sidebar-link:hover, .sidebar-link.active) {
+    padding: 6px 12px;
+    border-color: #45a049;
+  }
+
   body.m2.p-art .art-category-title {
     margin: 24px 0 12px;
     font: 400 18px/24px 'Optima', 'Belleza', arial, sans-serif;
@@ -1212,7 +1244,7 @@ body.m2 .page-title { text-transform: uppercase; }
 
   /* ---------- Games ---------- */
 
-  body.m2.p-games .content {
+  body.m2.p-games .content:not(.board-bar-inner) {
     box-sizing: border-box;
     display: block;
     width: auto !important;

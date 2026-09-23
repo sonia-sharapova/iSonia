@@ -9,11 +9,13 @@
     <link rel="stylesheet" href="../styles/mobile.css">
     <script src="../scripts/admin.js" defer></script>
     <style>
-        /* No sidebar here — this page (and Movies/Music/Books) lives under the Media Archives
-           hub (archives.html) instead, reached via the SEE: "archive" tab. Gallery + the
+        /* Shares the Physical Collections sidebar (.content.has-sidebar / .sidebar,
+           styles/stylesheet.css) with the other collection pages. Gallery + the
            right-hand preview panel (updates to whichever title is selected) sit side by side,
            same 2-column layout as Films/Books. */
         .archive-main {
+            flex: 1;
+            min-width: 0;
             margin-top: 20px;
             display: grid;
             grid-template-columns: 2fr 1fr;
@@ -22,8 +24,8 @@
 
         .gallery {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 24px;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 14px;
             margin-bottom: 100px;
         }
 
@@ -166,10 +168,10 @@
         }
 
         @media (max-width: 1000px) {
-            .gallery { grid-template-columns: repeat(3, 1fr); gap: 10px; }
+            .gallery { grid-template-columns: repeat(4, 1fr); gap: 10px; }
         }
         @media (max-width: 760px) {
-            .gallery { width: 100%; grid-template-columns: repeat(2, 1fr); }
+            .gallery { width: 100%; grid-template-columns: repeat(3, 1fr); }
         }
 
         /* Modal */
@@ -293,7 +295,7 @@
         <span class="board-sep">/</span>
         <a href="../photos.html" data-name="Photography">p</a>
         <span class="board-sep">/</span>
-        <a href="../learning/web/privacy-checklist.html" data-name="Torrents">t</a>
+        <a href="../navigation/resources/torrents.html" data-name="Torrents &amp; Streaming">t</a>
         <span class="board-sep">/</span>
         <a href="../creations/games.html" data-name="Games">v</a>
         <span class="board-sep">/</span>
@@ -328,7 +330,21 @@
     <hr>
 </div>
 
-<div class="content">
+<div class="content has-sidebar">
+    <div class="sidebar">
+        <div class="sidebar-section">
+            <a href="physical-collections.html" class="sidebar-link">See All</a>
+        </div>
+        <div class="sidebar-section">
+            <h3 class="sidebar-title">Collections</h3>
+            <a href="movies.html" class="sidebar-link">Movies</a>
+            <a href="music.html" class="sidebar-link">Music</a>
+            <a href="books.html" class="sidebar-link">Books</a>
+            <a href="anime.html" class="sidebar-link active">Anime</a>
+            <a href="electronics.html" class="sidebar-link">Electronics</a>
+            <a href="cards.html" class="sidebar-link">Pok&eacute;mon Cards</a>
+        </div>
+    </div>
     <div class="archive-main">
         <div class="gallery" id="gallery">
             <p style="color:#888;font-family:'Courier New',monospace;font-size:13px;">Loading…</p>

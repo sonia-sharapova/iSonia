@@ -66,10 +66,10 @@ function serializeToMarkdown(folders, info, topics) {
         md += '\n';
     }
     const folderMd = f => {
-        md += `## ${f.name}\n` + (f.description ? `> ${f.description}\n` : '') + '\n';
+        md += `## ${f.name}\n` + (f.image ? `![${f.alt || ''}](${f.image})\n` : '') + (f.description ? `> ${f.description}\n` : '') + '\n';
         f.items.forEach(it => { md += itemMd(it); });
         f.subfolders.forEach(sf => {
-            md += `\n### ${sf.name}\n` + (sf.description ? `> ${sf.description}\n` : '') + '\n';
+            md += `\n### ${sf.name}\n` + (sf.image ? `![${sf.alt || ''}](${sf.image})\n` : '') + (sf.description ? `> ${sf.description}\n` : '') + '\n';
             sf.items.forEach(it => { md += itemMd(it); });
         });
         md += '\n';
@@ -78,10 +78,42 @@ function serializeToMarkdown(folders, info, topics) {
     // sections that belong to no topic go first — after a "# Topic" line they would be read as part of it
     folders.filter(f => !topics.some(t => t.name === f.topic)).forEach(folderMd);
     topics.forEach(t => {
-        md += `# ${t.name}\n` + (t.description ? `> ${t.description}\n` : '') + '\n';
+        md += `# ${t.name}\n` + (t.image ? `![${t.alt || ''}](${t.image})\n` : '') + (t.description ? `> ${t.description}\n` : '') + '\n';
         folders.filter(f => f.topic === t.name).forEach(folderMd);
     });
     return md;
+}
+
+// ── Leaf editing: a folder/sub-section with no children of its own is edited as one
+// raw markdown blob (current links + optional new "### Heading" lines) rather than
+// row-by-row. allowHeadings is only true for a folder's own item zone — a sub-section
+// is already the deepest level the file format supports, so its blob stays flat.
+function parseLeafMarkdown(text, allowHeadings) {
+    const items = [];
+    const subfolders = [];
+    let target = items, curSub = null, last = null;
+    text.split('\n').forEach(raw => {
+        const line = raw.replace(/\r$/, '');
+        const t = line.trim();
+        if (allowHeadings && line.startsWith('### ')) {
+            curSub = { name: line.slice(4).trim(), description: '', image: '', alt: '', items: [] };
+            subfolders.push(curSub);
+            target = curSub.items; last = null;
+        } else if (t.startsWith('- **')) {
+            const m = t.match(/^- \*\*(.+?)\*\*:?\s*(.*)/);
+            if (m) { last = { name: m[1], description: m[2], link: '' }; target.push(last); }
+        } else if (/^- (https?:|\/|\.\.?\/|mailto:)/i.test(t)) {
+            if (last) last.link = t.slice(2).trim();
+        } else if (allowHeadings && t.startsWith('>') && curSub) {
+            const d = t.replace(/^>\s?/, '');
+            curSub.description = curSub.description ? curSub.description + ' ' + d : d;
+        }
+    });
+    return { items, subfolders };
+}
+function serializeLeafMarkdown(items) {
+    const itemMd = it => `- **${it.name}**: ${it.description}\n` + (it.link ? `  - ${it.link}\n` : '');
+    return (items || []).map(itemMd).join('');
 }
 
 // ── Save ─────────────────────────────────────────────────────────
@@ -183,6 +215,41 @@ function linkList(items, fi, si) {
     }).join('') + '</ul>';
 }
 
+// A title + optional description, with an optional small picture beside it — used for a topic's
+// header (sectionsCol) and a section/sub-section's header (linksCol). titleClass keeps each call
+// site's original heading size (res-title in the topic column, res-section-title in the content pane).
+function headBlock(title, desc, img, alt, titleClass) {
+    const image = img ? `<img class="res-folder-head-img" src="${esc(img)}" alt="${esc(alt || '')}">` : '';
+    const text = `<div class="res-folder-head-text"><h2 class="${titleClass}">${esc(title)}</h2>${desc ? `<p class="res-sub">${esc(desc)}</p>` : ''}</div>`;
+    return `<div class="res-head res-folder-head">${image}${text}</div>`;
+}
+
+// Admin-only: a leaf's links as one editable markdown blob, replacing the row-by-row list.
+function leafEditor(fi, si, items, allowHeadings) {
+    const key = si === null ? `f${fi}` : `f${fi}s${si}`;
+    const md = serializeLeafMarkdown(items);
+    return `<div class="res-leaf-editor">
+        <textarea class="res-leaf-textarea" id="leaf-md-${key}" spellcheck="false" placeholder="- **Name**: notes${allowHeadings ? ' (add a &quot;### Heading&quot; line to start a new sub-section)' : ''}">${esc(md)}</textarea>
+        <div class="res-leaf-actions">
+          <button class="lnk-save" onclick="saveLeafMarkdown(${fi},${si === null ? 'null' : si},${allowHeadings})">Save Links</button>
+          <span class="lnk-modal-hint">One link per pair of lines: <code>- **Name**: notes</code> then <code>  - https://…</code></span>
+        </div>
+      </div>`;
+}
+
+function saveLeafMarkdown(fi, si, allowHeadings) {
+    const key = si === null ? `f${fi}` : `f${fi}s${si}`;
+    const text = document.getElementById(`leaf-md-${key}`).value;
+    const { items, subfolders } = parseLeafMarkdown(text, allowHeadings);
+    if (si === null) {
+        foldersData[fi].items = items;
+        if (subfolders.length) foldersData[fi].subfolders = foldersData[fi].subfolders.concat(subfolders);
+    } else {
+        foldersData[fi].subfolders[si].items = items;
+    }
+    saveMd().then(rerender);
+}
+
 function categoriesCol() {
     // same two-part sidebar as Blogs / Photos / Art / Archives: one general link
     // ("< All Topics", back to the hub), then a titled list of every category
@@ -219,7 +286,7 @@ function topicsCol() {
     const rows = topicsData.map((t, i) => `<div class="res-row">
         <a class="res-link${i === curTopic ? ' active' : ''}" href="#${slug(t.name)}" data-t="${i}">${esc(t.name)}</a>
         ${isAdmin ? `<span class="res-adm">
-          <button class="lnk-adm-btn lnk-edit" onclick="renameTopic(${i})" title="Rename topic">✎</button>
+          <button class="lnk-adm-btn lnk-edit" onclick="openTopicModal(${i})" title="Edit topic">✎</button>
           <button class="lnk-adm-btn lnk-del"  onclick="deleteTopic(${i})" title="Delete topic and its sections">✕</button>
         </span>` : ''}
       </div>${i === curTopic ? nested(t) : ''}`).join('');
@@ -230,7 +297,7 @@ function topicsCol() {
         <div class="sidebar-section">
           <h3 class="res-head">Topics</h3>
           <nav class="res-list">${rows}</nav>
-          ${isAdmin ? '<button class="lnk-adm-add-row" onclick="addTopic()">+ Add topic</button>' : ''}
+          ${isAdmin ? '<button class="lnk-adm-add-row" onclick="openTopicModal(null)">+ Add topic</button>' : ''}
         </div>
       </div>`;
 }
@@ -247,7 +314,7 @@ function sectionsCol() {
       </div>`).join('');
     // on a topic page the sections are nested in the first column; this list is only for phones, where they become chips
     return `<div class="res-col res-col-sections${useTopics() ? ' res-phone-only' : ''}">
-        <div class="res-head"><h2 class="res-title">${esc(topic ? topic.name : cat.title)}</h2>${(topic ? topic.description : cat.desc) ? `<p class="res-sub">${esc(topic ? topic.description : cat.desc)}</p>` : ''}</div>
+        ${headBlock(topic ? topic.name : cat.title, topic ? topic.description : cat.desc, topic ? topic.image : null, topic ? topic.alt : null, 'res-title')}
         <nav class="res-list">${rows}</nav>
         ${isAdmin && (topic || !useTopics()) ? '<button class="lnk-adm-add-row" onclick="openFolderModal(null)">+ Add section</button>' : ''}
       </div>`;
@@ -300,26 +367,24 @@ function linksCol() {
     const f = foldersData[curSection];
     if (!f) return introCol();
     const sel = useTopics() ? f.subfolders[curSub] : null;
-    if (sel) {          // one sub-section picked in the second column: just its links
-        let h = `<div class="res-head"><h2 class="res-section-title">${esc(sel.name)}</h2>${sel.description ? `<p class="res-sub">${esc(sel.description)}</p>` : ''}</div>`;
-        h += linkList(sel.items, curSection, curSub);
-        if (isAdmin) h += `<button class="lnk-adm-add-row" onclick="openRowModal(${curSection},${curSub},null)">+ Add link</button>`;
+    if (sel) {          // one sub-section picked in the second column: it has no children of its own — a leaf
+        let h = headBlock(sel.name, sel.description, sel.image, sel.alt, 'res-section-title');
+        h += isAdmin ? leafEditor(curSection, curSub, sel.items, false) : linkList(sel.items, curSection, curSub);
         return `<div class="res-col res-col-links">${h}</div>`;
     }
-    let html = `<div class="res-head"><h2 class="res-section-title">${esc(f.name)}</h2>${f.description ? `<p class="res-sub">${esc(f.description)}</p>` : ''}</div>`;
-    html += linkList(f.items, curSection, null);
-    if (isAdmin) html += `<button class="lnk-adm-add-row" onclick="openRowModal(${curSection},null,null)">+ Add link</button>`;
+    let html = headBlock(f.name, f.description, f.image, f.alt, 'res-section-title');
+    // the folder's own items: a leaf unless/until an admin types a "### Heading" line to start a sub-section
+    html += isAdmin ? leafEditor(curSection, null, f.items, true) : linkList(f.items, curSection, null);
     if (useTopics()) return `<div class="res-col res-col-links">${html}</div>`;     // the sub-sections are listed in the second column
 
-    // sub-sections break the links with a header of their own
+    // sub-sections break the links with a header of their own; each is a leaf too (no further nesting)
     f.subfolders.forEach((sf, si) => {
         html += `<div class="res-subgroup">
-            <div class="res-subhead-row"><h3 class="res-subhead">${esc(sf.name)}</h3>${isAdmin ? `<span class="res-adm res-adm-show">
+            <div class="res-subhead-row">${sf.image ? `<img class="res-subhead-img" src="${esc(sf.image)}" alt="${esc(sf.alt || '')}">` : ''}<h3 class="res-subhead">${esc(sf.name)}</h3>${isAdmin ? `<span class="res-adm res-adm-show">
               <button class="lnk-adm-btn lnk-edit" onclick="openSubfolderModal(${curSection},${si})" title="Rename / describe">✎</button>
               <button class="lnk-adm-btn lnk-del"  onclick="deleteSubfolder(${curSection},${si})" title="Delete sub-section">✕</button></span>` : ''}</div>
             ${sf.description ? `<p class="res-sub">${esc(sf.description)}</p>` : ''}
-            ${linkList(sf.items, curSection, si)}
-            ${isAdmin ? `<button class="lnk-adm-add-row" onclick="openRowModal(${curSection},${si},null)">+ Add link</button>` : ''}
+            ${isAdmin ? leafEditor(curSection, si, sf.items, false) : linkList(sf.items, curSection, si)}
           </div>`;
     });
     if (isAdmin) html += `<div style="margin-top:18px;"><button class="lnk-adm-add-row" onclick="openSubfolderModal(${curSection},null)">+ Add sub-section</button></div>`;
@@ -411,25 +476,6 @@ function deleteRow(fi, si, ii) {
     saveMd().then(rerender);
 }
 
-function addTopic() {
-    const name = (prompt('Name of the new topic:') || '').trim();
-    if (!name) return;
-    if (topicsData.some(t => t.name === name)) { alert('There is already a topic with that name.'); return; }
-    topicsData.push({ name, description: '' });
-    curTopic = topicsData.length - 1; curSection = -1;
-    saveMd().then(() => { setHash(); rerender(); });
-}
-
-function renameTopic(i) {
-    const t = topicsData[i];
-    const name = (prompt('Rename topic:', t.name) || '').trim();
-    if (!name || name === t.name) return;
-    if (topicsData.some(x => x.name === name)) { alert('There is already a topic with that name.'); return; }
-    foldersData.forEach(f => { if (f.topic === t.name) f.topic = name; });
-    t.name = name;
-    saveMd().then(() => { setHash(); rerender(); });
-}
-
 function deleteTopic(i) {
     const t = topicsData[i];
     const n = foldersData.filter(f => f.topic === t.name).length;
@@ -464,7 +510,7 @@ async function deleteCategory(i) {
 
 // ── Modals ────────────────────────────────────────────────────────
 let _row = { fi: null, si: null, ii: null };
-let _fm = { fi: null, si: null, sub: false };
+let _fm = { kind: 'section', ti: null, fi: null, si: null };
 let _cat = null;
 
 function openRowModal(fi, si, ii) {
@@ -491,40 +537,78 @@ function saveRow() {
     saveMd().then(() => { closeModals(); rerender(); });
 }
 
-// One modal for sections and sub-sections: fi === null → new section; sub → a sub-section (si null → new)
+// One modal for topics, sections and sub-sections: kind picks which array/level is being
+// edited; a null index (ti/fi/si, as it applies) means "add new" rather than "edit existing".
+function openTopicModal(i) {
+    _fm = { kind: 'topic', ti: i, fi: null, si: null };
+    showFolderModal(i !== null ? 'Edit Topic' : 'Add Topic', i !== null ? topicsData[i] : null);
+}
 function openFolderModal(fi) {
-    _fm = { fi, si: null, sub: false };
+    _fm = { kind: 'section', ti: null, fi, si: null };
     showFolderModal(fi !== null ? 'Edit Section' : 'Add Section', fi !== null ? foldersData[fi] : null);
 }
 function openSubfolderModal(fi, si) {
-    _fm = { fi, si, sub: true };
+    _fm = { kind: 'subsection', ti: null, fi, si };
     showFolderModal(si !== null ? 'Edit Sub-section' : 'Add Sub-section', si !== null ? foldersData[fi].subfolders[si] : null);
 }
 function showFolderModal(title, f) {
     document.getElementById('lnk-folder-modal-title').textContent = title;
     document.getElementById('lnk-folder-name').value = f ? f.name : '';
     document.getElementById('lnk-folder-desc').value = f ? (f.description || '') : '';
+    document.getElementById('lnk-folder-image').value = f ? (f.image || '') : '';
+    document.getElementById('lnk-folder-status').textContent = '';
     showModal('lnk-folder-modal');
     setTimeout(() => document.getElementById('lnk-folder-name').focus(), 50);
+}
+async function uploadFolderImage(input) {
+    const file = input.files[0]; input.value = '';
+    if (!file) return;
+    const status = document.getElementById('lnk-folder-status');
+    status.textContent = 'Uploading…';
+    const fd = new FormData(); fd.append('image', file); fd.append('type', 'resources');
+    try {
+        const up = await fetch(ROOT + 'admin/upload-image.php', { method: 'POST', body: fd }).then(r => r.json());
+        if (!up.success) { status.textContent = 'Upload failed: ' + (up.error || 'unknown error'); return; }
+        document.getElementById('lnk-folder-image').value = up.display || up.path;
+        status.textContent = 'Uploaded — press Save.';
+    } catch (e) { status.textContent = 'Upload failed (network).'; }
+}
+function removeFolderImage() {
+    document.getElementById('lnk-folder-image').value = '';
+    document.getElementById('lnk-folder-status').textContent = 'Picture removed — press Save.';
 }
 
 function saveFolder() {
     const name = document.getElementById('lnk-folder-name').value.trim();
     const description = document.getElementById('lnk-folder-desc').value.trim();
+    const image = document.getElementById('lnk-folder-image').value.trim();
     if (!name) { alert('Name is required.'); return; }
-    const { fi, si, sub } = _fm;
-    if (sub) {
-        if (si !== null) Object.assign(foldersData[fi].subfolders[si], { name, description });
-        else foldersData[fi].subfolders.push({ name, description, items: [] });
+    const { kind, ti, fi, si } = _fm;
+    if (kind === 'topic') {
+        if (ti !== null) {
+            const t = topicsData[ti];
+            if (name !== t.name) {
+                if (topicsData.some((x, xi) => xi !== ti && x.name === name)) { alert('There is already a topic with that name.'); return; }
+                foldersData.forEach(f => { if (f.topic === t.name) f.topic = name; });
+            }
+            Object.assign(t, { name, description, image });
+        } else {
+            if (topicsData.some(t => t.name === name)) { alert('There is already a topic with that name.'); return; }
+            topicsData.push({ name, description, image });
+            curTopic = topicsData.length - 1; curSection = -1;
+        }
+    } else if (kind === 'subsection') {
+        if (si !== null) Object.assign(foldersData[fi].subfolders[si], { name, description, image });
+        else foldersData[fi].subfolders.push({ name, description, image, items: [] });
     } else if (fi !== null) {
-        Object.assign(foldersData[fi], { name, description });
+        Object.assign(foldersData[fi], { name, description, image });
     } else {
         const t = useTopics() ? topicsData[curTopic] : null;
         if (useTopics() && !t) { alert('Pick a topic on the left first.'); return; }
-        foldersData.push({ name, description, topic: t ? t.name : '', subfolders: [], items: [] });
+        foldersData.push({ name, description, image, topic: t ? t.name : '', subfolders: [], items: [] });
         curSection = foldersData.length - 1;
     }
-    saveMd().then(() => { closeModals(); rerender(); });
+    saveMd().then(() => { closeModals(); setHash(); rerender(); });
 }
 
 // The category's picture + description (shown while nothing is selected)
@@ -671,6 +755,12 @@ function injectAdminUI() {
     make('lnk-folder-modal', `<h3 id="lnk-folder-modal-title">Add Section</h3>
         <label>Name *</label><input id="lnk-folder-name" placeholder="e.g. Search Engines">
         <label>Description (one line, shown under the title)</label><input id="lnk-folder-desc" placeholder="e.g. Ways to find things">
+        <label>Picture (optional — address, or upload one)</label><input id="lnk-folder-image" placeholder="/images/resources/…">
+        <div style="display:flex;gap:8px;align-items:center;margin-top:8px;">
+          <input type="file" accept="image/*" onchange="uploadFolderImage(this)" style="border:none;background:none;padding:0;flex:1;">
+          <button type="button" class="lnk-cancel" onclick="removeFolderImage()" style="padding:5px 10px;font-size:12px;">Remove</button>
+        </div>
+        <p class="lnk-modal-hint" id="lnk-folder-status"></p>
         ${actions('saveFolder()')}`);
     make('lnk-intro-modal', `<h3>Category picture &amp; description</h3>
         <label>Description (shown while nothing is selected)</label><textarea id="lnk-intro-desc" placeholder="What this category is about"></textarea>

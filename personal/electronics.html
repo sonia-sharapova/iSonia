@@ -9,18 +9,266 @@
     <link rel="stylesheet" href="../styles/mobile.css">
     <script src="../scripts/admin.js" defer></script>
     <style>
-        /* Layout/sidebar is the shared .content.has-sidebar / .sidebar system
-           (styles/stylesheet.css) — same as Photos, Blogs and Art. */
+        /* Same gallery + right-hand preview panel as Films/Books/Anime (this page started as a
+           copy of anime.html), edited the same way in admin mode via admin/save-electronics.php. */
         .archive-main {
             flex: 1;
             min-width: 0;
             margin-top: 20px;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
         }
-        .placeholder-note {
-            color: #888f8d;
-            font-size: 16px;
-            line-height: 1.6;
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 14px;
+            margin-bottom: 100px;
         }
+
+        .thumbnail {
+            aspect-ratio: 2/3;
+            cursor: pointer;
+            position: relative;
+            border-radius: 2px;
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        /* Raise + shadow on hover, image blurred behind a title/year/redirect overlay —
+           publicly-browsable media, so each item offers a way out to wherever it actually
+           lives, separate from the click-to-preview behavior on the thumbnail itself. */
+        .thumbnail:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 24px rgba(0,0,0,0.28);
+            z-index: 2;
+        }
+
+        .thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border: 1px solid #666666;
+            transition: filter 0.25s ease;
+            display: block;
+        }
+
+        .thumbnail:hover img { filter: blur(3px) brightness(0.7); }
+
+        .thumb-overlay {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 10px;
+            opacity: 0;
+            transition: opacity 0.25s ease;
+            pointer-events: none;
+        }
+
+        .thumbnail:hover .thumb-overlay { opacity: 1; }
+
+        .thumb-overlay-title {
+            color: #fff;
+            font-family: 'Optima', arial, sans-serif;
+            font-size: 15px;
+            font-weight: 500;
+            line-height: 1.3;
+            text-shadow: 0 1px 4px rgba(0,0,0,0.7);
+        }
+
+        .thumb-overlay-year {
+            color: #eee;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            margin-top: 4px;
+        }
+
+        .thumb-overlay-link {
+            margin-top: 10px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.9);
+            color: #333;
+            pointer-events: auto;
+            text-decoration: none;
+            font-size: 14px;
+            transition: background 0.2s ease, color 0.2s ease;
+        }
+
+        .thumb-overlay-link:hover { background: #45a049; color: #fff; }
+
+        /* Admin edit overlay */
+        .thumb-edit-btn {
+            display: none;
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            border: none;
+            font-size: 12px;
+            padding: 3px 6px;
+            cursor: pointer;
+            z-index: 10;
+            line-height: 1;
+        }
+
+        body.admin-mode .thumbnail:hover .thumb-edit-btn { display: block; }
+        body.admin-mode .thumbnail { cursor: grab; }
+        body.admin-mode .thumbnail:hover { transform: none; box-shadow: none; }
+        body.admin-mode .thumbnail:hover img { filter: none; opacity: 0.7; }
+        body.admin-mode .thumbnail:hover .thumb-overlay { opacity: 0; }
+        .thumbnail.drag-over { outline: 2px solid #414141; }
+
+        .preview-section {
+            position: sticky;
+            top: 120px;
+            background: #f5f5f5;
+            padding: 20px;
+            height: calc(100vh - 200px);
+            border: 1px solid #666666;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .preview-img {
+            min-width: 200px;
+            width: 100%;
+            border: 1px solid #666666;
+            flex-shrink: 0;
+        }
+
+        .movie-info {
+            margin-top: 20px;
+            overflow-y: auto;
+            flex-grow: 1;
+        }
+
+        .movie-title {
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .movie-description {
+            font-size: 10px;
+            line-height: 1.5;
+            color: #666;
+            padding-right: 10px;
+        }
+
+        @media (max-width: 1000px) {
+            .gallery { grid-template-columns: repeat(4, 1fr); gap: 10px; }
+        }
+        @media (max-width: 760px) {
+            .gallery { width: 100%; grid-template-columns: repeat(3, 1fr); }
+        }
+
+        /* Modal */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.6);
+            z-index: 1000;
+            overflow: auto;
+        }
+
+        .modal-box {
+            background: white;
+            margin: 60px auto;
+            max-width: 460px;
+            width: 95%;
+            padding: 30px;
+            box-sizing: border-box;
+            font-family: 'Courier New', monospace;
+        }
+
+        .modal-box h2 {
+            margin: 0 0 20px;
+            font-size: 15px;
+            font-weight: normal;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .modal-box label {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #666;
+            display: block;
+            margin-bottom: 4px;
+            margin-top: 12px;
+        }
+
+        .modal-box input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #d5d5d5;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            box-sizing: border-box;
+        }
+
+        .modal-box input:focus { outline: none; border-color: #414141; }
+
+        .modal-row { display: flex; gap: 10px; }
+        .modal-row > div { flex: 1; min-width: 0; }
+
+        .modal-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            align-items: center;
+        }
+
+        .btn-primary {
+            padding: 9px 18px;
+            background: #414141;
+            color: white;
+            border: none;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+        }
+
+        .btn-secondary {
+            padding: 9px 18px;
+            background: white;
+            color: #414141;
+            border: 1px solid #d5d5d5;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+        }
+
+        .btn-danger {
+            padding: 9px 18px;
+            background: white;
+            color: #c0392b;
+            border: 1px solid #c0392b;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            margin-left: auto;
+        }
+
+        .modal-status { font-size: 12px; color: #888; }
     </style>
   <link rel="stylesheet" href="../styles/forum.css">
 </head>
@@ -37,15 +285,15 @@
   <div class="content board-bar-inner">
       <div class="board-list">
         [
-        <!--<a href="personal/anime.html" data-name="Anime">a</a> <span class="board-sep">/</span><span class="board-sep">/</span>--> 
-
+        <a href="../personal/anime.html" data-name="Anime">a</a>
+        <span class="board-sep">/</span>
         <a href="../creations/blogs.html" data-name="Random">b</a>
         <span class="board-sep">/</span>
         <a href="../navigation/portfolio.html" data-name="Tech">g</a>
         <span class="board-sep">/</span>
         <a href="../photos.html" data-name="Photography">p</a>
         <span class="board-sep">/</span>
-        <a href="../learning/web/privacy-checklist.html" data-name="Torrents">t</a>
+        <a href="../navigation/resources/torrents.html" data-name="Torrents &amp; Streaming">t</a>
         <span class="board-sep">/</span>
         <a href="../creations/games.html" data-name="Games">v</a>
         <span class="board-sep">/</span>
@@ -86,15 +334,72 @@
             <a href="physical-collections.html" class="sidebar-link">See All</a>
         </div>
         <div class="sidebar-section">
-            <h3 class="sidebar-title">Physical Collections</h3>
+            <h3 class="sidebar-title">Collections</h3>
+            <a href="movies.html" class="sidebar-link">Movies</a>
+            <a href="music.html" class="sidebar-link">Music</a>
+            <a href="books.html" class="sidebar-link">Books</a>
+            <a href="anime.html" class="sidebar-link">Anime</a>
             <a href="electronics.html" class="sidebar-link active">Electronics</a>
             <a href="cards.html" class="sidebar-link">Pok&eacute;mon Cards</a>
         </div>
     </div>
     <div class="archive-main">
-        <p class="placeholder-note">This collection is still being put together — check back soon.</p>
+        <div class="gallery" id="gallery">
+            <p style="color:#888;font-family:'Courier New',monospace;font-size:13px;">Loading…</p>
+        </div>
+
+        <div class="preview-section">
+            <img id="preview-img" src="" alt="Preview" class="preview-img">
+            <div class="movie-info">
+                <div class="movie-title" id="movie-title"></div>
+                <div class="movie-description" id="movie-description"></div>
+            </div>
+        </div>
     </div>
     <div id="admin-link-mobile"></div>
+</div>
+
+<!-- Edit / Add Electronics Modal -->
+<div class="modal-overlay" id="movie-modal">
+    <div class="modal-box">
+        <h2 id="modal-heading">Edit Item</h2>
+
+        <label>Name</label>
+        <input type="text" id="edit-title" placeholder="Device name">
+
+        <div class="modal-row">
+            <div>
+                <label>Maker (optional)</label>
+                <input type="text" id="edit-director" placeholder="Manufacturer">
+            </div>
+            <div>
+                <label>Year (optional)</label>
+                <input type="text" id="edit-year" placeholder="2003">
+            </div>
+        </div>
+
+        <label>Link (optional)</label>
+        <input type="text" id="edit-link" placeholder="https://… product page or write-up">
+
+        <label>Description (optional)</label>
+        <textarea id="edit-description" placeholder="A note about this…" style="width:100%;padding:8px;border:1px solid #d5d5d5;font-family:'Courier New',monospace;font-size:13px;box-sizing:border-box;resize:vertical;height:80px;"></textarea>
+
+        <label>Cover Image</label>
+        <div style="display:flex;gap:8px;align-items:center;margin-bottom:4px;">
+            <input type="file" id="edit-image-file" accept="image/*" style="font-family:'Courier New',monospace;font-size:12px;flex:1;">
+        </div>
+        <input type="text" id="edit-image" placeholder="/images/electronics/filename.jpg" style="margin-top:4px;">
+        <div style="margin-top:6px;">
+            <img id="image-preview" src="" alt="" style="display:none;max-height:100px;max-width:70px;object-fit:contain;border:1px solid #d5d5d5;">
+        </div>
+
+        <div class="modal-actions">
+            <button class="btn-primary" onclick="saveMovie()">Save</button>
+            <button class="btn-secondary" onclick="closeModal()">Cancel</button>
+            <span class="modal-status" id="modal-status"></span>
+            <button class="btn-danger" id="delete-btn" onclick="deleteMovie()">Delete</button>
+        </div>
+    </div>
 </div>
 
 <footer class="mini-footer">
@@ -107,5 +412,255 @@
     </div>
   </div>
 </footer>
+
+<script>
+    let movies = [];
+    let editingIndex = -1;
+    let dragSrc = null;
+
+    const previewImg = document.getElementById('preview-img');
+    const movieTitle = document.getElementById('movie-title');
+    const movieDescription = document.getElementById('movie-description');
+
+    // data/electronics.json only exists once the first item is saved from admin mode,
+    // so a 404 just means an empty collection.
+    fetch('../data/electronics.json')
+        .then(r => r.ok ? r.json() : [])
+        .then(data => {
+            movies = data;
+            renderGallery();
+            if (movies.length) showPreview(0);
+        })
+        .catch(() => {
+            document.getElementById('gallery').innerHTML = '<p style="color:#888;">Could not load electronics.</p>';
+        });
+
+    function renderGallery() {
+        const gallery = document.getElementById('gallery');
+        document.querySelector('.preview-section').style.display = movies.length ? '' : 'none';
+        if (!movies.length) {
+            gallery.innerHTML = '<p style="grid-column:1 / -1;color:#888f8d;font-size:16px;line-height:1.6;">This collection is still being put together — check back soon.</p>';
+        }
+        else gallery.innerHTML = movies.map((m, i) => `
+            <div class="thumbnail" data-index="${i}" onclick="showPreview(${i})">
+                <img src="${m.image}" alt="${escHtml(m.title)}" loading="lazy">
+                <div class="thumb-overlay">
+                    <div class="thumb-overlay-title">${escHtml(m.title)}</div>
+                    ${m.year ? `<div class="thumb-overlay-year">${escHtml(m.year)}</div>` : ''}
+                    ${m.link ? `<a class="thumb-overlay-link" href="${escHtml(m.link)}" target="_blank" rel="noopener" title="Open" onclick="event.stopPropagation()">&#8599;</a>` : ''}
+                </div>
+                <button class="thumb-edit-btn" onclick="event.stopPropagation(); openEdit(${i})">✎</button>
+            </div>`).join('');
+
+        if (document.body.classList.contains('admin-mode')) {
+            addDragHandlers();
+            appendAddButton();
+        }
+    }
+
+    function addDragHandlers() {
+        document.querySelectorAll('#gallery .thumbnail').forEach(el => {
+            el.draggable = true;
+            el.addEventListener('dragstart', function(e) {
+                dragSrc = parseInt(this.dataset.index);
+                e.dataTransfer.effectAllowed = 'move';
+                setTimeout(() => this.style.opacity = '0.4', 0);
+            });
+            el.addEventListener('dragend', function() {
+                this.style.opacity = '';
+                document.querySelectorAll('#gallery .thumbnail').forEach(t => t.classList.remove('drag-over'));
+            });
+            el.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                document.querySelectorAll('#gallery .thumbnail').forEach(t => t.classList.remove('drag-over'));
+                this.classList.add('drag-over');
+            });
+            el.addEventListener('drop', function(e) {
+                e.preventDefault();
+                const dropTarget = parseInt(this.dataset.index);
+                if (dragSrc === null || dragSrc === dropTarget) return;
+                const item = movies.splice(dragSrc, 1)[0];
+                movies.splice(dropTarget, 0, item);
+                renderGallery();
+                persistMovies(true);
+            });
+        });
+    }
+
+    function showPreview(i) {
+        const m = movies[i];
+        previewImg.src = m.image;
+        previewImg.alt = m.title;
+        movieTitle.textContent = m.title + (m.year ? ` (${m.year})` : '');
+        movieDescription.innerHTML = (m.director ? `<em>${escHtml(m.director)}</em><br><br>` : '')
+            + (m.description ? escHtml(m.description) : '');
+    }
+
+    // --- Admin ---
+    fetch('../admin/check-session.php')
+        .then(r => r.json())
+        .then(data => {
+            if (data.admin) {
+                document.body.classList.add('admin-mode');
+                appendAddButton();
+            }
+        })
+        .catch(() => {});
+
+    function appendAddButton() {
+        if (document.getElementById('add-movie-btn')) return;
+        const btn = document.createElement('button');
+        btn.id = 'add-movie-btn';
+        btn.textContent = '+ Add Item';
+        btn.onclick = openAdd;
+        btn.style.cssText = 'position:fixed;bottom:30px;right:30px;padding:10px 18px;background:#414141;color:white;border:none;font-family:"Courier New",monospace;font-size:12px;text-transform:uppercase;letter-spacing:1px;cursor:pointer;z-index:500;';
+        document.body.appendChild(btn);
+    }
+
+    function openEdit(i) {
+        editingIndex = i;
+        const m = movies[i];
+        document.getElementById('modal-heading').textContent = 'Edit Item';
+        document.getElementById('edit-title').value = m.title;
+        document.getElementById('edit-director').value = m.director || '';
+        document.getElementById('edit-year').value = m.year || '';
+        document.getElementById('edit-link').value = m.link || '';
+        document.getElementById('edit-description').value = m.description || '';
+        document.getElementById('edit-image').value = m.image;
+        document.getElementById('edit-image-file').value = '';
+        setImagePreview(m.image);
+        document.getElementById('modal-status').textContent = '';
+        document.getElementById('delete-btn').style.display = 'inline-block';
+        document.getElementById('movie-modal').style.display = 'block';
+    }
+
+    function openAdd() {
+        editingIndex = -1;
+        document.getElementById('modal-heading').textContent = 'Add Item';
+        document.getElementById('edit-title').value = '';
+        document.getElementById('edit-director').value = '';
+        document.getElementById('edit-year').value = '';
+        document.getElementById('edit-link').value = '';
+        document.getElementById('edit-description').value = '';
+        document.getElementById('edit-image').value = '';
+        document.getElementById('edit-image-file').value = '';
+        setImagePreview('');
+        document.getElementById('modal-status').textContent = '';
+        document.getElementById('delete-btn').style.display = 'none';
+        document.getElementById('movie-modal').style.display = 'block';
+    }
+
+    function closeModal() {
+        document.getElementById('movie-modal').style.display = 'none';
+    }
+
+    function setImagePreview(src) {
+        const preview = document.getElementById('image-preview');
+        if (src) { preview.src = src; preview.style.display = 'block'; }
+        else { preview.src = ''; preview.style.display = 'none'; }
+    }
+
+    document.getElementById('edit-image-file').addEventListener('change', function() {
+        if (this.files[0]) {
+            setImagePreview(URL.createObjectURL(this.files[0]));
+            document.getElementById('edit-image').value = '';
+        }
+    });
+
+    document.getElementById('edit-image').addEventListener('input', function() {
+        if (this.value.trim()) {
+            setImagePreview(this.value.trim());
+            document.getElementById('edit-image-file').value = '';
+        }
+    });
+
+    async function saveMovie() {
+        const title = document.getElementById('edit-title').value.trim();
+        const director = document.getElementById('edit-director').value.trim();
+        const year = document.getElementById('edit-year').value.trim();
+        const link = document.getElementById('edit-link').value.trim();
+        const description = document.getElementById('edit-description').value.trim();
+        const imagePathInput = document.getElementById('edit-image').value.trim();
+        const fileInput = document.getElementById('edit-image-file');
+        const status = document.getElementById('modal-status');
+
+        if (!title) { status.textContent = 'Name is required.'; return; }
+
+        status.textContent = 'Saving…';
+
+        let imagePath = imagePathInput;
+        if (fileInput.files[0]) {
+            imagePath = await uploadImage(fileInput.files[0]);
+            if (!imagePath) return;
+        }
+
+        if (!imagePath) { status.textContent = 'Please provide an image.'; return; }
+
+        if (editingIndex >= 0) {
+            movies[editingIndex] = { title, director, year, link, image: imagePath, description };
+        } else {
+            movies.push({ title, director, year, link, image: imagePath, description });
+        }
+
+        const ok = await persistMovies();
+        if (ok) {
+            renderGallery();
+            showPreview(editingIndex >= 0 ? editingIndex : movies.length - 1);
+            setTimeout(closeModal, 500);
+        }
+    }
+
+    async function deleteMovie() {
+        if (editingIndex < 0 || !confirm(`Remove "${movies[editingIndex].title}"?`)) return;
+        movies.splice(editingIndex, 1);
+        const ok = await persistMovies();
+        if (ok) {
+            renderGallery();
+            if (movies.length) showPreview(0);
+            closeModal();
+        }
+    }
+
+    async function uploadImage(file) {
+        const status = document.getElementById('modal-status');
+        const formData = new FormData();
+        formData.append('image', file);
+        formData.append('type', 'electronics');
+        try {
+            const res = await fetch('../admin/upload-image.php', { method: 'POST', body: formData });
+            const data = await res.json();
+            if (data.success) return data.path;
+            status.textContent = 'Upload error: ' + (data.error || 'unknown');
+        } catch(e) {
+            status.textContent = 'Upload failed: ' + e.message;
+        }
+        return null;
+    }
+
+    async function persistMovies(silent = false) {
+        const status = document.getElementById('modal-status');
+        try {
+            const res = await fetch('../admin/save-electronics.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(movies)
+            });
+            const data = await res.json();
+            if (data.success) { if (!silent) status.textContent = 'Saved!'; return true; }
+            if (!silent) status.textContent = 'Error: ' + (data.error || 'unknown');
+        } catch(e) {
+            if (!silent) status.textContent = 'Error: ' + e.message;
+        }
+        return false;
+    }
+
+    document.getElementById('movie-modal').addEventListener('click', function(e) {
+        if (e.target === this) closeModal();
+    });
+
+    function escHtml(s) {
+        return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+</script>
 </body>
 </html>

@@ -49,12 +49,12 @@ const HubData = (() => {
         ['design', 'Design', 'Inspiration, tools and assets for design work.', 'professional'],
         ['careers', 'Careers', 'Jobs, studios, festivals and open calls.', 'professional'],
         ['software', 'Software', 'Free software, alternatives and handy online tools.', 'professional'],
-        ['media', 'Media', 'Film, video, anime, games and things to read.', 'misc'],
-        ['music', 'Music', 'Free sound, radio, discovery and learning.', 'misc'],
+        ['media', 'Media', 'Film, video, music, anime, games and things to read.', 'misc'],
         ['archives', 'Archives', "Libraries, museums and the internet's memory.", 'misc'],
         ['culture', 'Culture', 'Personal sites, forums, nostalgia and the strange.', 'misc'],
         ['ideas', 'Ideas', 'The thinkers, arguments and theories behind it all.', 'misc'],
-        ['life', 'Life', 'Everyday guides, free courses and life admin.', 'misc']
+        ['life', 'Life', 'Everyday guides, free courses and life admin.', 'misc'],
+        ['torrents', 'Torrents & Streaming', 'Torrent indexes, downloaders and places to stream.', 'misc']
     ]);
 
     const guides = () => cards('learning', [
@@ -107,6 +107,11 @@ const HubData = (() => {
             // the 5-bucket Quick Links, or an 11-item one saved before Professional/Misc grouping — replace with the current list
             data = data.map(s => s.id === 'topics' ? topicsSection() : s);
         }
+        // Torrents & Streaming was added to the Misc group after lists were already saved — append it once
+        const topicsSec = data.find(s => s.id === 'topics');
+        if (topicsSec && !(topicsSec.items || []).some(it => /(^|\/)torrents\.html/.test(it.href || ''))) {
+            topicsSec.items = (topicsSec.items || []).concat(topics().filter(it => it.id === 'torrents'));
+        }
         data.forEach(s => {
             if (s.type !== 'cards') return;
             if (s.id === 'cat' && (s.title === 'Categories' || s.title === 'Saved Links')) s.title = 'By Function';
@@ -133,16 +138,16 @@ const HubData = (() => {
             const line = raw.replace(/\r$/, '');
             const t = line.trim();
             if (line.startsWith('# ')) {
-                topic = { name: line.slice(2).trim(), description: '' };
+                topic = { name: line.slice(2).trim(), description: '', image: '', alt: '' };
                 topics.push(topic);
                 folder = null; sub = null; last = null;
             } else if (line.startsWith('## ')) {
-                folder = { name: line.slice(3).trim(), description: '', topic: topic ? topic.name : '', subfolders: [], items: [] };
+                folder = { name: line.slice(3).trim(), description: '', image: '', alt: '', topic: topic ? topic.name : '', subfolders: [], items: [] };
                 folders.push(folder);
                 sub = null; last = null;
             } else if (line.startsWith('### ')) {
                 if (!folder) return;
-                sub = { name: line.slice(4).trim(), description: '', items: [] };
+                sub = { name: line.slice(4).trim(), description: '', image: '', alt: '', items: [] };
                 folder.subfolders.push(sub);
                 last = null;
             } else if (t.startsWith('- **')) {
@@ -157,9 +162,14 @@ const HubData = (() => {
                 const d = t.replace(/^>\s?/, '');
                 const target = sub || folder || topic || info;
                 target.description = target.description ? target.description + ' ' + d : d;
-            } else if (!folder) {
+            } else {
+                // an image line right after a heading (or at the top of the file) belongs to
+                // whichever entity is currently open — the same "innermost wins" target as descriptions
                 const im = t.match(/^!\[([^\]]*)\]\(([^)]+)\)/);
-                if (im) { info.alt = im[1]; info.image = im[2]; }
+                if (im) {
+                    const target = sub || folder || topic || info;
+                    target.alt = im[1]; target.image = im[2];
+                }
             }
         });
         return { intro: info, folders, topics };

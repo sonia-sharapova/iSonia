@@ -162,37 +162,36 @@
       padding-left: 24px;
     }
 
-    /* CTA block — fixed near the top of the screen (sticky, clearing the
-       site's fixed nav) instead of scrolling away with the project grid. */
-    .sidebar-cta-block {
+    /* Same project directory as the right sidebar on projects.html — the shared .sidebar /
+       .sidebar-section / .sidebar-link (styles/stylesheet.css), with the same small-caps group
+       labels. Sticky, clearing the site's fixed nav, so it stays in view beside the grid. */
+    .projects-sidebar .sidebar {
       position: sticky;
       top: 100px;
-      padding-left: 24px;
-      padding-bottom: 20px;
-      background: #f5f5f5;
+      width: auto;
+      margin-top: 0;
     }
-
-    .sidebar-intro {
-      font-family: 'Courier New', monospace;
-      font-size: 16px;
+    .proj-sidebar .sidebar-title {
+      font-size: 12px;
+      font-weight: 400;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
       color: #999999;
-      letter-spacing: 0.03em;
-      margin: 0 0 6px;
-      line-height: 1.4;
+      border-bottom: 1px solid #e4e4e4;
+      padding-bottom: 8px;
+      margin-bottom: 12px;
     }
-
-    .sidebar-cta {
-      display: block;
-      font-family: 'Courier New', monospace;
-      font-size: 13px;
-      font-weight: bold;
-      color: #45a049;
-      text-decoration: none;
+    .proj-sidebar .sidebar-title a { color: inherit; text-decoration: none; transition: color 0.2s ease; }
+    .proj-sidebar .sidebar-title a:hover { color: #45a049; }
+    .proj-sidebar-label {
+      margin: 16px 0 4px;
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #999999;
     }
-
-    .sidebar-cta:hover {
-      filter: brightness(0.85);
-    }
+    .proj-sidebar-group:first-child .proj-sidebar-label { margin-top: 0; }
 
     /* mobile */
     @media (max-width: 900px) {
@@ -211,10 +210,12 @@
         padding-top: 20px;
         margin-top: 20px;
       }
-      .sidebar-cta-block {
-        position: static;
-        padding-left: 0;
-      }
+      .projects-sidebar .sidebar { position: static; }
+    }
+
+    /* the shared rule hides .sidebar on phones (the category chips take over), so drop its column too */
+    @media (max-width: 768px) {
+      .projects-sidebar { display: none; }
     }
 
     @media (max-width: 700px) {
@@ -247,7 +248,7 @@
         <span class="board-sep">/</span>
         <a href="../photos.html" data-name="Photography">p</a>
         <span class="board-sep">/</span>
-        <a href="../learning/web/privacy-checklist.html" data-name="Torrents">t</a>
+        <a href="../navigation/resources/torrents.html" data-name="Torrents &amp; Streaming">t</a>
         <span class="board-sep">/</span>
         <a href="../creations/games.html" data-name="Games">v</a>
         <span class="board-sep">/</span>
@@ -421,11 +422,52 @@
         </section>
       </div>
 
+      <!-- Same project directory as the right sidebar on projects.html — keep the two in sync. -->
       <div class="projects-sidebar">
-        <div class="sidebar-cta-block">
-          <p class="sidebar-intro">For more<br>professional work</p>
-          <a href="../navigation/portfolio.html" class="sidebar-cta">VIEW PORTFOLIO &rarr;</a>
+      <nav class="sidebar proj-sidebar">
+        <div class="sidebar-section">
+          <h3 class="sidebar-title"><a href="../navigation/portfolio.html">Portfolio</a></h3>
+          <a class="sidebar-link" href="../navigation/portfolio/imaging.html">Cardiac Imaging</a>
+          <a class="sidebar-link" href="../navigation/portfolio/tracing.html">Ray Tracing</a>
+          <a class="sidebar-link" href="../navigation/portfolio/nn.html">Neural Network in C</a>
+          <a class="sidebar-link" href="../navigation/portfolio/os.html">ThinkPad Customizations</a>
+          <a class="sidebar-link" href="../navigation/portfolio/web.html">Web Design</a>
+          <a class="sidebar-link" href="../navigation/portfolio/resume.html">Resume</a>
         </div>
+
+        <div class="sidebar-section">
+          <h3 class="sidebar-title"><a href="interactive.html" aria-current="page">Interactive Projects</a></h3>
+
+          <div class="proj-sidebar-group">
+            <h4 class="proj-sidebar-label">Webcam Fun</h4>
+            <a class="sidebar-link" href="../projects/camera/ghostLines.html">Ghost Lines</a>
+            <a class="sidebar-link" href="../projects/camera/ascii_cam.html">ASCII Cam</a>
+            <a class="sidebar-link" href="../projects/camera/shapePhotos.html">Web Shape Maker</a>
+            <a class="sidebar-link" href="../projects/camera/recognition.html">Identification Camera</a>
+          </div>
+
+          <div class="proj-sidebar-group">
+            <h4 class="proj-sidebar-label">Creative</h4>
+            <a class="sidebar-link" href="../projects/dots/dots.html">Connect the Dots</a>
+            <a class="sidebar-link" href="../projects/camera/drawASCII.html">Draw ASCII Art</a>
+            <a class="sidebar-link" href="../game/riverPass/riverPass.html">River Crossing</a>
+            <a class="sidebar-link" href="../game/shatter/shatter.html">Break Glass</a>
+            <a class="sidebar-link" href="../projects/synth.html">Synthesizer</a>
+          </div>
+
+          <div class="proj-sidebar-group">
+            <h4 class="proj-sidebar-label">Tools</h4>
+            <a class="sidebar-link" href="../projects/design/poster.html" target="_blank">Poster Design</a>
+          </div>
+
+          <div class="proj-sidebar-group">
+            <h4 class="proj-sidebar-label">Misc.</h4>
+            <a class="sidebar-link" href="../game/cones.html">Cones</a>
+            <a class="sidebar-link" href="../game/object.html">Graphics Playground</a>
+            <a class="sidebar-link" href="../projects/bezier.html" target="_blank">Plotting Bezier Curves</a>
+          </div>
+        </div>
+      </nav>
       </div>
     </div>
   </div>

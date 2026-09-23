@@ -32,9 +32,14 @@
    purely for its shared width/centering, but several pages (e.g. navigation/about.html) give
    .content its own card-like border/background/padding for their actual page content. Without
    resetting those here, that per-page styling leaks into the board bar and makes it look like an
-   indented card instead of the plain full-bleed bar every other page shows. */
+   indented card instead of the plain full-bleed bar every other page shows. Same for
+   flex-direction/margin-bottom: display.css (Games, Interactive) makes .content a centered column
+   and hub.css/links.css (Resources, Learning, the resources/* pages) give it margin-bottom: 5%,
+   which stacked the socials under the board list and pushed the bar's rule far below it. */
 .board-bar .board-bar-inner {
   display: flex;
+  flex-direction: row;
+  margin-bottom: 0;
   flex-wrap: wrap;
   align-items: baseline;
   justify-content: space-between;
