@@ -504,7 +504,10 @@
        the tile only ever sizes to its content.
        (Unlike this grid, the All Photos index uses uniform, cropped tiles —
        see .cover-flow-cell.) */
-    .detail-grid { --tile-h: clamp(150px, 14vw, 230px); display: flex; flex-wrap: wrap; gap: 8px; }
+    .detail-grid { --tile-h: clamp(150px, 14vw, 230px); display: flex; flex-wrap: wrap; gap: 8px; justify-content: space-between; }
+    /* Spread each full row's photos edge to edge, so every row is the same width;
+       this filler takes up the last row's spare space so it stays packed left. */
+    .detail-grid::after { content: ''; flex: auto; }
     .detail-tile {
       position: relative;
       height: var(--tile-h);
