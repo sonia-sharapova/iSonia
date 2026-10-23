@@ -305,7 +305,7 @@
       overflow: hidden;
       color: #444;
       letter-spacing: 0.05em;
-      font-family: 'Roboto', arial, sans-serif;
+      font-family: 'Courier New', monospace;
       transition: color 0.15s;
       line-height: 1.4;
       text-align: center;
@@ -504,7 +504,7 @@
        the tile only ever sizes to its content.
        (Unlike this grid, the All Photos index uses uniform, cropped tiles —
        see .cover-flow-cell.) */
-    .detail-grid { --tile-h: clamp(108px, 9vw, 140px); display: flex; flex-wrap: wrap; gap: 8px; }
+    .detail-grid { --tile-h: clamp(150px, 14vw, 230px); display: flex; flex-wrap: wrap; gap: 8px; }
     .detail-tile {
       position: relative;
       height: var(--tile-h);
@@ -810,6 +810,30 @@
     .modal-cancel-btn:hover { border-color: #aaa; color: #555; }
     .modal-saving { opacity: 0.6; pointer-events: none; }
 
+    /* Photo picker (album modal + Add Photos): pick files, add them in bulk or one by
+       one with their own details, and click a thumbnail to make it the group's cover. */
+    .modal-box:has(.pp-list.pp-each:not(:empty)) { width: 560px; }
+    .pp-mode { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 10px; font-size: 13px; color: #555; }
+    .modal-box .pp-mode label { display: inline-flex; align-items: center; gap: 5px; margin: 0; font-size: 13px; color: #555; cursor: pointer; }
+    .pp-mode span { color: #bbb; }
+    .pp-hint { font-size: 12px; color: #aaa; margin-top: 8px; }
+    .pp-list { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+    .pp-list.pp-each { flex-direction: column; gap: 10px; }
+    .pp-item { display: flex; gap: 10px; align-items: flex-start; }
+    .pp-thumb {
+      position: relative; flex: none; width: 64px; height: 64px;
+      border: 2px solid #eee; cursor: pointer; padding: 0; background: #f5f5f5;
+      min-height: unset !important; min-width: unset !important;
+    }
+    .pp-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; animation: none; min-height: unset !important; }
+    .pp-item.pp-cover .pp-thumb { border-color: #45a049; }
+    .pp-cover-tag {
+      position: absolute; left: 0; right: 0; bottom: 0;
+      background: rgba(69,160,73,0.85); color: #fff; font-size: 10px; text-align: center; line-height: 14px;
+    }
+    .pp-fields { flex: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 5px; }
+    .modal-box .pp-fields input[type=text] { padding: 5px 7px; font-size: 13px; }
+
     /* ── Responsive ── */
     @media (max-width: 960px) {
       .album-strip { grid-template-columns: repeat(6, 1fr); }
@@ -823,9 +847,6 @@
     }
   </style>
   <link rel="stylesheet" href="styles/forum.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
 </head>
 <body class="m2 p-photos">
 
@@ -998,9 +1019,11 @@
     <input type="text" id="album-name-input" placeholder="e.g. Summer 2024">
     <label>Description <span style="color:#ccc">(optional)</span></label>
     <textarea id="album-desc-input" placeholder="A short note about this album…"></textarea>
-    <label>Cover image <span style="color:#ccc">(optional)</span></label>
-    <input type="file" id="album-cover-input" accept="image/*">
-    <img class="modal-img-preview" id="album-cover-preview">
+    <div id="album-photos-section">
+      <label>Group name <span style="color:#ccc">(optional — the photos below become one row)</span></label>
+      <input type="text" id="album-group-input" placeholder="e.g. Nature Day 1">
+      <div id="album-photo-picker"></div>
+    </div>
     <div class="modal-actions">
       <button class="modal-save-btn" id="album-modal-save">Save</button>
       <button class="modal-cancel-btn" id="album-modal-cancel">Cancel</button>
@@ -1017,14 +1040,11 @@
     <label id="photo-row-label" style="display:none">Assign to existing row</label>
     <select id="photo-row-select" style="display:none"></select>
 
-    <div id="photo-cover-section" style="display:none">
-      <label>Cover photo <span style="color:#ccc">(optional — shown as this group's thumbnail; first additional photo used if left blank)</span></label>
-      <input type="file" id="photo-cover-input" accept="image/*">
-      <img class="modal-img-preview" id="photo-cover-preview">
-    </div>
+    <div id="photo-add-picker"></div>
 
-    <label id="photo-file-label">Image files <span style="color:#ccc">(select one or many)</span></label>
-    <input type="file" id="photo-file-input" accept="image/*" multiple>
+    <div id="photo-edit-section">
+    <label id="photo-file-label">Replace image <span style="color:#ccc">(optional)</span></label>
+    <input type="file" id="photo-file-input" accept="image/*">
     <img class="modal-img-preview" id="photo-file-preview">
     <div class="crop-editor" id="photo-crop-editor" style="display:none">
       <div class="crop-rotate-row" id="crop-rotate-row" style="display:none">
@@ -1057,6 +1077,7 @@
     <input type="text" id="photo-tags-input" placeholder="e.g. sunset, lake, family">
     <label>Notes <span style="color:#ccc">(optional)</span></label>
     <textarea id="photo-notes-input" placeholder="Any extra notes about this photo"></textarea>
+    </div>
     <div class="modal-actions">
       <button class="modal-save-btn" id="photo-modal-save">Save</button>
       <button class="modal-cancel-btn" id="photo-modal-cancel">Cancel</button>
@@ -1862,13 +1883,127 @@ async function syncIncomingPhotos() {
   }
 }
 
+// ── Photo picker ──────────────────────────────────────────────────
+// Used by the album modal and by Add Photos. Pick one or many files, then
+// either add them "in bulk" (no per-photo details) or "individually" (caption,
+// date, city and tags for each). Clicking a thumbnail makes it the cover —
+// the row's first photo, which every view treats as the group's cover.
+function createPhotoPicker(root) {
+  const name = root.id + '-mode';
+  root.innerHTML = `
+    <label>Photos <span style="color:#ccc">(select one or many)</span></label>
+    <input type="file" class="pp-files" accept="image/*" multiple>
+    <div class="pp-mode" style="display:none">
+      <label><input type="radio" name="${name}" value="bulk" checked> In bulk <span>(no details)</span></label>
+      <label><input type="radio" name="${name}" value="each"> Individually <span>(details per photo)</span></label>
+    </div>
+    <div class="pp-hint" style="display:none">Click a photo to make it the cover.</div>
+    <div class="pp-list"></div>`;
+  const input = root.querySelector('.pp-files');
+  const list  = root.querySelector('.pp-list');
+  const FIELDS = [['caption', 'Caption'], ['date', 'Date'], ['city', 'City'], ['tags', 'Tags']];
+  // coverOptional (adding to an existing group): no photo is the cover until one
+  // is clicked, so the group keeps its current cover by default.
+  let items = [], coverIdx = 0, coverOptional = false;
+
+  const isEach = () => root.querySelector(`input[name="${name}"][value="each"]`).checked;
+
+  function render() {
+    const each = isEach();
+    list.classList.toggle('pp-each', each);
+    root.querySelector('.pp-mode').style.display = items.length ? 'flex' : 'none';
+    const hint = root.querySelector('.pp-hint');
+    hint.textContent = coverOptional ? 'Click a photo to make it the group\'s new cover.' : 'Click a photo to make it the cover.';
+    hint.style.display = (items.length > 1 || (coverOptional && items.length)) ? 'block' : 'none';
+    list.innerHTML = items.map((it, i) => `
+      <div class="pp-item${i === coverIdx ? ' pp-cover' : ''}" data-i="${i}">
+        <button type="button" class="pp-thumb" title="Make cover">
+          <img src="${it.url}" alt="">
+          ${i === coverIdx ? '<span class="pp-cover-tag">cover</span>' : ''}
+        </button>
+        ${each ? `<div class="pp-fields">${FIELDS.map(([f, ph]) =>
+          `<input type="text" data-f="${f}" placeholder="${ph}" value="${esc(it[f] || '')}">`).join('')}</div>` : ''}
+      </div>`).join('');
+  }
+
+  input.addEventListener('change', () => {
+    items.forEach(it => URL.revokeObjectURL(it.url));
+    items = [...input.files].map(file => ({ file, url: URL.createObjectURL(file) }));
+    coverIdx = coverOptional ? -1 : 0;
+    render();
+  });
+  root.querySelectorAll(`input[name="${name}"]`).forEach(r => r.addEventListener('change', render));
+  list.addEventListener('click', e => {
+    const thumb = e.target.closest('.pp-thumb');
+    if (!thumb) return;
+    coverIdx = +thumb.closest('.pp-item').dataset.i;
+    render();
+  });
+  list.addEventListener('input', e => {
+    const f = e.target.dataset.f;
+    if (f) items[+e.target.closest('.pp-item').dataset.i][f] = e.target.value;
+  });
+
+  return {
+    reset(opts = {}) {
+      items.forEach(it => URL.revokeObjectURL(it.url));
+      coverOptional = !!opts.coverOptional;
+      items = []; coverIdx = coverOptional ? -1 : 0; input.value = '';
+      root.querySelector(`input[name="${name}"][value="bulk"]`).checked = true;
+      render();
+    },
+    // Cover first, then the rest in the order picked. Bulk mode drops details.
+    entries() {
+      const each = isEach();
+      const order = items.map((_, i) => i).filter(i => i !== coverIdx);
+      if (coverIdx >= 0 && items.length) order.unshift(coverIdx);
+      return order.map(i => {
+        const it = items[i], details = {};
+        if (each) FIELDS.forEach(([f]) => { const v = (it[f] || '').trim(); if (v) details[f] = v; });
+        return { file: it.file, details, isCover: i === coverIdx };
+      });
+    }
+  };
+}
+
+function newRowId(label) {
+  return label ? label.toLowerCase().replace(/\s+/g, '-') + '-' + uid().slice(0, 4) : uid();
+}
+
+async function uploadAlbumPhoto(file, details, rowId, rowLabel) {
+  const fd = new FormData(); fd.append('file', file); fd.append('type', 'albums');
+  const up = await fetch(UPLOAD_URL, {method:'POST',body:fd}).then(r=>r.json()).catch(()=>({}));
+  if (!up.success) { alert('Upload error (' + file.name + '): ' + (up.error||'unknown error')); return null; }
+  return {
+    id: uid(), src: up.path, thumb: up.thumb || undefined, display: up.display || undefined,
+    width: up.width || undefined, height: up.height || undefined,
+    caption: details.caption || '', date: details.date || '',
+    city: details.city || undefined, tags: details.tags || undefined,
+    added: todayISO(), rowId, rowLabel
+  };
+}
+
+// Uploads picked entries (cover first) into one row. Joining an existing row,
+// the new cover goes in front of that row's photos so it becomes its cover.
+async function addPickedPhotos(album, entries, rowId, rowLabel, existingRow, onProgress) {
+  album.photos = album.photos || [];
+  let done = 0;
+  for (const entry of entries) {
+    const photo = await uploadAlbumPhoto(entry.file, entry.details, rowId, rowLabel);
+    onProgress && onProgress(++done);
+    if (!photo) continue;
+    const firstInRow = existingRow && entry.isCover
+      ? album.photos.findIndex(p => p.rowId === rowId) : -1;
+    if (firstInRow >= 0) album.photos.splice(firstInRow, 0, photo);
+    else album.photos.push(photo);
+  }
+}
+
 // ── Album modal ───────────────────────────────────────────────────
 let editingAlbumId = null;
 
 document.getElementById('album-modal-cancel').onclick = closeAlbumModal;
-document.getElementById('album-cover-input').addEventListener('change', function() {
-  previewFile(this, 'album-cover-preview');
-});
+const albumPicker = createPhotoPicker(document.getElementById('album-photo-picker'));
 
 function openAlbumModal(id) {
   editingAlbumId = id;
@@ -1876,10 +2011,8 @@ function openAlbumModal(id) {
   document.getElementById('album-modal-title').textContent = id ? 'Edit Album' : 'New Album';
   document.getElementById('album-name-input').value = album ? album.name  : '';
   document.getElementById('album-desc-input').value = album ? (album.desc||'') : '';
-  document.getElementById('album-cover-input').value = '';
-  const prev = document.getElementById('album-cover-preview');
-  if (album && album.cover) { prev.src = album.cover; prev.style.display = 'block'; }
-  else { prev.src = ''; prev.style.display = 'none'; }
+  document.getElementById('album-group-input').value = '';
+  albumPicker.reset();
   document.getElementById('album-modal').classList.add('active');
   setTimeout(() => document.getElementById('album-name-input').focus(), 60);
 }
@@ -1892,29 +2025,32 @@ document.getElementById('album-modal-save').onclick = async () => {
   const btn = document.getElementById('album-modal-save');
   btn.textContent = 'Saving…'; btn.classList.add('modal-saving');
 
-  let coverSrc = editingAlbumId ? ((albums.find(a=>a.id===editingAlbumId)||{}).cover||'') : '';
-  const file = document.getElementById('album-cover-input').files[0];
-  if (file) {
-    const fd = new FormData(); fd.append('file', file); fd.append('type', 'albums');
-    const up = await fetch(UPLOAD_URL, { method:'POST', body:fd }).then(r=>r.json()).catch(()=>({}));
-    if (up.success) coverSrc = up.path;
-    else if (up.error) { alert('Upload error: ' + up.error); btn.textContent='Save'; btn.classList.remove('modal-saving'); return; }
+  let album;
+  if (editingAlbumId) {
+    album = albums.find(a=>a.id===editingAlbumId);
+    album.name = name;
+    album.desc = document.getElementById('album-desc-input').value.trim();
+  } else {
+    album = { id: uid(), name, desc: document.getElementById('album-desc-input').value.trim(), cover: '', photos: [] };
+    albums.push(album);
   }
 
-  if (editingAlbumId) {
-    const a = albums.find(a=>a.id===editingAlbumId);
-    a.name = name;
-    a.desc = document.getElementById('album-desc-input').value.trim();
-    if (coverSrc) a.cover = coverSrc;
-  } else {
-    albums.push({ id: uid(), name, desc: document.getElementById('album-desc-input').value.trim(), cover: coverSrc, photos: [] });
+  // Photos picked here become one new row (group) in the album, cover first.
+  const entries = albumPicker.entries();
+  if (entries.length) {
+    const label = document.getElementById('album-group-input').value.trim();
+    btn.textContent = `Uploading 0/${entries.length}…`;
+    await addPickedPhotos(album, entries, newRowId(label), label, null,
+      (done) => { btn.textContent = `Uploading ${done}/${entries.length}…`; });
   }
 
   await persist();
   btn.textContent='Save'; btn.classList.remove('modal-saving');
   closeAlbumModal();
 
-  if (editingAlbumId && currentAlbumId === editingAlbumId) {
+  if (entries.length) {
+    openAlbum(album.id);
+  } else if (editingAlbumId && currentAlbumId === editingAlbumId) {
     document.getElementById('album-view-title').textContent = name;
     renderSidebar(currentAlbumId);
   } else {
@@ -1935,21 +2071,15 @@ let editingPhotoId = null;
 
 document.getElementById('add-photo-btn').onclick     = () => openPhotoModal(null);
 document.getElementById('photo-modal-cancel').onclick = closePhotoModal;
+const addPicker = createPhotoPicker(document.getElementById('photo-add-picker'));
 document.getElementById('photo-file-input').addEventListener('change', function() {
-  if (this.files.length === 1) {
-    document.getElementById('photo-file-preview').style.display = 'none';
-    // A picked replacement file only exists as a local blob until Save
-    // uploads it — rotate needs a real server path, so hide it until the
-    // photo is reopened after that upload completes.
-    document.getElementById('crop-rotate-row').style.display = 'none';
-    initCropEditor(URL.createObjectURL(this.files[0]));
-  } else {
-    hideCropEditor();
-    if (this.files[0]) previewFile(this, 'photo-file-preview');
-  }
-});
-document.getElementById('photo-cover-input').addEventListener('change', function() {
-  if (this.files[0]) previewFile(this, 'photo-cover-preview');
+  if (!this.files[0]) return;
+  document.getElementById('photo-file-preview').style.display = 'none';
+  // A picked replacement file only exists as a local blob until Save
+  // uploads it — rotate needs a real server path, so hide it until the
+  // photo is reopened after that upload completes.
+  document.getElementById('crop-rotate-row').style.display = 'none';
+  initCropEditor(URL.createObjectURL(this.files[0]));
 });
 
 // ── Crop / framing editor ────────────────────────────────────────
@@ -2096,20 +2226,13 @@ function openPhotoModal(id, preset) {
   const album = albums.find(a=>a.id===currentAlbumId);
   const photo = id ? (album.photos||[]).find(p=>p.id===id) : null;
 
-  const isFreshGroup = !id && !preset;
   document.getElementById('photo-modal-title').textContent = id ? 'Edit Photo' : (preset ? `Add to "${preset.rowLabel || 'group'}"` : 'Add Photos');
-  document.getElementById('photo-file-label').innerHTML = id
-    ? 'Replace image <span style="color:#ccc">(optional)</span>'
-    : isFreshGroup
-      ? 'Additional photos <span style="color:#ccc">(select one or many)</span>'
-      : 'Image files <span style="color:#ccc">(select one or many)</span>';
-  document.getElementById('photo-file-input').multiple = !id;
+  // Adding uses the photo picker (bulk or one by one, with a cover choice);
+  // editing one photo keeps the replace / framing / details fields.
+  document.getElementById('photo-add-picker').style.display   = id ? 'none' : 'block';
+  document.getElementById('photo-edit-section').style.display = id ? 'block' : 'none';
+  addPicker.reset({ coverOptional: !!preset });
   document.getElementById('photo-file-input').value = '';
-
-  document.getElementById('photo-cover-section').style.display = isFreshGroup ? 'block' : 'none';
-  document.getElementById('photo-cover-input').value = '';
-  const coverPrev = document.getElementById('photo-cover-preview');
-  coverPrev.src = ''; coverPrev.style.display = 'none';
   document.getElementById('photo-caption-input').value = photo ? (photo.caption||'') : '';
   document.getElementById('photo-date-input').value    = photo ? (photo.date||'') : '';
   document.getElementById('photo-city-input').value    = photo ? (photo.city||'') : '';
@@ -2144,7 +2267,7 @@ function openPhotoModal(id, preset) {
   document.getElementById('crop-rotate-row').style.display = photo ? 'flex' : 'none';
 
   document.getElementById('photo-modal').classList.add('active');
-  setTimeout(() => document.getElementById('photo-caption-input').focus(), 60);
+  setTimeout(() => document.getElementById(id ? 'photo-caption-input' : 'photo-group-input').focus(), 60);
 }
 function closePhotoModal() {
   document.getElementById('photo-modal').classList.remove('active');
@@ -2157,7 +2280,6 @@ document.getElementById('photo-modal-save').onclick = async () => {
   if (!album) return;
 
   const files      = document.getElementById('photo-file-input').files;
-  const coverFile  = document.getElementById('photo-cover-input').files[0] || null;
   const caption    = document.getElementById('photo-caption-input').value.trim();
   const date       = document.getElementById('photo-date-input').value.trim();
   const city       = document.getElementById('photo-city-input').value.trim();
@@ -2165,7 +2287,8 @@ document.getElementById('photo-modal-save').onclick = async () => {
   const notes      = document.getElementById('photo-notes-input').value.trim();
   const groupInput = document.getElementById('photo-group-input').value.trim();
 
-  if (!editingPhotoId && !files.length && !coverFile) { alert('Please select at least one image.'); return; }
+  const entries = editingPhotoId ? [] : addPicker.entries();
+  if (!editingPhotoId && !entries.length) { alert('Please select at least one image.'); return; }
 
   const btn = document.getElementById('photo-modal-save');
   btn.textContent = 'Saving…'; btn.classList.add('modal-saving');
@@ -2211,41 +2334,14 @@ document.getElementById('photo-modal-save').onclick = async () => {
       if (!ok) { btn.textContent = 'Save'; btn.classList.remove('modal-saving'); return; }
     }
   } else {
-    // All files in this batch share the same rowId; group name labels the row.
+    // All files in this batch share one rowId; the group name labels the row.
     // If we came from "+ Add" inside an existing group's grid, join that exact
     // row instead of minting a new one.
-    const batchRowId = presetRow ? presetRow.rowId
-      : groupInput ? groupInput.toLowerCase().replace(/\s+/g, '-') + '-' + uid().slice(0,4)
-      : uid();
-    const batchLabel = presetRow ? (presetRow.rowLabel || '') : (groupInput || '');
-
-    async function uploadOne(file) {
-      const fd = new FormData(); fd.append('file', file); fd.append('type', 'albums');
-      const up = await fetch(UPLOAD_URL, {method:'POST',body:fd}).then(r=>r.json()).catch(()=>({}));
-      if (!up.success) { alert('Upload error: ' + (up.error||'unknown error')); return null; }
-      return {
-        id: uid(), src: up.path, thumb: up.thumb || undefined, display: up.display || undefined,
-        width: up.width || undefined, height: up.height || undefined,
-        caption, date, city: city || undefined, tags: tags || undefined, notes: notes || undefined,
-        added: todayISO(), rowId: batchRowId, rowLabel: batchLabel
-      };
-    }
-
-    // The explicit cover, if provided, is pushed first so it lands as
-    // photos[0] for this row — that's what every view treats as "the cover."
-    if (coverFile) {
-      const coverPhoto = await uploadOne(coverFile);
-      if (coverPhoto) album.photos.push(coverPhoto);
-    }
-    // The crop editor operates on this input regardless of whether a
-    // separate cover was also picked, and only appears for a single
-    // selected file — a batch of several stays uncropped.
-    for (const file of files) {
-      const newPhoto = await uploadOne(file);
-      if (!newPhoto) continue;
-      if (files.length === 1 && cropState.touched) await bakeCropInto(newPhoto);
-      album.photos.push(newPhoto);
-    }
+    const rowId = presetRow ? presetRow.rowId : newRowId(groupInput);
+    const label = presetRow ? (presetRow.rowLabel || '') : groupInput;
+    btn.textContent = `Uploading 0/${entries.length}…`;
+    await addPickedPhotos(album, entries, rowId, label, presetRow,
+      (done) => { btn.textContent = `Uploading ${done}/${entries.length}…`; });
   }
 
   await persist();
