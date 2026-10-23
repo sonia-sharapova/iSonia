@@ -110,6 +110,8 @@
         .art-rooms {
             display: grid;
             grid-template-columns: repeat(2, minmax(0, 1fr));
+            width: 70%;
+            margin: 0 auto;
         }
         .art-after-rooms { margin-top: 10px; }
         .art-rooms .art-cell { height: auto; }
@@ -118,6 +120,7 @@
         /* Every other row fills the full width too, like the rooms row:
            layoutArtRows() below gives each row one shared height and each
            piece the width of its own aspect ratio, so rows end flush right. */
+        .art-grid:not(.art-rooms) { justify-content: center; }
         .art-grid:not(.art-rooms) .art-cell { flex: none; box-sizing: border-box; }
         .art-grid:not(.art-rooms) .art-cell img { width: 100%; height: 100%; object-fit: cover; }
 
@@ -323,8 +326,10 @@
     // roughly ART_ROW_HEIGHT, then scale each row so it spans the full width. ──
     const ART_ROW_HEIGHT = 260;
     const ART_GAP = 10;
+    const ART_ALL_MAX = 0.5;   // in "All", no piece wider than half the gallery; short rows are centered
     function layoutArtRows() {
         const phone = window.matchMedia('(max-width: 768px)').matches; // mobile.css uses a 2-column grid
+        const allView = !!document.querySelector('#art-sidebar .sidebar-link.active[data-section="all"]');
         document.querySelectorAll('.art-grid:not(.art-rooms)').forEach(function (grid) {
             const cells = Array.prototype.slice.call(grid.querySelectorAll('.art-cell'));
             if (phone) { cells.forEach(function (c) { c.style.width = c.style.height = ''; }); return; }
@@ -345,10 +350,12 @@
                 const rowRatios = ratios.slice(start, end);
                 const sum = rowRatios.reduce(function (a, b) { return a + b; }, 0);
                 const free = W - ART_GAP * (rowRatios.length - 1);
-                const h = free / sum;
+                let h = free / sum;
+                if (allView) h = Math.min(h, W * ART_ALL_MAX / Math.max.apply(null, rowRatios));
+                const fills = h * sum >= free - 1;              // a capped row is narrower, so no flush-right fix-up
                 let used = 0;
                 for (let i = start; i < end; i++) {
-                    const w = i === end - 1 ? free - used : Math.floor(h * ratios[i]);
+                    const w = fills && i === end - 1 ? free - used : Math.floor(h * ratios[i]);
                     used += w;
                     cells[i].style.width = w + 'px';
                     cells[i].style.height = h + 'px';
