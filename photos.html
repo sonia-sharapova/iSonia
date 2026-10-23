@@ -1523,25 +1523,30 @@ function addToRow(rowId, rowLabel) {
   openPhotoModal(null, { rowId, rowLabel });
 }
 
+// An automatic row (ungrouped photos chunked together for display) has no rowId
+// of its own. Renaming or recolouring one turns it into a real group: its photos
+// get a shared rowId, so from then on it behaves like any other group.
+function claimAutoRow(album, rowId, label) {
+  if (!rowId.startsWith('__auto_')) return rowId;
+  const row = groupPhotosIntoRows(album.photos || []).find(r => r.rowId === rowId);
+  const realId = newRowId(label || '');
+  if (row) row.photos.forEach(p => { p.rowId = realId; p.rowLabel = label || ''; });
+  return realId;
+}
+
 function renameRowGroup(rowId) {
-  if (rowId.startsWith('__auto_')) {
-    alert('This is an automatic row — give its photos a Group name (via Edit Photo) to make it renameable.');
-    return;
-  }
   const album = albums.find(a => a.id === currentAlbumId);
   const current = ((album.photos || []).find(p => p.rowId === rowId) || {}).rowLabel || '';
   const next = prompt('Rename this group:', current);
   if (next === null) return;
+  rowId = claimAutoRow(album, rowId, next);
   album.photos.forEach(p => { if (p.rowId === rowId) p.rowLabel = next; });
   persist().then(() => renderPhotoRows(album));
 }
 
 function setRowColor(rowId, color) {
-  if (rowId.startsWith('__auto_')) {
-    alert('This is an automatic row — give its photos a Group name (via Edit Photo) to make its colour customizable.');
-    return;
-  }
   const album = albums.find(a => a.id === currentAlbumId);
+  rowId = claimAutoRow(album, rowId, '');
   album.photos.forEach(p => { if (p.rowId === rowId) p.rowColor = color; });
   persist().then(() => renderPhotoRows(album));
 }
