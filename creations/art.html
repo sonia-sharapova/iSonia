@@ -26,6 +26,10 @@
             flex: 1;
             min-width: 0;
             margin-top: 20px;
+            /* sections stack with space between when "All" shows them together */
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
         }
 
         /* Admin-only "+ New category" control and per-link rename icon —
@@ -62,9 +66,8 @@
         .art-rename-btn:hover { color: #666; }
         body.admin-mode .art-rename-btn { display: block; }
 
-        /* Only the selected section is shown — "Highlights" (a few pieces
-           from every category) by default, or a single category once one
-           is picked from the sidebar. */
+        /* "All" shows every category stacked, one after another; picking a
+           category from the sidebar shows only that section. */
         .art-section { display: none; }
         .art-section.active { display: block; }
 
@@ -101,13 +104,6 @@
             transition: opacity 0.2s;
         }
         .art-cell:hover img { opacity: 0.86; }
-
-        /* Highlights: all four in a single row at one shared height. The script below
-           picks that height so the row fits the available width (capped at 220px) and
-           gives each piece the width of its own aspect ratio — nothing is cropped. */
-        .art-highlights { flex-wrap: nowrap; }
-        .art-highlights .art-cell { flex: none; box-sizing: border-box; min-width: 0 !important; min-height: 0 !important; }
-        .art-highlights .art-cell img { width: 100%; height: 100%; object-fit: cover; }
 
     </style>
   <link rel="stylesheet" href="../styles/forum.css">
@@ -171,7 +167,7 @@
   <div class="art-sidebar sidebar" id="art-sidebar">
     <div class="sidebar-section">
       <div class="sidebar-link-row">
-        <a href="#highlights" class="sidebar-link active" data-section="highlights">Highlights</a>
+        <a href="#all" class="sidebar-link active" data-section="all">All</a>
       </div>
     </div>
     <div class="sidebar-section">
@@ -201,17 +197,7 @@
   </div>
 
   <div class="art-main">
-    <section id="highlights" class="art-section active">
-      <h2 class="art-category-title">Highlights</h2>
-      <div class="art-grid art-highlights">
-        <a class="art-cell"><img src="../images/personal/creative/paper/building.png" alt="Paper"></a>
-        <a class="art-cell"><img src="../images/personal/creative/art/pc3.png" alt="Drawing"></a>
-        <a class="art-cell"><img src="../images/personal/creative/sew/doll2.png" alt="Sewing"></a>
-        <a class="art-cell"><img src="../images/personal/creative/craft/bathroom.png" alt="Crafting"></a>
-      </div>
-    </section>
-
-    <section id="paper" class="art-section">
+    <section id="paper" class="art-section active">
       <h2 class="art-category-title">Paper</h2>
       <div class="art-grid">
         <a class="art-cell"><img src="../images/personal/creative/paper/building.png" alt="Gallery Doll 1"></a>
@@ -223,7 +209,7 @@
       </div>
     </section>
 
-    <section id="drawing" class="art-section">
+    <section id="drawing" class="art-section active">
       <h2 class="art-category-title">Drawing</h2>
       <div class="art-grid">
         <a class="art-cell"><img src="../images/personal/creative/art/pc3.png" alt="Gallery item 1"></a>
@@ -234,7 +220,7 @@
       </div>
     </section>
 
-    <section id="sewing" class="art-section">
+    <section id="sewing" class="art-section active">
       <h2 class="art-category-title">Sewing</h2>
       <div class="art-grid">
         <a class="art-cell"><img src="../images/personal/creative/sew/doll2.png" alt="Gallery Doll 1"></a>
@@ -249,7 +235,7 @@
       </div>
     </section>
 
-    <section id="crafting" class="art-section">
+    <section id="crafting" class="art-section active">
       <h2 class="art-category-title">Crafting</h2>
       <div class="art-grid">
         <a class="art-cell"><img src="../images/personal/creative/craft/bathroom.png" alt="Gallery item 1"></a>
@@ -259,7 +245,7 @@
       </div>
     </section>
 
-    <section id="misc" class="art-section">
+    <section id="misc" class="art-section active">
       <h2 class="art-category-title">Misc.</h2>
       <div class="art-grid">
         <a class="art-cell"><img src="../images/personal/creative/art/dragon.png" alt="Gallery item 3"></a>
@@ -312,45 +298,20 @@
         if (e.target.id === 'imageModal') this.classList.remove('active');
     });
 
-    // ── Section switching — Highlights (a few pieces from every category)
-    // by default; picking a sidebar category shows only that section. ────
+    // ── Section switching — "All" (every category, stacked) by default;
+    // picking a sidebar category shows only that section. ────
     const artSidebar = document.getElementById('art-sidebar');
     const artSections = {};
     document.querySelectorAll('.art-main .art-section').forEach(function (s) { artSections[s.id] = s; });
 
-    // Highlights: same height for every piece, all in one row. Each piece is as wide as its
-    // own aspect ratio makes it at that height, and the height is whatever lets the four fit.
-    function layoutHighlights() {
-        const grid = document.querySelector('#highlights .art-highlights');
-        if (!grid || !grid.clientWidth) return;              // hidden while another section is open
-        const cells = Array.prototype.slice.call(grid.querySelectorAll('.art-cell'));
-        const gap = 10;
-        const ratios = cells.map(function (c) {
-            const img = c.querySelector('img');
-            return img.naturalWidth && img.naturalHeight ? img.naturalWidth / img.naturalHeight : 1;
-        });
-        const sum = ratios.reduce(function (a, b) { return a + b; }, 0);
-        const h = Math.min(220, (grid.clientWidth - gap * (cells.length - 1)) / sum);
-        cells.forEach(function (c, i) {
-            c.style.height = h + 'px';
-            c.style.width = (h * ratios[i]) + 'px';
-        });
-    }
-    document.querySelectorAll('#highlights img').forEach(function (img) {
-        img.addEventListener('load', layoutHighlights);
-    });
-    window.addEventListener('resize', layoutHighlights);
-    window.addEventListener('load', layoutHighlights);
-
     function showArtSection(id) {
-        if (!artSections[id]) id = 'highlights';
+        if (!artSections[id]) id = 'all';
         Object.keys(artSections).forEach(function (key) {
-            artSections[key].classList.toggle('active', key === id);
+            artSections[key].classList.toggle('active', id === 'all' || key === id);
         });
         artSidebar.querySelectorAll('.sidebar-link').forEach(function (link) {
             link.classList.toggle('active', link.dataset.section === id);
         });
-        layoutHighlights();
     }
 
     artSidebar.addEventListener('click', function (e) {
@@ -374,6 +335,8 @@
         if (document.getElementById(id)) return;
         const section = document.createElement('section');
         section.className = 'art-section';
+        // a new category shows up straight away while "All" is open
+        if (artSidebar.querySelector('.sidebar-link.active[data-section="all"]')) section.classList.add('active');
         section.id = id;
         const h2 = document.createElement('h2');
         h2.className = 'art-category-title';

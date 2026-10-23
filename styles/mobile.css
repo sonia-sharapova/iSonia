@@ -1500,7 +1500,7 @@ body.m2 .page-title { text-transform: uppercase; }
 
 /* Art: the sidebar is the only way to reach a category, so on phones it becomes a
    row of scrolling chips (the shared rule would otherwise hide it and leave only
-   "Highlights"). Same chip look as the Projects filters. */
+   "All"). Same chip look as the Projects filters. */
 @media (max-width: 768px) {
   body.m2.p-art .art-sidebar {
     display: flex !important;
@@ -1571,21 +1571,4 @@ body.m2 .page-title { text-transform: uppercase; }
   body.m2.p-art .art-sidebar { flex-wrap: nowrap; align-items: center; }
   body.m2.p-art .sidebar-link-row { align-items: center; }
 
-  /* Highlights: one row at a shared height (sized by layoutHighlights() in art.html), not the
-     two-column grid the other sections use on phones. */
-  body.m2.p-art .art-highlights {
-    display: flex;
-    flex-wrap: nowrap;
-    gap: 10px;
-  }
-  body.m2.p-art .art-highlights .art-cell {
-    flex: none;
-    min-width: 0 !important;
-    min-height: 0 !important;
-  }
-  body.m2.p-art .art-highlights .art-cell img {
-    width: 100% !important;
-    height: 100%;
-    object-fit: cover;
-  }
 }
