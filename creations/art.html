@@ -105,6 +105,16 @@
         }
         .art-cell:hover img { opacity: 0.86; }
 
+        /* Paper rooms: larger, two per row in number order (1 2 / 3 4 / 5 6),
+           each filling half the width at its own aspect ratio. */
+        .art-rooms {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            margin-top: 10px;
+        }
+        .art-rooms .art-cell { height: auto; }
+        .art-rooms .art-cell img { width: 100%; height: auto; }
+
     </style>
   <link rel="stylesheet" href="../styles/forum.css">
 </head>
@@ -200,12 +210,17 @@
     <section id="paper" class="art-section active">
       <h2 class="art-category-title">Paper</h2>
       <div class="art-grid">
-        <a class="art-cell"><img src="../images/personal/creative/paper/building.png" alt="Gallery Doll 1"></a>
-        <a class="art-cell"><img src="../images/personal/creative/paper/rm1.jpeg" alt="Gallery Doll 2"></a>
-        <a class="art-cell"><img src="../images/personal/creative/paper/rm3.jpeg" alt="Gallery Doll 3"></a>
-        <a class="art-cell"><img src="../images/personal/creative/paper/rm4.jpeg" alt="Gallery Doll 4"></a>
-        <a class="art-cell"><img src="../images/personal/creative/paper/rm5.jpeg" alt="Gallery Doll 5"></a>
-        <a class="art-cell"><img src="../images/personal/creative/paper/rm6.jpeg" alt="Gallery Doll 5"></a>
+        <a class="art-cell"><img src="../images/personal/creative/paper/building.png" alt="Paper building"></a>
+        <a class="art-cell"><img src="../images/personal/creative/paper/telWir.png" alt="Telephone wires"></a>
+        <a class="art-cell"><img src="../images/personal/creative/paper/meat.png" alt="Meat"></a>
+      </div>
+      <div class="art-grid art-rooms">
+        <a class="art-cell"><img src="../images/personal/creative/paper/room1.jpeg" alt="Room 1"></a>
+        <a class="art-cell"><img src="../images/personal/creative/paper/room2.jpeg" alt="Room 2"></a>
+        <a class="art-cell"><img src="../images/personal/creative/paper/room3.jpeg" alt="Room 3"></a>
+        <a class="art-cell"><img src="../images/personal/creative/paper/room4.jpeg" alt="Room 4"></a>
+        <a class="art-cell"><img src="../images/personal/creative/paper/room5.jpeg" alt="Room 5"></a>
+        <a class="art-cell"><img src="../images/personal/creative/paper/room6.jpeg" alt="Room 6"></a>
       </div>
     </section>
 
