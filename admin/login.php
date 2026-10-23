@@ -18,7 +18,7 @@ $input = json_decode(file_get_contents('php://input'), true);
 $password = $input['password'] ?? '';
 
 if (!ADMIN_PASSWORD_HASH) {
-    echo json_encode(['success' => false, 'error' => 'Admin not configured. Run setup.php first.']);
+    echo json_encode(['success' => false, 'error' => 'Admin not configured: admin/config.local.php (the password hash) is missing on this server.']);
     exit;
 }
 
