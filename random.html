@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="robots" content="noindex">
+  <title>Random</title>
+  <link rel="icon" href="/images/icons/heart3.png" />
+  <!-- Target of the board bar's /b/ (Random) link on every page: jumps straight to a random
+       page of the site. location.replace keeps this page out of the back-button history.
+       A new page goes in PAGES; templates that need a query string (blogs/entry.html,
+       */category.html) and redirect-only pages are left out. -->
+  <script>
+    const PAGES = [
+      '/index.html',
+      '/photos.html',
+      '/creations/projects.html',
+      '/creations/interactive.html',
+      '/creations/games.html',
+      '/creations/blogs.html',
+      '/creations/art.html',
+      '/navigation/about.html',
+      '/navigation/resources.html',
+      '/navigation/learning.html',
+      '/navigation/portfolio/imaging.html',
+      '/navigation/portfolio/tracing.html',
+      '/navigation/portfolio/nn.html',
+      '/navigation/portfolio/os.html',
+      '/navigation/portfolio/web.html',
+      '/navigation/portfolio/resume.html',
+      '/navigation/resources/archives.html',
+      '/navigation/resources/careers.html',
+      '/navigation/resources/consuming.html',
+      '/navigation/resources/creating.html',
+      '/navigation/resources/culture.html',
+      '/navigation/resources/design.html',
+      '/navigation/resources/exploring.html',
+      '/navigation/resources/general.html',
+      '/navigation/resources/get-involved.html',
+      '/navigation/resources/ideas.html',
+      '/navigation/resources/learning.html',
+      '/navigation/resources/life.html',
+      '/navigation/resources/media.html',
+      '/navigation/resources/misc.html',
+      '/navigation/resources/music.html',
+      '/navigation/resources/open-source.html',
+      '/navigation/resources/opensource.html',
+      '/navigation/resources/software.html',
+      '/navigation/resources/technology.html',
+      '/navigation/resources/torrents.html',
+      '/navigation/resources/tutorials.html',
+      '/navigation/resources/web.html',
+      '/navigation/learning/algorithms.html',
+      '/navigation/learning/hpc.html',
+      '/navigation/learning/machine-learning.html',
+      '/navigation/learning/privacy.html',
+      '/navigation/learning/web-design.html',
+      '/learning/web/privacy-checklist.html',
+      '/personal/physical-collections.html',
+      '/personal/archives.html',
+      '/personal/movies.html',
+      '/personal/anime.html',
+      '/personal/music.html',
+      '/personal/books.html',
+      '/personal/electronics.html',
+      '/personal/cards.html',
+      '/projects/camera/ascii_cam.html',
+      '/projects/camera/drawASCII.html',
+      '/projects/camera/ghostLines.html',
+      '/projects/camera/recognition.html',
+      '/projects/camera/shapePhotos.html'
+    ];
+
+    // never send you back to the page you clicked from
+    let from = '';
+    try { from = new URL(document.referrer).pathname.replace(/\/$/, '/index.html'); } catch (e) {}
+    const choices = PAGES.filter(p => p !== from);
+    location.replace(choices[Math.floor(Math.random() * choices.length)]);
+  </script>
+</head>
+<body></body>
+</html>

@@ -105,15 +105,21 @@
         }
         .art-cell:hover img { opacity: 0.86; }
 
-        /* Paper rooms: larger, two per row in number order (1 2 / 3 4 / 5 6),
+        /* Paper rooms (first, then the other paper pieces): larger, two per row in number order (1 2 / 3 4 / 5 6),
            each filling half the width at its own aspect ratio. */
         .art-rooms {
             display: grid;
             grid-template-columns: repeat(2, minmax(0, 1fr));
-            margin-top: 10px;
         }
+        .art-after-rooms { margin-top: 10px; }
         .art-rooms .art-cell { height: auto; }
         .art-rooms .art-cell img { width: 100%; height: auto; }
+
+        /* Every other row fills the full width too, like the rooms row:
+           layoutArtRows() below gives each row one shared height and each
+           piece the width of its own aspect ratio, so rows end flush right. */
+        .art-grid:not(.art-rooms) .art-cell { flex: none; box-sizing: border-box; }
+        .art-grid:not(.art-rooms) .art-cell img { width: 100%; height: 100%; object-fit: cover; }
 
     </style>
   <link rel="stylesheet" href="../styles/forum.css">
@@ -133,7 +139,7 @@
         [
         <a href="../personal/anime.html" data-name="Anime">a</a>
         <span class="board-sep">/</span>
-        <a href="../creations/blogs.html" data-name="Random">b</a>
+        <a href="../random.html" data-name="Random">b</a>
         <span class="board-sep">/</span>
         <a href="../learning/web/privacy-checklist.html" data-name="Tech">g</a>
         <span class="board-sep">/</span>
@@ -209,11 +215,6 @@
   <div class="art-main">
     <section id="paper" class="art-section active">
       <h2 class="art-category-title">Paper</h2>
-      <div class="art-grid">
-        <a class="art-cell"><img src="../images/personal/creative/paper/building.png" alt="Paper building"></a>
-        <a class="art-cell"><img src="../images/personal/creative/paper/telWir.png" alt="Telephone wires"></a>
-        <a class="art-cell"><img src="../images/personal/creative/paper/meat.png" alt="Meat"></a>
-      </div>
       <div class="art-grid art-rooms">
         <a class="art-cell"><img src="../images/personal/creative/paper/room1.jpeg" alt="Room 1"></a>
         <a class="art-cell"><img src="../images/personal/creative/paper/room2.jpeg" alt="Room 2"></a>
@@ -221,6 +222,11 @@
         <a class="art-cell"><img src="../images/personal/creative/paper/room4.jpeg" alt="Room 4"></a>
         <a class="art-cell"><img src="../images/personal/creative/paper/room5.jpeg" alt="Room 5"></a>
         <a class="art-cell"><img src="../images/personal/creative/paper/room6.jpeg" alt="Room 6"></a>
+      </div>
+      <div class="art-grid art-after-rooms">
+        <a class="art-cell"><img src="../images/personal/creative/paper/building.png" alt="Paper building"></a>
+        <a class="art-cell"><img src="../images/personal/creative/paper/telWir.png" alt="Telephone wires"></a>
+        <a class="art-cell"><img src="../images/personal/creative/paper/meat.png" alt="Meat"></a>
       </div>
     </section>
 
@@ -313,6 +319,51 @@
         if (e.target.id === 'imageModal') this.classList.remove('active');
     });
 
+    // ── Full-width rows: split each gallery into as many rows as fit at
+    // roughly ART_ROW_HEIGHT, then scale each row so it spans the full width. ──
+    const ART_ROW_HEIGHT = 260;
+    const ART_GAP = 10;
+    function layoutArtRows() {
+        const phone = window.matchMedia('(max-width: 768px)').matches; // mobile.css uses a 2-column grid
+        document.querySelectorAll('.art-grid:not(.art-rooms)').forEach(function (grid) {
+            const cells = Array.prototype.slice.call(grid.querySelectorAll('.art-cell'));
+            if (phone) { cells.forEach(function (c) { c.style.width = c.style.height = ''; }); return; }
+            const W = grid.clientWidth;
+            if (!W || !cells.length) return;                      // hidden while another section is open
+            const ratios = cells.map(function (c) {
+                const img = c.querySelector('img');
+                return img.naturalWidth && img.naturalHeight ? img.naturalWidth / img.naturalHeight : 1;
+            });
+            const total = ratios.reduce(function (a, b) { return a + b; }, 0);
+            const rowCount = Math.max(1, Math.min(cells.length, Math.round(total * ART_ROW_HEIGHT / W)));
+            // greedy split so each row gets about the same total aspect ratio
+            let start = 0, acc = 0;
+            for (let r = 0; r < rowCount; r++) {
+                const goal = total * (r + 1) / rowCount;
+                let end = start;
+                do { acc += ratios[end]; end++; } while (end < cells.length && (r === rowCount - 1 || acc + ratios[end] / 2 <= goal));
+                const rowRatios = ratios.slice(start, end);
+                const sum = rowRatios.reduce(function (a, b) { return a + b; }, 0);
+                const free = W - ART_GAP * (rowRatios.length - 1);
+                const h = free / sum;
+                let used = 0;
+                for (let i = start; i < end; i++) {
+                    const w = i === end - 1 ? free - used : Math.floor(h * ratios[i]);
+                    used += w;
+                    cells[i].style.width = w + 'px';
+                    cells[i].style.height = h + 'px';
+                }
+                start = end;
+                if (start >= cells.length) break;
+            }
+        });
+    }
+    document.querySelectorAll('.art-grid img').forEach(function (img) {
+        img.addEventListener('load', layoutArtRows);
+    });
+    window.addEventListener('resize', layoutArtRows);
+    window.addEventListener('load', layoutArtRows);
+
     // ── Section switching — "All" (every category, stacked) by default;
     // picking a sidebar category shows only that section. ────
     const artSidebar = document.getElementById('art-sidebar');
@@ -327,6 +378,7 @@
         artSidebar.querySelectorAll('.sidebar-link').forEach(function (link) {
             link.classList.toggle('active', link.dataset.section === id);
         });
+        layoutArtRows();
     }
 
     artSidebar.addEventListener('click', function (e) {

@@ -259,10 +259,8 @@
 
 /* Each thread is its own card — a lainchan-style post box: background a shade off the page
    (#fff against the page's #f5f5f5, same subtle-card idea as .category-card elsewhere on the
-   site), a thin border, and align-self:flex-start instead of the flex column's default stretch,
-   so a short post reads as a small box rather than being stretched to a uniform width. max-width
-   is 100% (not a fixed cap) — the box grows to fit an unfinished line rather than wrapping it
-   early, only actually wrapping once it would need more than the full column width. */
+   site) and a thin border. Every card stretches to the full column width (the flex column's
+   default), so a short post gets the same width as a long one instead of a narrower box. */
 /* Outer box — title, [Message Me]/[Catalogue] and the posts themselves all live inside this one
    bordered container now; .forum-posts (below) holds just the post cards so the JS that
    re-renders them (innerHTML on #recent-posts) doesn't wipe out the title/actions above it. */
@@ -281,8 +279,6 @@
 }
 
 .forum-thread {
-  align-self: flex-start;
-  max-width: 100%;
   background: #fff;
   border: 1px solid #ddd;
   border-radius: 2px;

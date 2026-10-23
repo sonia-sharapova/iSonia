@@ -159,7 +159,7 @@
       display: flex; align-items: center; gap: 14px;
       margin-bottom: 22px; flex-wrap: wrap;
     }
-    .album-view-title { font-size: 21px; font-weight: 200; color: #444; letter-spacing: 0.04em; }
+    .album-view-title { font-family: 'Roboto', arial, sans-serif; font-size: 21px; font-weight: 300; color: #444; letter-spacing: 0.04em; }
 
     /* ── All-photos filter bar ── */
     .photo-filter-bar { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 16px; }
@@ -218,12 +218,10 @@
       display: flex;
       flex-direction: column;
       gap: 0;
-      /* breathing room on the left so the covers don't hug the edge */
-      padding-left: clamp(10px, 3.5vw, 52px);
     }
     .catalog-row {
-      --cover-h: clamp(58px, 9vw, 98px);
-      --thumb-h: clamp(50px, 8vw, 84px);
+      --cover-h: clamp(76px, 11vw, 130px);
+      --thumb-h: clamp(66px, 9.5vw, 112px);
       display: flex;
       align-items: center;
       gap: 12px;
@@ -235,7 +233,7 @@
       transition: transform 0.15s ease;
     }
     .catalog-row:hover { transform: translateY(-2px); }
-    .catalog-row:hover .catalog-label { color: #222; }
+    .catalog-row:hover .catalog-label { color: #111; }
     .catalog-row:hover .catalog-cover img { opacity: 0.85; }
     /* Sized via JS to end at the last visible photo, not the full flex row —
        .catalog-thumbs uses flex:1 for its own scroll/fade math, which doesn't
@@ -279,10 +277,13 @@
     .row-color-input::-moz-color-swatch { border: none; border-radius: 50%; }
     body.admin-mode .catalog-row:hover .row-color-input { display: block; }
 
-    /* Fixed height, width left to the photo's own aspect ratio — matches
-       .catalog-thumb instead of square-cropping the cover photo. */
+    /* Every row's cover is the same square, so the title and gallery columns
+       line up across rows. The photo is cropped to fill it (overflow hidden);
+       opening it still shows the full image. */
     .catalog-cover {
       height: var(--cover-h);
+      width: var(--cover-h);
+      box-sizing: border-box;
       flex-shrink: 0;
       border: 2px solid #ddd;
       overflow: hidden;
@@ -290,8 +291,8 @@
       position: relative;
     }
     .catalog-cover img {
-      height: 100%; width: auto;
-      object-fit: contain;
+      height: 100%; width: 100%;
+      object-fit: cover;
       display: block;
       animation: none;
       transition: opacity 0.15s;
@@ -299,20 +300,20 @@
     }
 
     .catalog-label {
-      width: clamp(120px, 16vw, 210px);
+      width: clamp(100px, 11vw, 150px);
       flex-shrink: 0;
       overflow: hidden;
-      color: #888;
+      color: #444;
       letter-spacing: 0.05em;
       font-family: 'Courier New', monospace;
       transition: color 0.15s;
       line-height: 1.4;
+      text-align: center;
     }
     .catalog-label-text {
       display: inline-block;
       white-space: nowrap;
-      transform-origin: left center;
-      font-size: clamp(15px, 1.6vw, 22px);
+      font-size: clamp(13px, 1.2vw, 17px);
     }
 
     .catalog-thumbs {
@@ -356,8 +357,8 @@
     body.admin-mode .catalog-new-row { display: block; }
 
     @media (max-width: 640px) {
-      .catalog-label { width: 100px; }
-      .catalog-label-text { font-size: 14px; }
+      .catalog-label { width: 90px; }
+      .catalog-label-text { font-size: 12px; }
     }
 
     /* ── Photo rows container ── */
@@ -822,6 +823,9 @@
     }
   </style>
   <link rel="stylesheet" href="styles/forum.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
 </head>
 <body class="m2 p-photos">
 
@@ -839,7 +843,7 @@
         [
         <a href="personal/anime.html" data-name="Anime">a</a>
         <span class="board-sep">/</span>
-        <a href="creations/blogs.html" data-name="Random">b</a>
+        <a href="random.html" data-name="Random">b</a>
         <span class="board-sep">/</span>
         <a href="learning/web/privacy-checklist.html" data-name="Tech">g</a>
         <span class="board-sep">/</span>
@@ -1320,15 +1324,18 @@ function markOverflowingRows() {
     el.classList.toggle('overflowing', el.scrollWidth > el.clientWidth + 1);
   });
 }
-// Group names never wrap — if one is too long for its column, shrink it
-// horizontally to fit instead of wrapping or clipping.
+// Group names never wrap — every name gets the same column width and is
+// sized to fill it: a long name gets a smaller font, a short one a larger
+// font (up to LABEL_MAX_PX, so a very short name doesn't tower over the row).
+const LABEL_MAX_PX = 26;
 function scaleOverflowingLabels() {
   document.querySelectorAll('.catalog-label-text').forEach(el => {
-    el.style.transform = '';
+    el.style.fontSize = '';
     const available = el.parentElement.clientWidth;
-    if (el.scrollWidth > available && available > 0) {
-      el.style.transform = `scaleX(${available / el.scrollWidth})`;
-    }
+    if (!available || !el.scrollWidth) return;
+    const base = parseFloat(getComputedStyle(el).fontSize);
+    const fit = Math.floor(base * available / el.scrollWidth * 2) / 2;
+    el.style.fontSize = Math.min(fit, LABEL_MAX_PX) + 'px';
   });
 }
 // Size each row's hover highlight to end at the last visible photo instead
