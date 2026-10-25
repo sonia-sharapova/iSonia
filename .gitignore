@@ -14,6 +14,8 @@ navigation/resources/markdown/
 
 # Binary assets — managed on server directly, not via git
 images/
+# The old site (its own git repo, ~600MB of media), copied to the server as-is with rsync
+soniapolis_v1/
 
 # Delete from server after running once
 admin/setup.php

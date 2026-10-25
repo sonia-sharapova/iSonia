@@ -215,6 +215,8 @@ body.p-portfolio > .content {
     max-width: none;
     max-height: 90vh;
     object-fit: contain;
+    box-sizing: border-box;
+    border: 6px solid #fff;
 }
 .modal-arrow {
     position: absolute;
@@ -236,7 +238,6 @@ body.p-portfolio > .content {
 .modal-prev:hover { transform: translate(-3px, -50%); }
 .modal-next:hover { transform: translate(3px, -50%); }
 .modal.single .modal-arrow { display: none; }
-.modal-close { pointer-events: auto; }
 @media (max-width: 768px) {
     .modal .modal-content { width: 80vw; }
     .modal-arrow { font-size: 36px; padding: 8px; }

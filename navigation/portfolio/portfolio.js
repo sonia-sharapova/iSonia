@@ -55,13 +55,13 @@ function stepCarousel(by) {
     modalImg.src = carouselImgs[carouselIndex].src;
 }
 
-// Lightbox: click the backdrop or the ✕, or press Escape
+// Lightbox: click the backdrop (anywhere off the image and arrows) or press Escape
 function closeModal() {
     modal.classList.remove('active');
     navigation.classList.remove('dimmed');
 }
 modal.addEventListener('click', e => {
-    if (e.target === modal || e.target.classList.contains('modal-close')) closeModal();
+    if (e.target === modal || e.target === modalContent) closeModal();
 });
 document.addEventListener('keydown', e => {
     if (!modal.classList.contains('active')) return;
