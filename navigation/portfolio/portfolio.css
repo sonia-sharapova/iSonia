@@ -165,3 +165,33 @@ body.p-portfolio > .content {
     }
 
 }
+
+/* Web Design: each site gets a domain header (+ a visit link while it's live)
+   and a row of three screenshots at one shared size, cropped from the top. */
+.site-header {
+    margin: 10px;
+    font-size: 1.2em;
+    font-weight: normal;
+}
+.site-domain { color: #45a049; }
+.site-visit,
+.site-offline {
+    margin-left: 10px;
+    font-size: 0.7em;
+    color: #888;
+}
+.site-visit { text-decoration: none; }
+.site-visit:hover { color: #45a049; text-decoration: underline; }
+.site-shots {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+    margin: 0 10px 10px;
+}
+.site-shots img {
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    object-fit: cover;
+    object-position: top;
+    cursor: pointer;
+}
