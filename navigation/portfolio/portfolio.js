@@ -33,6 +33,28 @@ placeSection();
 
 attachImageClickHandlers();
 
+// Lightbox carousel: the ‹ › arrows (or ← →) step through every image in the project's
+// content, wrapping round at the ends. attachImageClickHandlers() opens the clicked one;
+// this just remembers where it is in the list.
+const carouselImgs = Array.from(document.querySelectorAll('.section-content img'));
+let carouselIndex = 0;
+const modalContent = modal.querySelector('.modal-content');
+['prev', 'next'].forEach(dir => {
+    const btn = document.createElement('button');
+    btn.className = 'modal-arrow modal-' + dir;
+    btn.setAttribute('aria-label', dir === 'prev' ? 'Previous image' : 'Next image');
+    btn.textContent = dir === 'prev' ? '‹' : '›';
+    btn.addEventListener('click', e => { e.stopPropagation(); stepCarousel(dir === 'prev' ? -1 : 1); });
+    modalContent.appendChild(btn);
+});
+modal.classList.toggle('single', carouselImgs.length < 2);
+carouselImgs.forEach((img, i) => img.addEventListener('click', () => { carouselIndex = i; }));
+function stepCarousel(by) {
+    if (carouselImgs.length < 2) return;
+    carouselIndex = (carouselIndex + by + carouselImgs.length) % carouselImgs.length;
+    modalImg.src = carouselImgs[carouselIndex].src;
+}
+
 // Lightbox: click the backdrop or the ✕, or press Escape
 function closeModal() {
     modal.classList.remove('active');
@@ -42,5 +64,8 @@ modal.addEventListener('click', e => {
     if (e.target === modal || e.target.classList.contains('modal-close')) closeModal();
 });
 document.addEventListener('keydown', e => {
-    if (e.key === 'Escape' && modal.classList.contains('active')) closeModal();
+    if (!modal.classList.contains('active')) return;
+    if (e.key === 'Escape') closeModal();
+    else if (e.key === 'ArrowLeft') stepCarousel(-1);
+    else if (e.key === 'ArrowRight') stepCarousel(1);
 });

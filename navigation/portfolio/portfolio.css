@@ -195,3 +195,51 @@ body.p-portfolio > .content {
     object-position: top;
     cursor: pointer;
 }
+.site-shots img {
+    transition: box-shadow 0.25s ease, transform 0.25s ease;
+}
+.site-shots img:hover {
+    box-shadow: 0 4px 12px rgb(210, 245, 250);
+    transform: translateY(-2px);
+}
+
+/* Lightbox as a carousel: the image at 60% of the screen width, with
+   ‹ › arrows on either side (added by portfolio.js; hidden with one image). */
+.modal .modal-content {
+    width: 60vw;
+    max-width: none;
+}
+.modal .modal-content img {
+    display: block;
+    width: 100%;
+    max-width: none;
+    max-height: 90vh;
+    object-fit: contain;
+}
+.modal-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    padding: 10px 14px;
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.75);
+    font-size: 48px;
+    line-height: 1;
+    cursor: pointer;
+    pointer-events: auto;
+    transition: color 0.2s, transform 0.2s;
+}
+.modal-arrow:hover { color: #fff; }
+.modal-prev { right: 100%; margin-right: 12px; }
+.modal-next { left: 100%; margin-left: 12px; }
+.modal-prev:hover { transform: translate(-3px, -50%); }
+.modal-next:hover { transform: translate(3px, -50%); }
+.modal.single .modal-arrow { display: none; }
+.modal-close { pointer-events: auto; }
+@media (max-width: 768px) {
+    .modal .modal-content { width: 80vw; }
+    .modal-arrow { font-size: 36px; padding: 8px; }
+    .modal-prev { margin-right: 0; }
+    .modal-next { margin-left: 0; }
+}
