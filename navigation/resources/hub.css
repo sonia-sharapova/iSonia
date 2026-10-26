@@ -318,8 +318,8 @@ body.admin-mode .add-section-row { display: flex; gap: 10px; align-items: center
    column width does above (see that comment); a .res-col-static column's items are excluded, same as its width. */
 .res-tree-hub .res-link { transition: color 0.2s ease; }
 .res-tree-hub > .res-col:not(.res-col-static) .res-link { transition: font-size 0.32s cubic-bezier(0.3, 0.1, 0.2, 1), color 0.2s ease; }
-.res-tree-hub .res-col-reduced .res-link { font-size: 14px; }
-.res-tree-hub .res-col-reduced .res-head { font-size: 14px; padding-bottom: 6px; margin-bottom: 8px; }
+.res-tree-hub .res-col-reduced .res-link { font-size: 16px; }
+.res-tree-hub .res-col-reduced .res-head { font-size: 16px; padding-bottom: 6px; margin-bottom: 8px; }
 @starting-style {
     .res-tree-hub > .res-col-reduced:not(.res-col-static) .res-link { font-size: 18px; }
     .res-tree-hub > .res-col-reduced:not(.res-col-static) .res-head { font-size: 18px; }
@@ -331,10 +331,8 @@ body.admin-mode .add-section-row { display: flex; gap: 10px; align-items: center
    from the shared .res-link rule in stylesheet.css) is the biggest, each column after it a step down — rather
    than every full column looking exactly the same regardless of how far into the tree it is. Reduced columns
    already have their own single smaller size (above) and are unaffected. */
-.res-tree-hub > .res-col:nth-child(2):not(.res-col-reduced) .res-link { font-size: 16px; }
-.res-tree-hub > .res-col:nth-child(3):not(.res-col-reduced) .res-link { font-size: 15px; }
-.res-tree-hub > .res-col:nth-child(4):not(.res-col-reduced) .res-link { font-size: 14px; }
-.res-tree-hub > .res-col:nth-child(5):not(.res-col-reduced) .res-link { font-size: 13px; }
+.res-tree-hub > .res-col:nth-child(2):not(.res-col-reduced) .res-link { font-size: 17px; }
+.res-tree-hub > .res-col:nth-child(n+3):not(.res-col-reduced) .res-link { font-size: 16px; }   /* never below a reduced column's */
 
 
 /* Column 1's group headers ("Professional" / "Misc.") — a small-caps label, distinct from every other column's
@@ -476,6 +474,8 @@ body.admin-mode .add-section-row { display: flex; gap: 10px; align-items: center
 .learning-note:hover { border-color: #45a049; }
 /* inside the tree's intro column: a little space above, its text lined up with the column's (cancels the padding) */
 body.p-resources .res-tree-hub .learning-note { margin: 22px 0 0 -10px; }
+.res-tree-hub .learning-note-title { font-size: 15px; }
+.res-tree-hub .learning-note-text { font-size: 14px; }
 .learning-note-title { display: block; font-size: 20px; font-weight: 300; }
 .learning-note-text { display: block; margin-top: 2px; font-size: 17px; color: #45a049; text-decoration: none; }
 .learning-note-arrow { display: inline-block; transition: transform 0.25s ease; }

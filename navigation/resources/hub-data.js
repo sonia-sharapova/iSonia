@@ -45,11 +45,10 @@ const HubData = (() => {
     // (an "&"-joined pair condensed down to the more central one) so they read on one line even in the tree's
     // narrower, reduced columns — the description still carries the fuller meaning.
     const topics = () => groupedCards('resources', [
-        // (Technology and Web moved into the Technology Links tree — their pages and markdown are still there, unlisted)
+        // (Technology and Web were folded into the Technology Links tree — their pages and markdown are still there,
+        // unlisted; Software moved there as a page of its own)
         ['design', 'Design', 'Inspiration, tools and assets for design work.', 'professional'],
         ['careers', 'Careers', 'Jobs, studios, festivals and open calls.', 'professional'],
-        ['career', 'Career', 'Interview prep, job boards, studios, agencies and opportunities.', 'professional'],
-        ['software', 'Software', 'Free software, alternatives and handy online tools.', 'professional'],
         ['media', 'Media', 'Film, video, music, anime, games and things to read.', 'misc'],
         ['archives', 'Archives', "Libraries, museums and the internet's memory.", 'misc'],
         ['culture', 'Culture', 'Personal sites, forums, nostalgia and the strange.', 'misc'],
@@ -90,6 +89,7 @@ const HubData = (() => {
         ['tech-internet', 'The Internet', 'The web, how to design for it and how to browse it.', 'tech'],
         ['tech-privacy', 'Privacy & Security', 'Security tools, privacy guides and anonymity tools, piracy and hacking.', 'tech'],
         ['tech-arrrrgh', 'Arrrrgh', 'Open source and free media.', 'tech'],
+        ['software', 'Software', 'Free software, alternatives and handy online tools.', 'tech'],
         ['tech-general', 'General', 'Tech culture, guides and references.', 'tech']
     ]) });
     const guidesSection = () => ({ id: 'guides', title: 'Guides', type: 'cards', intro: "Step-by-step write-ups and how-tos I've put together.", items: guides() });
@@ -102,10 +102,10 @@ const HubData = (() => {
         const hrefs = data.filter(s => s.type === 'cards').flatMap(s => (s.items || []).map(it => it.href || ''));
         return hrefs.some(h => /(^|\/)creating\.html/.test(h)) && hrefs.some(h => /(^|\/)careers\.html/.test(h));
     };
-    // the current General Resources list has the Career page (from the technology spreadsheet); older saved lists don't
+    // the current General Resources list has the Community page (from the technology spreadsheet); older saved lists don't
     const hasElevenTopics = data => {
         const sec = data.find(s => s.id === 'topics');
-        return !!sec && (sec.items || []).some(it => /(^|\/)career\.html/.test(it.href || ''));
+        return !!sec && (sec.items || []).some(it => /(^|\/)community\.html/.test(it.href || ''));
     };
     // group ('professional' / 'misc') was added after the 11-category list; backfill it onto an older saved copy
     const hasGroups = data => {

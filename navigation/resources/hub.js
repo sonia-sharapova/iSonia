@@ -143,7 +143,7 @@ function fitReducedColumns() {
     });
     if (isAdmin) max += 48;   // the ✎ ✕ buttons after each row (treeAdmBtns)
     // capped, so with every level open (page → topic → section → sub-section) the links still get the room
-    if (max > 0) col.style.flexBasis = Math.min(Math.max(max + 2, 90), 170) + 'px';
+    if (max > 0) col.style.flexBasis = Math.min(Math.max(max + 2, 90), 190) + 'px';
   });
 }
 
