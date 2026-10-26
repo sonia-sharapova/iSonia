@@ -4,7 +4,8 @@
 //   By Function (id "cat")       → Create, Consume, Explore, Learn                 (navigation/resources/*.html;
 //                                   kept in the saved data for hasNewTree()'s detection, but no longer shown on the
 //                                   hub — hub.js filters this section out of render())
-//   My Links    (id "topics")    → the 11 category pages: Technology, Web, Design, Careers, Software, Media,
+//   Technology Links (id "tech") → the one tech-links page, shown first on the hub
+//   General Resources (id "topics", formerly My Links)    → the 11 category pages: Technology, Web, Design, Careers, Software, Media,
 //                                   Music, Archives, Culture, Ideas, Life (navigation/resources/*.html)
 //   My Favourites (id "favourites") → Wayback Machine, Lainchan, LookMovie, Land Chad, Human Clock — a plain links
 //                                   list, always reset to this exact set by normalize() (see favouritesSection())
@@ -75,7 +76,11 @@ const HubData = (() => {
     ];
 
     const savedSection = () => ({ id: 'cat', title: 'By Function', type: 'cards', intro: '', items: saved() });
-    const topicsSection = () => ({ id: 'topics', title: 'My Links', type: 'cards', intro: '', items: topics() });
+    const topicsSection = () => ({ id: 'topics', title: 'General Resources', type: 'cards', intro: '', items: topics() });
+    // Technology Links: one topic-tree page (seed/tech-links.md, built from the technology_tree spreadsheet) that the hub
+    // shows as its first tree, opened straight onto its topics; the 11 pages above follow it as General Resources.
+    const techSection = () => ({ id: 'tech', title: 'Technology Links', type: 'cards', intro: '',
+        items: [{ id: 'tech-links', title: 'Technology Links', href: 'resources/tech-links.html', desc: 'Programming, computers, the web and the culture around them.', group: 'tech' }] });
     const guidesSection = () => ({ id: 'guides', title: 'Guides', type: 'cards', intro: "Step-by-step write-ups and how-tos I've put together.", items: guides() });
     const favouritesSection = () => ({ id: 'favourites', title: 'My Favourites', type: 'links', intro: '', items: favourites() });
 
@@ -115,13 +120,18 @@ const HubData = (() => {
         data.forEach(s => {
             if (s.type !== 'cards') return;
             if (s.id === 'cat' && (s.title === 'Categories' || s.title === 'Saved Links')) s.title = 'By Function';
-            if (s.id === 'topics') s.title = 'My Links';
+            if (s.id === 'topics') s.title = 'General Resources';
+            if (s.id === 'tech') s.title = 'Technology Links';
             s.items = (s.items || []).filter(it => !isTutorialsCard(it));
         });
         // the hub's own hand-picked shortcuts — always exactly Wayback/Lainchan/LookMovie/Land Chad/Human Clock
         const favIdx = data.findIndex(s => s.type === 'links' && s.id !== 'topics');
         if (favIdx >= 0) data[favIdx] = favouritesSection();
         else data.push(favouritesSection());
+        if (!data.some(s => s.id === 'tech')) {
+            const at = data.findIndex(s => s.id === 'topics');
+            data.splice(at >= 0 ? at : data.length, 0, techSection());
+        }
         if (!data.some(isGuides)) data.push(guidesSection());
         return data;
     }

@@ -7,15 +7,18 @@ const DATA_URL = '../data/resources.json';
 // <body data-hub="guides"> limits the page to the Guides section (learning.html)
 const HUB_ONLY = document.body.dataset.hub || '';
 
-// Both hubs show their pages as the same column tree: Resources → its My Links pages (navigation/resources/*),
-// Learning → its Guides (navigation/learning/*). `sec` is the hub section listing the pages, `dir` their folder.
-const TREE = HUB_ONLY === 'guides'
-  ? { sec: 'guides', dir: 'learning', groups: [['guides', 'Guides']], defaultGroup: 'guides' }
-  : { sec: 'topics', dir: 'resources', groups: [['professional', 'Professional'], ['misc', 'Misc.']], defaultGroup: 'misc' };
+// The hubs show their pages as column trees: Resources → Technology Links (one topic page, `single`: the tree opens
+// straight onto its topics) and below it General Resources (the 11 pages in navigation/resources/*); Learning → its
+// Guides (navigation/learning/*). `sec` is the hub section listing the pages, `dir` their folder.
+const TREES = HUB_ONLY === 'guides'
+  ? [{ sec: 'guides', dir: 'learning', groups: [['guides', 'Guides']], defaultGroup: 'guides' }]
+  : [{ sec: 'tech', dir: 'resources', groups: [['tech', 'Technology Links']], defaultGroup: 'tech', single: 'tech-links' },
+     { sec: 'topics', dir: 'resources', groups: [['professional', 'Professional'], ['misc', 'Misc.']], defaultGroup: 'misc' }];
+let TREE = TREES[0];
 
 let sections = [];
 let isAdmin = false;
-let treeData = {};   // page slug -> { intro, folders, topics } for the inline folder tree (the My Links category pages)
+let treeData = {};   // page slug -> { intro, folders, topics } for the open tree's pages (see useTree)
 
 // current modal state
 let modalSectionId = null;
@@ -35,8 +38,37 @@ async function init() {
     sections = HubData.normalize(sections);
   } catch(e) { sections = HubData.normalize([]); }
 
-  await loadTree();
+  await loadTrees();
   render();
+}
+
+// ── More than one tree on a page ──
+// The tree code below works on one tree's state at a time, kept in the tree* globals. Each tree's own copy lives on
+// its TREES entry; useTree swaps it in. render() draws every tree, and a capture-phase listener on each tree's block
+// (bindTreeBlocks) switches to that tree before any of its inline handlers run — the admin modals then keep acting
+// on the tree they were opened from, since they cover the page while open.
+let treeInUse = false;   // false until the first useTree: the globals don't hold any tree's state yet
+function useTree(i) {
+  const next = TREES[i];
+  if (treeInUse && next === TREE) return;
+  if (treeInUse) TREE.state = { treeData, treeSelPage, treeSelTopic, treeSelSection, treeSelSub, treePrevCols };
+  TREE = next;
+  GROUPS = TREE.groups;
+  const st = TREE.state || { treeData: {}, treeSelPage: TREE.single || null, treeSelTopic: -1, treeSelSection: -1, treeSelSub: -1, treePrevCols: [] };
+  ({ treeData, treeSelPage, treeSelTopic, treeSelSection, treeSelSub, treePrevCols } = st);
+  treeInUse = true;
+}
+function treeIndex(secId) { return TREES.findIndex(t => t.sec === secId); }
+async function loadTrees() {
+  for (let i = 0; i < TREES.length; i++) { useTree(i); await loadTree(); }
+  useTree(0);
+}
+function bindTreeBlocks() {
+  document.querySelectorAll('#resources-body > .section-block').forEach(block => {
+    const i = treeIndex(block.dataset.id);
+    if (i < 0) return;
+    ['click', 'keydown', 'dragstart', 'dragover', 'drop'].forEach(type => block.addEventListener(type, () => useTree(i), true));
+  });
 }
 
 // ── Inline folder tree (the My Links pages' real content, browsable without leaving the hub) ──
@@ -83,15 +115,17 @@ function render() {
   // Guides. My Favourites isn't rendered as its own top-level block here any more — it's nested inside the tree's
   // description column instead (treeHubIntroCol), under the hub's intro text.
   const shown = HUB_ONLY === 'guides' ? sections.filter(HubData.isGuides) : sections.filter(s => !HubData.isGuides(s) && s.id !== 'cat' && s.id !== 'favourites');
+  const active = TREES.indexOf(TREE);
   body.innerHTML = shown.map(sec => renderSection(sec)).join('');
+  useTree(active);
+  bindTreeBlocks();
   fitReducedColumns();
   // every column narrows once it's no longer the one you're actively choosing from (hub.css/fitReducedColumns) —
   // this just keeps the newest, rightmost column in view on the rare window narrow enough that it still doesn't
   // all fit. Setting scrollLeft directly (rather than the newest column's scrollIntoView) only scrolls the tree
   // itself — scrollIntoView also nudges whichever ancestor(s) don't fully contain the column, which included the
   // whole page.
-  const tree = document.querySelector('.res-tree-hub');
-  if (tree) tree.scrollLeft = tree.scrollWidth;
+  document.querySelectorAll('.res-tree-hub').forEach(tree => { tree.scrollLeft = tree.scrollWidth; });
 }
 
 // A reduced column's CSS width (116px, hub.css) is just a fallback — it's re-measured here to whatever its own
@@ -113,18 +147,22 @@ function fitReducedColumns() {
 }
 
 function renderSection(sec) {
-  // "topics" (My Links) is shown as the inline folder tree of its pages' real content
-  const items = sec.id === TREE.sec ? renderTree()
+  // a tree's section (Technology Links, General Resources) is shown as the inline folder tree of its pages' real content
+  const ti = treeIndex(sec.id);
+  if (ti >= 0) useTree(ti);
+  const items = ti >= 0 ? renderTree()
     : sec.type === 'cards' ? renderMenu(sec) : renderLinks(sec);
-  // "My Links" itself is a link back to the tree's original (nothing-picked) view, wherever you've drilled to
-  const header = sec.id === TREE.sec
-    ? `<a href="#" class="section-header section-header-link" onclick="event.preventDefault();resetTree()" title="Back to My Links">${esc(sec.title)}</a>`
+  // the tree's heading itself is a link back to its original (nothing-picked) view, wherever you've drilled to
+  const header = ti >= 0
+    ? `<a href="#" class="section-header section-header-link" onclick="event.preventDefault();resetTree()" title="Back to ${esc(sec.title)}">${esc(sec.title)}</a>`
     : `<div class="section-header">${esc(sec.title)}</div>`;
+  // a single-page tree has no page list to add to
+  const plus = ti >= 0 && TREES[ti].single ? '' : `<button class="adm-plus admin-only" onclick="openItemModal('${sec.id}',null)" title="Add item">+</button>`;
   return `
     <div class="section-block" data-id="${sec.id}">
       <div class="section-header-row">
         ${header}
-        <button class="adm-plus admin-only" onclick="openItemModal('${sec.id}',null)" title="Add item">+</button>
+        ${plus}
       </div>
       ${items}
       <div class="admin-only" style="margin-top:6px;">
@@ -135,7 +173,7 @@ function renderSection(sec) {
 
 // "My Links" heading's own click target: back to the tree's very first view, from anywhere in it.
 function resetTree() {
-  treeSelPage = null; treeSelTopic = -1; treeSelSection = -1; treeSelSub = -1;
+  treeSelPage = TREE.single || null; treeSelTopic = -1; treeSelSection = -1; treeSelSub = -1;
   render();
 }
 
@@ -145,7 +183,7 @@ function resetTree() {
 // no sub-sections skips straight to its links; a section that does have sub-sections gets a dedicated column for
 // them only on a page that has topics — otherwise (most pages) they break the links column with an inline header
 // instead, same as that page's own tree does.
-const GROUPS = TREE.groups;
+let GROUPS = TREE.groups;
 
 let treeSelPage = null;     // slug of the page open in the tree, or null
 let treeSelTopic = -1;      // index into that page's topics, -1 = none picked
@@ -169,7 +207,8 @@ function treeDefaultSub(page, fi) {
 }
 
 function selectTreePage(slug) {
-  treeSelPage = slug === treeSelPage ? null : slug;     // clicking the open page closes it
+  // clicking the open page closes it (a single-page tree just goes back to its topics)
+  treeSelPage = TREE.single || (slug === treeSelPage ? null : slug);
   treeSelTopic = -1; treeSelSection = -1; treeSelSub = -1;
   render();
 }
@@ -250,7 +289,7 @@ function treeTopicsCol(page, reduced, same, delay) {
       ${treeAdmBtns(`openTreeModal('topic',${i})`, `deleteTreeNode('topic',${i})`)}
     </div>`).join('');
   return `${treeColOpen('res-col res-col-sections', reduced, same, delay)}
-      ${treeBackHead(`selectTreePage('${treeSelPage}')`, page.title)}
+      ${TREE.single ? '<h3 class="res-head">Topics</h3>' : treeBackHead(`selectTreePage('${treeSelPage}')`, page.title)}
       <nav class="res-list">${rows}</nav>
       ${treeAddBtn('+ topic', `openTreeModal('topic',null)`)}
     </div>`;
@@ -384,7 +423,7 @@ function renderTree() {
   // picker column, or (unlike before) the last picker itself once its own pick is what's now showing real links
   // rather than just a "choose one to continue" hint (hasSelection) — so the tree keeps narrowing all the way
   // down to whatever you're actually looking at, not just down to the last list you clicked in.
-  const pickers = ['pages'];
+  const pickers = TREE.single ? [] : ['pages'];
   let useTopics = false;
   if (page) {
     useTopics = page.topics.length > 0;
@@ -942,7 +981,7 @@ async function deleteItem(secId, itemId) {
   const sec = sections.find(s => s.id === secId);
   sec.items = sec.items.filter(i => i.id !== itemId);
   await persist();
-  if (secId === TREE.sec) { if (treeSelPage && !sec.items.some(i => i.id === treeSelPage)) resetTree(); await loadTree(); }
+  if (treeIndex(secId) >= 0) { if (treeSelPage && !sec.items.some(i => i.id === treeSelPage)) resetTree(); await loadTrees(); }
   render();
 }
 
@@ -981,7 +1020,7 @@ document.getElementById('item-save').onclick = async () => {
   }
   await persist();
   closeItemModal();
-  if (modalSectionId === TREE.sec) await loadTree();
+  if (treeIndex(modalSectionId) >= 0) await loadTrees();
   render();
 };
 
