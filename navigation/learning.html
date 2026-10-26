@@ -7,19 +7,28 @@
   <link rel="icon" href="/images/icons/heart3.png" />
   <link rel="stylesheet" href="../styles/stylesheet.css">
   <link rel="stylesheet" href="../styles/mobile.css">
-  <link rel="stylesheet" href="../styles/categories.css">
-  <script src="../scripts/admin.js" defer></script>
-  <link rel="stylesheet" href="resources/hub.css">
+  <link rel="stylesheet" href="resources/links.css">
   <script src="resources/hub-data.js"></script>
+  <script src="resources/links.js"></script>
+  <script src="../scripts/admin.js" defer></script>
+
+  <style>
+    #background-canvas {
+      position: fixed;
+      top: 30%;
+      left: 0;
+      z-index: -1;
+    }
+  </style>
   <link rel="stylesheet" href="../styles/forum.css">
 </head>
-<body class="m2 p-resources" data-hub="guides">
+<body class="m2 p-rescat">
 <nav class="navigation">
   <a href="../index.html" class="nav-item">HOME</a>
   <a href="../creations/projects.html" class="nav-item">PROJECTS</a>
-  <a href="../navigation/resources.html" class="nav-item">RESOURCES</a>
-  <a href="../navigation/learning.html" class="nav-item" aria-current="page">LEARNING</a>
-  <a href="../navigation/about.html" class="nav-item">ABOUT</a>
+  <a href="resources.html" class="nav-item">RESOURCES</a>
+  <a href="learning.html" class="nav-item" aria-current="page">LEARNING</a>
+  <a href="about.html" class="nav-item">ABOUT</a>
 </nav>
 
 <div class="board-bar">
@@ -34,15 +43,15 @@
         <span class="board-sep">/</span>
         <a href="../photos.html" data-name="Photography">p</a>
         <span class="board-sep">/</span>
-        <a href="../navigation/resources/torrents.html" data-name="Torrents &amp; Streaming">t</a>
+        <a href="resources/torrents.html" data-name="Torrents &amp; Streaming">t</a>
         <span class="board-sep">/</span>
         <a href="../creations/games.html" data-name="Games">v</a>
         <span class="board-sep">/</span>
-        <a href="../navigation/learning.html" data-name="Do It Yourself">diy</a>
+        <a href="learning.html" data-name="Do It Yourself">diy</a>
         <span class="board-sep">/</span>
         <span class="board-empty" data-name="Fashion">fa</span>
         <span class="board-sep">/</span>
-        <a href="../navigation/resources/design.html" data-name="Graphic Design">gd</a>
+        <a href="resources/design.html" data-name="Graphic Design">gd</a>
         <span class="board-sep">/</span>
         <a href="../personal/books.html" data-name="Literature">lit</a>
         <span class="board-sep">/</span>
@@ -58,73 +67,30 @@
         <span class="board-admin">[<span id="admin-link-area"></span>]</span>
       </div>
       <div class="board-socials">
-        [<a href="https://github.com/sonia-sharapova" target="_blank" rel="noopener">github</a>][<a href="https://www.linkedin.com/in/sonia-sharapova/" target="_blank" rel="noopener">linkedin</a>][<a href="../navigation/about.html">about</a>]
+        [<a href="https://github.com/sonia-sharapova" target="_blank" rel="noopener">github</a>][<a href="https://www.linkedin.com/in/sonia-sharapova/" target="_blank" rel="noopener">linkedin</a>][<a href="about.html">about</a>]
       </div>
   </div>
 </div>
 
 <div class="title-container">
-    
+  
   <h1 class="page-title">Learning</h1>
   <hr>
 </div>
 
 <div class="content">
-  <div class="resources-container">
-    <!-- read by hub.js and shown beside the guide list until a guide is picked — see treeHubIntroCol -->
-    <div id="hub-intro" hidden>
-      <p class="res-intro-text">
-        Step-by-step write-ups and how-tos I've put together ^_^<br><br>
-        Pick a guide to browse its sections, or open it on its own page.
-      </p>
-    </div>
-
-    <div id="resources-body"></div>
-
-    <div id="admin-link-mobile"></div>
+  <div id="res-tree" class="res-tree">
+    <div class="loading">Loading guides...</div>
   </div>
+  <div id="admin-link-mobile"></div>
 </div>
 
-<!-- Item Modal -->
-<div class="res-modal" id="item-modal">
-  <div class="res-modal-box">
-    <h3 id="item-modal-title">Add Item</h3>
-    <label>Title *</label>
-    <input type="text" id="item-title" placeholder="e.g. GitHub">
-    <label>URL *</label>
-    <input type="text" id="item-href" placeholder="https://...">
-    <label>Description</label>
-    <input type="text" id="item-desc" placeholder="Short description">
-    <div class="res-modal-actions">
-      <button class="res-modal-save" id="item-save">Save</button>
-      <button class="res-modal-cancel" onclick="closeItemModal()">Cancel</button>
-    </div>
-  </div>
-</div>
-
-<!-- Section Modal -->
-<div class="res-modal" id="section-modal">
-  <div class="res-modal-box">
-    <h3 id="section-modal-title">Add Section</h3>
-    <label>Section Title *</label>
-    <input type="text" id="section-title" placeholder="e.g. Tools">
-    <label>Type</label>
-    <select id="section-type">
-      <option value="cards">Cards (grid)</option>
-      <option value="links">Links (list)</option>
-    </select>
-    <label>Intro text (optional)</label>
-    <textarea id="section-intro" placeholder="Optional description…"></textarea>
-    <div class="res-modal-actions">
-      <button class="res-modal-save" id="section-save">Save</button>
-      <button class="res-modal-cancel" onclick="closeSectionModal()">Cancel</button>
-    </div>
-  </div>
-</div>
-
-<script src="resources/hub.js"></script>
-
-<script>animate();</script>
+<script src="../scripts/siteStyle/bck.js"></script>
+<script>
+  if (typeof animate === 'function') {
+    animate();
+  }
+</script>
 
 <footer class="mini-footer">
   <div class="content mini-footer-inner">
@@ -132,7 +98,7 @@
       [<a href="../index.html">soniapolis</a>][2026][<span id="admin-link-footer"></span>]
     </div>
     <div class="mini-footer-row">
-      [<a href="mailto:sonia@soniapolis.com">email</a>][<a href="../navigation/about.html">about</a>][<a href="../index.html?contact=1">message</a>]
+      [<a href="mailto:sonia@soniapolis.com">email</a>][<a href="about.html">about</a>][<a href="../index.html?contact=1">message</a>]
     </div>
   </div>
 </footer>

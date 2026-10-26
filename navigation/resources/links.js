@@ -25,18 +25,22 @@
 //   navigation/resources/*.html → the "Saved Links" categories
 //   navigation/learning/*.html  → the "Guides" categories (tutorials; the sub-sections are their secondary navigation)
 // Which group a page belongs to comes from its folder; the category column lists just that group (hub-data.js).
-const FOLDER = window.location.pathname.split('/').slice(-2, -1)[0];   // 'resources' or 'learning'
+// navigation/learning.html (the LEARNING page) is the Guides' "All Guides" view itself — one folder up from the
+// guide pages, so its paths are adjusted: ROOT is the site root and BASE the guides' folder, relative to the page.
+const AT_HUB = /\/navigation\/learning(\.html)?$/.test(window.location.pathname);
+const FOLDER = AT_HUB ? 'learning' : window.location.pathname.split('/').slice(-2, -1)[0];   // 'resources' or 'learning'
 const GUIDE = FOLDER === 'learning';
-const ROOT = '../../';                                                 // the site root, relative to this page
+const ROOT = AT_HUB ? '../' : '../../';                                // the site root, relative to this page
+const BASE = AT_HUB ? 'learning/' : './';                              // this group's folder (markdown/, seed/)
 const HUB_TITLE = GUIDE ? 'Guides' : 'Saved Links';
 // The general link at the top of the category column. Guides have their own "All Guides" view (learning/all.html,
 // ALL below: same sidebar with that link selected, every guide listed on the right); Saved Links go back to the hub.
-const HUB_PAGE = GUIDE ? 'all.html' : '../resources.html';
+const HUB_PAGE = GUIDE ? ROOT + 'navigation/learning.html' : '../resources.html';
 const HUB_BACK = GUIDE ? 'All Guides' : '&lt; All Topics';
 const SITE_SECTION = GUIDE ? 'Learning' : 'Resources';                  // "Learning - Algorithms" in the tab title
 const PARAMS = new URLSearchParams(window.location.search);
-const PAGE = (PARAMS.get('c') || window.location.pathname.split('/').pop().replace('.html', '')).toLowerCase().replace(/[^a-z0-9-]/g, '');
-const ALL = GUIDE && PAGE === 'all';
+const PAGE = AT_HUB ? 'all' : (PARAMS.get('c') || window.location.pathname.split('/').pop().replace('.html', '')).toLowerCase().replace(/[^a-z0-9-]/g, '');
+const ALL = AT_HUB;
 let allGuides = [];         // ALL: [{ title, desc, href, intro, folders }] — every guide, for the overview
 // technology.html has always read tech.md, the README says technology.md — accept either
 // (the topic-tree pages: creating, consuming, exploring, learning, misc, technology, open-source, get-involved)
@@ -167,7 +171,7 @@ function buildCategories() {
     hubData.forEach((s, si) => {
         if (s.type !== 'cards' || HubData.isGuides(s) !== GUIDE) return;      // just this page's own group
         (s.items || []).forEach((it, ii) => {
-            list.push({ title: it.title, desc: it.desc || '', href: new URL(it.href, new URL('../resources.html', location.href)).href, si, ii });
+            list.push({ title: it.title, desc: it.desc || '', href: new URL(it.href, new URL(ROOT + 'navigation/resources.html', location.href)).href, si, ii });
         });
     });
     if (!ALL && !list.some(isCurrent)) list.push({ title: pageTitle(), desc: '', href: location.href, si: -1, ii: -1 });
@@ -776,7 +780,7 @@ async function loadAllGuides() {
         let md = null;
         for (const dir of ['markdown', 'seed']) {
             try {
-                const r = await fetch(`./${dir}/${name}.md`);
+                const r = await fetch(`${BASE}${dir}/${name}.md`);
                 if (r.ok) { const t = await r.text(); if (!/^\s*<(!doctype|html)/i.test(t)) { md = t; break; } }
             } catch (e) { /* try the next one */ }
         }
@@ -791,7 +795,7 @@ async function fetchMarkdown() {
     for (const dir of ['markdown', 'seed']) {
         for (const n of names) {
             try {
-                const r = await fetch(`./${dir}/${n}.md`);
+                const r = await fetch(`${BASE}${dir}/${n}.md`);
                 if (r.ok) {
                     const text = await r.text();
                     if (!/^\s*<(!doctype|html)/i.test(text)) { mdFile = names[0]; if (dir === 'markdown') mdFile = n; return text; }
