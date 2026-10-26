@@ -313,8 +313,9 @@ function treeHubIntroCol() {
 // section (or sub-section) that itself has links — takes over and shows those instead (treeLinksCol).
 function treeIntroCol(page, useTopics) {
   const topic = page.topics[treeSelTopic];
-  const picture = page.intro.image
-    ? `<img src="${esc(page.intro.image)}" alt="${esc(page.intro.alt || page.title)}">`
+  const own = topic && topic.image ? topic : page.intro;   // a topic with its own picture shows that instead
+  const picture = own.image
+    ? `<img src="${esc(own.image)}" alt="${esc(own.alt || page.title)}">`
     : `<div class="res-intro-placeholder" aria-hidden="true">
          <svg viewBox="0 0 120 80" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
            <path d="M14 14h20M14 14v44M14 36h20M14 58h20M34 14v0M52 14h26M52 36h40M52 58h30M34 36h18M34 58h18M34 14h18"/>
@@ -322,7 +323,9 @@ function treeIntroCol(page, useTopics) {
        </div>`;
   const hint = useTopics && !topic ? 'Choose a topic to get started.' : 'Choose a section to see its links.';
   return `<div class="res-col res-col-links res-intro">
-      <div class="res-intro-image">${picture}</div>
+      <div class="res-intro-image">${picture}
+        <button class="adm-btn adm-edit admin-only res-image-edit" onclick="${topic ? `openTreeModal('topic',${treeSelTopic})` : `openTreeModal('page')`}" title="Change picture">✎ picture</button>
+      </div>
       <h2 class="res-section-title">${esc(topic ? topic.name : page.title)}</h2>
       ${!topic && page.intro.description ? `<p class="res-intro-text">${esc(page.intro.description)}</p>` : ''}
       <p class="res-hint">${esc(hint)}</p>
@@ -341,17 +344,19 @@ function treeLinksCol(page, useTopics) {
     const open = treeOpenLink(`resources/${page.slug}.html#${hash}`, target.name);
     return `<div class="res-col res-col-links">
         <div class="res-head"><h2 class="res-section-title">${esc(target.name)}</h2>${open}</div>
+        ${treeNodeImage(target)}
         ${treeLinkList(target.items, treeSelSection, sel ? treeSelSub : -1)}
         ${treeAddBtn('+ sub-section', `openTreeModal('sub',${treeSelSection},null)`)}
       </div>`;
   }
   // no topics: sub-sections break the list with their own header, inline in this column (same as that page itself)
   const open = treeOpenLink(`resources/${page.slug}.html#${slugify(f.name)}`, f.name);
-  let html = `<div class="res-head"><h2 class="res-section-title">${esc(f.name)}</h2>${open}</div>`;
+  let html = `<div class="res-head"><h2 class="res-section-title">${esc(f.name)}</h2>${open}</div>` + treeNodeImage(f);
   html += treeLinkList(f.items, treeSelSection, -1);
   f.subfolders.forEach((sf, si) => {
     html += `<div class="res-subgroup">
         <h3 class="res-subhead">${esc(sf.name)}${treeAdmBtns(`openTreeModal('sub',${treeSelSection},${si})`, `deleteTreeNode('sub',${treeSelSection},${si})`)}</h3>
+        ${treeNodeImage(sf)}
         ${treeLinkList(sf.items, treeSelSection, si)}
       </div>`;
   });
@@ -421,11 +426,16 @@ function treeAddBtn(label, action) {
   return `<button class="adm-text-add admin-only" onclick="${action}">${esc(label)}</button>`;
 }
 
-let treeEdit = null;   // { kind: 'topic' | 'section' | 'sub' | 'link', fi, si, ii } — a null index means "add new"
-                       // (for a topic, fi is its index into page.topics)
+let treeEdit = null;   // { kind: 'page' | 'topic' | 'section' | 'sub' | 'link', fi, si, ii } — a null index means "add new"
+                       // (for a topic, fi is its index into page.topics; 'page' is the open page's own picture + description)
+
+function treeNodeImage(node) {
+  return node.image ? `<div class="res-node-image"><img src="${esc(node.image)}" alt="${esc(node.alt || node.name)}"></div>` : '';
+}
 
 function treeEditTarget(e) {
   const page = treeData[treeSelPage];
+  if (e.kind === 'page') return page.intro;
   if (e.kind === 'topic') return e.fi === null ? null : page.topics[e.fi];
   const f = page.folders[e.fi];
   if (e.kind === 'section') return e.fi === null ? null : f;
@@ -437,12 +447,17 @@ function treeEditTarget(e) {
 function openTreeModal(kind, fi, si, ii) {
   treeEdit = { kind, fi, si: si === undefined ? null : si, ii: ii === undefined ? null : ii };
   const cur = treeEditTarget(treeEdit);
-  const noun = { topic: 'Topic', section: 'Section', sub: 'Sub-section', link: 'Link' }[kind];
-  document.getElementById('tree-modal-title').textContent = (cur ? 'Edit ' : 'Add ') + noun;
-  document.getElementById('tree-name').value = cur ? cur.name : '';
+  const noun = { page: 'Page picture', topic: 'Topic', section: 'Section', sub: 'Sub-section', link: 'Link' }[kind];
+  document.getElementById('tree-modal-title').textContent = kind === 'page' ? treeData[treeSelPage].title + ': picture & description' : (cur ? 'Edit ' : 'Add ') + noun;
+  document.getElementById('tree-name').value = cur && kind !== 'page' ? cur.name : '';
+  document.getElementById('tree-image').value = cur && kind !== 'link' ? cur.image || '' : '';
+  document.getElementById('tree-image-status').textContent = '';
+  showTreeImagePreview();
   document.getElementById('tree-url').value = cur && kind === 'link' ? cur.link : '';
   document.getElementById('tree-desc').value = cur ? cur.description || '' : '';
   document.querySelectorAll('#tree-modal .tree-link-only').forEach(el => { el.style.display = kind === 'link' ? '' : 'none'; });
+  document.querySelectorAll('#tree-modal .tree-image-only').forEach(el => { el.style.display = kind === 'link' ? 'none' : ''; });
+  document.querySelectorAll('#tree-modal .tree-name-only').forEach(el => { el.style.display = kind === 'page' ? 'none' : ''; });
   document.getElementById('tree-modal').classList.add('active');
   setTimeout(() => document.getElementById('tree-name').focus(), 60);
 }
@@ -452,23 +467,31 @@ async function saveTreeModal() {
   const name = document.getElementById('tree-name').value.trim();
   const link = document.getElementById('tree-url').value.trim();
   const description = document.getElementById('tree-desc').value.trim();
-  if (!name) { alert('Name is required.'); return; }
-  const page = treeData[treeSelPage];
+  const image = document.getElementById('tree-image').value.trim();
   const e = treeEdit;
+  if (!name && e.kind !== 'page') { alert('Name is required.'); return; }
+  const page = treeData[treeSelPage];
   const cur = treeEditTarget(e);
-  if (cur && e.kind === 'topic') {
+  if (e.kind !== 'link') {
+    // the picture is set on whatever's being saved — the new node gets it below, an existing one right here
+    if (cur) cur.image = image;
+    if (cur && !image) cur.alt = '';
+  }
+  if (e.kind === 'page') {
+    cur.description = description;
+  } else if (cur && e.kind === 'topic') {
     page.folders.forEach(f => { if (f.topic === cur.name) f.topic = name; });   // sections point at their topic by name
     cur.name = name; cur.description = description;
   } else if (cur) {
     cur.name = name; cur.description = description;
     if (e.kind === 'link') cur.link = link;
   } else if (e.kind === 'topic') {
-    page.topics.push({ name, description, image: '', alt: '' });
+    page.topics.push({ name, description, image, alt: '' });
   } else if (e.kind === 'section') {
     const topic = page.topics[treeSelTopic];
-    page.folders.push({ name, description, image: '', alt: '', topic: topic ? topic.name : '', subfolders: [], items: [] });
+    page.folders.push({ name, description, image, alt: '', topic: topic ? topic.name : '', subfolders: [], items: [] });
   } else if (e.kind === 'sub') {
-    page.folders[e.fi].subfolders.push({ name, description, image: '', alt: '', items: [] });
+    page.folders[e.fi].subfolders.push({ name, description, image, alt: '', items: [] });
   } else {
     const f = page.folders[e.fi];
     (e.si >= 0 ? f.subfolders[e.si].items : f.items).push({ name, description, link });
@@ -520,18 +543,52 @@ async function persistTree(page) {
   } catch(e) { alert('Network error — changes not saved.'); return false; }
 }
 
+function showTreeImagePreview() {
+  const src = document.getElementById('tree-image').value;
+  const img = document.getElementById('tree-image-preview');
+  img.style.display = src ? '' : 'none';
+  if (src) img.src = src;
+}
+async function uploadTreeImage(input) {
+  const file = input.files[0]; input.value = '';
+  if (!file) return;
+  const status = document.getElementById('tree-image-status');
+  status.textContent = 'Uploading…';
+  const fd = new FormData(); fd.append('image', file); fd.append('type', 'resources');
+  try {
+    const up = await fetch('../admin/upload-image.php', { method: 'POST', body: fd }).then(r => r.json());
+    if (!up.success) { status.textContent = 'Upload failed: ' + (up.error || 'unknown error'); return; }
+    document.getElementById('tree-image').value = up.display || up.path;
+    showTreeImagePreview();
+    status.textContent = 'Uploaded — press Save.';
+  } catch (e) { status.textContent = 'Upload failed (network).'; }
+}
+function removeTreeImage() {
+  document.getElementById('tree-image').value = '';
+  showTreeImagePreview();
+  document.getElementById('tree-image-status').textContent = 'Picture removed — press Save.';
+}
+
 function injectTreeModal() {
   const m = document.createElement('div');
   m.className = 'res-modal';
   m.id = 'tree-modal';
   m.innerHTML = `<div class="res-modal-box">
       <h3 id="tree-modal-title">Edit</h3>
-      <label>Name *</label>
-      <input type="text" id="tree-name">
+      <label class="tree-name-only">Name *</label>
+      <input type="text" id="tree-name" class="tree-name-only">
       <label class="tree-link-only">URL</label>
       <input type="text" id="tree-url" class="tree-link-only" placeholder="https://...">
       <label>Description (optional)</label>
       <input type="text" id="tree-desc">
+      <label class="tree-image-only">Picture (optional)</label>
+      <div class="tree-image-only tree-image-row">
+        <img id="tree-image-preview" alt="">
+        <input type="hidden" id="tree-image">
+        <label class="res-modal-cancel tree-image-btn">Upload…<input type="file" accept="image/*" hidden onchange="uploadTreeImage(this)"></label>
+        <button type="button" class="res-modal-cancel" onclick="removeTreeImage()">Remove</button>
+        <span id="tree-image-status"></span>
+      </div>
       <div class="res-modal-actions">
         <button class="res-modal-save" onclick="saveTreeModal()">Save</button>
         <button class="res-modal-cancel" onclick="closeTreeModal()">Cancel</button>

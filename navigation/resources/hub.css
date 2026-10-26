@@ -65,6 +65,17 @@ body.admin-mode .admin-only { display: inline-flex; }
 .adm-text-add:hover { color: #2e7d32; text-decoration: underline; }
 body.admin-mode .adm-text-add.admin-only { display: block; }
 
+/* Pictures in the tree: a section's / sub-section's own picture above its links, the admin's "✎ picture"
+   button over the page picture, and the picture row in the tree's edit window. */
+.res-tree-hub .res-node-image { margin: 0 0 12px; max-width: 320px; }
+.res-tree-hub .res-node-image img { display: block; width: 100%; max-height: 180px; object-fit: cover; border-radius: 2px; }
+.res-tree-hub .res-intro-image { position: relative; }
+.res-tree-hub .res-image-edit { position: absolute; right: 8px; bottom: 8px; background: rgba(255,255,255,0.9); }
+.tree-image-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.tree-image-row #tree-image-preview { width: 64px; height: 48px; object-fit: cover; border: 1px solid #ddd; border-radius: 2px; }
+.tree-image-row .tree-image-btn { display: inline-block; margin: 0; font-size: 14px; color: #999; cursor: pointer; }
+#tree-image-status { font-size: 12px; color: #999; }
+
 .section-header-row {
   display: flex; align-items: center; gap: 10px; margin-bottom: 10px;
 }
