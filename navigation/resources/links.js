@@ -29,11 +29,15 @@ const FOLDER = window.location.pathname.split('/').slice(-2, -1)[0];   // 'resou
 const GUIDE = FOLDER === 'learning';
 const ROOT = '../../';                                                 // the site root, relative to this page
 const HUB_TITLE = GUIDE ? 'Guides' : 'Saved Links';
-const HUB_PAGE = GUIDE ? '../learning.html' : '../resources.html';     // the page the "< All ..." link goes back to
-const HUB_BACK = GUIDE ? 'All Guides' : 'All Topics';
+// The general link at the top of the category column. Guides have their own "All Guides" view (learning/all.html,
+// ALL below: same sidebar with that link selected, every guide listed on the right); Saved Links go back to the hub.
+const HUB_PAGE = GUIDE ? 'all.html' : '../resources.html';
+const HUB_BACK = GUIDE ? 'All Guides' : '&lt; All Topics';
 const SITE_SECTION = GUIDE ? 'Learning' : 'Resources';                  // "Learning - Algorithms" in the tab title
 const PARAMS = new URLSearchParams(window.location.search);
 const PAGE = (PARAMS.get('c') || window.location.pathname.split('/').pop().replace('.html', '')).toLowerCase().replace(/[^a-z0-9-]/g, '');
+const ALL = GUIDE && PAGE === 'all';
+let allGuides = [];         // ALL: [{ title, desc, href, intro, folders }] — every guide, for the overview
 // technology.html has always read tech.md, the README says technology.md — accept either
 // (the topic-tree pages: creating, consuming, exploring, learning, misc, technology, open-source, get-involved)
 const TOPIC_PAGES = ['creating', 'consuming', 'exploring', 'learning', 'misc', 'technology', 'open-source', 'get-involved', 'careers'];
@@ -166,7 +170,7 @@ function buildCategories() {
             list.push({ title: it.title, desc: it.desc || '', href: new URL(it.href, new URL('../resources.html', location.href)).href, si, ii });
         });
     });
-    if (!list.some(isCurrent)) list.push({ title: pageTitle(), desc: '', href: location.href, si: -1, ii: -1 });
+    if (!ALL && !list.some(isCurrent)) list.push({ title: pageTitle(), desc: '', href: location.href, si: -1, ii: -1 });
     return list;
 }
 
@@ -238,7 +242,7 @@ function categoriesCol() {
       </div>`).join('');
     return `<div class="res-col res-col-cats">
         <div class="sidebar-section">
-          <a class="sidebar-link res-back" href="${HUB_PAGE}">&lt; ${HUB_BACK}</a>
+          <a class="sidebar-link res-back${ALL ? ' active' : ''}" href="${HUB_PAGE}">${HUB_BACK}</a>
         </div>
         <div class="sidebar-section">
           <h3 class="res-head">${HUB_TITLE}</h3>
@@ -268,7 +272,7 @@ function topicsCol() {
       </div>${i === curTopic ? nested(t) : ''}`).join('');
     return `<div class="res-col res-col-cats">
         <div class="sidebar-section">
-          <a class="sidebar-link res-back" href="${HUB_PAGE}">&lt; ${HUB_BACK}</a>
+          <a class="sidebar-link res-back${ALL ? ' active' : ''}" href="${HUB_PAGE}">${HUB_BACK}</a>
         </div>
         <div class="sidebar-section">
           <h3 class="res-head">Topics</h3>
@@ -374,7 +378,8 @@ function rerender() {
     const subs = subsCol();
     tree.classList.toggle('res-tree-topics', useTopics());
     tree.classList.toggle('res-tree-2col', useTopics() && !subs);       // no sub-sections to list → no second column
-    tree.innerHTML = (useTopics() ? topicsCol() : categoriesCol()) + sectionsCol() + subs + linksCol();
+    tree.innerHTML = ALL ? categoriesCol() + allGuidesCol()
+        : (useTopics() ? topicsCol() : categoriesCol()) + sectionsCol() + subs + linksCol();
     // on a phone the two lists are scrolling chip rows — bring the current chip into view
     document.querySelectorAll('.res-list').forEach(list => {
         const a = list.querySelector('.res-link.active');
@@ -753,6 +758,33 @@ function injectAdminUI() {
 }
 
 // ── Load ─────────────────────────────────────────────────────────
+// ALL: every guide at once — its title (to its page), description, and its sections (each straight to that section)
+function allGuidesCol() {
+    const blocks = allGuides.map(g => {
+        const secs = g.folders.map(f => `<a class="res-all-section" href="${esc(g.href)}#${slug(f.name)}">${esc(f.name)}</a>`).join('');
+        return `<div class="res-all-guide">
+            <h2 class="res-section-title"><a href="${esc(g.href)}">${esc(g.title)}</a></h2>
+            ${g.intro.description || g.desc ? `<p class="res-intro-text">${esc(g.intro.description || g.desc)}</p>` : ''}
+            ${secs ? `<div class="res-all-sections">${secs}</div>` : ''}
+          </div>`;
+    }).join('');
+    return `<div class="res-col res-col-links res-all">${blocks}</div>`;
+}
+async function loadAllGuides() {
+    allGuides = await Promise.all(categories.map(async c => {
+        const name = new URL(c.href).pathname.split('/').pop().replace('.html', '');
+        let md = null;
+        for (const dir of ['markdown', 'seed']) {
+            try {
+                const r = await fetch(`./${dir}/${name}.md`);
+                if (r.ok) { const t = await r.text(); if (!/^\s*<(!doctype|html)/i.test(t)) { md = t; break; } }
+            } catch (e) { /* try the next one */ }
+        }
+        const parsed = md ? parseMarkdown(md) : { intro: { description: '' }, folders: [] };
+        return { title: c.title, desc: c.desc, href: c.href, intro: parsed.intro, folders: parsed.folders };
+    }));
+}
+
 async function fetchMarkdown() {
     const names = MD_NAMES[PAGE] || [PAGE];
     // markdown/ is what the admin edits; seed/ ships with the site and is used until the first edit
@@ -771,7 +803,7 @@ async function fetchMarkdown() {
 }
 
 async function loadResources() {
-    const markdown = await fetchMarkdown();
+    const markdown = ALL ? null : await fetchMarkdown();
     // no file yet = a new, empty category (the first section you add creates it)
     if (markdown !== null) ({ intro, folders: foldersData, topics: topicsData } = parseMarkdown(markdown));
 
@@ -791,6 +823,7 @@ async function loadResources() {
         document.title = SITE_SECTION + ' - ' + found.title;
     }
 
+    if (ALL) await loadAllGuides();
     selectionFromHash();
     rerender();
 }

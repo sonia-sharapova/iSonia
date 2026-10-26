@@ -276,3 +276,15 @@
         border-left: none;
     }
 }
+
+/* Guides' "All Guides" view (learning/all.html): every guide stacked in the right-hand column —
+   title, description, then its sections as a wrapped row of links. */
+.res-all .res-all-guide { padding: 0 0 22px; margin-bottom: 22px; border-bottom: 1px solid #e4e4e4; }
+.res-all .res-all-guide:last-child { border-bottom: none; }
+.res-all .res-section-title a { color: inherit; text-decoration: none; transition: color 0.2s ease; }
+.res-all .res-section-title a:hover { color: #45a049; }
+.res-all .res-intro-text { margin: 6px 0 10px; }
+.res-all-sections { display: flex; flex-wrap: wrap; gap: 6px 18px; }
+.res-all-section { color: #1d4f9c; text-decoration: none; font-size: 15px; }
+.res-all-section:hover { text-decoration: underline; }
+@media (min-width: 769px) { .res-all { grid-column: 2 / -1; } }   /* phones stack the columns instead */
