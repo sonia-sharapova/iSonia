@@ -96,6 +96,10 @@
   - https://webring.xxiivv.com/
 - **The Whimsical Web**: Collection of whimsical personal sites
   - https://whimsical.club/
+- **One Terabyte of Kilobyte Age**: 
+  - https://blog.geocities.institute/about
+- **Pretty website :)**: yes
+  - https://aliceinavocadoland.neocities.org/
 
 ## Web Archaeology & Geocities
 
@@ -113,6 +117,68 @@
   - http://oneterabyteofkilobyteage.tumblr.com
 - **OoCities**: Archive of Geocities sites
   - https://www.oocities.org/#gsc.tab=0
+
+## Sites & Blogs I Like
+
+- **anonicus.net/etc/links.html**: 
+  - https://anonicus.net/etc/links.html
+- **AreByte**: Cool art community
+  - https://aos.arebyte.com/
+- **ChadNet**: Home of wiki, games and archives
+  - https://wiki.chadnet.org/
+- **Code Societies Blog**: School for Poetic Computation (SFPC)’s tutorials and discussions on computers
+  - https://sfpc.io/code-societies/blog/
+- **Creative Commons**: A home for technology efforts in the public interest
+  - https://commonsconservancy.org/
+- **cyberd.org/links.html**: 
+  - https://cyberd.org/links.html
+- **digilord.neocities.org**: 
+  - https://digilord.neocities.org/
+- **e-flux.com**: 
+  - https://www.e-flux.com/
+- **grahamdowney.com/links.htm**: 
+  - https://grahamdowney.com/links.htm
+- **hryjksn.com/links**: 
+  - https://hryjksn.com/links
+- **lolwut.neocities.org/links**: 
+  - https://lolwut.neocities.org/links
+- **mebious.neocities.org**: 
+  - https://mebious.neocities.org/
+- **morefunz.com**: 
+  - https://morefunz.com/
+- **Negative Land**: Multimedia Collective
+  - https://negativland.com/
+- **Nerdy Pleasures**: Lots of nerdy pleasures
+  - https://nerdlypleasures.blogspot.com/
+- **New Models - Networked Technology Forum**: Networked Technology Forum
+  - https://www.newmodels.io/
+- **Our Friend the Computer**: Cute podcast about technology
+  - https://www.ourfriendthe.computer/
+- **peelopaalu.neocities.org**: 
+  - https://peelopaalu.neocities.org/
+- **Perfectly Imperfect**: Interviews with public figures
+  - https://www.pi.fyi/welcome
+- **protopage.com/edtechflynn**: 
+  - https://protopage.com/edtechflynn
+- **protopage.com/mrman2001**: 
+  - https://www.protopage.com/mrman2001#Home
+- **Read Only Memory**: Books on videogames and world building
+  - https://readonlymemory.com/
+- **Rhizome**: Digital Art and Culture
+  - https://rhizome.org/
+- **sadgrl.online/guides**: 
+  - https://sadgrl.online/guides/
+- **sadgrl.online/guides/surf**: 
+  - https://sadgrl.online/guides/surf/
+- **sadgrl.online/posts/internet-manifesto**: 
+  - https://sadgrl.online/posts/internet-manifesto/
+- **sadgrl.online/posts/its-personal**: 
+  - https://sadgrl.online/posts/its-personal/
+- **School for Poetic Computation**: School + community related to art and code and society
+  - https://sfpc.study/
+- **the-simple-site.neocities.org**: 
+  - https://the-simple-site.neocities.org/
+
 
 # Web Design Resources
 

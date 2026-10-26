@@ -4,7 +4,7 @@
 //   By Function (id "cat")       → Create, Consume, Explore, Learn                 (navigation/resources/*.html;
 //                                   kept in the saved data for hasNewTree()'s detection, but no longer shown on the
 //                                   hub — hub.js filters this section out of render())
-//   Technology Links (id "tech") → Computers, Educational, The Internet, Arrrrgh, General (resources/tech-*.html), shown first on the hub
+//   Technology Links (id "tech") → Computers, Educational, The Internet, Privacy & Security, Arrrrgh, General (resources/tech-*.html), shown first on the hub
 //   General Resources (id "topics", formerly My Links)    → the 11 category pages: Technology, Web, Design, Careers, Software, Media,
 //                                   Music, Archives, Culture, Ideas, Life (navigation/resources/*.html)
 //   My Favourites (id "favourites") → Wayback Machine, Lainchan, LookMovie, Land Chad, Human Clock — a plain links
@@ -45,7 +45,7 @@ const HubData = (() => {
     // (an "&"-joined pair condensed down to the more central one) so they read on one line even in the tree's
     // narrower, reduced columns — the description still carries the fuller meaning.
     const topics = () => groupedCards('resources', [
-        ['technology', 'Technology', 'Programming, computers and how they work.', 'professional'],
+        // (Technology moved into the Technology Links tree — technology.html and its markdown are still there, unlisted)
         ['web', 'Web', 'How the web works, how to build for it, and the corners worth exploring.', 'professional'],
         ['design', 'Design', 'Inspiration, tools and assets for design work.', 'professional'],
         ['careers', 'Careers', 'Jobs, studios, festivals and open calls.', 'professional'],
@@ -89,7 +89,8 @@ const HubData = (() => {
         ['tech-computers', 'Computers', 'AI, maths, operating systems and hardware.', 'tech'],
         ['tech-educational', 'Educational', 'Courses, programming languages, references, projects and video tutorials.', 'tech'],
         ['tech-internet', 'The Internet', 'The web, how to design for it and how to browse it.', 'tech'],
-        ['tech-arrrrgh', 'Arrrrgh', 'Privacy, open source and free media.', 'tech'],
+        ['tech-privacy', 'Privacy & Security', 'Security tools, privacy guides and anonymity tools, piracy and hacking.', 'tech'],
+        ['tech-arrrrgh', 'Arrrrgh', 'Open source and free media.', 'tech'],
         ['tech-general', 'General', 'Tech culture, guides and references.', 'tech']
     ]) });
     const guidesSection = () => ({ id: 'guides', title: 'Guides', type: 'cards', intro: "Step-by-step write-ups and how-tos I've put together.", items: guides() });

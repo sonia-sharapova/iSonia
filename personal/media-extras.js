@@ -33,7 +33,7 @@ const MediaExtras = (function () {
         electronics: {
             verb: 'Find it',
             search: m => 'https://www.ebay.com/sch/i.html?_nkw=' + q(m.title),
-            sources: [{ file: 'technology', topic: 'Computing', section: 'Hardware & Electronics' }]
+            sources: [{ file: 'tech-computers', topic: 'Hardware & Electronics' }]
         }
     };
     const kind = document.body.dataset.media;
@@ -63,8 +63,15 @@ const MediaExtras = (function () {
     }
 
     // One source → { title, href, groups: [{ name, items }] } with only the items that have a link.
+    // A source with a topic and no section takes the whole topic, one group per section.
     function pick(tree, src) {
         if (!tree) return null;
+        if (!src.section) {
+            const groups = tree.folders.filter(f => f.topic === src.topic)
+                .map(f => ({ name: f.name, items: f.items.concat(...f.subfolders.map(sf => sf.items)).filter(it => it.link) }))
+                .filter(g => g.items.length);
+            return groups.length ? { title: src.topic, href: `../navigation/resources/${src.file}.html#${slug(src.topic)}`, groups } : null;
+        }
         const f = tree.folders.find(f => f.name === src.section && (!src.topic || f.topic === src.topic));
         if (!f) return null;
         const linked = items => items.filter(it => it.link);
