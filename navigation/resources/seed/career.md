@@ -1,0 +1,444 @@
+> Interview prep, job boards, studios, agencies and opportunities.
+
+## Interview Prep
+
+- **Coding Interview University**: A step by step guide to becoming a software engineer
+  - https://github.com/jwasham/coding-interview-university
+- **Collected Resources for Interview Prep**: Large corps
+  - https://toludesign.notion.site/Design-Resources-I-think-are-cool-846f2fb3c1664d46b0d66f28acb21909
+- **Deep-ML**: Practice machine learning and data science problems
+  - https://www.deep-ml.com/
+- **DESIGNERCIZE**: Design Challenge Generator
+  - https://designercize.com/
+- **GeeksForGeeks**: Machine Learning Interview Questions
+  - https://www.geeksforgeeks.org/machine-learning/machine-learning-interview-questions/
+- **Grind75**: LeetCode study plans
+  - https://www.techinterviewhandbook.org/grind75/
+- **Machine Learning Basics**: Machine learning basics to look for in data scientist interviews
+  - https://towardsdatascience.com/machine-learning-basics-i-look-for-in-data-scientist-interviews-a6ff25be38c9/
+- **OA and Interviews**: Former interview discussions
+  - https://github.com/Leader-board/OA-and-Interviews/tree/main
+- **Python Interview Prep**: 20 Coding interview exercises
+  - https://github.com/Tanu-N-Prabhu/Python/blob/master/Python%20Coding%20Interview%20Prep/Python%20Coding%20Interview%20Questions%20(Beginner%20to%20Advanced).md
+- **QuantNet**: Study program for quant researcher interviews
+  - https://quantnet.com/threads/study-programme-for-quant-researcher-interviews.50152/
+- **Study Algorithms**: Algorithms Study
+  - https://studyalgorithms.com/
+- **Tech Interview Handbook**: Coding interview rubrics
+  - https://www.techinterviewhandbook.org/coding-interview-rubrics/
+
+## CS Job Boards
+
+- **ComputerJobs**: IT Jobs
+  - https://www.computerjobs.com/us/en/IT-Jobs/
+- **ComputerWork**: IT Jobs
+  - https://www.computerwork.com/us/en/IT-Jobs/
+- **CyberCoders**: Search jobs and Career Advice
+  - https://www.cybercoders.com/
+- **Linux jobs**: Jobs in Linux
+  - https://www.hotlinuxjobs.com/
+- **Python jobs**: Jobs in Python
+  - https://www.python.org/jobs/
+- **Tech and Bio-Science**: Job board
+  - https://www.8vc.com/
+- **TrueUp**: Startup/tech job search
+  - https://www.trueup.io/jobs
+
+## Design Job Boards
+
+- **AIGA**: AIGA Design Jobs - like listings
+  - http://designjobs.aiga.org/
+- **Core 77**: General design listings and creative opportunities
+  - http://www.core77.com/Jobs
+- **Creative Commission**: Commissions board
+  - https://creative-commission.com/
+- **Creative Job Openings**: Arena for creative jobs
+  - https://www.are.na/mindy-seu/job-openings
+- **Design Jobs Board**: Job board for design jobs
+  - https://www.designjobsboard.com/
+- **DesignX**: Design job board
+  - https://designx.community/jobs
+- **Dribbble**: General graphic design listings
+  - https://dribbble.com/jobs
+- **Layers**: Design Jobs
+  - https://layers.to/jobs
+- **New York Foundation for the Arts**: NYFA Job Listings
+  - https://www.nyfa.org/Jobs
+- **Remote Design Jobs**: Design job board
+  - https://www.remote-design-jobs.com/
+- **We The Makers**: Curated design jobs
+  - https://www.wethemakers.club/
+- **We Work Remotely**: Remote design jobs
+  - https://weworkremotely.com/categories/remote-design-jobs#job-listings
+- **WellFound**: Design job board
+  - https://wellfound.com/role/l/designer/united-states
+- **Working Nomads**: Design job board
+  - https://www.workingnomads.com/remote-design-jobs
+- **Working Not Working**: Design job board
+  - https://workingnotworking.com/unjobboard
+
+## General Job Boards
+
+- **CreativeGuild**: General job board
+  - https://creativemornings.com/jobs
+- **Dice**: Job Board
+  - https://www.dice.com/
+- **FreelanceFoundry**: Freelance job board
+  - https://freelancerfoundry.com/
+- **Job Sites**: Job sites from So Much
+  - https://www.somuch.com/link-list.asp?topicID=106&categoryID=874&topic=job-sites
+- **The Muse**: Job board
+  - https://www.themuse.com/
+- **So Much**: Employment Links (may be outdated)
+  - https://www.somuch.com/link-topic-list/106/employment/
+- **Stackoverflow**: General job board
+  - https://stackoverflow.com/jobs
+- **Wayup**: Job Listings
+  - https://www.wayup.com/member/jobs-listing
+- **We Work Remotely**: General job board
+  - https://weworkremotely.com/#job-listings
+
+## Freelance & Commissions
+
+- **Behance**: Creative jobs - UI/UX - Design
+  - https://www.behance.net/joblist
+- **UpWork**: Design-specific freelance
+  - https://www.upwork.com/cat/design-creative
+
+## Networking & Communities
+
+- **Designer Slack Communities**: Explore and join design communities (public and private)
+  - https://www.designerslack.community/
+- **Designers Guild**: Facebook group
+  - https://www.facebook.com/groups/designguild/
+- **Microcopy and UX Writing**: Facebook group
+  - https://www.facebook.com/groups/microcopy
+- **r/userexperience**: Reddit community
+  - https://www.reddit.com/r/userexperience/
+- **r/userexperiencedesign**: Reddit community
+  - https://www.reddit.com/r/UserExperienceDesign/
+- **r/uxwriting**: Reddit community
+  - https://www.reddit.com/r/uxwriting/
+- **User experience (UX) design, Product Design, Service Design**: LinkedIn group
+  - https://www.linkedin.com/groups/1875717/
+- **UX / HCI Researchers**: LinkedIn group
+  - https://www.linkedin.com/groups/126114/
+- **UX Coffee Hours**: Find professionals to chat with
+  - https://storage.googleapis.com/uxcoffeehours.com/site/index.html
+- **UX Writing Professionals**: LinkedIn group
+  - https://www.linkedin.com/groups/12411233/
+- **UXBeginner**: Facebook group
+  - http://facebook.com/groups/uxbeginner
+- **UXPA**: User Experience Professionals Association
+  - https://www.facebook.com/groups/404691612915081/
+
+## Small Design Studios
+
+- **Alright Studio**: Design studio
+  - http://alright.studio/
+- **Are.na: Studios (Harry Gassel)**: Design studio
+  - https://www.are.na/harry-gassel/studios-1z9zayxg0xi
+- **Are.na: Studios and Agencies (Carly Ayres)**: Design studio
+  - https://www.are.na/carly-ayres/studios-agencies-hmeelvkozg8
+- **Area 17**: Design studio
+  - https://area17.com
+- **Aruliden**: Design studio
+  - https://aruliden.com/work/
+- **Athletics NYC**: Design studio
+  - http://athleticsnyc.com/
+- **Avec**: Design studio
+  - http://www.avec.us/
+- **Base Design**: Design studio
+  - http://basedesign.com
+- **Channel Studio**: Design studio
+  - https://channel.studio/careers
+- **Chermayeff & Geismar & Haviv**: Design studio
+  - http://www.cghnyc.com
+- **Chips**: Design studio
+  - http://chips.nyc/info/
+- **Collected Works**: Design studio
+  - http://thecollectedworks.com/
+- **Common Name**: Design studio
+  - http://common-name.com/index/
+- **Datalands**: Design studio
+  - https://datalands.co/
+- **Decade**: Design studio
+  - http://www.decadenewyork.com/
+- **DIA**: Design studio
+  - http://dia.tv
+- **Everything Studio**: Design studio
+  - http://www.everythingstudio.com/
+- **Everything Type Company**: Design studio
+  - http://etc-nyc.com/
+- **For Office Use Only**: Design studio
+  - https://forofficeuseonly.com/
+- **Franklyn**: Design studio
+  - http://quitefranklyn.com/
+- **The Future Forward**: Design studio
+  - http://thefutureforward.com/
+- **Gander**: Design studio
+  - http://www.takeagander.com/
+- **High Tide**: Design studio
+  - http://hightidenyc.com/
+- **Human**: Design studio
+  - http://www.human-nyc.com/
+- **Hyperhyper**: Design studio
+  - http://hyperhyper.com/
+- **L+L**: Design studio
+  - http://www.landl.us/
+- **Linked by Air**: Design studio
+  - http://www.linkedbyair.net/
+- **Local Projects**: Design studio
+  - http://localprojects.net/about/
+- **Lotta Nieminen**: Design studio
+  - http://www.lottanieminen.com/
+- **m ss ng p eces**: Design studio
+  - https://mssngpeces.com/contact/
+- **Milkshake Studio**: Design studio
+  - https://milkshake.studio/
+- **Morcos Key**: Design studio
+  - https://morcoskey.com/
+- **mschf**: Design studio
+  - https://mschf.xyz
+- **MTFWTF**: Design studio
+  - http://www.mtwtf.com/about
+- **No Plans**: Design studio
+  - https://no-plans.com/
+- **Oak**: Design studio
+  - http://oak.is/
+- **Order**: Design studio
+  - http://www.order.design
+- **Paper White Studio**: Design studio
+  - http://www.paperwhite-studio.com/
+- **Planetary**: Design studio
+  - https://planetary.co/
+- **Play Lab NYC**: Design studio
+  - http://www.playlab.org/
+- **Revolver NY**: Design studio
+  - http://revolvernewyork.com/
+- **RoandCo**: Design studio
+  - https://roandcostudio.com/
+- **Sanctuary Computer**: Design studio
+  - https://www.sanctuary.computer/
+- **Small Stuff**: Design studio
+  - https://smallstuff.us/
+- **Studio Rubric**: Design studio
+  - https://www.studiorubric.co/home#our-team
+- **This Also**: Design studio
+  - http://thisalso.com
+- **This is our Work**: Design studio
+  - http://thisisourwork.net/#
+- **Toda**: Design studio
+  - http://www.toda.com/
+- **Ustwo**: Design studio
+  - https://www.ustwo.com/
+- **Virtually Real**: Design studio
+  - https://www.virtuallyreal.nyc/
+- **With Projects**: Design studio
+  - http://www.withprojects.org
+- **Wkshps**: Design studio
+  - https://www.wkshps.com/
+- **XXIX**: Design studio
+  - https://www.xxix.co/
+- **Yungbld**: Design studio
+  - http://yungbld.com/
+- **Zero Studios**: Design studio
+  - https://zero.nyc/careers
+- **Zut Alors Inc**: Design studio
+  - http://zutalorsinc.com/
+
+## Design & Creative Agencies
+
+- **2x4**: Design/creative agency
+  - http://2x4.org
+- **Ace Hotel**: Design/creative agency
+  - http://www.acehotel.com/newyork
+- **B-Reel**: Design/creative agency
+  - http://www.b-reel.com
+- **Barrel**: Design/creative agency
+  - https://www.barrelny.com/careers/
+- **Case Agency**: Design/creative agency
+  - http://www.case-agency.com/
+- **Chandelier Creative**: Design/creative agency
+  - http://www.chandeliercreative.com/
+- **Code & Theory**: Design/creative agency
+  - http://www.codeandtheory.com
+- **Collins**: Design/creative agency
+  - http://www.wearecollins.com/
+- **Crema**: Design/creative agency
+  - https://www.crema.us/careers
+- **Critical Mass**: Design/creative agency
+  - https://www.criticalmass.com/
+- **Droga5**: Design/creative agency
+  - https://droga5.com/careers/
+- **Elephant**: Design/creative agency
+  - https://elephant.is/
+- **Fantasy**: Design/creative agency
+  - http://fantasy.co/careers
+- **Free Association**: Design/creative agency
+  - http://freeassociation.is/
+- **Grafx**: Design/creative agency
+  - https://grafx.co/
+- **Gretel**: Design/creative agency
+  - http://gretelny.com/
+- **HUGE**: Design/creative agency
+  - https://www.hugeinc.com/
+- **Hugo and Marie**: Design/creative agency
+  - http://www.hugoandmarie.com/
+- **Hyperakt**: Design/creative agency
+  - http://hyperakt.com/contact/
+- **Icon**: Design/creative agency
+  - https://iconinteractive.com/
+- **Instrument**: Design/creative agency
+  - https://www.instrument.com/careers/
+- **Joan Creative**: Design/creative agency
+  - http://joancreative.com/
+- **King and Partners**: Design/creative agency
+  - https://www.kingandpartners.com/
+- **Kounterattack**: Design/creative agency
+  - http://kounterattack.com/careers
+- **Landor**: Design/creative agency
+  - https://landor.com
+- **Madwell**: Design/creative agency
+  - http://www.madwell.com/
+- **Method**: Design/creative agency
+  - http://www.method.com/careers
+- **Mother New York**: Design/creative agency
+  - http://motherdesign.com
+- **nr2154**: Design/creative agency
+  - http://www.nr2154.com/
+- **Partners and Spade**: Design/creative agency
+  - http://www.partnersandspade.com/
+- **Pentagram**: Design/creative agency
+  - http://pentagram.com
+- **Red Antler**: Design/creative agency
+  - http://redantler.com/
+- **Siberia**: Design/creative agency
+  - http://siberia.io/
+- **Sibling Rivalry**: Design/creative agency
+  - https://siblingrivalry.com/
+- **Smakk Studios**: Design/creative agency
+  - https://smakkstudios.com/
+- **Space 150**: Design/creative agency
+  - http://www.space150.com/careers/
+- **Stink Digital**: Design/creative agency
+  - http://www.stinkdigital.com/careers/
+- **Studio Paradis**: Design/creative agency
+  - https://studioparadise.com/#intro
+- **Sullivan**: Design/creative agency
+  - http://www.sullivannyc.com/careers/
+- **Sweden NYC**: Design/creative agency
+  - https://swedenunlimited.com/about/
+- **Who**: Design/creative agency
+  - http://wh-o.us/
+- **Wolff Olins**: Design/creative agency
+  - http://wolffolins.com
+- **Wondersauce**: Design/creative agency
+  - http://wondersauce.com
+- **Work&Co**: Design/creative agency
+  - http://work.co
+- **Zero Studios**: Design/creative agency
+  - https://zero.nyc/
+
+## In-House Employers
+
+- **Bandcamp**: In-house design employer
+  - https://bandcamp.com/jobs
+- **Brooklyn Museum**: In-house design employer
+  - https://www.brooklynmuseum.org/about/careers/
+- **Code Academy**: In-house design employer
+  - https://www.codecademy.com/about/careers
+- **Dropbox**: In-house design employer
+  - https://www.dropbox.com/jobs/all
+- **Etsy**: In-house design employer
+  - https://www.etsy.com/careers
+- **Eyebeam**: In-house design employer
+  - https://www.eyebeam.org/about/work-intern/
+- **General Assembly**: In-house design employer
+  - https://generalassemb.ly/careers
+- **Genius**: In-house design employer
+  - https://genius.com/Genius-jobs-at-genius-annotated
+- **Girls Who Code**: In-house design employer
+  - https://jobs.lever.co/girlswhocode
+- **Google**: In-house design employer
+  - https://careers.google.com/locations/new-york/
+- **Grailed**: In-house design employer
+  - https://www.grailed.com/jobs
+- **Greenhouse**: In-house design employer
+  - http://www.greenhouse.io/careers
+- **Kickstarter**: In-house design employer
+  - https://www.kickstarter.com/jobs
+- **The MET**: In-house design employer
+  - https://www.linkedin.com/company/the-metropolitan-museum-of-art/careers
+- **Pioneer Works**: In-house design employer
+  - https://pioneerworks.org/about/
+- **Soundcloud**: In-house design employer
+  - https://soundcloud.com/jobs
+- **Splice**: In-house design employer
+  - https://boards.greenhouse.io/splice
+- **Squarespace**: In-house design employer
+  - https://www.squarespace.com/about/careers
+- **Stack Overflow**: In-house design employer
+  - https://stackoverflow.com/company/work-here/
+- **Superhi**: In-house design employer
+  - http://www.superhi.com/
+- **Tumblr**: In-house design employer
+  - https://www.tumblr.com/jobs
+- **Universe**: In-house design employer
+  - http://workatuniverse.com/design
+- **Vimeo**: In-house design employer
+  - https://boards.greenhouse.io/vimeo#.WtdhWtPwbUI
+- **WeTransfer**: In-house design employer
+  - https://wetransfer.com/
+- **WeWork**: In-house design employer
+  - https://www.wework.com/careers
+- **Whitney Museum**: In-house design employer
+  - http://whitney.org
+
+## Media & News Employers
+
+- **Atlantic Media**: Media and news employer
+  - https://www.atlanticmedia.com/careers/
+- **Buzzfeed**: Media and news employer
+  - https://www.buzzfeed.com/about/jobs
+- **The Fader**: Media and news employer
+  - https://thefader.workable.com/
+- **First Look Media**: Media and news employer
+  - https://www.firstlook.media/
+- **Hypebeast/Hypebae**: Media and news employer
+  - https://jobs.lever.co/hypebeast
+- **The Marshall Project**: Media and news employer
+  - https://www.themarshallproject.org/jobs
+- **MTV**: Media and news employer
+  - http://mtv.com/
+- **The New York Times**: Media and news employer
+  - https://www.nytco.com/careers/us-opportunites/
+- **The New Yorker**: Media and news employer
+  - https://www.newyorker.com/about/careers
+- **Propublica**: Media and news employer
+  - https://www.propublica.org/jobs/
+- **Quartz**: Media and news employer
+  - https://qz.com/
+- **Refinery29**: Media and news employer
+  - https://www.linkedin.com/company/refinery29
+- **Salon**: Media and news employer
+  - https://www.salon.com/about/hiring
+- **Slate**: Media and news employer
+  - http://www.slate.com/articles/news_and_politics/slate_fare/2008/04/a_job_for_you_at_slate.html
+- **Vice**: Media and news employer
+  - https://www.vicemediagroup.com/workinghere/
+
+## Residencies, Fellowships & Opportunity Lists
+
+- **The Big Artist Opportunities List**: Spreadsheet of opportunities for artists (may be outdated)
+  - https://docs.google.com/spreadsheets/d/1KWIzznlFNs_rQCEzW5ub6ehwaLcwR80xbuOokXwRa_Y/htmlview?fbclid=IwAR3P8lDsOpM_zKaq-MdCYK-b8Mg1lnTKmeHRG56htFHagDl8TjXemBo6M90&usp=gmail_thread#gid=0
+- **Curatron**: Curatron residency and exhibition
+  - http://curatroneq.com/mc/exhibitions/?utm_source=aldea+website+&utm_medium=website&utm_campaign=Curatron+residency+and+exhibition+&utm_id=Curatron_20aldeawebsite
+- **Design Interns Club**: Spreadsheet of design internships (may be outdated)
+  - https://docs.google.com/spreadsheets/d/180LzMIra5eu64rMcscplCPtg6LVbc_UYs8p3tbw-xOs/edit?gid=426140815#gid=426140815
+- **Interdisciplinary Remote & Remote-Friendly Employers (by Words of Mouth)**: Spreadsheet of remote-friendly employers (may be outdated)
+  - https://docs.google.com/spreadsheets/d/1J5VZipnZVrb-5HvtedCIbI3uFixnjfVK8cEN4gz9Rmc/edit?gid=0#gid=0
+- **NYC Fairly Paid Internships**: Listing of fairly paid internships in New York City
+  - https://payinterns.nyc/
+- **Residencies**: Spreadsheet of residencies (may be outdated)
+  - https://docs.google.com/spreadsheets/d/1o__WKUBTHLoQX8pSRJsh0wMC8fCGzycQ0ezxe5CklxM/edit?gid=0#gid=0

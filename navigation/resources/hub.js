@@ -7,12 +7,12 @@ const DATA_URL = '../data/resources.json';
 // <body data-hub="guides"> limits the page to the Guides section (learning.html)
 const HUB_ONLY = document.body.dataset.hub || '';
 
-// The hubs show their pages as column trees: Resources → Technology Links (one topic page, `single`: the tree opens
-// straight onto its topics) and below it General Resources (the 11 pages in navigation/resources/*); Learning → its
-// Guides (navigation/learning/*). `sec` is the hub section listing the pages, `dir` their folder.
+// The hubs show their pages as column trees: Resources → Technology Links (resources/tech-*.html) and below it General
+// Resources (the other pages in navigation/resources/*); Learning → its Guides (navigation/learning/*). `sec` is the
+// hub section listing the pages, `dir` their folder.
 const TREES = HUB_ONLY === 'guides'
   ? [{ sec: 'guides', dir: 'learning', groups: [['guides', 'Guides']], defaultGroup: 'guides' }]
-  : [{ sec: 'tech', dir: 'resources', groups: [['tech', 'Technology Links']], defaultGroup: 'tech', single: 'tech-links' },
+  : [{ sec: 'tech', dir: 'resources', groups: [['tech', 'Technology']], defaultGroup: 'tech' },
      { sec: 'topics', dir: 'resources', groups: [['professional', 'Professional'], ['misc', 'Misc.']], defaultGroup: 'misc' }];
 let TREE = TREES[0];
 
@@ -54,7 +54,7 @@ function useTree(i) {
   if (treeInUse) TREE.state = { treeData, treeSelPage, treeSelTopic, treeSelSection, treeSelSub, treePrevCols };
   TREE = next;
   GROUPS = TREE.groups;
-  const st = TREE.state || { treeData: {}, treeSelPage: TREE.single || null, treeSelTopic: -1, treeSelSection: -1, treeSelSub: -1, treePrevCols: [] };
+  const st = TREE.state || { treeData: {}, treeSelPage: null, treeSelTopic: -1, treeSelSection: -1, treeSelSub: -1, treePrevCols: [] };
   ({ treeData, treeSelPage, treeSelTopic, treeSelSection, treeSelSub, treePrevCols } = st);
   treeInUse = true;
 }
@@ -142,7 +142,8 @@ function fitReducedColumns() {
       max = Math.max(max, el.scrollWidth);
     });
     if (isAdmin) max += 48;   // the ✎ ✕ buttons after each row (treeAdmBtns)
-    if (max > 0) col.style.flexBasis = Math.max(max + 2, 90) + 'px';
+    // capped, so with every level open (page → topic → section → sub-section) the links still get the room
+    if (max > 0) col.style.flexBasis = Math.min(Math.max(max + 2, 90), 170) + 'px';
   });
 }
 
@@ -156,13 +157,12 @@ function renderSection(sec) {
   const header = ti >= 0
     ? `<a href="#" class="section-header section-header-link" onclick="event.preventDefault();resetTree()" title="Back to ${esc(sec.title)}">${esc(sec.title)}</a>`
     : `<div class="section-header">${esc(sec.title)}</div>`;
-  // a single-page tree has no page list to add to
-  const plus = ti >= 0 && TREES[ti].single ? '' : `<button class="adm-plus admin-only" onclick="openItemModal('${sec.id}',null)" title="Add item">+</button>`;
+
   return `
     <div class="section-block" data-id="${sec.id}">
       <div class="section-header-row">
         ${header}
-        ${plus}
+        <button class="adm-plus admin-only" onclick="openItemModal('${sec.id}',null)" title="Add item">+</button>
       </div>
       ${items}
       <div class="admin-only" style="margin-top:6px;">
@@ -173,7 +173,7 @@ function renderSection(sec) {
 
 // "My Links" heading's own click target: back to the tree's very first view, from anywhere in it.
 function resetTree() {
-  treeSelPage = TREE.single || null; treeSelTopic = -1; treeSelSection = -1; treeSelSub = -1;
+  treeSelPage = null; treeSelTopic = -1; treeSelSection = -1; treeSelSub = -1;
   render();
 }
 
@@ -207,8 +207,7 @@ function treeDefaultSub(page, fi) {
 }
 
 function selectTreePage(slug) {
-  // clicking the open page closes it (a single-page tree just goes back to its topics)
-  treeSelPage = TREE.single || (slug === treeSelPage ? null : slug);
+  treeSelPage = slug === treeSelPage ? null : slug;     // clicking the open page closes it
   treeSelTopic = -1; treeSelSection = -1; treeSelSub = -1;
   render();
 }
@@ -289,7 +288,7 @@ function treeTopicsCol(page, reduced, same, delay) {
       ${treeAdmBtns(`openTreeModal('topic',${i})`, `deleteTreeNode('topic',${i})`)}
     </div>`).join('');
   return `${treeColOpen('res-col res-col-sections', reduced, same, delay)}
-      ${TREE.single ? '<h3 class="res-head">Topics</h3>' : treeBackHead(`selectTreePage('${treeSelPage}')`, page.title)}
+      ${treeBackHead(`selectTreePage('${treeSelPage}')`, page.title)}
       <nav class="res-list">${rows}</nav>
       ${treeAddBtn('+ topic', `openTreeModal('topic',null)`)}
     </div>`;
@@ -401,7 +400,8 @@ function treeLinksCol(page, useTopics) {
   // no topics: sub-sections break the list with their own header, inline in this column (same as that page itself)
   const open = treeOpenLink(`${TREE.dir}/${page.slug}.html#${slugify(f.name)}`, f.name);
   let html = `<div class="res-head"${treeDnd('section:' + treeSelSection, false)}><h2 class="res-section-title">${esc(f.name)}</h2>${open}</div>` + treeNodeImage(f);
-  html += treeLinkList(f.items, treeSelSection, -1);
+  // a section that only holds sub-sections skips the "No links yet." (the admin still gets "+ link")
+  html += f.items.length || !f.subfolders.length ? treeLinkList(f.items, treeSelSection, -1) : treeAddBtn('+ link', `openTreeModal('link',${treeSelSection},-1,null)`);
   f.subfolders.forEach((sf, si) => {
     html += `<div class="res-subgroup">
         <h3 class="res-subhead"${treeDnd(`sub:${treeSelSection}:${si}`, true)}>${esc(sf.name)}${treeAdmBtns(`openTreeModal('sub',${treeSelSection},${si})`, `deleteTreeNode('sub',${treeSelSection},${si})`)}</h3>
@@ -423,7 +423,7 @@ function renderTree() {
   // picker column, or (unlike before) the last picker itself once its own pick is what's now showing real links
   // rather than just a "choose one to continue" hint (hasSelection) — so the tree keeps narrowing all the way
   // down to whatever you're actually looking at, not just down to the last list you clicked in.
-  const pickers = TREE.single ? [] : ['pages'];
+  const pickers = ['pages'];
   let useTopics = false;
   if (page) {
     useTopics = page.topics.length > 0;

@@ -1,0 +1,117 @@
+> Collections, galleries and general archives.
+
+## Collections & Galleries
+
+- **50 Watts**: International book designs, illustrations, and covers
+  - https://50watts.com/
+- **Alt Museum**: Texts of Open Access artworks from around the world
+  - https://afterneworder.com/altmuseum/about.html
+- **Anime Girls Holding Anime Books**: As the title states
+  - https://github.com/cat-milk/Anime-Girls-Holding-Programming-Books
+- **Artists' Books at MassArt**: Book layout design
+  - https://blogs.massart.edu/artistsbooks/
+- **ASCII Art**: ASCII Collection
+  - https://asciiart.website/
+- **Bahai Library**: Bahai teachings and information
+  - https://bahai-library.com/
+- **Bottlecaps**: Over 4000 Bottle caps from around the world
+  - https://capacedebere.neocities.org/
+- **Bug Guide**: Guide to all bugs
+  - https://bugguide.net/node/view/15740
+- **Commarts**: Design gallery
+  - https://www.commarts.com/gallery?d=design
+- **Consollection**: Collection of gaming consoles
+  - https://consollection.de/
+- **Cover Junkie**: Magazine Covers
+  - https://coverjunkie.com/
+- **The Cover Project**: Video Game Covers
+  - https://thecoverproject.net/index.php
+- **Flash Game Archive**: Archive of Flash games
+  - https://archive.org/details/softwarelibrary_flash?page=2
+- **Go Canucks**: Library of cute lil pixel guys
+  - http://gocanucks.free.fr/
+- **Greatest Films of All Time**: Top films
+  - https://www.bfi.org.uk/sight-and-sound/greatest-films-all-time
+- **Hatsune Miku Friends**: Learn about Hatsune Miku
+  - https://www.giantbomb.com/hatsune-miku/3005-7367/friends/
+- **The Hydrant Directory**: Showcase of fire hydrants
+  - https://www.dayroselane.com/hydrants
+- **I/O games**: Various I/O games
+  - https://iogames.space/
+- **Insect Portraits**: Archive of bugs
+  - http://microsculpture.net/
+- **Jigsaw Explorer**: Jigsaw puzzles
+  - https://www.jigsawexplorer.com/
+- **Kaleidoscope**: Kaleidoscope schemes from around the WWW
+  - https://kaleidoscope.hryjksn.com/
+- **Kaomoji Library**: Library of Kaomojis
+  - https://emojidb.org/kaomoji-emojis
+- **KB Archive**: KnowledgeBase, archive of early Microsoft KnowledgeBase Articles
+  - https://jeffpar.github.io/kbarchive/
+- **The LED Watch**: LED Watches
+  - https://www.theledwatch.com/watches
+- **Living Room Candidate**: Presidential Campaign Commercials
+  - https://www.livingroomcandidate.org/commercials/1952
+- **Lock Wiki**: All about locks
+  - https://lockwiki.com/index.php/Main_Page/
+- **Logo Archive**: Archive of logo’s
+  - https://archive.org/details/bitsavers_unitedTechngineersMasterVol2_242068752/page/n397/mode/2up?view=theater
+- **MyCalcDB**: Calculator Database
+  - http://mycalcdb.free.fr/
+- **The Old Robots**: Gallery of retro robots
+  - https://www.theoldrobots.com/index.html
+- **Optical Illusions**: 152 Visual Phenomena and optical illusions
+  - https://michaelbach.de/ot/index.html
+- **Packaging**: Collection of various packaging
+  - https://www.flickr.com/photos/13166455@N05/albums/72157608888976602/with/3022967918
+- **PC Fonts**: Oldschool PC fonts
+  - https://int10h.org/oldschool-pc-fonts/fontlist/
+- **Pose Maniacs**: Human body poses (anatomy)
+  - https://www.posemaniacs.com/
+- **Rare Historical Photos**: As title says
+  - https://rarehistoricalphotos.com/
+- **The Rosetta Stone PowerPac**: Free Download, Borrow, and Streaming - Internet Archive
+  - http://archive.org/details/trs-power-pac/
+- **Rubiks Cubes**: Everything you need to know
+  - https://www.grubiks.com/
+- **Swatch**: Virtual Swatch Museum
+  - https://www.stay-tuned-to-sw.de/specials.html
+- **Texas Instrument Covers**: Archive of TI covers
+  - https://archive.org/details/tibooks
+- **THA LTD**: Design Gallery
+  - https://tha.jp/works
+- **TM Research Archive**: Interesting designs and covers
+  - http://www.tm-research-archive.ch/
+- **Tralfaz**: Album Cover Art Gallery
+  - https://tralfaz-archives.com/coverart/coverart.html
+- **WebAmp**: Winamp skin museum
+  - https://skins.webamp.org/
+- **XKCD**: Answers to Random Science Questions
+  - https://what-if.xkcd.com/
+
+## General Archives
+
+- **AO3**: Our Own Archive: A fan-created, fan-run, nonprofit, noncommercial archive for transformative fanworks, like fanfiction, fanart, fan videos, and podfic
+  - https://archiveofourown.org/
+- **Cold War Transcripts**: Transcripts from NSArchive
+  - https://nsarchive.gwu.edu/briefing-book/russia-programs/2016-12-18/new-book-combines-soviet-us-transcripts-highest-level
+- **The Eye**: An archive of random files
+  - https://the-eye.eu/public
+- **F0ck!**: Random misc. Images (may be NSFW)
+  - https://f0ck.me/
+- **Flickr Archive**: Spreadsheet of Flickr archives
+  - https://docs.google.com/spreadsheets/d/1psWduzRxBHzi-aKD_McSM4P7eNO8wHhANCrus_uo6e8/edit?gid=770506321#gid=770506321
+- **Motto Distribution**: Shop/browse interesting media
+  - https://www.mottodistribution.com/shop/
+- **PetitTube**: Random YouTube videos with less than 10 views
+  - https://petittube.com/
+- **So Much**: A free website link directory where you can find the best human edited links sorted by topic and category
+  - https://www.somuch.com/
+- **Ubu Web**: “UbuWeb is a pirate shadow library consisting of hundreds of thousands of freely downloadable avant-garde artifacts”
+  - https://www.ubu.com/
+- **Under Consideration**: Misc. collections archive
+  - https://www.underconsideration.com/brandnew/collected
+- **VidLii**: Mimics pre-2009 YouTube
+  - https://www.vidlii.com/videos
+- **Wayback Machine**: Web archive
+  - https://archive.org/web/

@@ -1,0 +1,44 @@
+> Silly and miscellaneous corners of the internet.
+
+## Silly & Misc
+
+- **AM Stereo**: Listen to the AM radio ^_^
+  - http://www.amstereo.org/
+- **Chrome Experiments**: Complete Stellar Network
+  - https://stars.chromeexperiments.com/
+- **Dark Site Finder**: Dark locations and sites to see stars
+  - https://darksitefinder.com/
+- **Deep Fried Memes**: Meme Deep Fryer
+  - https://deepfriedmemes.com/
+- **EarthCam**: Live Webcams across the world
+  - https://www.earthcam.com/
+- **Holotypic Occlupanid Research Group**: Interesting fascination
+  - https://www.horg.com/horg/
+- **Human Clock**: So cute!
+  - https://humanclock.com/
+- **Japanese Police Records**: Public japanese police records
+  - https://www.police.pref.hokkaido.lg.jp/
+- **LockLab**: Everything about lockpicking
+  - https://locklab.com/
+- **OpenTopia**: More LiveCams
+  - http://www.opentopia.com/index.php
+- **PostSecret**: Postcards with secrets
+  - https://postsecret.com/
+- **Public Radio**: It’s a public radio
+  - https://www.publicradio.info/
+- **SCUM Games**: TempleOS Games
+  - https://scumgames.neocities.org/
+- **Space Ghetto**: Some cool random images, may be nsfw
+  - https://www.spaceghetto.space/
+- **Spurious Correlations**: Correlation != causation
+  - https://tylervigen.com/spurious-correlations
+- **This Porn Does Not Exist**: Generated porn, not technically NSFW
+  - https://nsfwai.com/
+- **Tracky Birthday**: A crazy site
+  - http://www.trackybirthday.com/
+- **Windows93**: A parody OS Game
+  - https://www.windows93.net/
+- **The Worst Things for Sale**: Silly collection of funny things on the market
+  - https://theworstthingsforsale.com/
+- **WXYZWebCams**: Some more webcams!
+  - https://wxyzwebcams.com/

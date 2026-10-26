@@ -4,7 +4,7 @@
 //   By Function (id "cat")       → Create, Consume, Explore, Learn                 (navigation/resources/*.html;
 //                                   kept in the saved data for hasNewTree()'s detection, but no longer shown on the
 //                                   hub — hub.js filters this section out of render())
-//   Technology Links (id "tech") → the one tech-links page, shown first on the hub
+//   Technology Links (id "tech") → Computers, The Internet, Arrrrgh, General (resources/tech-*.html), shown first on the hub
 //   General Resources (id "topics", formerly My Links)    → the 11 category pages: Technology, Web, Design, Careers, Software, Media,
 //                                   Music, Archives, Culture, Ideas, Life (navigation/resources/*.html)
 //   My Favourites (id "favourites") → Wayback Machine, Lainchan, LookMovie, Land Chad, Human Clock — a plain links
@@ -40,7 +40,7 @@ const HubData = (() => {
             ['Free courses and materials', 'Guides on web dev, audio, etc.']]
     ]);
 
-    // The 11 real category pages (navigation/resources/seed/<slug>.md) — Tutorials/Guides stay on the Learning page.
+    // The General Resources category pages (navigation/resources/seed/<slug>.md) — Tutorials/Guides stay on the Learning page.
     // Each carries a "group" so the hub's tree nests them under Professional / Misc. Titles are kept to 1-2 words
     // (an "&"-joined pair condensed down to the more central one) so they read on one line even in the tree's
     // narrower, reduced columns — the description still carries the fuller meaning.
@@ -49,13 +49,19 @@ const HubData = (() => {
         ['web', 'Web', 'How the web works, how to build for it, and the corners worth exploring.', 'professional'],
         ['design', 'Design', 'Inspiration, tools and assets for design work.', 'professional'],
         ['careers', 'Careers', 'Jobs, studios, festivals and open calls.', 'professional'],
+        ['career', 'Career', 'Interview prep, job boards, studios, agencies and opportunities.', 'professional'],
         ['software', 'Software', 'Free software, alternatives and handy online tools.', 'professional'],
         ['media', 'Media', 'Film, video, music, anime, games and things to read.', 'misc'],
         ['archives', 'Archives', "Libraries, museums and the internet's memory.", 'misc'],
         ['culture', 'Culture', 'Personal sites, forums, nostalgia and the strange.', 'misc'],
         ['ideas', 'Ideas', 'The thinkers, arguments and theories behind it all.', 'misc'],
         ['life', 'Life', 'Everyday guides, free courses and life admin.', 'misc'],
-        ['torrents', 'Torrents & Streaming', 'Torrent indexes, downloaders and places to stream.', 'misc']
+        ['torrents', 'Torrents & Streaming', 'Torrent indexes, downloaders and places to stream.', 'misc'],
+        // moved out of Technology Links (seed/<slug>.md, from the technology_tree spreadsheet)
+        ['archives-collections', 'Archives & Collections', 'Collections, galleries and general archives.', 'misc'],
+        ['guides', 'Guides', 'How-tos, free stuff, shopping and handy online tools.', 'misc'],
+        ['community', 'Community', 'Blogs, interviews, news, magazines, forums and personal sites.', 'misc'],
+        ['silly', 'Silly', 'Silly and miscellaneous corners of the internet.', 'misc']
     ]);
 
     const guides = () => cards('learning', [
@@ -77,10 +83,14 @@ const HubData = (() => {
 
     const savedSection = () => ({ id: 'cat', title: 'By Function', type: 'cards', intro: '', items: saved() });
     const topicsSection = () => ({ id: 'topics', title: 'General Resources', type: 'cards', intro: '', items: topics() });
-    // Technology Links: one topic-tree page (seed/tech-links.md, built from the technology_tree spreadsheet) that the hub
-    // shows as its first tree, opened straight onto its topics; the 11 pages above follow it as General Resources.
-    const techSection = () => ({ id: 'tech', title: 'Technology Links', type: 'cards', intro: '',
-        items: [{ id: 'tech-links', title: 'Technology Links', href: 'resources/tech-links.html', desc: 'Programming, computers, the web and the culture around them.', group: 'tech' }] });
+    // Technology Links: four topic-tree pages (seed/tech-*.md, built from the technology_tree spreadsheet), the hub's
+    // first tree; the pages above follow it as General Resources.
+    const techSection = () => ({ id: 'tech', title: 'Technology Links', type: 'cards', intro: '', items: groupedCards('resources', [
+        ['tech-computers', 'Computers', 'AI, programming, maths, operating systems and hardware.', 'tech'],
+        ['tech-internet', 'The Internet', 'The web, how to design for it and how to browse it.', 'tech'],
+        ['tech-arrrrgh', 'Arrrrgh', 'Privacy, open source and free media.', 'tech'],
+        ['tech-general', 'General', 'Tech culture, guides and references.', 'tech']
+    ]) });
     const guidesSection = () => ({ id: 'guides', title: 'Guides', type: 'cards', intro: "Step-by-step write-ups and how-tos I've put together.", items: guides() });
     const favouritesSection = () => ({ id: 'favourites', title: 'My Favourites', type: 'links', intro: '', items: favourites() });
 
@@ -128,6 +138,9 @@ const HubData = (() => {
         const favIdx = data.findIndex(s => s.type === 'links' && s.id !== 'topics');
         if (favIdx >= 0) data[favIdx] = favouritesSection();
         else data.push(favouritesSection());
+        // (a list saved while Technology Links was still the single tech-links page gets the four pages instead)
+        const techAt = data.findIndex(s => s.id === 'tech');
+        if (techAt >= 0 && (data[techAt].items || []).some(it => /(^|\/)tech-links\.html/.test(it.href || ''))) data.splice(techAt, 1);
         if (!data.some(s => s.id === 'tech')) {
             const at = data.findIndex(s => s.id === 'topics');
             data.splice(at >= 0 ? at : data.length, 0, techSection());
