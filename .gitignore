@@ -11,6 +11,7 @@ data/backups/
 creations/blogs/*.md
 creations/blogs/backups/
 navigation/resources/markdown/
+navigation/learning/markdown/
 
 # Binary assets — managed on server directly, not via git
 images/
