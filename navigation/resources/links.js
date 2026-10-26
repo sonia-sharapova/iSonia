@@ -32,7 +32,7 @@ const FOLDER = AT_HUB ? 'learning' : window.location.pathname.split('/').slice(-
 const GUIDE = FOLDER === 'learning';
 const ROOT = AT_HUB ? '../' : '../../';                                // the site root, relative to this page
 const BASE = AT_HUB ? 'learning/' : './';                              // this group's folder (markdown/, seed/)
-const HUB_TITLE = GUIDE ? 'Guides' : 'Saved Links';
+const HUB_TITLE = GUIDE ? 'Guides' : 'See more';
 // The general link at the top of the category column. Guides have their own "All Guides" view (learning/all.html,
 // ALL below: same sidebar with that link selected, every guide listed on the right); Saved Links go back to the hub.
 const HUB_PAGE = GUIDE ? ROOT + 'navigation/learning.html' : '../resources.html';
@@ -45,7 +45,12 @@ let allGuides = [];         // ALL: [{ title, desc, href, intro, folders }] — 
 // technology.html has always read tech.md, the README says technology.md — accept either
 // (the topic-tree pages: creating, consuming, exploring, learning, misc, technology, open-source, get-involved)
 const TOPIC_PAGES = ['creating', 'consuming', 'exploring', 'learning', 'misc', 'technology', 'open-source', 'get-involved', 'careers'];
-const MD_NAMES = {};
+// pages that show another page's markdown (edits save to that file): torrents.html (the /t/ board) is Arrrrgh,
+// design.html (/gd/) The Internet's Web Design Resources — PAGE_TOPICS limits a page to those topics (the rest of
+// the file is kept, just not listed) and opens the first one when there's no hash
+const MD_NAMES = { torrents: ['tech-arrrrgh'], design: ['tech-internet'] };
+const PAGE_TOPICS = { design: ['Web Design Resources'] };
+const shownTopic = t => !PAGE_TOPICS[PAGE] || PAGE_TOPICS[PAGE].includes(t.name);
 const HUB_DATA_URL = ROOT + 'data/resources.json';
 const HUB_SAVE_URL = ROOT + 'admin/save-resources.php';
 
@@ -256,6 +261,18 @@ function categoriesCol() {
       </div>`;
 }
 
+// the "See more" list of every category, under the topics of a page that borrows another page's markdown
+function seeMoreSection() {
+    if (!MD_NAMES[PAGE]) return '';
+    const rows = categories.map(c => `<div class="res-row">
+        <a class="res-link${isCurrent(c) ? ' active' : ''}" href="${esc(c.href)}">${esc(c.title)}</a>
+      </div>`).join('');
+    return `<div class="sidebar-section">
+          <h3 class="res-head">${HUB_TITLE}</h3>
+          <nav class="res-list">${rows}</nav>
+        </div>`;
+}
+
 // First column of a topic page: the way back to the hub, then this category's topics. The open topic lists its
 // sections nested underneath it.
 function topicsCol() {
@@ -267,7 +284,7 @@ function topicsCol() {
             </span>` : ''}
           </div>`).join('') +
         (isAdmin ? '<button class="lnk-adm-add-row" onclick="openFolderModal(null)">+ Add section</button>' : '') + `</div>`;
-    const rows = topicsData.map((t, i) => `<div class="res-row">
+    const rows = topicsData.map((t, i) => !shownTopic(t) ? '' : `<div class="res-row">
         <a class="res-link${i === curTopic ? ' active' : ''}" href="#${slug(t.name)}" data-t="${i}">${esc(t.name)}</a>
         ${isAdmin ? `<span class="res-adm">
           <button class="lnk-adm-btn lnk-edit" onclick="openTopicModal(${i})" title="Edit topic">✎</button>
@@ -281,8 +298,9 @@ function topicsCol() {
         <div class="sidebar-section">
           <h3 class="res-head">Topics</h3>
           <nav class="res-list">${rows}</nav>
-          ${isAdmin ? '<button class="lnk-adm-add-row" onclick="openTopicModal(null)">+ Add topic</button>' : ''}
+          ${isAdmin && !PAGE_TOPICS[PAGE] ? '<button class="lnk-adm-add-row" onclick="openTopicModal(null)">+ Add topic</button>' : ''}
         </div>
+        ${seeMoreSection()}
       </div>`;
 }
 
@@ -442,7 +460,8 @@ document.addEventListener('click', e => {
 function selectionFromHash() {
     const parts = location.hash.slice(1).split('/');
     if (useTopics()) {
-        curTopic = topicsData.findIndex(t => slug(t.name) === parts[0]);
+        curTopic = topicsData.findIndex(t => shownTopic(t) && slug(t.name) === parts[0]);
+        if (!parts[0] && PAGE_TOPICS[PAGE]) curTopic = topicsData.findIndex(shownTopic);
         const t = topicsData[curTopic];
         curSection = t && parts[1] ? foldersData.findIndex(f => f.topic === t.name && slug(f.name) === parts[1]) : -1;
         const f = foldersData[curSection];
