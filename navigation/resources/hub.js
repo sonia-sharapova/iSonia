@@ -14,7 +14,7 @@ const TREES = HUB_ONLY === 'guides'
   ? [{ sec: 'guides', dir: 'learning', groups: [['guides', 'Guides']], defaultGroup: 'guides' }]
   : [{ sec: 'tech', dir: 'resources', groups: [['tech', 'Technology']], defaultGroup: 'tech' },
      { sec: 'topics', dir: 'resources', groups: [['professional', 'Professional'], ['misc', 'Misc.']], defaultGroup: 'misc' },
-     { sec: 'archive', dir: 'resources', groups: [['media', 'Media'], ['archives', 'Archives'], ['archives-collections', 'Archives & Collections']], defaultGroup: 'archives' }];
+     { sec: 'archive', dir: 'resources', groups: [['media', 'Media'], ['archives', 'Archives']], defaultGroup: 'archives' }];
 let TREE = TREES[0];
 
 let sections = [];
@@ -118,7 +118,7 @@ function render() {
   // description column instead (treeHubIntroCol), under the hub's intro text.
   const shown = HUB_ONLY === 'guides' ? sections.filter(HubData.isGuides) : sections.filter(s => !HubData.isGuides(s) && s.id !== 'cat' && s.id !== 'favourites');
   const active = TREES.indexOf(TREE);
-  body.innerHTML = shown.map(sec => renderSection(sec)).join('');
+  body.innerHTML = HUB_ONLY === 'guides' ? shown.map(sec => renderSection(sec)).join('') : renderHub();
   useTree(active);
   bindTreeBlocks();
   fitReducedColumns();
@@ -364,17 +364,73 @@ function treeOpenLink(href, label) {
 // header, admin +/delete controls and .fav-list markup exactly as it had them as a standalone section, just
 // relocated to the right of the page picker instead of below the whole tree.
 // The Learning page link (#hub-more in resources.html), under the Technology Links tree's intro text
-function treeMoreNote() {
-  const src = TREE.sec === 'tech' && document.getElementById('hub-more');
+function treeMoreNote(always) {
+  const src = (always || TREE.sec === 'tech') && document.getElementById('hub-more');
   return src ? src.innerHTML : '';
 }
 
+// ── The Resources hub: one tree whose first column is its main sections (Technology Resources, General Resources,
+// Archives — one TREES entry each), with My Favourites under them. Picking a section opens that section's own tree
+// to the right of it; before one is picked, the right-hand column has the hub's intro text (#hub-intro).
+let hubSel = -1;              // index into TREES of the open section, -1 = none
+let hubPrevReduced = null;    // the sections column's reduced state last render (see treeColOpen's `same`)
+
+function selectHubSection(i) {
+  hubSel = i === hubSel ? -1 : i;     // clicking the open section closes it
+  if (hubSel >= 0) useTree(hubSel);
+  render();
+}
+
+function hubSectionsCol(delay) {
+  const reduced = hubSel >= 0;
+  const same = hubPrevReduced === reduced;
+  hubPrevReduced = reduced;
+  const rows = TREES.map((t, i) => [i, sections.find(s => s.id === t.sec)]).filter(([, s]) => s).map(([i, s]) => `<div class="res-row">
+      <a class="res-link${i === hubSel ? ' active' : ''}" href="#" onclick="event.preventDefault();selectHubSection(${i})">${esc(s.title)}</a>
+    </div>`).join('');
+  const favSec = sections.find(s => s.id === 'favourites');
+  return `${treeColOpen('res-col res-col-cats res-col-hub', reduced, same, delay)}
+      <div class="sidebar-section">
+        <h3 class="res-head">Resources</h3>
+        <nav class="res-list">${rows}</nav>
+      </div>
+      ${favSec ? `<div class="sidebar-section hub-favs">
+        <h3 class="res-head">${esc(favSec.title)}</h3>
+        ${renderLinks(favSec)}
+      </div>` : ''}
+    </div>`;
+}
+
+function renderHub() {
+  if (hubSel < 0) {
+    const intro = document.getElementById('hub-intro');
+    return `<div class="section-block hub-block"><div class="res-tree res-tree-hub">${hubSectionsCol(0)}
+        <div class="res-col res-col-links res-intro">${intro ? intro.innerHTML : ''}<p class="res-hint">Choose a section to get started.</p>${treeMoreNote(true)}</div>
+      </div></div>`;
+  }
+  useTree(hubSel);
+  return `<div class="section-block hub-block" data-id="${TREE.sec}">${renderTree(hubSectionsCol)}</div>`;
+}
+
+const TREE_PLACEHOLDER = `<div class="res-intro-placeholder" aria-hidden="true">
+         <svg viewBox="0 0 120 80" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+           <path d="M14 14h20M14 14v44M14 36h20M14 58h20M34 14v0M52 14h26M52 36h40M52 58h30M34 36h18M34 58h18M34 14h18"/>
+         </svg>
+       </div>`;
+
+// A section's own picture + description (data/resources.json: the section's image / intro), until a page is picked
 function treeHubIntroCol() {
-  // the hub's intro text only once, in the first tree; My Favourites in General Resources; otherwise just a hint
-  const src = TREE === TREES[0] && document.getElementById('hub-intro');
-  const favSec = TREE.sec === 'topics' && sections.find(s => s.id === 'favourites');
-  const hint = !src && !favSec ? '<p class="res-hint">Choose a page to see its sections.</p>' : '';
-  return `<div class="res-col res-col-links res-intro">${src ? src.innerHTML : ''}${treeMoreNote()}${favSec ? renderSection(favSec) : ''}${hint}</div>`;
+  const sec = sections.find(s => s.id === TREE.sec) || {};
+  const picture = sec.image ? `<img src="${esc(sec.image)}" alt="${esc(sec.title)}">` : TREE_PLACEHOLDER;
+  return `<div class="res-col res-col-links res-intro">
+      <div class="res-intro-image">${picture}
+        <button class="adm-btn adm-edit admin-only res-image-edit" onclick="openTreeModal('hubsec')" title="Change picture and description">✎ picture</button>
+      </div>
+      <h2 class="res-section-title">${esc(sec.title)}</h2>
+      ${sec.intro ? `<p class="res-intro-text">${esc(sec.intro)}</p>` : ''}
+      <p class="res-hint">Choose a page to get started.</p>
+      ${treeMoreNote()}
+    </div>`;
 }
 
 // The rightmost column while nothing with actual links is picked yet: the page's own picture (pages are the only
@@ -387,11 +443,7 @@ function treeIntroCol(page, useTopics) {
   const own = topic && topic.image ? topic : page.intro;   // a topic with its own picture shows that instead
   const picture = own.image
     ? `<img src="${esc(own.image)}" alt="${esc(own.alt || page.title)}">`
-    : `<div class="res-intro-placeholder" aria-hidden="true">
-         <svg viewBox="0 0 120 80" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
-           <path d="M14 14h20M14 14v44M14 36h20M14 58h20M34 14v0M52 14h26M52 36h40M52 58h30M34 36h18M34 58h18M34 14h18"/>
-         </svg>
-       </div>`;
+    : TREE_PLACEHOLDER;
   const hint = useTopics && !topic ? 'Choose a topic to get started.' : 'Choose a section to see its links.';
   return `<div class="res-col res-col-links res-intro">
       <div class="res-intro-image">${picture}
@@ -440,7 +492,7 @@ function treeLinksCol(page, useTopics) {
   return `<div class="res-col res-col-links">${html}</div>`;
 }
 
-function renderTree() {
+function renderTree(prefixCol) {
   const pages = Object.values(treeData);
   if (!pages.length) return '';
   const page = treeSelPage ? treeData[treeSelPage] : null;
@@ -486,7 +538,8 @@ function renderTree() {
 
   // "res-tree" (not just "res-tree-hub") so this also picks up mobile.css's shared phone treatment for the
   // category pages' own tree — stacking, chip rows, active-state theming — since it targets that class name
-  return `<div class="res-tree res-tree-hub">${cols}${terminal}</div>`;
+  const prefix = prefixCol ? prefixCol((last + 1) * 45) : '';
+  return `<div class="res-tree res-tree-hub">${prefix}${cols}${terminal}</div>`;
 }
 
 // ── Admin: edit the open page's sections, sub-sections and links in place ──
@@ -526,9 +579,11 @@ function treeEditTarget(e) {
 
 function openTreeModal(kind, fi, si, ii) {
   treeEdit = { kind, fi, si: si === undefined ? null : si, ii: ii === undefined ? null : ii };
-  const cur = treeEditTarget(treeEdit);
+  const hubSec = kind === 'hubsec' && sections.find(s => s.id === TREE.sec);
+  const cur = hubSec ? { name: hubSec.title, image: hubSec.image || '', description: hubSec.intro || '' } : treeEditTarget(treeEdit);
   const noun = { page: 'Page picture', topic: 'Topic', section: 'Section', sub: 'Sub-section', link: 'Link' }[kind];
-  document.getElementById('tree-modal-title').textContent = kind === 'page' ? treeData[treeSelPage].title + ': picture & description' : (cur ? 'Edit ' : 'Add ') + noun;
+  document.getElementById('tree-modal-title').textContent = kind === 'page' ? treeData[treeSelPage].title + ': picture & description'
+    : hubSec ? hubSec.title + ': picture & description' : (cur ? 'Edit ' : 'Add ') + noun;
   document.getElementById('tree-name').value = cur && kind !== 'page' ? cur.name : '';
   document.getElementById('tree-image').value = cur && kind !== 'link' ? cur.image || '' : '';
   document.getElementById('tree-image-status').textContent = '';
@@ -537,7 +592,7 @@ function openTreeModal(kind, fi, si, ii) {
   document.getElementById('tree-desc').value = cur ? cur.description || '' : '';
   document.querySelectorAll('#tree-modal .tree-link-only').forEach(el => { el.style.display = kind === 'link' ? '' : 'none'; });
   document.querySelectorAll('#tree-modal .tree-image-only').forEach(el => { el.style.display = kind === 'link' ? 'none' : ''; });
-  document.querySelectorAll('#tree-modal .tree-name-only').forEach(el => { el.style.display = kind === 'page' ? 'none' : ''; });
+  document.querySelectorAll('#tree-modal .tree-name-only').forEach(el => { el.style.display = kind === 'page' || hubSec ? 'none' : ''; });
   document.getElementById('tree-modal').classList.add('active');
   setTimeout(() => document.getElementById('tree-name').focus(), 60);
 }
@@ -549,6 +604,13 @@ async function saveTreeModal() {
   const description = document.getElementById('tree-desc').value.trim();
   const image = document.getElementById('tree-image').value.trim();
   const e = treeEdit;
+  if (e.kind === 'hubsec') {   // a hub section's picture + description live in data/resources.json
+    const sec = sections.find(s => s.id === TREE.sec);
+    sec.intro = description; sec.image = image;
+    await persist();
+    closeTreeModal(); render();
+    return;
+  }
   if (!name && e.kind !== 'page') { alert('Name is required.'); return; }
   const page = treeData[treeSelPage];
   const cur = treeEditTarget(e);

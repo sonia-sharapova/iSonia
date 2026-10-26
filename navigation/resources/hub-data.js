@@ -82,7 +82,7 @@ const HubData = (() => {
     const archiveSection = () => ({ id: 'archive', title: 'Web Archives', type: 'cards', intro: '', items: groupedCards('resources', [
         ['media', 'Media', 'Film, video, music, anime, games and things to read.', 'media'],
         ['archives', 'Archives', "Libraries, museums and the internet's memory.", 'archives'],
-        ['archives-collections', 'Archives & Collections', 'Collections, galleries and general archives.', 'archives-collections']
+        ['archives-collections', 'Archives & Collections', 'Collections, galleries and general archives.', 'archives']
     ]).map(it => ({ ...it, expand: true })) });   // each page's sections are listed in the first column (hub.js treeEntries)
     const techSection = () => ({ id: 'tech', title: 'Technology Links', type: 'cards', intro: '', items: groupedCards('resources', [
         ['tech-computers', 'Computers', 'AI, maths, operating systems, hardware, tech culture and guides.', 'tech'],
@@ -94,6 +94,13 @@ const HubData = (() => {
     ]) });
     const guidesSection = () => ({ id: 'guides', title: 'Guides', type: 'cards', intro: "Step-by-step write-ups and how-tos I've put together.", items: guides() });
     const favouritesSection = () => ({ id: 'favourites', title: 'My Favourites', type: 'links', intro: '', items: favourites() });
+
+    // shown with each section's picture on the hub until a page is picked (admin-editable there, saved as `intro`)
+    const SECTION_INTROS = {
+        tech: 'Computers, programming, the web, privacy and the communities around them.',
+        topics: 'Design, careers, culture, ideas, everyday guides and the sillier corners of the internet.',
+        archive: "Film, music, books and games, and the libraries and collections keeping the internet's memory."
+    };
 
     const isGuides = sec => sec.id === 'guides';
     const isTutorialsCard = it => /(^|\/)tutorials\.html/.test(it.href || '');
@@ -127,8 +134,6 @@ const HubData = (() => {
             if (s.type !== 'cards') return;
             if (s.id === 'cat' && (s.title === 'Categories' || s.title === 'Saved Links')) s.title = 'By Function';
             if (s.id === 'topics') s.title = 'General Resources';
-            if (s.id === 'tech') s.title = 'Technology Links';
-            if (s.id === 'archive') s.title = 'Web Archives';
             s.items = (s.items || []).filter(it => !isTutorialsCard(it));
         });
         // the hub's own hand-picked shortcuts — always exactly Wayback/Lainchan/LookMovie/Land Chad/Human Clock
@@ -145,7 +150,7 @@ const HubData = (() => {
         // Web Archives, right after General Resources — and its pages taken out of General Resources if a saved list has them
         // (a list saved before the pages were expanded into their own groups gets the current ones)
         const archAt = data.findIndex(s => s.id === 'archive');
-        if (archAt >= 0 && !(data[archAt].items || []).every(it => it.expand)) data.splice(archAt, 1);
+        if (archAt >= 0 && !(data[archAt].items || []).every(it => it.expand && it.group !== 'archives-collections')) data.splice(archAt, 1);
         if (!data.some(s => s.id === 'archive')) {
             const at = data.findIndex(s => s.id === 'topics');
             data.splice(at >= 0 ? at + 1 : data.length, 0, archiveSection());
@@ -153,6 +158,11 @@ const HubData = (() => {
         const archiveHrefs = data.find(s => s.id === 'archive').items.map(it => it.href);
         data.forEach(s => { if (s.id === 'topics') s.items = (s.items || []).filter(it => !archiveHrefs.includes(it.href)); });
         if (!data.some(isGuides)) data.push(guidesSection());
+        data.forEach(s => {
+            if (s.id === 'tech') s.title = 'Technology Resources';
+            if (s.id === 'archive') s.title = 'Archives';
+            if (s.id in SECTION_INTROS && !s.intro) s.intro = SECTION_INTROS[s.id];   // the hub's section description
+        });
         return data;
     }
 
