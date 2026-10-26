@@ -4,7 +4,7 @@
 //   By Function (id "cat")       → Create, Consume, Explore, Learn                 (navigation/resources/*.html;
 //                                   kept in the saved data for hasNewTree()'s detection, but no longer shown on the
 //                                   hub — hub.js filters this section out of render())
-//   Technology Links (id "tech") → Computers, The Internet, Arrrrgh, General (resources/tech-*.html), shown first on the hub
+//   Technology Links (id "tech") → Computers, Educational, The Internet, Arrrrgh, General (resources/tech-*.html), shown first on the hub
 //   General Resources (id "topics", formerly My Links)    → the 11 category pages: Technology, Web, Design, Careers, Software, Media,
 //                                   Music, Archives, Culture, Ideas, Life (navigation/resources/*.html)
 //   My Favourites (id "favourites") → Wayback Machine, Lainchan, LookMovie, Land Chad, Human Clock — a plain links
@@ -86,7 +86,8 @@ const HubData = (() => {
     // Technology Links: four topic-tree pages (seed/tech-*.md, built from the technology_tree spreadsheet), the hub's
     // first tree; the pages above follow it as General Resources.
     const techSection = () => ({ id: 'tech', title: 'Technology Links', type: 'cards', intro: '', items: groupedCards('resources', [
-        ['tech-computers', 'Computers', 'AI, programming, maths, operating systems and hardware.', 'tech'],
+        ['tech-computers', 'Computers', 'AI, maths, operating systems and hardware.', 'tech'],
+        ['tech-educational', 'Educational', 'Courses, programming languages, references, projects and video tutorials.', 'tech'],
         ['tech-internet', 'The Internet', 'The web, how to design for it and how to browse it.', 'tech'],
         ['tech-arrrrgh', 'Arrrrgh', 'Privacy, open source and free media.', 'tech'],
         ['tech-general', 'General', 'Tech culture, guides and references.', 'tech']

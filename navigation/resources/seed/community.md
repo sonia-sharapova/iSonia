@@ -25,6 +25,8 @@
   - https://nintil.com/categories
 - **Stephen Wolfram Writings**: Writings on computation, cellular automata and related topics
   - https://writings.stephenwolfram.com/
+- **Tech Essays**: Construction Physics: essays on how things get built
+  - https://www.construction-physics.com/
 
 ### Programming & Systems
 

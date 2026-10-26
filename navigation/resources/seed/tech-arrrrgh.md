@@ -88,6 +88,12 @@
   - https://phrack.org/
 - **Root-Me**: Platform to develop hacking skills
   - https://www.root-me.org/?lang=en
+- **captf.com/practice-ctf**: List of capture-the-flag practice sites
+  - http://captf.com/practice-ctf/
+- **crackmes.de**: Reverse-engineering challenges (crackmes)
+  - http://crackmes.de/
+- **wechall.net**: Hacking challenge sites, ranked in one place
+  - http://www.wechall.net/
 
 # Open Source
 
