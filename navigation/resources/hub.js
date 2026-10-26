@@ -301,12 +301,14 @@ function treePagesCol(reduced, same, delay) {
 // from) narrows this one down to a shared width, its items all one (smaller) size — see the .res-col-reduced
 // rules in hub.css — rather than shrinking further with every extra level the way it used to. Its "‹" backs out
 // to the page picker (same as the reduced pages column's own back-link).
-function treeTopicsCol(page, reduced, same, delay) {
+// nest: the open topic's sections (and the open section's sub-sections) are listed under it here instead of in
+// columns of their own (renderTree's four-column limit).
+function treeTopicsCol(page, reduced, same, delay, nest) {
   const rows = page.topics.map((t, i) => `<div class="res-row"${treeDnd('topic:' + i, false)}>
       <a class="res-link${i === treeSelTopic ? ' active' : ''}" href="#" onclick="event.preventDefault();selectTreeTopic(${i})">${esc(t.name)}</a>
       ${treeAdmBtns(`openTreeModal('topic',${i})`, `deleteTreeNode('topic',${i})`)}
-    </div>`).join('');
-  return `${treeColOpen('res-col res-col-sections', reduced, same, delay)}
+    </div>${nest && i === treeSelTopic ? treeNestedSections(page) : ''}`).join('');
+  return `${treeColOpen('res-col res-col-sections' + (nest ? ' res-col-nest' : ''), reduced, same, delay)}
       ${treeBackHead(`selectTreePage('${treeSelPage}')`, page.title)}
       <nav class="res-list">${rows}</nav>
       ${treeAddBtn('+ topic', `openTreeModal('topic',null)`)}
@@ -315,14 +317,30 @@ function treeTopicsCol(page, reduced, same, delay) {
 
 // Column 2 (no topics) or column 3 (a topic picked): that page's or topic's Sections. See treeTopicsCol re:
 // reduced/same/delay. Its header backs out to the topic picker when there is one, otherwise to the page picker.
-function treeSectionsCol(page, reduced, same, delay) {
+// renderTree's four-column limit: the levels that no longer get a column of their own, nested under the open item
+function treeNestedSubs(f) {
+  return `<div class="res-sublist">` + f.subfolders.map((sf, si) => `<div class="res-row"${treeDnd('sub:' + treeSelSection + ':' + si, true)}>
+        <a class="res-link${si === treeSelSub ? ' active' : ''}" href="#" onclick="event.preventDefault();selectTreeSub(${si})">${esc(sf.name)}</a>
+        ${treeAdmBtns(`openTreeModal('sub',${treeSelSection},${si})`, `deleteTreeNode('sub',${treeSelSection},${si})`)}
+      </div>`).join('') + `</div>`;
+}
+function treeNestedSections(page) {
+  return `<div class="res-sublist">` + treeVisibleFolders(page).map(([f, i]) => `<div class="res-row"${treeDnd('section:' + i, true)}>
+        <a class="res-link${i === treeSelSection ? ' active' : ''}" href="#" onclick="event.preventDefault();selectTreeSection(${i})">${esc(f.name)}</a>
+        ${treeAdmBtns(`openTreeModal('section',${i})`, `deleteTreeNode('section',${i})`)}
+      </div>${i === treeSelSection && f.subfolders.length ? treeNestedSubs(f) : ''}`).join('') +
+    treeAddBtn('+ section', `openTreeModal('section',null)`) + `</div>`;
+}
+
+// nest: the open section's sub-sections are listed under it here (renderTree's four-column limit).
+function treeSectionsCol(page, reduced, same, delay, nest) {
   const topic = page.topics[treeSelTopic];
   const rows = treeVisibleFolders(page).map(([f, i]) => `<div class="res-row"${treeDnd('section:' + i, true)}>
       <a class="res-link${i === treeSelSection ? ' active' : ''}" href="#" onclick="event.preventDefault();selectTreeSection(${i})">${esc(f.name)}</a>
       ${treeAdmBtns(`openTreeModal('section',${i})`, `deleteTreeNode('section',${i})`)}
-    </div>`).join('');
+    </div>${nest && i === treeSelSection && f.subfolders.length ? treeNestedSubs(f) : ''}`).join('');
   const back = topic ? `selectTreeTopic(${treeSelTopic})` : `selectTreePage('${treeSelPage}')`;
-  return `${treeColOpen('res-col res-col-sections', reduced, same, delay)}
+  return `${treeColOpen('res-col res-col-sections' + (nest ? ' res-col-nest' : ''), reduced, same, delay)}
       ${treeBackHead(back, topic ? topic.name : page.title)}
       <nav class="res-list">${rows}</nav>
       ${treeAddBtn('+ section', `openTreeModal('section',null)`)}
@@ -524,9 +542,17 @@ function renderTree(prefixCol) {
     if (useTopics && treeSelTopic >= 0) pickers.push('sections');
     if (useTopics && page.folders[treeSelSection] && page.folders[treeSelSection].subfolders.length) pickers.push('subs');
   }
+  // At most four columns in all — the hub's own sections column and the links / description column on the right
+  // count too. Past that, the deeper levels are listed under the open item in the last column that fits (a topic's
+  // sections nested under it, the open section's sub-sections under that), the way a topic page's own tree nests
+  // them, and that column stays full width. Phones stack the columns as chip rows (mobile.css hides nested lists),
+  // so they keep every column.
+  const maxPickers = 3 - (prefixCol ? 1 : 0);
+  const nest = pickers.length > maxPickers && !window.matchMedia('(max-width: 768px)').matches;
+  if (nest) pickers.length = maxPickers;
   const last = pickers.length - 1;
   const hasSelection = !!(page && page.folders[treeSelSection]);
-  const reducedAt = pickers.map((kind, i) => i !== last || hasSelection);
+  const reducedAt = pickers.map((kind, i) => i !== last || (hasSelection && !nest));
   // A column whose kind and reduced/full state match what was there last time (position for position) skips the
   // resize transition entirely — picking a different item in an already-reduced (or already-full) list, or
   // backing out through one, shouldn't replay a "shrink"/"grow" that isn't actually happening. See res-col-static.
@@ -539,9 +565,9 @@ function renderTree(prefixCol) {
     const same = !!(prev && prev.kind === kind && prev.reduced === reduced);
     const delay = (last - i) * 45;
     if (kind === 'pages') return treePagesCol(reduced, same, delay);
-    if (kind === 'topics') return treeTopicsCol(page, reduced, same, delay);
+    if (kind === 'topics') return treeTopicsCol(page, reduced, same, delay, nest && i === last);
     if (kind === 'subs') return treeSubsCol(page, reduced, same, delay);
-    return treeSectionsCol(page, reduced, same, delay);
+    return treeSectionsCol(page, reduced, same, delay, nest && i === last);
   }).join('');
   treePrevCols = pickers.map((kind, i) => ({ kind, reduced: reducedAt[i] }));
   const terminal = page ? (page.folders[treeSelSection] ? treeLinksCol(page, useTopics) : treeIntroCol(page, useTopics)) : treeHubIntroCol();
