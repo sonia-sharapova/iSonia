@@ -1132,20 +1132,6 @@ body.m2 .page-title { text-transform: uppercase; }
     border-radius: 2px;
   }
 
-  body.m2.p-about .project-list {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  body.m2.p-about .project-item {
-    box-sizing: border-box;
-    width: 100% !important;
-    max-width: 100%;
-    min-width: 0;
-    margin: 0 !important;
-  }
-
   /* ---------- Art ---------- */
 
   body.m2.p-art .content {
