@@ -352,7 +352,21 @@ body.admin-mode .add-section-row { display: flex; gap: 10px; align-items: center
    sit on one line, and the whole header — not just the chevron — is the click target (treeBackHead in hub.js), so
    the title itself works as the same back button. .res-head/.res-title's own size+weight are otherwise inherited
    from the shared .res-head rule in stylesheet.css, same as a category page's sectionsCol/subsCol. */
-.res-tree-hub .res-col-sections .res-head { display: flex; align-items: baseline; gap: 6px; }
+.res-tree-hub .res-col-sections .res-head { display: flex; align-items: center; gap: 5px; }
+/* ...in the same small-caps style as columns 1–2's headers (.res-col-cats .res-head, .res-chevron-label), full
+   size or reduced alike, so every column of the tree is headed the same way */
+.res-tree-hub .res-col-sections .res-head,
+.res-tree-hub .res-col-sections.res-col-reduced .res-head {
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #999999;
+    border-bottom: 1px solid #e4e4e4;
+    padding-bottom: 8px;
+    margin-bottom: 12px;
+}
+.res-tree-hub .res-col-sections .res-title { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
 .res-tree-hub .res-title { margin: 0; font-size: inherit; font-weight: inherit; color: inherit; }
 .res-tree-hub .res-head-back { cursor: pointer; transition: color 0.2s ease; }
 .res-tree-hub .res-head-back:hover, .res-tree-hub .res-head-back:focus-visible { color: #45a049; }

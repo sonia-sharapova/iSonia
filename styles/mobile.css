@@ -18,7 +18,7 @@
 
 /* Hidden by default; the mobile block below turns them on. !important because
    stylesheet.css forces every <a> to display:flex !important on small screens. */
-.about-link { display: none !important; }
+.about-link, .hero-message { display: none !important; }
 
 /* Page titles are stored in normal case so mobile can show "Projects";
    desktop keeps its all-caps look. */
@@ -275,7 +275,7 @@ body.m2 .page-title { text-transform: uppercase; }
     padding: 0 20px !important;
   }
 
-  body.m2 .left-column { gap: 36px; flex: none; }
+  body.m2 .left-column { gap: 28px; flex: none; }
 
   /* Hero: portrait left, name + eyebrow right, actions underneath */
   body.m2 .profile-section {
@@ -343,9 +343,21 @@ body.m2 .page-title { text-transform: uppercase; }
     grid-area: actions;
     display: flex;
     align-items: center;
+    justify-content: space-between;
     gap: 16px;
-    margin-top: 9px;
+    margin-top: 28px;
   }
+
+  /* [Message Me] sits up here on phones, across from "about me", instead of inside the blog box */
+  body.m2 .hero-message {
+    display: inline-flex !important;
+    min-height: 0 !important;
+    min-width: 0 !important;
+    font: 400 18px/24px 'Courier New', monospace;
+    color: #45a049;
+    text-decoration: none;
+  }
+  body.m2 .forum-board-actions .forum-message-link { display: none !important; }
 
   body.m2 #chip { display: none; }
 
@@ -381,7 +393,7 @@ body.m2 .page-title { text-transform: uppercase; }
   body.m2 .home-cont {
     display: flex;
     flex-direction: column;
-    gap: 36px;
+    gap: 28px;
     width: 100%;
     margin: 0 !important;
   }
