@@ -58,7 +58,6 @@ const HubData = (() => {
         // moved out of Technology Links (seed/<slug>.md, from the technology_tree spreadsheet)
         ['archives-collections', 'Archives & Collections', 'Collections, galleries and general archives.', 'misc'],
         ['guides', 'Guides', 'How-tos, free stuff, shopping and handy online tools.', 'misc'],
-        ['community', 'Community', 'Blogs, interviews, news, magazines, forums and personal sites.', 'misc'],
         ['silly', 'Silly', 'Silly and miscellaneous corners of the internet.', 'misc']
     ]);
 
@@ -89,6 +88,7 @@ const HubData = (() => {
         ['tech-internet', 'The Internet', 'The web, how to design for it and how to browse it.', 'tech'],
         ['tech-privacy', 'Privacy & Security', 'Security tools, privacy guides and anonymity tools, piracy and hacking.', 'tech'],
         ['tech-arrrrgh', 'Arrrrgh', 'Open source and free media.', 'tech'],
+        ['community', 'Community', 'Blogs, interviews, news, magazines, forums and personal sites.', 'tech'],
         ['tech-general', 'General', 'Tech culture, guides and references.', 'tech']
     ]) });
     const guidesSection = () => ({ id: 'guides', title: 'Guides', type: 'cards', intro: "Step-by-step write-ups and how-tos I've put together.", items: guides() });
@@ -101,10 +101,10 @@ const HubData = (() => {
         const hrefs = data.filter(s => s.type === 'cards').flatMap(s => (s.items || []).map(it => it.href || ''));
         return hrefs.some(h => /(^|\/)creating\.html/.test(h)) && hrefs.some(h => /(^|\/)careers\.html/.test(h));
     };
-    // the current General Resources list has the Community page (from the technology spreadsheet); older saved lists don't
+    // the current General Resources list has the Silly page (from the technology spreadsheet); older saved lists don't
     const hasElevenTopics = data => {
         const sec = data.find(s => s.id === 'topics');
-        return !!sec && (sec.items || []).some(it => /(^|\/)community\.html/.test(it.href || ''));
+        return !!sec && (sec.items || []).some(it => /(^|\/)silly\.html/.test(it.href || ''));
     };
     // group ('professional' / 'misc') was added after the 11-category list; backfill it onto an older saved copy
     const hasGroups = data => {
