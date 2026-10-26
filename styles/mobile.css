@@ -62,11 +62,14 @@ body.m2 .page-title { text-transform: uppercase; }
     display: flex !important;
     align-items: flex-start;
     justify-content: stretch;
-    background: #fff;
+    background: #f5f5f5;
     border-top: none;
     border-bottom: 1px solid #ddd !important;
     z-index: 12;
   }
+
+  /* the board bar ([ a / b / g … ] + github / linkedin / about) is desktop-only */
+  body.m2 .board-bar { display: none !important; }
 
   /* Wordmark bar: fixed directly under the tab bar. Skipped on Home and About, which already
      show "Sonia Sharapova" in the page itself — so nothing repeats it, and the tab bar alone is 56px. */
@@ -86,6 +89,8 @@ body.m2 .page-title { text-transform: uppercase; }
   }
 
   body.m2.p-home, body.m2.p-about { padding-top: 56px !important; }
+  /* on Home the (now hidden) board bar was the gap under the tab bar */
+  body.m2.p-home { padding-top: 76px !important; }
 
   body.m2 .nav-item {
     flex: 1 1 0;
@@ -95,10 +100,11 @@ body.m2 .page-title { text-transform: uppercase; }
     justify-content: flex-start !important;
     gap: 4px;
     padding: 8px 0 0 !important;
-    font: 400 11px/16px 'IBM Plex Mono', 'Courier New', monospace !important;
-    letter-spacing: 0;
-    text-transform: lowercase;
-    color: #888f8d !important;
+    /* same voice as the desktop bar: Optima capitals, muted grey, green for the current page */
+    font: 400 10px/16px 'Optima', 'Belleza', arial, sans-serif !important;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #888 !important;
     transform: none !important;
   }
 
@@ -110,14 +116,14 @@ body.m2 .page-title { text-transform: uppercase; }
     height: 100%;
     box-sizing: border-box;
     border-bottom: 2px solid #45a049;
-    color: #333 !important;
+    color: #45a049 !important;
   }
 
   body.m2 .nav-item::before {
     content: "";
     display: block;
-    width: 22px;
-    height: 22px;
+    width: 20px;
+    height: 20px;
     background: currentColor;
     -webkit-mask-position: center;
     mask-position: center;
