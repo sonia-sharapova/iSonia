@@ -7,6 +7,12 @@ const DATA_URL = '../data/resources.json';
 // <body data-hub="guides"> limits the page to the Guides section (learning.html)
 const HUB_ONLY = document.body.dataset.hub || '';
 
+// Both hubs show their pages as the same column tree: Resources → its My Links pages (navigation/resources/*),
+// Learning → its Guides (navigation/learning/*). `sec` is the hub section listing the pages, `dir` their folder.
+const TREE = HUB_ONLY === 'guides'
+  ? { sec: 'guides', dir: 'learning', groups: [['guides', 'Guides']], defaultGroup: 'guides' }
+  : { sec: 'topics', dir: 'resources', groups: [['professional', 'Professional'], ['misc', 'Misc.']], defaultGroup: 'misc' };
+
 let sections = [];
 let isAdmin = false;
 let treeData = {};   // page slug -> { intro, folders, topics } for the inline folder tree (the My Links category pages)
@@ -29,7 +35,7 @@ async function init() {
     sections = HubData.normalize(sections);
   } catch(e) { sections = HubData.normalize([]); }
 
-  if (HUB_ONLY !== 'guides') await loadTree();
+  await loadTree();
   render();
 }
 
@@ -37,7 +43,7 @@ async function init() {
 async function fetchCategoryMarkdown(name) {
   for (const dir of ['markdown', 'seed']) {
     try {
-      const r = await fetch(`resources/${dir}/${name}.md`);
+      const r = await fetch(`${TREE.dir}/${dir}/${name}.md`);
       if (r.ok) {
         const text = await r.text();
         if (!/^\s*<(!doctype|html)/i.test(text)) return text;
@@ -48,11 +54,11 @@ async function fetchCategoryMarkdown(name) {
 }
 
 async function loadTree() {
-  const topicsSec = sections.find(s => s.id === 'topics');
+  const topicsSec = sections.find(s => s.id === TREE.sec);
   const pages = (topicsSec ? topicsSec.items : []).map(it => ({
     id: it.id,
     title: it.title,
-    group: it.group || 'misc',
+    group: it.group || TREE.defaultGroup,
     slug: it.href.split('/').pop().replace('.html', '')
   }));
   const entries = await Promise.all(pages.map(async p => {
@@ -106,10 +112,10 @@ function fitReducedColumns() {
 
 function renderSection(sec) {
   // "topics" (My Links) is shown as the inline folder tree of its pages' real content
-  const items = sec.id === 'topics' ? renderTree()
+  const items = sec.id === TREE.sec ? renderTree()
     : sec.type === 'cards' ? renderMenu(sec) : renderLinks(sec);
   // "My Links" itself is a link back to the tree's original (nothing-picked) view, wherever you've drilled to
-  const header = sec.id === 'topics'
+  const header = sec.id === TREE.sec
     ? `<a href="#" class="section-header section-header-link" onclick="event.preventDefault();resetTree()" title="Back to My Links">${esc(sec.title)}</a>`
     : `<div class="section-header">${esc(sec.title)}</div>`;
   return `
@@ -137,7 +143,7 @@ function resetTree() {
 // no sub-sections skips straight to its links; a section that does have sub-sections gets a dedicated column for
 // them only on a page that has topics — otherwise (most pages) they break the links column with an inline header
 // instead, same as that page's own tree does.
-const GROUPS = [['professional', 'Professional'], ['misc', 'Misc.']];
+const GROUPS = TREE.groups;
 
 let treeSelPage = null;     // slug of the page open in the tree, or null
 let treeSelTopic = -1;      // index into that page's topics, -1 = none picked
@@ -229,7 +235,7 @@ function treePagesCol(reduced, same, delay) {
             <a class="res-link${p.slug === treeSelPage ? ' active' : ''}" href="#" onclick="event.preventDefault();selectTreePage('${p.slug}')">${esc(p.title)}</a>
             ${treePageAdmBtns(p)}
           </div>`).join('')}</nav>
-      </div>`).join('') + treeAddBtn('+ page', `openItemModal('topics',null)`) + `</div>`;
+      </div>`).join('') + treeAddBtn('+ page', `openItemModal('${TREE.sec}',null)`) + `</div>`;
 }
 
 // Column 2 on a page with topics: that page's Topics. `reduced` (a later column is now the one you're choosing
@@ -302,7 +308,7 @@ function treeOpenLink(href, label) {
 // relocated to the right of the page picker instead of below the whole tree.
 function treeHubIntroCol() {
   const src = document.getElementById('hub-intro');
-  const favSec = sections.find(s => s.id === 'favourites');
+  const favSec = TREE.sec === 'topics' && sections.find(s => s.id === 'favourites');
   return `<div class="res-col res-col-links res-intro">${src ? src.innerHTML : ''}${favSec ? renderSection(favSec) : ''}</div>`;
 }
 
@@ -341,7 +347,7 @@ function treeLinksCol(page, useTopics) {
     const sel = f.subfolders[treeSelSub];
     const target = sel || f;
     const hash = slugify(topic.name) + '/' + slugify(f.name) + (sel ? '/' + slugify(sel.name) : '');
-    const open = treeOpenLink(`resources/${page.slug}.html#${hash}`, target.name);
+    const open = treeOpenLink(`${TREE.dir}/${page.slug}.html#${hash}`, target.name);
     return `<div class="res-col res-col-links">
         <div class="res-head"${treeDnd(sel ? `sub:${treeSelSection}:${treeSelSub}` : `section:${treeSelSection}`, false)}><h2 class="res-section-title">${esc(target.name)}</h2>${open}</div>
         ${treeNodeImage(target)}
@@ -350,7 +356,7 @@ function treeLinksCol(page, useTopics) {
       </div>`;
   }
   // no topics: sub-sections break the list with their own header, inline in this column (same as that page itself)
-  const open = treeOpenLink(`resources/${page.slug}.html#${slugify(f.name)}`, f.name);
+  const open = treeOpenLink(`${TREE.dir}/${page.slug}.html#${slugify(f.name)}`, f.name);
   let html = `<div class="res-head"${treeDnd('section:' + treeSelSection, false)}><h2 class="res-section-title">${esc(f.name)}</h2>${open}</div>` + treeNodeImage(f);
   html += treeLinkList(f.items, treeSelSection, -1);
   f.subfolders.forEach((sf, si) => {
@@ -420,7 +426,7 @@ function treeAdmBtns(edit, del) {
 }
 // The first column's pages are the hub's own My Links items (data/resources.json), so they use the item modal
 function treePageAdmBtns(p) {
-  return p.id ? treeAdmBtns(`openItemModal('topics','${p.id}')`, `deleteItem('topics','${p.id}')`) : '';
+  return p.id ? treeAdmBtns(`openItemModal('${TREE.sec}','${p.id}')`, `deleteItem('${TREE.sec}','${p.id}')`) : '';
 }
 function treeAddBtn(label, action) {
   return `<button class="adm-text-add admin-only" onclick="${action}">${esc(label)}</button>`;
@@ -536,7 +542,7 @@ async function persistTree(page) {
     const res = await fetch('../admin/save-resource-md.php', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ file: page.slug, dir: 'resources', content: HubData.serializeMarkdown(page.folders, page.intro, page.topics) })
+      body: JSON.stringify({ file: page.slug, dir: TREE.dir, content: HubData.serializeMarkdown(page.folders, page.intro, page.topics) })
     }).then(r => r.json());
     if (!res.success) { alert('Save error: ' + (res.error || 'unknown')); return false; }
     return true;
@@ -779,7 +785,7 @@ async function deleteItem(secId, itemId) {
   const sec = sections.find(s => s.id === secId);
   sec.items = sec.items.filter(i => i.id !== itemId);
   await persist();
-  if (secId === 'topics') { if (treeSelPage && !sec.items.some(i => i.id === treeSelPage)) resetTree(); await loadTree(); }
+  if (secId === TREE.sec) { if (treeSelPage && !sec.items.some(i => i.id === treeSelPage)) resetTree(); await loadTree(); }
   render();
 }
 
@@ -818,7 +824,7 @@ document.getElementById('item-save').onclick = async () => {
   }
   await persist();
   closeItemModal();
-  if (modalSectionId === 'topics') await loadTree();
+  if (modalSectionId === TREE.sec) await loadTree();
   render();
 };
 
