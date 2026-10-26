@@ -346,10 +346,16 @@ function treeOpenLink(href, label) {
 // hub's hand-picked shortcuts) sits right under it, in the same column — reusing renderSection so it keeps its
 // header, admin +/delete controls and .fav-list markup exactly as it had them as a standalone section, just
 // relocated to the right of the page picker instead of below the whole tree.
+// The Learning page link (#hub-more in resources.html), under the Technology Links tree's intro text
+function treeMoreNote() {
+  const src = TREE.sec === 'tech' && document.getElementById('hub-more');
+  return src ? src.innerHTML : '';
+}
+
 function treeHubIntroCol() {
   const src = document.getElementById('hub-intro');
   const favSec = TREE.sec === 'topics' && sections.find(s => s.id === 'favourites');
-  return `<div class="res-col res-col-links res-intro">${src ? src.innerHTML : ''}${favSec ? renderSection(favSec) : ''}</div>`;
+  return `<div class="res-col res-col-links res-intro">${src ? src.innerHTML : ''}${treeMoreNote()}${favSec ? renderSection(favSec) : ''}</div>`;
 }
 
 // The rightmost column while nothing with actual links is picked yet: the page's own picture (pages are the only
@@ -375,6 +381,7 @@ function treeIntroCol(page, useTopics) {
       <h2 class="res-section-title">${esc(topic ? topic.name : page.title)}</h2>
       ${!topic && page.intro.description ? `<p class="res-intro-text">${esc(page.intro.description)}</p>` : ''}
       <p class="res-hint">${esc(hint)}</p>
+      ${treeMoreNote()}
       ${treeMdBtn()}
     </div>`;
 }

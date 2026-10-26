@@ -147,7 +147,6 @@ body.admin-mode .add-section-row { display: flex; gap: 10px; align-items: center
    (treeHubIntroCol), so the element it lives in here stays hidden. */
 @media (min-width: 769px) {
     body.p-resources .section-header-row .section-header { flex: 1; }
-    body.p-resources .learning-note { margin: 0 16px; }
 
     .section-block { margin-top: 36px; margin-bottom: 0; }
     .section-block .section-header { margin: 0; }
@@ -475,6 +474,8 @@ body.admin-mode .add-section-row { display: flex; gap: 10px; align-items: center
     transition: border-color 0.28s ease;
 }
 .learning-note:hover { border-color: #45a049; }
+/* inside the tree's intro column: a little space above, its text lined up with the column's (cancels the padding) */
+body.p-resources .res-tree-hub .learning-note { margin: 22px 0 0 -10px; }
 .learning-note-title { display: block; font-size: 20px; font-weight: 300; }
 .learning-note-text { display: block; margin-top: 2px; font-size: 17px; color: #45a049; text-decoration: none; }
 .learning-note-arrow { display: inline-block; transition: transform 0.25s ease; }

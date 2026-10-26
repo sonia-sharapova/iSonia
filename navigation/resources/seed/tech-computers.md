@@ -1,4 +1,4 @@
-> AI, programming, maths, operating systems and hardware.
+> AI, maths, operating systems and hardware.
 
 # AI
 

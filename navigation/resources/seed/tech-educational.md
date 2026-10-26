@@ -147,6 +147,22 @@
   - https://www.w3schools.com/
 - **Learn Web Development**: Tutorials, references and my own guides
   - /navigation/resources/learning.html#learn-web-development
+- **Brad Woods Digital Garden**: Notes about web dev. creative coding
+  - https://garden.bradwoods.io/
+- **Can I Use**: Browser support tables for modern web technologies
+  - https://caniuse.com/
+- **Can We**: A collection of websites focused on browsers usage and features.
+  - https://canwe.dev/
+- **CSS Reference**: A free visual guide to css
+  - https://cssreference.io/
+- **Frontend Checklist**: Complete reference for full frontend
+  - https://frontendchecklist.io/
+- **HTML Docs**: HTML documentation / tutorial
+  - https://developer.mozilla.org/en-US/docs/Web/HTML
+- **HTML Reference**: A freeguide to html
+  - https://htmlreference.io/
+- **Three.js Audio**: Tutorial on audio with Three.js
+  - https://threejs.org/docs/#api/en/audio/Audio
 
 ## Challenges & Puzzles
 
