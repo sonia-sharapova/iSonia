@@ -80,10 +80,10 @@ const HubData = (() => {
     // first tree; the pages above follow it as General Resources.
     // Web Archives: the archive-ish category pages, as the hub's third tree (below General Resources)
     const archiveSection = () => ({ id: 'archive', title: 'Web Archives', type: 'cards', intro: '', items: groupedCards('resources', [
-        ['media', 'Media', 'Film, video, music, anime, games and things to read.', 'archive'],
-        ['archives', 'Archives', "Libraries, museums and the internet's memory.", 'archive'],
-        ['archives-collections', 'Archives & Collections', 'Collections, galleries and general archives.', 'archive']
-    ]) });
+        ['media', 'Media', 'Film, video, music, anime, games and things to read.', 'media'],
+        ['archives', 'Archives', "Libraries, museums and the internet's memory.", 'archives'],
+        ['archives-collections', 'Archives & Collections', 'Collections, galleries and general archives.', 'archives-collections']
+    ]).map(it => ({ ...it, expand: true })) });   // each page's sections are listed in the first column (hub.js treeEntries)
     const techSection = () => ({ id: 'tech', title: 'Technology Links', type: 'cards', intro: '', items: groupedCards('resources', [
         ['tech-computers', 'Computers', 'AI, maths, operating systems, hardware, tech culture and guides.', 'tech'],
         ['tech-educational', 'Educational', 'Courses, programming languages, references, projects and video tutorials.', 'tech'],
@@ -143,6 +143,9 @@ const HubData = (() => {
             data.splice(at >= 0 ? at : data.length, 0, techSection());
         }
         // Web Archives, right after General Resources — and its pages taken out of General Resources if a saved list has them
+        // (a list saved before the pages were expanded into their own groups gets the current ones)
+        const archAt = data.findIndex(s => s.id === 'archive');
+        if (archAt >= 0 && !(data[archAt].items || []).every(it => it.expand)) data.splice(archAt, 1);
         if (!data.some(s => s.id === 'archive')) {
             const at = data.findIndex(s => s.id === 'topics');
             data.splice(at >= 0 ? at + 1 : data.length, 0, archiveSection());

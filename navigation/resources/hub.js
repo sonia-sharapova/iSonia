@@ -14,7 +14,7 @@ const TREES = HUB_ONLY === 'guides'
   ? [{ sec: 'guides', dir: 'learning', groups: [['guides', 'Guides']], defaultGroup: 'guides' }]
   : [{ sec: 'tech', dir: 'resources', groups: [['tech', 'Technology']], defaultGroup: 'tech' },
      { sec: 'topics', dir: 'resources', groups: [['professional', 'Professional'], ['misc', 'Misc.']], defaultGroup: 'misc' },
-     { sec: 'archive', dir: 'resources', groups: [['archive', 'Archives']], defaultGroup: 'archive' }];
+     { sec: 'archive', dir: 'resources', groups: [['media', 'Media'], ['archives', 'Archives'], ['archives-collections', 'Archives & Collections']], defaultGroup: 'archives' }];
 let TREE = TREES[0];
 
 let sections = [];
@@ -94,11 +94,12 @@ async function loadTree() {
     id: it.id,
     title: it.title,
     group: it.group || TREE.defaultGroup,
+    expand: !!it.expand,
     slug: it.href.split('/').pop().replace('.html', '')
   }));
   const entries = await Promise.all(pages.map(async p => {
     const md = await fetchCategoryMarkdown(p.slug);
-    return [p.slug, md ? { id: p.id, title: p.title, group: p.group, slug: p.slug, ...HubData.parseMarkdown(md) } : null];
+    return [p.slug, md ? { id: p.id, title: p.title, group: p.group, expand: p.expand, slug: p.slug, ...HubData.parseMarkdown(md) } : null];
   }));
   treeData = Object.fromEntries(entries.filter(([, v]) => v));
 }
@@ -253,29 +254,44 @@ function treeColOpen(baseClass, reduced, same, delay) {
 // still jump straight to a different one in the same group. The group header becomes a link back to the full
 // picker (selectTreePage toggles the open page back off), and the other group — not part of what's open — is
 // dropped rather than also shown reduced. `same`/`delay`: see treeColOpen and renderTree.
+// An "expanded" page (Web Archives' pages: its hub item has expand: true) isn't listed itself — each of its sections
+// is, under the page's group heading, and picking one opens that section straight away (sub-sections in a column of
+// their own, then the links). The page stays the one being edited and saved, so every admin control still works.
+function treeEntries(pages) {
+  return pages.flatMap(p => p.expand
+    ? p.folders.map((f, fi) => ({ title: f.name, group: p.group, call: `selectTreeExpanded('${p.slug}',${fi})`,
+        active: p.slug === treeSelPage && fi === treeSelSection, adm: treeAdmBtns(`selectTreeExpanded('${p.slug}',${fi},true);openTreeModal('section',${fi})`, `selectTreeExpanded('${p.slug}',${fi},true);deleteTreeNode('section',${fi})`) }))
+    : [{ title: p.title, group: p.group, call: `selectTreePage('${p.slug}')`, active: p.slug === treeSelPage, adm: treePageAdmBtns(p) }]);
+}
+function selectTreeExpanded(slug, fi, keep) {
+  const open = treeSelPage === slug && treeSelSection === fi;
+  if (open && !keep) { treeSelPage = null; treeSelSection = -1; treeSelSub = -1; render(); return; }   // clicking the open one closes it
+  treeSelPage = slug; treeSelTopic = -1; treeSelSection = fi;
+  treeSelSub = open ? treeSelSub : treeDefaultSub(treeData[slug], fi);
+  if (!keep) render();
+}
+
 function treePagesCol(reduced, same, delay) {
-  const pages = Object.values(treeData);
-  const groups = GROUPS.map(([id, label]) => [id, label, pages.filter(p => p.group === id)]).filter(([, , ps]) => ps.length);
+  const entries = treeEntries(Object.values(treeData));
+  const groups = GROUPS.map(([id, label]) => [id, label, entries.filter(e => e.group === id)]).filter(([, , es]) => es.length);
+  const rows = es => es.map(e => `<div class="res-row">
+              <a class="res-link${e.active ? ' active' : ''}" href="#" onclick="event.preventDefault();${e.call}">${esc(e.title)}</a>
+              ${e.adm}
+            </div>`).join('');
   if (reduced) {
     const cur = treeData[treeSelPage];
-    const [, label, ps] = groups.find(([id]) => id === (cur && cur.group)) || [null, '', []];
+    const [, label, es] = groups.find(([id]) => id === (cur && cur.group)) || [null, '', []];
     return `${treeColOpen('res-col res-col-cats', true, same, delay)}
         <div class="sidebar-section">
           <a href="#" class="res-chevron-label" onclick="event.preventDefault();selectTreePage('${treeSelPage}')" title="Back to ${esc(label)}"><span>${esc(label)}</span></a>
-          <nav class="res-list">${ps.map(p => `<div class="res-row">
-              <a class="res-link${p.slug === treeSelPage ? ' active' : ''}" href="#" onclick="event.preventDefault();selectTreePage('${p.slug}')">${esc(p.title)}</a>
-              ${treePageAdmBtns(p)}
-            </div>`).join('')}</nav>
+          <nav class="res-list">${rows(es)}</nav>
         </div>
       </div>`;
   }
-  return treeColOpen('res-col res-col-cats', false, same, delay) + groups.map(([, label, ps]) => `
+  return treeColOpen('res-col res-col-cats', false, same, delay) + groups.map(([, label, es]) => `
       <div class="sidebar-section">
         <h3 class="res-head">${esc(label)}</h3>
-        <nav class="res-list">${ps.map(p => `<div class="res-row">
-            <a class="res-link${p.slug === treeSelPage ? ' active' : ''}" href="#" onclick="event.preventDefault();selectTreePage('${p.slug}')">${esc(p.title)}</a>
-            ${treePageAdmBtns(p)}
-          </div>`).join('')}</nav>
+        <nav class="res-list">${rows(es)}</nav>
       </div>`).join('') + treeAddBtn('+ page', `openItemModal('${TREE.sec}',null)`) + `</div>`;
 }
 
@@ -322,7 +338,7 @@ function treeSubsCol(page, reduced, same, delay) {
       ${treeAdmBtns(`openTreeModal('sub',${treeSelSection},${si})`, `deleteTreeNode('sub',${treeSelSection},${si})`)}
     </div>`).join('');
   return `${treeColOpen('res-col res-col-sections res-col-subs', reduced, same, delay)}
-      ${treeBackHead(`selectTreeSection(${treeSelSection})`, f.name)}
+      ${treeBackHead(page.expand ? `selectTreePage('${treeSelPage}')` : `selectTreeSection(${treeSelSection})`, f.name)}
       <nav class="res-list">${rows}</nav>
     </div>`;
 }
@@ -393,11 +409,12 @@ function treeIntroCol(page, useTopics) {
 // No description text here either (see treeIntroCol) — just the title and the links themselves.
 function treeLinksCol(page, useTopics) {
   const f = page.folders[treeSelSection];
-  if (useTopics) {
+  if (useTopics || page.expand) {
     const topic = page.topics[treeSelTopic];
     const sel = f.subfolders[treeSelSub];
     const target = sel || f;
-    const hash = slugify(topic.name) + '/' + slugify(f.name) + (sel ? '/' + slugify(sel.name) : '');
+    // (a page without topics only takes the section in its hash)
+    const hash = useTopics ? slugify(topic.name) + '/' + slugify(f.name) + (sel ? '/' + slugify(sel.name) : '') : slugify(f.name);
     const open = treeOpenLink(`${TREE.dir}/${page.slug}.html#${hash}`, target.name);
     return `<div class="res-col res-col-links">
         <div class="res-head"${treeDnd(sel ? `sub:${treeSelSection}:${treeSelSub}` : `section:${treeSelSection}`, false)}><h2 class="res-section-title">${esc(target.name)}</h2>${open}</div>
@@ -435,7 +452,11 @@ function renderTree() {
   // down to whatever you're actually looking at, not just down to the last list you clicked in.
   const pickers = ['pages'];
   let useTopics = false;
-  if (page) {
+  if (page && page.expand) {
+    // the section was picked in the first column; its sub-sections (if any) get their own column
+    const f = page.folders[treeSelSection];
+    if (f && f.subfolders.length) pickers.push('subs');
+  } else if (page) {
     useTopics = page.topics.length > 0;
     pickers.push(useTopics ? 'topics' : 'sections');
     if (useTopics && treeSelTopic >= 0) pickers.push('sections');
