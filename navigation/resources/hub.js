@@ -50,13 +50,14 @@ async function fetchCategoryMarkdown(name) {
 async function loadTree() {
   const topicsSec = sections.find(s => s.id === 'topics');
   const pages = (topicsSec ? topicsSec.items : []).map(it => ({
+    id: it.id,
     title: it.title,
     group: it.group || 'misc',
     slug: it.href.split('/').pop().replace('.html', '')
   }));
   const entries = await Promise.all(pages.map(async p => {
     const md = await fetchCategoryMarkdown(p.slug);
-    return [p.slug, md ? { title: p.title, group: p.group, slug: p.slug, ...HubData.parseMarkdown(md) } : null];
+    return [p.slug, md ? { id: p.id, title: p.title, group: p.group, slug: p.slug, ...HubData.parseMarkdown(md) } : null];
   }));
   treeData = Object.fromEntries(entries.filter(([, v]) => v));
 }
@@ -98,6 +99,7 @@ function fitReducedColumns() {
     col.querySelectorAll('.res-link, .res-title, .res-chevron-label').forEach(el => {
       max = Math.max(max, el.scrollWidth);
     });
+    if (isAdmin) max += 48;   // the ✎ ✕ buttons after each row (treeAdmBtns)
     if (max > 0) col.style.flexBasis = Math.max(max + 2, 90) + 'px';
   });
 }
@@ -215,6 +217,7 @@ function treePagesCol(reduced, same, delay) {
           <a href="#" class="res-chevron-label" onclick="event.preventDefault();selectTreePage('${treeSelPage}')" title="Back to ${esc(label)}"><span>${esc(label)}</span></a>
           <nav class="res-list">${ps.map(p => `<div class="res-row">
               <a class="res-link${p.slug === treeSelPage ? ' active' : ''}" href="#" onclick="event.preventDefault();selectTreePage('${p.slug}')">${esc(p.title)}</a>
+              ${treePageAdmBtns(p)}
             </div>`).join('')}</nav>
         </div>
       </div>`;
@@ -224,8 +227,9 @@ function treePagesCol(reduced, same, delay) {
         <h3 class="res-head">${esc(label)}</h3>
         <nav class="res-list">${ps.map(p => `<div class="res-row">
             <a class="res-link${p.slug === treeSelPage ? ' active' : ''}" href="#" onclick="event.preventDefault();selectTreePage('${p.slug}')">${esc(p.title)}</a>
+            ${treePageAdmBtns(p)}
           </div>`).join('')}</nav>
-      </div>`).join('') + `</div>`;
+      </div>`).join('') + treeAddBtn('+ page', `openItemModal('topics',null)`) + `</div>`;
 }
 
 // Column 2 on a page with topics: that page's Topics. `reduced` (a later column is now the one you're choosing
@@ -409,6 +413,10 @@ function treeAdmBtns(edit, del) {
       <button class="adm-btn adm-del" onclick="event.preventDefault();event.stopPropagation();${del}" title="Delete">✕</button>
     </span>`;
 }
+// The first column's pages are the hub's own My Links items (data/resources.json), so they use the item modal
+function treePageAdmBtns(p) {
+  return p.id ? treeAdmBtns(`openItemModal('topics','${p.id}')`, `deleteItem('topics','${p.id}')`) : '';
+}
 function treeAddBtn(label, action) {
   return `<button class="adm-text-add admin-only" onclick="${action}">${esc(label)}</button>`;
 }
@@ -580,6 +588,7 @@ async function deleteItem(secId, itemId) {
   const sec = sections.find(s => s.id === secId);
   sec.items = sec.items.filter(i => i.id !== itemId);
   await persist();
+  if (secId === 'topics') { if (treeSelPage && !sec.items.some(i => i.id === treeSelPage)) resetTree(); await loadTree(); }
   render();
 }
 
@@ -618,6 +627,7 @@ document.getElementById('item-save').onclick = async () => {
   }
   await persist();
   closeItemModal();
+  if (modalSectionId === 'topics') await loadTree();
   render();
 };
 
