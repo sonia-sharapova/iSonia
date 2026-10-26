@@ -273,8 +273,9 @@
     .modal-status { font-size: 12px; color: #888; }
   </style>
   <link rel="stylesheet" href="../styles/forum.css">
+  <link rel="stylesheet" href="media-extras.css">
 </head>
-<body class="m2 p-books">
+<body class="m2 p-books" data-media="books">
 <nav class="navigation">
   <a href="../index.html" class="nav-item">HOME</a>
   <a href="../creations/projects.html" class="nav-item">PROJECTS</a>
@@ -353,6 +354,7 @@
       <div class="movie-info">
         <div class="movie-title" id="movie-title"></div>
         <div class="movie-description" id="movie-description"></div>
+        <div id="media-go-slot"></div>
       </div>
     </div>
   </div>
@@ -413,6 +415,8 @@
   </div>
 </footer>
 
+<script src="../navigation/resources/hub-data.js"></script>
+<script src="media-extras.js"></script>
 <script>
   let books = [];
   let editingIndex = -1;
@@ -423,7 +427,7 @@
   const movieDescription = document.getElementById('movie-description');
 
   // Load books from JSON
-  fetch('../data/books.json')
+  fetch('../data/books.json', { cache: 'no-cache' })
     .then(r => r.json())
     .then(data => {
       books = data;
@@ -488,6 +492,7 @@
     previewImg.alt = b.title;
     movieTitle.textContent = b.title + (b.year ? ` (${b.year})` : '');
     movieDescription.innerHTML = b.author + (b.description ? `<br><br>${escHtml(b.description)}` : '');
+    document.getElementById('media-go-slot').innerHTML = MediaExtras.goButton(b);
   }
 
   // --- Admin ---

@@ -224,8 +224,9 @@
         @media (max-width: 1000px) { .grid { grid-template-columns: repeat(5, 1fr); } }
     </style>
   <link rel="stylesheet" href="../styles/forum.css">
+  <link rel="stylesheet" href="media-extras.css">
 </head>
-<body class="m2 p-music">
+<body class="m2 p-music" data-media="music">
 <nav class="navigation">
   <a href="../index.html" class="nav-item">HOME</a>
   <a href="../creations/projects.html" class="nav-item">PROJECTS</a>
@@ -308,6 +309,7 @@
     <h3 id="popup-artist"></h3>
     <hr>
     <p id="popup-desc"></p>
+    <div id="media-go-slot"></div>
 </div>
 <div class="overlay" id="overlay"></div>
 
@@ -363,13 +365,15 @@
   </div>
 </footer>
 
+<script src="../navigation/resources/hub-data.js"></script>
+<script src="media-extras.js"></script>
 <script>
     let albums = [];
     let editingIndex = -1;
     let dragSrc = null;
 
     Promise.all([
-        fetch('../data/music.json').then(r => r.json()).catch(() => []),
+        fetch('../data/music.json', { cache: 'no-cache' }).then(r => r.json()).catch(() => []),
         fetch('../admin/check-session.php').then(r => r.json()).catch(() => ({}))
     ]).then(([data, session]) => {
         albums = Array.isArray(data) ? data : [];
@@ -421,6 +425,7 @@
         document.getElementById('popup-title').textContent = a.title + (a.year ? ` (${a.year})` : '');
         document.getElementById('popup-artist').textContent = a.artist;
         document.getElementById('popup-desc').textContent = a.description || '';
+        document.getElementById('media-go-slot').innerHTML = MediaExtras.goButton(a);
         document.getElementById('popup').classList.add('active');
         document.getElementById('overlay').classList.add('active');
     }
