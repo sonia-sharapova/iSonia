@@ -46,16 +46,13 @@ const HubData = (() => {
     // narrower, reduced columns — the description still carries the fuller meaning.
     const topics = () => groupedCards('resources', [
         // (Technology, Web, Software and Torrents & Streaming were folded into the Technology Links tree — their pages
-        // and markdown are still there, unlisted)
+        // and markdown are still there, unlisted; Media, Archives and Archives & Collections are in Web Archives)
         ['design', 'Design', 'Inspiration, tools and assets for design work.', 'professional'],
         ['careers', 'Careers', 'Jobs, studios, festivals and open calls.', 'professional'],
-        ['media', 'Media', 'Film, video, music, anime, games and things to read.', 'misc'],
-        ['archives', 'Archives', "Libraries, museums and the internet's memory.", 'misc'],
         ['culture', 'Culture', 'Personal sites, forums, nostalgia and the strange.', 'misc'],
         ['ideas', 'Ideas', 'The thinkers, arguments and theories behind it all.', 'misc'],
         ['life', 'Life', 'Everyday guides, free courses and life admin.', 'misc'],
         // moved out of Technology Links (seed/<slug>.md, from the technology_tree spreadsheet)
-        ['archives-collections', 'Archives & Collections', 'Collections, galleries and general archives.', 'misc'],
         ['guides', 'Guides', 'How-tos, free stuff, shopping and handy online tools.', 'misc'],
         ['silly', 'Silly', 'Silly and miscellaneous corners of the internet.', 'misc']
     ]);
@@ -81,6 +78,12 @@ const HubData = (() => {
     const topicsSection = () => ({ id: 'topics', title: 'General Resources', type: 'cards', intro: '', items: topics() });
     // Technology Links: four topic-tree pages (seed/tech-*.md, built from the technology_tree spreadsheet), the hub's
     // first tree; the pages above follow it as General Resources.
+    // Web Archives: the archive-ish category pages, as the hub's third tree (below General Resources)
+    const archiveSection = () => ({ id: 'archive', title: 'Web Archives', type: 'cards', intro: '', items: groupedCards('resources', [
+        ['media', 'Media', 'Film, video, music, anime, games and things to read.', 'archive'],
+        ['archives', 'Archives', "Libraries, museums and the internet's memory.", 'archive'],
+        ['archives-collections', 'Archives & Collections', 'Collections, galleries and general archives.', 'archive']
+    ]) });
     const techSection = () => ({ id: 'tech', title: 'Technology Links', type: 'cards', intro: '', items: groupedCards('resources', [
         ['tech-computers', 'Computers', 'AI, maths, operating systems, hardware, tech culture and guides.', 'tech'],
         ['tech-educational', 'Educational', 'Courses, programming languages, references, projects and video tutorials.', 'tech'],
@@ -125,6 +128,7 @@ const HubData = (() => {
             if (s.id === 'cat' && (s.title === 'Categories' || s.title === 'Saved Links')) s.title = 'By Function';
             if (s.id === 'topics') s.title = 'General Resources';
             if (s.id === 'tech') s.title = 'Technology Links';
+            if (s.id === 'archive') s.title = 'Web Archives';
             s.items = (s.items || []).filter(it => !isTutorialsCard(it));
         });
         // the hub's own hand-picked shortcuts — always exactly Wayback/Lainchan/LookMovie/Land Chad/Human Clock
@@ -138,6 +142,13 @@ const HubData = (() => {
             const at = data.findIndex(s => s.id === 'topics');
             data.splice(at >= 0 ? at : data.length, 0, techSection());
         }
+        // Web Archives, right after General Resources — and its pages taken out of General Resources if a saved list has them
+        if (!data.some(s => s.id === 'archive')) {
+            const at = data.findIndex(s => s.id === 'topics');
+            data.splice(at >= 0 ? at + 1 : data.length, 0, archiveSection());
+        }
+        const archiveHrefs = data.find(s => s.id === 'archive').items.map(it => it.href);
+        data.forEach(s => { if (s.id === 'topics') s.items = (s.items || []).filter(it => !archiveHrefs.includes(it.href)); });
         if (!data.some(isGuides)) data.push(guidesSection());
         return data;
     }

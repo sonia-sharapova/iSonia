@@ -13,7 +13,8 @@ const HUB_ONLY = document.body.dataset.hub || '';
 const TREES = HUB_ONLY === 'guides'
   ? [{ sec: 'guides', dir: 'learning', groups: [['guides', 'Guides']], defaultGroup: 'guides' }]
   : [{ sec: 'tech', dir: 'resources', groups: [['tech', 'Technology']], defaultGroup: 'tech' },
-     { sec: 'topics', dir: 'resources', groups: [['professional', 'Professional'], ['misc', 'Misc.']], defaultGroup: 'misc' }];
+     { sec: 'topics', dir: 'resources', groups: [['professional', 'Professional'], ['misc', 'Misc.']], defaultGroup: 'misc' },
+     { sec: 'archive', dir: 'resources', groups: [['archive', 'Archives']], defaultGroup: 'archive' }];
 let TREE = TREES[0];
 
 let sections = [];
@@ -353,9 +354,11 @@ function treeMoreNote() {
 }
 
 function treeHubIntroCol() {
-  const src = document.getElementById('hub-intro');
+  // the hub's intro text only once, in the first tree; My Favourites in General Resources; otherwise just a hint
+  const src = TREE === TREES[0] && document.getElementById('hub-intro');
   const favSec = TREE.sec === 'topics' && sections.find(s => s.id === 'favourites');
-  return `<div class="res-col res-col-links res-intro">${src ? src.innerHTML : ''}${treeMoreNote()}${favSec ? renderSection(favSec) : ''}</div>`;
+  const hint = !src && !favSec ? '<p class="res-hint">Choose a page to see its sections.</p>' : '';
+  return `<div class="res-col res-col-links res-intro">${src ? src.innerHTML : ''}${treeMoreNote()}${favSec ? renderSection(favSec) : ''}${hint}</div>`;
 }
 
 // The rightmost column while nothing with actual links is picked yet: the page's own picture (pages are the only
