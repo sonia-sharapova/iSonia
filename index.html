@@ -9,7 +9,7 @@
   <link rel="stylesheet" href="styles/clock.css">
   <link rel="stylesheet" href="styles/homepage.css">
   <link rel="stylesheet" href="styles/blogs.css">
-  <link rel="stylesheet" href="styles/forum.css">
+  <link rel="stylesheet" href="styles/forum.css?v=20261026">
   <link rel="stylesheet" href="styles/mobile.css">
 
 
@@ -406,7 +406,7 @@
      rules), trimmed to the fields that actually apply to a contact message: Name, Email,
      Subject (+ Post button, same row), Comment. No file/spoiler/wrap/password fields — those
      only mean something on an actual image board. -->
-<div class="modal" id="contactModal" style="z-index: 2000; background: rgba(27,27,27,0.36);">
+<div class="modal" id="contactModal" style="z-index: 2000; background: rgba(245,245,245,0.55);">
   <div class="cm-wrap nt-wrap">
     <button class="modal-close" id="closeContactModal" aria-label="Close">✕</button>
     <div class="nt-box">
@@ -497,7 +497,7 @@
                 messageDiv.textContent = data.message;
                 document.getElementById('mobile-contact-form').reset();
               } else {
-                messageDiv.style.color = '#ff6b6b';
+                messageDiv.style.color = '#c0392b';
                 messageDiv.textContent = data.message;
               }
 
@@ -510,7 +510,7 @@
             })
             .catch(error => {
               messageDiv.style.display = 'block';
-              messageDiv.style.color = '#ff6b6b';
+              messageDiv.style.color = '#c0392b';
               messageDiv.textContent = 'An error occurred. Please try again.';
               submitButton.disabled = false;
               submitButton.textContent = 'Post';

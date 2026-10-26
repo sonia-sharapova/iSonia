@@ -408,10 +408,8 @@
   .forum-thread-image img { max-width: 100px; max-height: 100px; }
 }
 
-/* ── New-thread posting modal — deliberately follows the dark imageboard "new reply" form
-   this was modeled on (not the site's light palette), trimmed to the fields that actually
-   apply to a contact message: Name / Email / Subject+Post / Comment. No file upload, spoiler,
-   wrap or password fields — those don't mean anything outside an actual image board. ── */
+/* ── Contact modal (index.html) — the new-thread form's layout (Name / Email / Subject+Post / Comment rows), in the
+   site's own light palette: whitesmoke panel, light grey rules, Optima labels, the green accent on focus/hover. ── */
 #contactModal .nt-wrap {
   position: relative;
   pointer-events: auto;
@@ -420,21 +418,21 @@
 }
 
 #contactModal .nt-box {
-  background: #1e1e1e;
-  border: 1px solid #444;
+  background: #f5f5f5;
+  border: 1px solid #ddd;
   border-radius: 3px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.12);
   overflow: hidden;
-  font-family: 'Courier New', monospace;
-  font-size: 14px;
+  font-family: 'Optima', arial, sans-serif;
+  font-size: 15px;
 }
 
 #contactModal .nt-intro {
   margin: 0;
-  padding: 14px 16px;
-  background: #262626;
-  border-bottom: 1px solid #3a3a3a;
-  color: #999;
-  font-size: 13px;
+  padding: 18px 48px 16px 18px;
+  border-bottom: 1px solid #e4e4e4;
+  color: #666;
+  font-size: 16px;
   line-height: 1.5;
 }
 
@@ -447,21 +445,21 @@
   border-collapse: collapse;
 }
 
-#contactModal .nt-table tr + tr td { border-top: 1px solid #333; }
+#contactModal .nt-table tr + tr td { border-top: 1px solid #ececec; }
 
 #contactModal .nt-label {
   width: 90px;
-  padding: 10px 12px;
-  background: #2b2b2b;
-  color: #ccc;
-  font-weight: bold;
+  padding: 10px 12px 10px 18px;
+  color: #666;
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
   vertical-align: middle;
   white-space: nowrap;
 }
 
 #contactModal .nt-field {
-  padding: 8px 10px;
-  background: #1e1e1e;
+  padding: 8px 16px 8px 6px;
 }
 
 #contactModal .nt-subject-row {
@@ -476,13 +474,14 @@
   flex: 1;
   width: 100%;
   box-sizing: border-box;
-  padding: 6px 8px;
-  background: #0f0f0f;
-  border: 1px solid #555;
+  padding: 7px 9px;
+  background: #fff;
+  border: 1px solid #d5d5d5;
   border-radius: 2px;
-  color: #eee;
-  font-family: 'Courier New', monospace;
-  font-size: 14px;
+  color: #333;
+  font-family: 'Optima', arial, sans-serif;
+  font-size: 15px;
+  transition: border-color 0.2s ease;
 }
 
 #contactModal textarea { min-height: 130px; resize: vertical; }
@@ -495,34 +494,34 @@
 
 #contactModal .nt-post-btn {
   flex: 0 0 auto;
-  padding: 7px 18px;
-  background: #d8d8d8;
-  color: #111;
-  border: 1px solid #888;
+  padding: 7px 20px;
+  background: #fff;
+  color: #444;
+  border: 1px solid #999;
   border-radius: 2px;
-  font-family: 'Courier New', monospace;
+  font-family: 'Optima', arial, sans-serif;
   font-size: 14px;
-  font-weight: bold;
+  letter-spacing: 0.06em;
   cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
 }
 
 #contactModal .nt-post-btn:hover { background: #45a049; color: #fff; border-color: #45a049; }
 #contactModal .nt-post-btn:disabled { opacity: 0.6; cursor: default; }
 
 #contactModal .modal-close {
-  top: 10px;
+  top: 12px;
   right: 14px;
-  color: #aaa !important;
+  color: #999 !important;
   z-index: 1;
   pointer-events: auto;
 }
 
-#contactModal .modal-close:hover { color: #fff !important; }
+#contactModal .modal-close:hover { color: #45a049 !important; }
 
 #contactModal #mobile-form-message {
   padding: 0 16px 14px;
-  background: #1e1e1e;
-  font-size: 13px;
+  font-size: 14px;
   text-align: center;
 }
 
