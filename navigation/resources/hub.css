@@ -533,7 +533,7 @@ body.p-resources .res-tree-hub .learning-note { margin: 22px 0 0 -10px; }
 }
 
 /* Items that open a nested list carry a small arrow on the right — pointing right while closed, down once open —
-   and the nested items themselves read as a level below: smaller, lighter, a "–" marker in front, one step smaller
+   and the nested items themselves read as a level below: smaller and lighter, one step smaller
    again for a list nested inside another. (Down here so it outranks the per-column .res-link sizes above.) */
 .res-tree-hub .res-link.res-has-sub { display: flex; align-items: center; gap: 6px; }
 .res-tree-hub .res-link.res-has-sub::after {
@@ -549,8 +549,6 @@ body.p-resources .res-tree-hub .learning-note { margin: 22px 0 0 -10px; }
 .res-tree-hub .res-link.res-has-sub.active::after { transform: rotate(90deg); }
 .res-tree-hub > .res-col .res-list .res-sublist .res-link { font-size: 15px; color: #999; }
 .res-tree-hub > .res-col .res-list .res-sublist .res-sublist .res-link { font-size: 14px; }
-.res-tree-hub > .res-col .res-list .res-sublist .res-link::before { content: "\2013"; margin-right: 6px; color: #ccc; }
-.res-tree-hub > .res-col .res-list .res-sublist .res-link.res-has-sub::before { margin-right: 0; }
 
 /* Highlight colours step green → blue (the site's link blue) → purple level by level, then round again, for the
    selected item and on hover: the first column's items are green and their nested items blue; the next column
@@ -564,7 +562,5 @@ body.p-resources .res-tree-hub .learning-note { margin: 22px 0 0 -10px; }
 .res-tree-hub > .res-col-hub ~ .res-col .res-sublist .res-sublist .res-link { --c: #45a049; }
 .res-tree-hub > .res-col .res-list .res-link.active,
 .res-tree-hub > .res-col .res-list .res-link:hover { color: var(--c); border-left-color: var(--c); }
-.res-tree-hub > .res-col .res-list .res-link.active::before,
-.res-tree-hub > .res-col .res-list .res-link:hover::before,
 .res-tree-hub > .res-col .res-list .res-link.res-has-sub.active::after,
 .res-tree-hub > .res-col .res-list .res-link.res-has-sub:hover::after { color: var(--c); }
