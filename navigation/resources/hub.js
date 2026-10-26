@@ -691,7 +691,9 @@ document.addEventListener('drop', e => {
 //   # Topic  /  ## Section  /  ### Sub-section  /  - **Link name**: notes  +  "  - https://…" on the next line
 // Saving re-reads it into the tree exactly as the page would on load.
 function treeMdBtn() {
-  return treeAddBtn('✎ edit this page as markdown', 'openTreeMd()');
+  return treeAddBtn('✎ edit this page as markdown', 'openTreeMd()')
+    + treeAddBtn('⬇ download as spreadsheet (CSV)', 'downloadTreeCsv()')
+    + treeAddBtn('⬆ upload spreadsheet (CSV)', "document.getElementById('tree-csv-input').click()");
 }
 function openTreeMd() {
   const page = treeData[treeSelPage];
@@ -707,6 +709,112 @@ async function saveTreeMd() {
   Object.assign(page, { intro: parsed.intro, folders: parsed.folders, topics: parsed.topics });
   treeSelTopic = -1; treeSelSection = -1; treeSelSub = -1;   // names may have changed — start the page over
   if (await persistTree(page)) { closeTreeMd(); render(); }
+}
+
+// ── Admin: the open page as a spreadsheet (CSV) — one row per link: Topic, Section, Sub-section, Name, URL, Notes ──
+// Sort / regroup / rename it in Numbers, Excel or Google Sheets, then upload it back: the page is rebuilt in row
+// order. A row with no Name keeps an empty section or sub-section. Descriptions and pictures aren't in the sheet —
+// they're carried over from the current page by matching topic / section / sub-section names.
+const CSV_COLS = ['Topic', 'Section', 'Sub-section', 'Name', 'URL', 'Notes'];
+
+function csvCell(v) {
+  v = String(v == null ? '' : v);
+  return /[",\n\r]/.test(v) ? '"' + v.replace(/"/g, '""') + '"' : v;
+}
+function parseCsv(text) {
+  const rows = []; let row = [], cell = '', q = false;
+  text = text.replace(/^\uFEFF/, '');
+  for (let i = 0; i < text.length; i++) {
+    const c = text[i];
+    if (q) {
+      if (c === '"' && text[i + 1] === '"') { cell += '"'; i++; }
+      else if (c === '"') q = false;
+      else cell += c;
+    } else if (c === '"') q = true;
+    else if (c === ',') { row.push(cell); cell = ''; }
+    else if (c === '\n' || c === '\r') {
+      if (c === '\r' && text[i + 1] === '\n') i++;
+      row.push(cell); rows.push(row); row = []; cell = '';
+    } else cell += c;
+  }
+  if (cell !== '' || row.length) { row.push(cell); rows.push(row); }
+  return rows.filter(r => r.some(c => c.trim() !== ''));
+}
+
+function downloadTreeCsv() {
+  const page = treeData[treeSelPage];
+  const lines = [CSV_COLS];
+  const topicOrder = page.topics.length ? page.topics.map(t => t.name) : [''];
+  const folders = page.topics.length
+    ? topicOrder.flatMap(tn => page.folders.filter(f => f.topic === tn)).concat(page.folders.filter(f => !page.topics.some(t => t.name === f.topic)))
+    : page.folders;
+  page.topics.filter(t => !page.folders.some(f => f.topic === t.name)).forEach(t => lines.push([t.name, '', '', '', '', '']));
+  folders.forEach(f => {
+    const add = (sub, items) => {
+      if (!items.length) lines.push([f.topic || '', f.name, sub, '', '', '']);
+      items.forEach(it => lines.push([f.topic || '', f.name, sub, it.name, it.link, it.description]));
+    };
+    if (f.items.length || !f.subfolders.length) add('', f.items);
+    f.subfolders.forEach(sf => add(sf.name, sf.items));
+  });
+  const csv = '\uFEFF' + lines.map(r => r.map(csvCell).join(',')).join('\r\n') + '\r\n';
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8' }));
+  a.download = page.slug + '.csv';
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+}
+
+async function uploadTreeCsv(input) {
+  const file = input.files[0]; input.value = '';
+  if (!file) return;
+  const page = treeData[treeSelPage];
+  const rows = parseCsv(await file.text());
+  if (!rows.length) { alert('That file is empty.'); return; }
+  // columns are found by their header names (any order, any case); without a header row, the standard order
+  const head = rows[0].map(h => h.trim().toLowerCase());
+  const hasHead = head.includes('section') && head.includes('name');
+  const col = name => { const i = head.indexOf(name.toLowerCase()); return hasHead ? i : CSV_COLS.indexOf(name); };
+  const ix = Object.fromEntries(CSV_COLS.map(c => [c, col(c)]));
+  const get = (r, c) => ix[c] >= 0 ? String(r[ix[c]] || '').trim() : '';
+
+  const topics = [], folders = [];
+  let skipped = 0;
+  (hasHead ? rows.slice(1) : rows).forEach(r => {
+    const tn = get(r, 'Topic'), sn = get(r, 'Section'), sub = get(r, 'Sub-section'), name = get(r, 'Name');
+    if (tn && !topics.some(t => t.name === tn)) topics.push({ name: tn, description: '', image: '', alt: '' });
+    if (!sn) { if (!tn) skipped++; return; }
+    let f = folders.find(x => x.name === sn && x.topic === tn);
+    if (!f) folders.push(f = { name: sn, description: '', image: '', alt: '', topic: tn, subfolders: [], items: [] });
+    let list = f.items;
+    if (sub) {
+      let sf = f.subfolders.find(x => x.name === sub);
+      if (!sf) f.subfolders.push(sf = { name: sub, description: '', image: '', alt: '', items: [] });
+      list = sf.items;
+    }
+    if (name) list.push({ name, description: get(r, 'Notes'), link: get(r, 'URL') });
+  });
+  if (!folders.length) { alert('No sections found — the sheet needs at least a Section column with values.'); return; }
+
+  // carry descriptions and pictures over from the current page, matched by name
+  const keep = (to, from) => { if (from) { to.description = from.description; to.image = from.image; to.alt = from.alt; } };
+  topics.forEach(t => keep(t, page.topics.find(o => o.name === t.name)));
+  folders.forEach(f => {
+    const old = page.folders.find(o => o.name === f.name && o.topic === f.topic) || page.folders.find(o => o.name === f.name);
+    keep(f, old);
+    if (old) f.subfolders.forEach(sf => keep(sf, old.subfolders.find(o => o.name === sf.name)));
+  });
+
+  const links = folders.reduce((n, f) => n + f.items.length + f.subfolders.reduce((m, sf) => m + sf.items.length, 0), 0);
+  const before = page.folders.reduce((n, f) => n + f.items.length + f.subfolders.reduce((m, sf) => m + sf.items.length, 0), 0);
+  const msg = `Replace "${page.title}" with this sheet?\n\n` +
+    (topics.length ? `${topics.length} topics, ` : '') + `${folders.length} sections, ${links} links` +
+    ` (currently ${before} links).` + (skipped ? `\n${skipped} row(s) with no section will be skipped.` : '') +
+    `\n\nThe current version is backed up first.`;
+  if (!confirm(msg)) return;
+  Object.assign(page, { folders, topics });
+  treeSelTopic = -1; treeSelSection = -1; treeSelSub = -1;
+  if (await persistTree(page)) render();
 }
 
 function showTreeImagePreview() {
@@ -778,6 +886,14 @@ function injectTreeModal() {
     </div>`;
   md.addEventListener('click', e => { if (e.target === md) closeTreeMd(); });
   document.body.appendChild(md);
+
+  const csvInput = document.createElement('input');
+  csvInput.type = 'file';
+  csvInput.accept = '.csv,text/csv';
+  csvInput.id = 'tree-csv-input';
+  csvInput.hidden = true;
+  csvInput.addEventListener('change', () => uploadTreeCsv(csvInput));
+  document.body.appendChild(csvInput);
 }
 
 function slugify(s) {
