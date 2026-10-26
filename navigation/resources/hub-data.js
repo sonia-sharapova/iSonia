@@ -45,8 +45,8 @@ const HubData = (() => {
     // (an "&"-joined pair condensed down to the more central one) so they read on one line even in the tree's
     // narrower, reduced columns — the description still carries the fuller meaning.
     const topics = () => groupedCards('resources', [
-        // (Technology and Web were folded into the Technology Links tree — their pages and markdown are still there,
-        // unlisted; Software moved there as a page of its own)
+        // (Technology, Web and Software were folded into the Technology Links tree — their pages and markdown are
+        // still there, unlisted)
         ['design', 'Design', 'Inspiration, tools and assets for design work.', 'professional'],
         ['careers', 'Careers', 'Jobs, studios, festivals and open calls.', 'professional'],
         ['media', 'Media', 'Film, video, music, anime, games and things to read.', 'misc'],
@@ -89,7 +89,6 @@ const HubData = (() => {
         ['tech-internet', 'The Internet', 'The web, how to design for it and how to browse it.', 'tech'],
         ['tech-privacy', 'Privacy & Security', 'Security tools, privacy guides and anonymity tools, piracy and hacking.', 'tech'],
         ['tech-arrrrgh', 'Arrrrgh', 'Open source and free media.', 'tech'],
-        ['software', 'Software', 'Free software, alternatives and handy online tools.', 'tech'],
         ['tech-general', 'General', 'Tech culture, guides and references.', 'tech']
     ]) });
     const guidesSection = () => ({ id: 'guides', title: 'Guides', type: 'cards', intro: "Step-by-step write-ups and how-tos I've put together.", items: guides() });

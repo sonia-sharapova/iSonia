@@ -88,6 +88,10 @@
   - https://github.com/yt-dlp/yt-dlp
 - **Zamzar**: Online converter
   - https://www.zamzar.com/
+- **Text Munger**: Turns text into look-alike Unicode characters
+  - https://impliedchaos.github.io/mungeutf8.html
+- **Youtube to MP3**: YouTube to MP3 file converter
+  - https://ytmp3.cc/uu100cc/
 
 ## Open Source Alternatives & Utilities
 
