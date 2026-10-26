@@ -312,6 +312,16 @@ body.admin-mode .add-section-row { display: flex; gap: 10px; align-items: center
 /* the open section's sub-sections, nested under it once the tree is at its four columns (renderTree in hub.js) */
 .res-tree-hub .res-sublist { margin: 2px 0 8px 12px; border-left: 1px solid #e4e4e4; }
 .res-tree-hub .res-sublist .res-link { padding-top: 5px; padding-bottom: 5px; }
+/* a short faint rule closing off a nested list, so it's clear where it ends and the next item at its parent's level
+   starts (outermost nested lists only — an inner one ends inside its parent's) */
+.res-tree-hub .res-list > .res-sublist::after {
+    content: "";
+    display: block;
+    width: 40px;
+    height: 1px;
+    margin: 6px 0 0 -1px;
+    background: #ddd;
+}
 .res-tree-hub .res-row { position: relative; }
 .res-tree-hub .sidebar-section { margin-bottom: 22px; }
 .res-tree-hub .sidebar-section:last-child { margin-bottom: 0; }
@@ -511,13 +521,13 @@ body.p-resources .res-tree-hub .learning-note { margin: 22px 0 0 -10px; }
 .tree-md-help { margin: 0 0 8px; font-size: 12px; color: #999; }
 #tree-md-text { width: 100%; height: 60vh; box-sizing: border-box; font: 13px/1.5 'Courier New', monospace; white-space: pre; }
 
-/* The hub's first column (hub.js hubSectionsCol): the three sections, then My Favourites. On a phone, once a
-   section is open, the favourites step aside so the section's own lists sit right under the section chips. */
-@media (max-width: 768px) {
-    .res-tree-hub > .res-col-hub.res-col-reduced .hub-favs { display: none; }
+/* The hub's first column (hub.js hubSectionsCol): the three sections, the open one with its pages nested under it
+   (a group label above each group when the section has more than one) */
+@media (min-width: 769px) { .res-tree-hub > .res-col-hub { flex-basis: 220px; } }
+.res-tree-hub .res-sublabel {
+    margin: 10px 0 2px 10px;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #aaa;
 }
-
-/* My Favourites in that first column: flush with the section names above it (no inset), so the names fit */
-.res-tree-hub .res-col-hub .fav-list { padding: 0; }
-.res-tree-hub .res-col-hub .fav-item { padding-left: 0; padding-right: 0; }
-.res-tree-hub .res-col-hub .fav-item + .fav-item::before { margin-left: 0; }

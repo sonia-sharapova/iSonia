@@ -116,11 +116,12 @@ function render() {
   const body = document.getElementById('resources-body');
   // resources.html shows the Saved Links (the Guides live on learning.html, which it links to), minus the
   // By Function tags (Create/Consume/Explore/Learn — no longer shown on the hub); learning.html shows only the
-  // Guides. My Favourites isn't rendered as its own top-level block here any more — it's nested inside the tree's
-  // description column instead (treeHubIntroCol), under the hub's intro text.
+  // Guides. My Favourites is rendered on its own, after the tree (below).
   const shown = HUB_ONLY === 'guides' ? sections.filter(HubData.isGuides) : sections.filter(s => !HubData.isGuides(s) && s.id !== 'cat' && s.id !== 'favourites');
   const active = TREES.indexOf(TREE);
-  body.innerHTML = HUB_ONLY === 'guides' ? shown.map(sec => renderSection(sec)).join('') : renderHub();
+  // My Favourites is its own block again, under the tree
+  const favSec = sections.find(s => s.id === 'favourites');
+  body.innerHTML = HUB_ONLY === 'guides' ? shown.map(sec => renderSection(sec)).join('') : renderHub() + (favSec ? renderSection(favSec) : '');
   useTree(active);
   bindTreeBlocks();
   fitReducedColumns();
@@ -409,23 +410,34 @@ function hubFromHash() {
   if (i >= 0) useTree(i);
 }
 
+function treePhone() { return window.matchMedia('(max-width: 768px)').matches; }
+
+// The open section's pages, nested under it in the hub's first column (desktop; phones keep treePagesCol)
+function hubPagesList() {
+  const entries = treeEntries(Object.values(treeData));
+  const groups = GROUPS.map(([id, label]) => [label, entries.filter(e => e.group === id)]).filter(([, es]) => es.length);
+  return `<div class="res-sublist">` + groups.map(([label, es]) =>
+      (groups.length > 1 ? `<div class="res-sublabel">${esc(label)}</div>` : '') + es.map(e => `<div class="res-row">
+        <a class="res-link${e.active ? ' active' : ''}" href="#" onclick="event.preventDefault();${e.call}">${esc(e.title)}</a>
+        ${e.adm}
+      </div>`).join('')).join('') + treeAddBtn('+ page', `openItemModal('${TREE.sec}',null)`) + `</div>`;
+}
+
+// The hub's first column: its three sections, the open one with its pages under it. It keeps its full width
+// on desktop (it holds the pages too); on phones it reduces like before, with the pages in a column of their own.
 function hubSectionsCol(delay) {
-  const reduced = hubSel >= 0;
+  const phone = treePhone();
+  const reduced = phone && hubSel >= 0;
   const same = hubPrevReduced === reduced;
   hubPrevReduced = reduced;
   const rows = TREES.map((t, i) => [i, sections.find(s => s.id === t.sec)]).filter(([, s]) => s).map(([i, s]) => `<div class="res-row">
       <a class="res-link${i === hubSel ? ' active' : ''}" href="#" onclick="event.preventDefault();selectHubSection(${i})">${esc(s.title)}</a>
-    </div>`).join('');
-  const favSec = sections.find(s => s.id === 'favourites');
+    </div>${i === hubSel && !phone ? hubPagesList() : ''}`).join('');
   return `${treeColOpen('res-col res-col-cats res-col-hub', reduced, same, delay)}
       <div class="sidebar-section">
         <h3 class="res-head">Resources</h3>
         <nav class="res-list">${rows}</nav>
       </div>
-      ${favSec ? `<div class="sidebar-section hub-favs">
-        <h3 class="res-head">${esc(favSec.title)}</h3>
-        ${renderLinks(favSec)}
-      </div>` : ''}
     </div>`;
 }
 
@@ -547,8 +559,12 @@ function renderTree(prefixCol) {
   // sections nested under it, the open section's sub-sections under that), the way a topic page's own tree nests
   // them, and that column stays full width. Phones stack the columns as chip rows (mobile.css hides nested lists),
   // so they keep every column.
-  const maxPickers = 3 - (prefixCol ? 1 : 0);
-  const nest = pickers.length > maxPickers && !window.matchMedia('(max-width: 768px)').matches;
+  // On the hub (prefixCol) the pages are listed under the open section in that first column rather than in a
+  // column of their own, so everything after them shares one column and the links column gets the room.
+  const phone = treePhone();
+  if (prefixCol && !phone) pickers.shift();
+  const maxPickers = prefixCol ? 1 : 3;
+  const nest = pickers.length > maxPickers && !phone;
   if (nest) pickers.length = maxPickers;
   const last = pickers.length - 1;
   const hasSelection = !!(page && page.folders[treeSelSection]);
