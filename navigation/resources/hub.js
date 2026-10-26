@@ -306,7 +306,7 @@ function treePagesCol(reduced, same, delay) {
 // columns of their own (renderTree's four-column limit).
 function treeTopicsCol(page, reduced, same, delay, nest) {
   const rows = page.topics.map((t, i) => `<div class="res-row"${treeDnd('topic:' + i, false)}>
-      <a class="res-link${i === treeSelTopic ? ' active' : ''}" href="#" onclick="event.preventDefault();selectTreeTopic(${i})">${esc(t.name)}</a>
+      <a class="res-link${i === treeSelTopic ? ' active' : ''}${nest ? ' res-has-sub' : ''}" href="#" onclick="event.preventDefault();selectTreeTopic(${i})">${esc(t.name)}</a>
       ${treeAdmBtns(`openTreeModal('topic',${i})`, `deleteTreeNode('topic',${i})`)}
     </div>${nest && i === treeSelTopic ? treeNestedSections(page) : ''}`).join('');
   return `${treeColOpen('res-col res-col-sections' + (nest ? ' res-col-nest' : ''), reduced, same, delay)}
@@ -327,7 +327,7 @@ function treeNestedSubs(f) {
 }
 function treeNestedSections(page) {
   return `<div class="res-sublist">` + treeVisibleFolders(page).map(([f, i]) => `<div class="res-row"${treeDnd('section:' + i, true)}>
-        <a class="res-link${i === treeSelSection ? ' active' : ''}" href="#" onclick="event.preventDefault();selectTreeSection(${i})">${esc(f.name)}</a>
+        <a class="res-link${i === treeSelSection ? ' active' : ''}${f.subfolders.length ? ' res-has-sub' : ''}" href="#" onclick="event.preventDefault();selectTreeSection(${i})">${esc(f.name)}</a>
         ${treeAdmBtns(`openTreeModal('section',${i})`, `deleteTreeNode('section',${i})`)}
       </div>${i === treeSelSection && f.subfolders.length ? treeNestedSubs(f) : ''}`).join('') +
     treeAddBtn('+ section', `openTreeModal('section',null)`) + `</div>`;
@@ -337,7 +337,7 @@ function treeNestedSections(page) {
 function treeSectionsCol(page, reduced, same, delay, nest) {
   const topic = page.topics[treeSelTopic];
   const rows = treeVisibleFolders(page).map(([f, i]) => `<div class="res-row"${treeDnd('section:' + i, true)}>
-      <a class="res-link${i === treeSelSection ? ' active' : ''}" href="#" onclick="event.preventDefault();selectTreeSection(${i})">${esc(f.name)}</a>
+      <a class="res-link${i === treeSelSection ? ' active' : ''}${nest && f.subfolders.length ? ' res-has-sub' : ''}" href="#" onclick="event.preventDefault();selectTreeSection(${i})">${esc(f.name)}</a>
       ${treeAdmBtns(`openTreeModal('section',${i})`, `deleteTreeNode('section',${i})`)}
     </div>${nest && i === treeSelSection && f.subfolders.length ? treeNestedSubs(f) : ''}`).join('');
   const back = topic ? `selectTreeTopic(${treeSelTopic})` : `selectTreePage('${treeSelPage}')`;
@@ -431,7 +431,7 @@ function hubSectionsCol(delay) {
   const same = hubPrevReduced === reduced;
   hubPrevReduced = reduced;
   const rows = TREES.map((t, i) => [i, sections.find(s => s.id === t.sec)]).filter(([, s]) => s).map(([i, s]) => `<div class="res-row">
-      <a class="res-link${i === hubSel ? ' active' : ''}" href="#" onclick="event.preventDefault();selectHubSection(${i})">${esc(s.title)}</a>
+      <a class="res-link${i === hubSel ? ' active' : ''}${phone ? '' : ' res-has-sub'}" href="#" onclick="event.preventDefault();selectHubSection(${i})">${esc(s.title)}</a>
     </div>${i === hubSel && !phone ? hubPagesList() : ''}`).join('');
   return `${treeColOpen('res-col res-col-cats res-col-hub', reduced, same, delay)}
       <div class="sidebar-section">
