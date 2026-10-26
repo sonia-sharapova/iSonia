@@ -92,7 +92,7 @@
     .archive-main.has-media-res > .gallery,
     .archive-main.has-media-res > .preview-section { grid-column: auto; grid-row: auto; }
     .media-res-links { columns: 1; }
-    .media-go { width: auto !important; min-height: 0 !important; margin-top: 8px; padding: 5px 10px; font-size: 12px; line-height: 1.3; }
+    .media-go { display: inline-block !important; width: fit-content !important; min-height: 0 !important; margin-top: 8px; padding: 5px 10px; font-size: 12px; line-height: 1.3; }
 }
 
 /* music.html's album grid isn't in a two-column grid, so the list just follows it */
