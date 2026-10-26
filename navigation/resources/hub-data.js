@@ -45,8 +45,8 @@ const HubData = (() => {
     // (an "&"-joined pair condensed down to the more central one) so they read on one line even in the tree's
     // narrower, reduced columns — the description still carries the fuller meaning.
     const topics = () => groupedCards('resources', [
-        // (Technology, Web and Software were folded into the Technology Links tree — their pages and markdown are
-        // still there, unlisted)
+        // (Technology, Web, Software and Torrents & Streaming were folded into the Technology Links tree — their pages
+        // and markdown are still there, unlisted)
         ['design', 'Design', 'Inspiration, tools and assets for design work.', 'professional'],
         ['careers', 'Careers', 'Jobs, studios, festivals and open calls.', 'professional'],
         ['media', 'Media', 'Film, video, music, anime, games and things to read.', 'misc'],
@@ -54,7 +54,6 @@ const HubData = (() => {
         ['culture', 'Culture', 'Personal sites, forums, nostalgia and the strange.', 'misc'],
         ['ideas', 'Ideas', 'The thinkers, arguments and theories behind it all.', 'misc'],
         ['life', 'Life', 'Everyday guides, free courses and life admin.', 'misc'],
-        ['torrents', 'Torrents & Streaming', 'Torrent indexes, downloaders and places to stream.', 'misc'],
         // moved out of Technology Links (seed/<slug>.md, from the technology_tree spreadsheet)
         ['archives-collections', 'Archives & Collections', 'Collections, galleries and general archives.', 'misc'],
         ['guides', 'Guides', 'How-tos, free stuff, shopping and handy online tools.', 'misc'],
@@ -83,13 +82,12 @@ const HubData = (() => {
     // Technology Links: four topic-tree pages (seed/tech-*.md, built from the technology_tree spreadsheet), the hub's
     // first tree; the pages above follow it as General Resources.
     const techSection = () => ({ id: 'tech', title: 'Technology Links', type: 'cards', intro: '', items: groupedCards('resources', [
-        ['tech-computers', 'Computers', 'AI, maths, operating systems and hardware.', 'tech'],
+        ['tech-computers', 'Computers', 'AI, maths, operating systems, hardware, tech culture and guides.', 'tech'],
         ['tech-educational', 'Educational', 'Courses, programming languages, references, projects and video tutorials.', 'tech'],
         ['tech-internet', 'The Internet', 'The web, how to design for it and how to browse it.', 'tech'],
         ['tech-privacy', 'Privacy & Security', 'Security tools, privacy guides and anonymity tools, piracy and hacking.', 'tech'],
         ['tech-arrrrgh', 'Arrrrgh', 'Open source and free media.', 'tech'],
-        ['community', 'Community', 'Blogs, interviews, news, magazines, forums and personal sites.', 'tech'],
-        ['tech-general', 'General', 'Tech culture, guides and references.', 'tech']
+        ['community', 'Community', 'Blogs, interviews, news, magazines, forums and personal sites.', 'tech']
     ]) });
     const guidesSection = () => ({ id: 'guides', title: 'Guides', type: 'cards', intro: "Step-by-step write-ups and how-tos I've put together.", items: guides() });
     const favouritesSection = () => ({ id: 'favourites', title: 'My Favourites', type: 'links', intro: '', items: favourites() });
@@ -121,11 +119,6 @@ const HubData = (() => {
         } else if (!hasElevenTopics(data) || !hasGroups(data)) {
             // the 5-bucket Quick Links, or an 11-item one saved before Professional/Misc grouping — replace with the current list
             data = data.map(s => s.id === 'topics' ? topicsSection() : s);
-        }
-        // Torrents & Streaming was added to the Misc group after lists were already saved — append it once
-        const topicsSec = data.find(s => s.id === 'topics');
-        if (topicsSec && !(topicsSec.items || []).some(it => /(^|\/)torrents\.html/.test(it.href || ''))) {
-            topicsSec.items = (topicsSec.items || []).concat(topics().filter(it => it.id === 'torrents'));
         }
         data.forEach(s => {
             if (s.type !== 'cards') return;
