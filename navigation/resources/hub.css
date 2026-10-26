@@ -485,3 +485,8 @@ body.admin-mode .add-section-row { display: flex; gap: 10px; align-items: center
     .menu-link, .learning-note-arrow { transition: none; }
     .menu-link:hover { padding-left: 6px; }
 }
+
+/* The tree's "edit this page as markdown" window: wide, with a tall monospace editor */
+.res-modal-box.tree-md-box { width: min(900px, 92vw); max-width: none; }
+.tree-md-help { margin: 0 0 8px; font-size: 12px; color: #999; }
+#tree-md-text { width: 100%; height: 60vh; box-sizing: border-box; font: 13px/1.5 'Courier New', monospace; white-space: pre; }

@@ -780,7 +780,7 @@ async function loadAllGuides() {
         let md = null;
         for (const dir of ['markdown', 'seed']) {
             try {
-                const r = await fetch(`${BASE}${dir}/${name}.md`);
+                const r = await fetch(`${BASE}${dir}/${name}.md`, { cache: 'no-cache' });
                 if (r.ok) { const t = await r.text(); if (!/^\s*<(!doctype|html)/i.test(t)) { md = t; break; } }
             } catch (e) { /* try the next one */ }
         }
@@ -795,7 +795,7 @@ async function fetchMarkdown() {
     for (const dir of ['markdown', 'seed']) {
         for (const n of names) {
             try {
-                const r = await fetch(`${BASE}${dir}/${n}.md`);
+                const r = await fetch(`${BASE}${dir}/${n}.md`, { cache: 'no-cache' });
                 if (r.ok) {
                     const text = await r.text();
                     if (!/^\s*<(!doctype|html)/i.test(text)) { mdFile = names[0]; if (dir === 'markdown') mdFile = n; return text; }

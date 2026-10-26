@@ -43,7 +43,9 @@ async function init() {
 async function fetchCategoryMarkdown(name) {
   for (const dir of ['markdown', 'seed']) {
     try {
-      const r = await fetch(`${TREE.dir}/${dir}/${name}.md`);
+      // no-cache: the server sends no caching headers for .md, so without this a browser can keep showing an old
+      // copy after an admin save (it revalidates instead — a cheap 304 when nothing changed)
+      const r = await fetch(`${TREE.dir}/${dir}/${name}.md`, { cache: 'no-cache' });
       if (r.ok) {
         const text = await r.text();
         if (!/^\s*<(!doctype|html)/i.test(text)) return text;
@@ -335,6 +337,7 @@ function treeIntroCol(page, useTopics) {
       <h2 class="res-section-title">${esc(topic ? topic.name : page.title)}</h2>
       ${!topic && page.intro.description ? `<p class="res-intro-text">${esc(page.intro.description)}</p>` : ''}
       <p class="res-hint">${esc(hint)}</p>
+      ${treeMdBtn()}
     </div>`;
 }
 
@@ -353,6 +356,7 @@ function treeLinksCol(page, useTopics) {
         ${treeNodeImage(target)}
         ${treeLinkList(target.items, treeSelSection, sel ? treeSelSub : -1)}
         ${treeAddBtn('+ sub-section', `openTreeModal('sub',${treeSelSection},null)`)}
+        ${treeMdBtn()}
       </div>`;
   }
   // no topics: sub-sections break the list with their own header, inline in this column (same as that page itself)
@@ -366,7 +370,7 @@ function treeLinksCol(page, useTopics) {
         ${treeLinkList(sf.items, treeSelSection, si)}
       </div>`;
   });
-  html += treeAddBtn('+ sub-section', `openTreeModal('sub',${treeSelSection},null)`);
+  html += treeAddBtn('+ sub-section', `openTreeModal('sub',${treeSelSection},null)`) + treeMdBtn();
   return `<div class="res-col res-col-links">${html}</div>`;
 }
 
@@ -683,6 +687,28 @@ document.addEventListener('drop', e => {
   moveTreeNode(src, dst);
 });
 
+// ── Admin: the open page's whole file as markdown, for reorganising in bulk ──
+//   # Topic  /  ## Section  /  ### Sub-section  /  - **Link name**: notes  +  "  - https://…" on the next line
+// Saving re-reads it into the tree exactly as the page would on load.
+function treeMdBtn() {
+  return treeAddBtn('✎ edit this page as markdown', 'openTreeMd()');
+}
+function openTreeMd() {
+  const page = treeData[treeSelPage];
+  document.getElementById('tree-md-title').textContent = page.title + ' — markdown';
+  document.getElementById('tree-md-text').value = HubData.serializeMarkdown(page.folders, page.intro, page.topics);
+  document.getElementById('tree-md-modal').classList.add('active');
+}
+function closeTreeMd() { document.getElementById('tree-md-modal').classList.remove('active'); }
+async function saveTreeMd() {
+  const page = treeData[treeSelPage];
+  const parsed = HubData.parseMarkdown(document.getElementById('tree-md-text').value);
+  if (!parsed.folders.length && page.folders.length && !confirm('This leaves the page with no sections at all. Save anyway?')) return;
+  Object.assign(page, { intro: parsed.intro, folders: parsed.folders, topics: parsed.topics });
+  treeSelTopic = -1; treeSelSection = -1; treeSelSub = -1;   // names may have changed — start the page over
+  if (await persistTree(page)) { closeTreeMd(); render(); }
+}
+
 function showTreeImagePreview() {
   const src = document.getElementById('tree-image').value;
   const img = document.getElementById('tree-image-preview');
@@ -737,6 +763,21 @@ function injectTreeModal() {
   m.addEventListener('click', e => { if (e.target === m) closeTreeModal(); });
   m.addEventListener('keydown', e => { if (e.key === 'Enter' && e.target.tagName === 'INPUT') saveTreeModal(); });
   document.body.appendChild(m);
+
+  const md = document.createElement('div');
+  md.className = 'res-modal';
+  md.id = 'tree-md-modal';
+  md.innerHTML = `<div class="res-modal-box tree-md-box">
+      <h3 id="tree-md-title">Markdown</h3>
+      <p class="tree-md-help"># Topic &nbsp;·&nbsp; ## Section &nbsp;·&nbsp; ### Sub-section &nbsp;·&nbsp; - **Link name**: notes, then the URL on the next line as "  - https://…"</p>
+      <textarea id="tree-md-text" spellcheck="false"></textarea>
+      <div class="res-modal-actions">
+        <button class="res-modal-save" onclick="saveTreeMd()">Save</button>
+        <button class="res-modal-cancel" onclick="closeTreeMd()">Cancel</button>
+      </div>
+    </div>`;
+  md.addEventListener('click', e => { if (e.target === md) closeTreeMd(); });
+  document.body.appendChild(md);
 }
 
 function slugify(s) {
