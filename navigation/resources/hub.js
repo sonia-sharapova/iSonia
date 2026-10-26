@@ -237,7 +237,7 @@ function treePagesCol(reduced, same, delay) {
 // rules in hub.css — rather than shrinking further with every extra level the way it used to. Its "‹" backs out
 // to the page picker (same as the reduced pages column's own back-link).
 function treeTopicsCol(page, reduced, same, delay) {
-  const rows = page.topics.map((t, i) => `<div class="res-row">
+  const rows = page.topics.map((t, i) => `<div class="res-row"${treeDnd('topic:' + i, false)}>
       <a class="res-link${i === treeSelTopic ? ' active' : ''}" href="#" onclick="event.preventDefault();selectTreeTopic(${i})">${esc(t.name)}</a>
       ${treeAdmBtns(`openTreeModal('topic',${i})`, `deleteTreeNode('topic',${i})`)}
     </div>`).join('');
@@ -252,7 +252,7 @@ function treeTopicsCol(page, reduced, same, delay) {
 // reduced/same/delay. Its header backs out to the topic picker when there is one, otherwise to the page picker.
 function treeSectionsCol(page, reduced, same, delay) {
   const topic = page.topics[treeSelTopic];
-  const rows = treeVisibleFolders(page).map(([f, i]) => `<div class="res-row">
+  const rows = treeVisibleFolders(page).map(([f, i]) => `<div class="res-row"${treeDnd('section:' + i, true)}>
       <a class="res-link${i === treeSelSection ? ' active' : ''}" href="#" onclick="event.preventDefault();selectTreeSection(${i})">${esc(f.name)}</a>
       ${treeAdmBtns(`openTreeModal('section',${i})`, `deleteTreeNode('section',${i})`)}
     </div>`).join('');
@@ -270,7 +270,7 @@ function treeSectionsCol(page, reduced, same, delay) {
 function treeSubsCol(page, reduced, same, delay) {
   const f = page.folders[treeSelSection];
   if (!f || !f.subfolders.length) return '';
-  const rows = f.subfolders.map((sf, si) => `<div class="res-row">
+  const rows = f.subfolders.map((sf, si) => `<div class="res-row"${treeDnd('sub:' + treeSelSection + ':' + si, true)}>
       <a class="res-link${si === treeSelSub ? ' active' : ''}" href="#" onclick="event.preventDefault();selectTreeSub(${si})">${esc(sf.name)}</a>
       ${treeAdmBtns(`openTreeModal('sub',${treeSelSection},${si})`, `deleteTreeNode('sub',${treeSelSection},${si})`)}
     </div>`).join('');
@@ -285,8 +285,8 @@ function treeLinkList(items, fi, si) {
   const add = treeAddBtn('+ link', `openTreeModal('link',${fi},${si},null)`);
   if (!items || !items.length) return '<p class="res-empty">No links yet.</p>' + add;
   return `<ul class="res-links">` + items.map((it, ii) => (it.link
-    ? `<li><a href="${esc(it.link)}"${/^https?:/i.test(it.link) ? ' target="_blank" rel="noopener"' : ''}>${esc(it.name)}</a>`
-    : `<li>${esc(it.name)}`)
+    ? `<li${treeDnd(`link:${fi}:${si}:${ii}`, true)}><a href="${esc(it.link)}"${/^https?:/i.test(it.link) ? ' target="_blank" rel="noopener"' : ''}${isAdmin ? ' draggable="false"' : ''}>${esc(it.name)}</a>`
+    : `<li${treeDnd(`link:${fi}:${si}:${ii}`, true)}>${esc(it.name)}`)
     + treeAdmBtns(`openTreeModal('link',${fi},${si},${ii})`, `deleteTreeNode('link',${fi},${si},${ii})`) + `</li>`
   ).join('') + `</ul>` + add;
 }
@@ -343,7 +343,7 @@ function treeLinksCol(page, useTopics) {
     const hash = slugify(topic.name) + '/' + slugify(f.name) + (sel ? '/' + slugify(sel.name) : '');
     const open = treeOpenLink(`resources/${page.slug}.html#${hash}`, target.name);
     return `<div class="res-col res-col-links">
-        <div class="res-head"><h2 class="res-section-title">${esc(target.name)}</h2>${open}</div>
+        <div class="res-head"${treeDnd(sel ? `sub:${treeSelSection}:${treeSelSub}` : `section:${treeSelSection}`, false)}><h2 class="res-section-title">${esc(target.name)}</h2>${open}</div>
         ${treeNodeImage(target)}
         ${treeLinkList(target.items, treeSelSection, sel ? treeSelSub : -1)}
         ${treeAddBtn('+ sub-section', `openTreeModal('sub',${treeSelSection},null)`)}
@@ -351,11 +351,11 @@ function treeLinksCol(page, useTopics) {
   }
   // no topics: sub-sections break the list with their own header, inline in this column (same as that page itself)
   const open = treeOpenLink(`resources/${page.slug}.html#${slugify(f.name)}`, f.name);
-  let html = `<div class="res-head"><h2 class="res-section-title">${esc(f.name)}</h2>${open}</div>` + treeNodeImage(f);
+  let html = `<div class="res-head"${treeDnd('section:' + treeSelSection, false)}><h2 class="res-section-title">${esc(f.name)}</h2>${open}</div>` + treeNodeImage(f);
   html += treeLinkList(f.items, treeSelSection, -1);
   f.subfolders.forEach((sf, si) => {
     html += `<div class="res-subgroup">
-        <h3 class="res-subhead">${esc(sf.name)}${treeAdmBtns(`openTreeModal('sub',${treeSelSection},${si})`, `deleteTreeNode('sub',${treeSelSection},${si})`)}</h3>
+        <h3 class="res-subhead"${treeDnd(`sub:${treeSelSection}:${si}`, true)}>${esc(sf.name)}${treeAdmBtns(`openTreeModal('sub',${treeSelSection},${si})`, `deleteTreeNode('sub',${treeSelSection},${si})`)}</h3>
         ${treeNodeImage(sf)}
         ${treeLinkList(sf.items, treeSelSection, si)}
       </div>`;
@@ -542,6 +542,140 @@ async function persistTree(page) {
     return true;
   } catch(e) { alert('Network error — changes not saved.'); return false; }
 }
+
+// ── Admin: drag & drop, Finder style — dropping something ON an item moves it INTO that item ──
+//   link        → section / sub-section: moves into it;  → another link: moves just before it
+//   sub-section → section: moves into it;  → another sub-section: moves just before it;  → topic: becomes a section there
+//   section     → topic: moves to that topic;  → another section: becomes its sub-section (only when it has none
+//                 of its own — the markdown only goes two levels deep)
+// Rows carry data-node="kind:indices" (treeDnd); moves stay within the open page and save it like any other edit.
+function treeDnd(node, draggable) {
+  if (!isAdmin) return '';
+  return ` data-node="${node}"` + (draggable ? ' draggable="true"' : '');
+}
+
+let treeDragNode = null;
+
+function parseNode(str) {
+  const [kind, ...n] = str.split(':');
+  const [a, b, c] = n.map(Number);
+  return { kind, fi: a, si: b, ii: c };
+}
+
+// Can `src` be dropped on `dst`? (a quick check for the drag highlight; moveTreeNode does the work)
+function treeCanDrop(src, dst) {
+  if (src.kind === 'link') {
+    if (dst.kind === 'section' || dst.kind === 'sub') return !(dst.kind === 'section' ? src.si === -1 && src.fi === dst.fi : src.fi === dst.fi && src.si === dst.si);
+    if (dst.kind === 'link') return !(src.fi === dst.fi && src.si === dst.si && src.ii === dst.ii);
+    return false;
+  }
+  if (src.kind === 'sub') {
+    if (dst.kind === 'section') return dst.fi !== src.fi;
+    if (dst.kind === 'sub') return !(dst.fi === src.fi && dst.si === src.si);
+    return dst.kind === 'topic';
+  }
+  if (src.kind === 'section') return (dst.kind === 'topic') || (dst.kind === 'section' && dst.fi !== src.fi);
+  return false;
+}
+
+async function moveTreeNode(src, dst) {
+  const page = treeData[treeSelPage];
+  const selF = page.folders[treeSelSection];
+  const selS = selF ? selF.subfolders[treeSelSub] : null;
+  const listOf = (fi, si) => si >= 0 ? page.folders[fi].subfolders[si].items : page.folders[fi].items;
+  const take = (arr, obj) => arr.splice(arr.indexOf(obj), 1)[0];
+
+  if (src.kind === 'link') {
+    const fromList = listOf(src.fi, src.si);
+    const item = fromList[src.ii];
+    if (dst.kind === 'link') {
+      const toList = listOf(dst.fi, dst.si);
+      const before = toList[dst.ii];
+      take(fromList, item);
+      toList.splice(toList.indexOf(before), 0, item);
+    } else {
+      take(fromList, item);
+      (dst.kind === 'sub' ? page.folders[dst.fi].subfolders[dst.si].items : page.folders[dst.fi].items).push(item);
+    }
+  } else if (src.kind === 'sub') {
+    const from = page.folders[src.fi];
+    const sub = from.subfolders[src.si];
+    if (dst.kind === 'section') {
+      const to = page.folders[dst.fi];
+      take(from.subfolders, sub);
+      to.subfolders.push(sub);
+    } else if (dst.kind === 'sub') {
+      const to = page.folders[dst.fi];
+      const before = to.subfolders[dst.si];
+      take(from.subfolders, sub);
+      to.subfolders.splice(to.subfolders.indexOf(before), 0, sub);
+    } else {
+      take(from.subfolders, sub);
+      page.folders.push({ name: sub.name, description: sub.description, image: sub.image, alt: sub.alt,
+                          topic: page.topics[dst.fi].name, subfolders: [], items: sub.items });
+    }
+  } else if (src.kind === 'section') {
+    const f = page.folders[src.fi];
+    if (dst.kind === 'topic') {
+      take(page.folders, f);
+      f.topic = page.topics[dst.fi].name;
+      page.folders.push(f);
+    } else {
+      if (f.subfolders.length) { alert(`"${f.name}" has sub-sections of its own, so it can't go inside another section. Move its sub-sections out first.`); return; }
+      const to = page.folders[dst.fi];
+      take(page.folders, f);
+      to.subfolders.push({ name: f.name, description: f.description, image: f.image, alt: f.alt, items: f.items });
+    }
+  }
+
+  // keep the same section / sub-section open wherever it ended up (or close it if it's no longer one)
+  treeSelSection = selF ? page.folders.indexOf(selF) : -1;
+  treeSelSub = treeSelSection >= 0 && selS ? page.folders[treeSelSection].subfolders.indexOf(selS) : -1;
+  if (treeSelSection >= 0 && treeSelSub < 0) treeSelSub = treeDefaultSub(page, treeSelSection);
+  const openF = page.folders[treeSelSection];
+  if (openF && page.topics.length && treeSelTopic >= 0 && openF.topic !== page.topics[treeSelTopic].name) {
+    treeSelTopic = page.topics.findIndex(t => t.name === openF.topic);
+  }
+  await persistTree(page);
+  render();
+}
+
+function clearDropHighlight() {
+  document.querySelectorAll('.tree-drop-over').forEach(el => el.classList.remove('tree-drop-over'));
+}
+document.addEventListener('dragstart', e => {
+  const el = e.target.closest && e.target.closest('.res-tree-hub [data-node][draggable="true"]');
+  if (!el) return;
+  treeDragNode = parseNode(el.dataset.node);
+  e.dataTransfer.effectAllowed = 'move';
+  e.dataTransfer.setData('text/plain', el.dataset.node);
+  el.classList.add('tree-dragging');
+});
+document.addEventListener('dragend', () => {
+  treeDragNode = null;
+  clearDropHighlight();
+  document.querySelectorAll('.tree-dragging').forEach(el => el.classList.remove('tree-dragging'));
+});
+document.addEventListener('dragover', e => {
+  if (!treeDragNode) return;
+  const el = e.target.closest && e.target.closest('.res-tree-hub [data-node]');
+  if (!el || !treeCanDrop(treeDragNode, parseNode(el.dataset.node))) { clearDropHighlight(); return; }
+  e.preventDefault();
+  e.dataTransfer.dropEffect = 'move';
+  if (!el.classList.contains('tree-drop-over')) { clearDropHighlight(); el.classList.add('tree-drop-over'); }
+});
+document.addEventListener('drop', e => {
+  if (!treeDragNode) return;
+  const el = e.target.closest && e.target.closest('.res-tree-hub [data-node]');
+  const src = treeDragNode;
+  treeDragNode = null;
+  clearDropHighlight();
+  if (!el) return;
+  const dst = parseNode(el.dataset.node);
+  if (!treeCanDrop(src, dst)) return;
+  e.preventDefault();
+  moveTreeNode(src, dst);
+});
 
 function showTreeImagePreview() {
   const src = document.getElementById('tree-image').value;

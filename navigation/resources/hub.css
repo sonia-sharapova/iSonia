@@ -76,6 +76,11 @@ body.admin-mode .adm-text-add.admin-only { display: block; }
 .tree-image-row .tree-image-btn { display: inline-block; margin: 0; font-size: 14px; color: #999; cursor: pointer; }
 #tree-image-status { font-size: 12px; color: #999; }
 
+/* Drag & drop in the tree (admin): what's being dragged fades, and whatever it would drop into gets a green outline */
+body.admin-mode .res-tree-hub [draggable="true"] { cursor: grab; }
+.res-tree-hub .tree-dragging { opacity: 0.4; }
+.res-tree-hub .tree-drop-over { outline: 2px dashed #4caf50; outline-offset: 2px; background: rgba(76,175,80,0.08); border-radius: 2px; }
+
 .section-header-row {
   display: flex; align-items: center; gap: 10px; margin-bottom: 10px;
 }
