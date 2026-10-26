@@ -57,32 +57,8 @@ let isAdmin = false;
 const parseMarkdown = HubData.parseMarkdown;
 
 // ── Serialize back to markdown ───────────────────────────────────
-function serializeToMarkdown(folders, info, topics) {
-    const itemMd = it => `- **${it.name}**: ${it.description}\n` + (it.link ? `  - ${it.link}\n` : '');
-    let md = '';
-    if (info && (info.image || info.description)) {
-        if (info.image) md += `![${info.alt || ''}](${info.image})\n`;
-        if (info.description) md += `> ${info.description}\n`;
-        md += '\n';
-    }
-    const folderMd = f => {
-        md += `## ${f.name}\n` + (f.image ? `![${f.alt || ''}](${f.image})\n` : '') + (f.description ? `> ${f.description}\n` : '') + '\n';
-        f.items.forEach(it => { md += itemMd(it); });
-        f.subfolders.forEach(sf => {
-            md += `\n### ${sf.name}\n` + (sf.image ? `![${sf.alt || ''}](${sf.image})\n` : '') + (sf.description ? `> ${sf.description}\n` : '') + '\n';
-            sf.items.forEach(it => { md += itemMd(it); });
-        });
-        md += '\n';
-    };
-    topics = topics || [];
-    // sections that belong to no topic go first — after a "# Topic" line they would be read as part of it
-    folders.filter(f => !topics.some(t => t.name === f.topic)).forEach(folderMd);
-    topics.forEach(t => {
-        md += `# ${t.name}\n` + (t.image ? `![${t.alt || ''}](${t.image})\n` : '') + (t.description ? `> ${t.description}\n` : '') + '\n';
-        folders.filter(f => f.topic === t.name).forEach(folderMd);
-    });
-    return md;
-}
+// Shared with the hub's inline folder tree too — see HubData.serializeMarkdown in hub-data.js.
+const serializeToMarkdown = HubData.serializeMarkdown;
 
 // ── Leaf editing: a folder/sub-section with no children of its own is edited as one
 // raw markdown blob (current links + optional new "### Heading" lines) rather than

@@ -26,6 +26,13 @@ $dir = __DIR__ . '/../navigation/' . $folder . '/markdown';
 if (!is_dir($dir)) mkdir($dir, 0755, true);   // not there on a fresh checkout — the first save creates it
 $path = $dir . '/' . $file . '.md';
 
+// back up the current version before overwriting it, same as the other save endpoints
+if (file_exists($path)) {
+    $backupDir = $dir . '/backups';
+    if (!is_dir($backupDir)) mkdir($backupDir, 0755, true);
+    copy($path, $backupDir . '/' . $file . '_' . date('Y-m-d_H-i-s') . '.md');
+}
+
 if (file_put_contents($path, $content) !== false) {
     echo json_encode(['success' => true]);
 } else {

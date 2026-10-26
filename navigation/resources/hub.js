@@ -18,7 +18,7 @@ let modalItemId = null;
 async function init() {
   try {
     const s = await fetch('../admin/check-session.php').then(r => r.json());
-    if (s.admin) { isAdmin = true; document.body.classList.add('admin-mode'); }
+    if (s.admin) { isAdmin = true; document.body.classList.add('admin-mode'); injectTreeModal(); }
   } catch(e) {}
 
   try {
@@ -235,10 +235,12 @@ function treePagesCol(reduced, same, delay) {
 function treeTopicsCol(page, reduced, same, delay) {
   const rows = page.topics.map((t, i) => `<div class="res-row">
       <a class="res-link${i === treeSelTopic ? ' active' : ''}" href="#" onclick="event.preventDefault();selectTreeTopic(${i})">${esc(t.name)}</a>
+      ${treeAdmBtns(`openTreeModal('topic',${i})`, `deleteTreeNode('topic',${i})`)}
     </div>`).join('');
   return `${treeColOpen('res-col res-col-sections', reduced, same, delay)}
       ${treeBackHead(`selectTreePage('${treeSelPage}')`, page.title)}
       <nav class="res-list">${rows}</nav>
+      ${treeAddBtn('+ topic', `openTreeModal('topic',null)`)}
     </div>`;
 }
 
@@ -248,11 +250,13 @@ function treeSectionsCol(page, reduced, same, delay) {
   const topic = page.topics[treeSelTopic];
   const rows = treeVisibleFolders(page).map(([f, i]) => `<div class="res-row">
       <a class="res-link${i === treeSelSection ? ' active' : ''}" href="#" onclick="event.preventDefault();selectTreeSection(${i})">${esc(f.name)}</a>
+      ${treeAdmBtns(`openTreeModal('section',${i})`, `deleteTreeNode('section',${i})`)}
     </div>`).join('');
   const back = topic ? `selectTreeTopic(${treeSelTopic})` : `selectTreePage('${treeSelPage}')`;
   return `${treeColOpen('res-col res-col-sections', reduced, same, delay)}
       ${treeBackHead(back, topic ? topic.name : page.title)}
       <nav class="res-list">${rows}</nav>
+      ${treeAddBtn('+ section', `openTreeModal('section',null)`)}
     </div>`;
 }
 
@@ -264,6 +268,7 @@ function treeSubsCol(page, reduced, same, delay) {
   if (!f || !f.subfolders.length) return '';
   const rows = f.subfolders.map((sf, si) => `<div class="res-row">
       <a class="res-link${si === treeSelSub ? ' active' : ''}" href="#" onclick="event.preventDefault();selectTreeSub(${si})">${esc(sf.name)}</a>
+      ${treeAdmBtns(`openTreeModal('sub',${treeSelSection},${si})`, `deleteTreeNode('sub',${treeSelSection},${si})`)}
     </div>`).join('');
   return `${treeColOpen('res-col res-col-sections res-col-subs', reduced, same, delay)}
       ${treeBackHead(`selectTreeSection(${treeSelSection})`, f.name)}
@@ -271,12 +276,15 @@ function treeSubsCol(page, reduced, same, delay) {
     </div>`;
 }
 
-function treeLinkList(items) {
-  if (!items || !items.length) return '<p class="res-empty">No links yet.</p>';
-  return `<ul class="res-links">` + items.map(it => it.link
-    ? `<li><a href="${esc(it.link)}"${/^https?:/i.test(it.link) ? ' target="_blank" rel="noopener"' : ''}>${esc(it.name)}</a></li>`
-    : `<li>${esc(it.name)}</li>`
-  ).join('') + `</ul>`;
+// fi/si say where the list lives (si -1 = the section's own links, not a sub-section's) — only used for the admin buttons
+function treeLinkList(items, fi, si) {
+  const add = treeAddBtn('+ link', `openTreeModal('link',${fi},${si},null)`);
+  if (!items || !items.length) return '<p class="res-empty">No links yet.</p>' + add;
+  return `<ul class="res-links">` + items.map((it, ii) => (it.link
+    ? `<li><a href="${esc(it.link)}"${/^https?:/i.test(it.link) ? ' target="_blank" rel="noopener"' : ''}>${esc(it.name)}</a>`
+    : `<li>${esc(it.name)}`)
+    + treeAdmBtns(`openTreeModal('link',${fi},${si},${ii})`, `deleteTreeNode('link',${fi},${si},${ii})`) + `</li>`
+  ).join('') + `</ul>` + add;
 }
 
 function treeOpenLink(href, label) {
@@ -329,19 +337,21 @@ function treeLinksCol(page, useTopics) {
     const open = treeOpenLink(`resources/${page.slug}.html#${hash}`, target.name);
     return `<div class="res-col res-col-links">
         <div class="res-head"><h2 class="res-section-title">${esc(target.name)}</h2>${open}</div>
-        ${treeLinkList(target.items)}
+        ${treeLinkList(target.items, treeSelSection, sel ? treeSelSub : -1)}
+        ${treeAddBtn('+ sub-section', `openTreeModal('sub',${treeSelSection},null)`)}
       </div>`;
   }
   // no topics: sub-sections break the list with their own header, inline in this column (same as that page itself)
   const open = treeOpenLink(`resources/${page.slug}.html#${slugify(f.name)}`, f.name);
   let html = `<div class="res-head"><h2 class="res-section-title">${esc(f.name)}</h2>${open}</div>`;
-  html += treeLinkList(f.items);
-  f.subfolders.forEach(sf => {
+  html += treeLinkList(f.items, treeSelSection, -1);
+  f.subfolders.forEach((sf, si) => {
     html += `<div class="res-subgroup">
-        <h3 class="res-subhead">${esc(sf.name)}</h3>
-        ${treeLinkList(sf.items)}
+        <h3 class="res-subhead">${esc(sf.name)}${treeAdmBtns(`openTreeModal('sub',${treeSelSection},${si})`, `deleteTreeNode('sub',${treeSelSection},${si})`)}</h3>
+        ${treeLinkList(sf.items, treeSelSection, si)}
       </div>`;
   });
+  html += treeAddBtn('+ sub-section', `openTreeModal('sub',${treeSelSection},null)`);
   return `<div class="res-col res-col-links">${html}</div>`;
 }
 
@@ -388,6 +398,140 @@ function renderTree() {
   // "res-tree" (not just "res-tree-hub") so this also picks up mobile.css's shared phone treatment for the
   // category pages' own tree — stacking, chip rows, active-state theming — since it targets that class name
   return `<div class="res-tree res-tree-hub">${cols}${terminal}</div>`;
+}
+
+// ── Admin: edit the open page's sections, sub-sections and links in place ──
+// Saves the whole page back to navigation/resources/markdown/<slug>.md (save-resource-md.php), the same file
+// that page's own tree (links.js) edits.
+function treeAdmBtns(edit, del) {
+  return `<span class="admin-only tree-adm">
+      <button class="adm-btn adm-edit" onclick="event.preventDefault();event.stopPropagation();${edit}" title="Edit">✎</button>
+      <button class="adm-btn adm-del" onclick="event.preventDefault();event.stopPropagation();${del}" title="Delete">✕</button>
+    </span>`;
+}
+function treeAddBtn(label, action) {
+  return `<button class="adm-text-add admin-only" onclick="${action}">${esc(label)}</button>`;
+}
+
+let treeEdit = null;   // { kind: 'topic' | 'section' | 'sub' | 'link', fi, si, ii } — a null index means "add new"
+                       // (for a topic, fi is its index into page.topics)
+
+function treeEditTarget(e) {
+  const page = treeData[treeSelPage];
+  if (e.kind === 'topic') return e.fi === null ? null : page.topics[e.fi];
+  const f = page.folders[e.fi];
+  if (e.kind === 'section') return e.fi === null ? null : f;
+  if (e.kind === 'sub') return e.si === null ? null : f.subfolders[e.si];
+  const list = e.si >= 0 ? f.subfolders[e.si].items : f.items;
+  return e.ii === null ? null : list[e.ii];
+}
+
+function openTreeModal(kind, fi, si, ii) {
+  treeEdit = { kind, fi, si: si === undefined ? null : si, ii: ii === undefined ? null : ii };
+  const cur = treeEditTarget(treeEdit);
+  const noun = { topic: 'Topic', section: 'Section', sub: 'Sub-section', link: 'Link' }[kind];
+  document.getElementById('tree-modal-title').textContent = (cur ? 'Edit ' : 'Add ') + noun;
+  document.getElementById('tree-name').value = cur ? cur.name : '';
+  document.getElementById('tree-url').value = cur && kind === 'link' ? cur.link : '';
+  document.getElementById('tree-desc').value = cur ? cur.description || '' : '';
+  document.querySelectorAll('#tree-modal .tree-link-only').forEach(el => { el.style.display = kind === 'link' ? '' : 'none'; });
+  document.getElementById('tree-modal').classList.add('active');
+  setTimeout(() => document.getElementById('tree-name').focus(), 60);
+}
+function closeTreeModal() { document.getElementById('tree-modal').classList.remove('active'); }
+
+async function saveTreeModal() {
+  const name = document.getElementById('tree-name').value.trim();
+  const link = document.getElementById('tree-url').value.trim();
+  const description = document.getElementById('tree-desc').value.trim();
+  if (!name) { alert('Name is required.'); return; }
+  const page = treeData[treeSelPage];
+  const e = treeEdit;
+  const cur = treeEditTarget(e);
+  if (cur && e.kind === 'topic') {
+    page.folders.forEach(f => { if (f.topic === cur.name) f.topic = name; });   // sections point at their topic by name
+    cur.name = name; cur.description = description;
+  } else if (cur) {
+    cur.name = name; cur.description = description;
+    if (e.kind === 'link') cur.link = link;
+  } else if (e.kind === 'topic') {
+    page.topics.push({ name, description, image: '', alt: '' });
+  } else if (e.kind === 'section') {
+    const topic = page.topics[treeSelTopic];
+    page.folders.push({ name, description, image: '', alt: '', topic: topic ? topic.name : '', subfolders: [], items: [] });
+  } else if (e.kind === 'sub') {
+    page.folders[e.fi].subfolders.push({ name, description, image: '', alt: '', items: [] });
+  } else {
+    const f = page.folders[e.fi];
+    (e.si >= 0 ? f.subfolders[e.si].items : f.items).push({ name, description, link });
+  }
+  if (await persistTree(page)) { closeTreeModal(); render(); }
+}
+
+async function deleteTreeNode(kind, fi, si, ii) {
+  const page = treeData[treeSelPage];
+  if (kind === 'topic') {
+    const t = page.topics[fi];
+    if (!confirm(`Delete the topic "${t.name}" with all its sections and links?`)) return;
+    page.topics.splice(fi, 1);
+    page.folders = page.folders.filter(f => f.topic !== t.name);
+    treeSelTopic = -1; treeSelSection = -1; treeSelSub = -1;
+    await persistTree(page);
+    render();
+    return;
+  }
+  const f = page.folders[fi];
+  if (kind === 'section') {
+    if (!confirm(`Delete the section "${f.name}" and all its links?`)) return;
+    page.folders.splice(fi, 1);
+    if (treeSelSection === fi) { treeSelSection = -1; treeSelSub = -1; }
+    else if (treeSelSection > fi) treeSelSection--;
+  } else if (kind === 'sub') {
+    if (!confirm(`Delete the sub-section "${f.subfolders[si].name}" and all its links?`)) return;
+    f.subfolders.splice(si, 1);
+    if (treeSelSub === si) treeSelSub = treeDefaultSub(page, fi);
+    else if (treeSelSub > si) treeSelSub--;
+  } else {
+    const list = si >= 0 ? f.subfolders[si].items : f.items;
+    if (!confirm(`Remove "${list[ii].name}"?`)) return;
+    list.splice(ii, 1);
+  }
+  await persistTree(page);
+  render();
+}
+
+async function persistTree(page) {
+  try {
+    const res = await fetch('../admin/save-resource-md.php', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ file: page.slug, dir: 'resources', content: HubData.serializeMarkdown(page.folders, page.intro, page.topics) })
+    }).then(r => r.json());
+    if (!res.success) { alert('Save error: ' + (res.error || 'unknown')); return false; }
+    return true;
+  } catch(e) { alert('Network error — changes not saved.'); return false; }
+}
+
+function injectTreeModal() {
+  const m = document.createElement('div');
+  m.className = 'res-modal';
+  m.id = 'tree-modal';
+  m.innerHTML = `<div class="res-modal-box">
+      <h3 id="tree-modal-title">Edit</h3>
+      <label>Name *</label>
+      <input type="text" id="tree-name">
+      <label class="tree-link-only">URL</label>
+      <input type="text" id="tree-url" class="tree-link-only" placeholder="https://...">
+      <label>Description (optional)</label>
+      <input type="text" id="tree-desc">
+      <div class="res-modal-actions">
+        <button class="res-modal-save" onclick="saveTreeModal()">Save</button>
+        <button class="res-modal-cancel" onclick="closeTreeModal()">Cancel</button>
+      </div>
+    </div>`;
+  m.addEventListener('click', e => { if (e.target === m) closeTreeModal(); });
+  m.addEventListener('keydown', e => { if (e.key === 'Enter' && e.target.tagName === 'INPUT') saveTreeModal(); });
+  document.body.appendChild(m);
 }
 
 function slugify(s) {

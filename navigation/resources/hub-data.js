@@ -175,5 +175,33 @@ const HubData = (() => {
         return { intro: info, folders, topics };
     }
 
-    return { normalize, isGuides, parseMarkdown };
+    // The reverse of parseMarkdown — what the admin saves (links.js on the category pages, hub.js on the hub).
+    function serializeMarkdown(folders, info, topics) {
+        const itemMd = it => `- **${it.name}**: ${it.description}\n` + (it.link ? `  - ${it.link}\n` : '');
+        let md = '';
+        if (info && (info.image || info.description)) {
+            if (info.image) md += `![${info.alt || ''}](${info.image})\n`;
+            if (info.description) md += `> ${info.description}\n`;
+            md += '\n';
+        }
+        const folderMd = f => {
+            md += `## ${f.name}\n` + (f.image ? `![${f.alt || ''}](${f.image})\n` : '') + (f.description ? `> ${f.description}\n` : '') + '\n';
+            f.items.forEach(it => { md += itemMd(it); });
+            f.subfolders.forEach(sf => {
+                md += `\n### ${sf.name}\n` + (sf.image ? `![${sf.alt || ''}](${sf.image})\n` : '') + (sf.description ? `> ${sf.description}\n` : '') + '\n';
+                sf.items.forEach(it => { md += itemMd(it); });
+            });
+            md += '\n';
+        };
+        topics = topics || [];
+        // sections that belong to no topic go first — after a "# Topic" line they would be read as part of it
+        folders.filter(f => !topics.some(t => t.name === f.topic)).forEach(folderMd);
+        topics.forEach(t => {
+            md += `# ${t.name}\n` + (t.image ? `![${t.alt || ''}](${t.image})\n` : '') + (t.description ? `> ${t.description}\n` : '') + '\n';
+            folders.filter(f => f.topic === t.name).forEach(folderMd);
+        });
+        return md;
+    }
+
+    return { normalize, isGuides, parseMarkdown, serializeMarkdown };
 })();

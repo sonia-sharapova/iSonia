@@ -50,6 +50,21 @@ body.admin-mode .admin-only { display: inline-flex; }
 }
 .adm-text-del:hover { opacity: 1; text-decoration: underline; }
 
+/* Admin edit controls inside the My Links tree (hub.js treeAdmBtns / treeAddBtn): small ✎ ✕ after each
+   section, sub-section and link, and a "+ section / + sub-section / + link" line under each list. */
+.res-tree-hub .tree-adm { gap: 3px; margin-left: 6px; vertical-align: middle; }
+.res-tree-hub .tree-adm .adm-btn { font-size: 11px; padding: 0 4px; }
+.res-tree-hub .res-row { display: flex; align-items: center; }
+.res-tree-hub .res-row .res-link { flex: 1; min-width: 0; }
+.adm-text-add {
+  background: none; border: none; cursor: pointer;
+  color: #4caf50; font-size: 12px; letter-spacing: 0.04em;
+  padding: 6px 0 0; font-family: 'Optima', arial, sans-serif;
+  min-height: unset !important; min-width: unset !important;
+}
+.adm-text-add:hover { color: #2e7d32; text-decoration: underline; }
+body.admin-mode .adm-text-add.admin-only { display: block; }
+
 .section-header-row {
   display: flex; align-items: center; gap: 10px; margin-bottom: 10px;
 }
