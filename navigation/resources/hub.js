@@ -12,9 +12,9 @@ const HUB_ONLY = document.body.dataset.hub || '';
 // hub section listing the pages, `dir` their folder.
 const TREES = HUB_ONLY === 'guides'
   ? [{ sec: 'guides', dir: 'learning', groups: [['guides', 'Guides']], defaultGroup: 'guides' }]
-  : [{ sec: 'tech', dir: 'resources', groups: [['tech', 'Technology']], defaultGroup: 'tech' },
-     { sec: 'topics', dir: 'resources', groups: [['professional', 'Professional'], ['misc', 'Misc.']], defaultGroup: 'misc' },
-     { sec: 'archive', dir: 'resources', groups: [['media', 'Media'], ['archives', 'Archives']], defaultGroup: 'archives' }];
+  : [{ sec: 'tech', hash: 'tech', dir: 'resources', groups: [['tech', 'Technology']], defaultGroup: 'tech' },
+     { sec: 'topics', hash: 'general', dir: 'resources', groups: [['professional', 'Professional'], ['misc', 'Misc.']], defaultGroup: 'misc' },
+     { sec: 'archive', hash: 'archives', dir: 'resources', groups: [['media', 'Media'], ['archives', 'Archives']], defaultGroup: 'archives' }];
 let TREE = TREES[0];
 
 let sections = [];
@@ -40,7 +40,9 @@ async function init() {
   } catch(e) { sections = HubData.normalize([]); }
 
   await loadTrees();
+  hubFromHash();
   render();
+  window.addEventListener('hashchange', () => { hubFromHash(); render(); });
 }
 
 // ── More than one tree on a page ──
@@ -378,7 +380,15 @@ let hubPrevReduced = null;    // the sections column's reduced state last render
 function selectHubSection(i) {
   hubSel = i === hubSel ? -1 : i;     // clicking the open section closes it
   if (hubSel >= 0) useTree(hubSel);
+  // the open section is in the address (#tech / #general / #archives — what the top nav's RESOURCES menu links to)
+  history.replaceState(null, '', location.pathname + location.search + (hubSel >= 0 ? '#' + TREES[hubSel].hash : ''));
   render();
+}
+function hubFromHash() {
+  if (HUB_ONLY === 'guides') return;
+  const i = TREES.findIndex(t => '#' + t.hash === location.hash);
+  hubSel = i;
+  if (i >= 0) useTree(i);
 }
 
 function hubSectionsCol(delay) {
